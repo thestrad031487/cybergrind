@@ -1,0 +1,53 @@
+baseURL = "https://cybergrind.org/"
+languageCode = "en-us"
+title = "CyberGrind"
+theme = "PaperMod"
+paginate = 10
+
+[params]
+  author = "Jason, Cyber Professional"
+  description = "Surviving the daily grind of cybersecurity."
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  defaultTheme = "dark"
+
+  [params.homeInfoParams]
+    Title = "CyberGrind"
+    Content = """
+For the people actually doing the work. Daily news, blue team tools,
+and straight talk from the cybersecurity trenches.
+"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/thestrad031487"
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/jasonrwacker"
+  [[params.socialIcons]]
+    name = "rss"
+    url = "/index.xml"
+
+[menu]
+  [[menu.main]]
+    name = "News"
+    url = "/blog/"
+    weight = 1
+  [[menu.main]]
+    name = "Orange Book"
+    url = "/orange_book/"
+    weight = 2
+  [[menu.main]]
+    name = "Tools"
+    url = "/tools/"
+    weight = 3
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 4
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
