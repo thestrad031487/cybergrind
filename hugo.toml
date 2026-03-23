@@ -41,7 +41,7 @@ and straight talk from the cybersecurity trenches.
     weight = 1
   [[menu.main]]
     name = "Orange Book"
-    url = "/orange_book/"
+    url = "/orange-book/"
     weight = 2
   [[menu.main]]
     name = "Tools"
