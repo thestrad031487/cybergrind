@@ -13,6 +13,9 @@ mainSections = ["blog"]
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
   defaultTheme = "dark"
+  
+  [params.profileMode]
+    enabled = false
 
   [params.homeInfoParams]
     Title = "CyberGrind"
