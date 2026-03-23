@@ -41,8 +41,18 @@ and straight talk from the cybersecurity trenches.
     weight = 2
   [[menu.main]]
     name = "Tools"
-    url = "/tools/"
+    identifier = "tools"
     weight = 3
+  [[menu.main]]
+    name = "EPSS Scanner"
+    url = "/tools/epss/"
+    parent = "tools"
+    weight = 1
+  [[menu.main]]
+    name = "IP Reputation"
+    url = "/tools/ip-reputation/"
+    parent = "tools"
+    weight = 2
   [[menu.main]]
     name = "About"
     url = "/about/"
