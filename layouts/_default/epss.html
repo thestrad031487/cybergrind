@@ -10,7 +10,7 @@
       placeholder="CVE-2024-1234"
       maxlength="20"
     />
-    <button onclick="lookupCVE()">Lookup</button>
+    <button id="lookup-btn">Lookup</button>
   </div>
 
   <div id="result" class="result hidden"></div>
@@ -70,7 +70,11 @@
     }
   }
 
-  document.getElementById("cve-input")
-    .addEventListener("keydown", e => { if (e.key === "Enter") lookupCVE(); });
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("lookup-btn").addEventListener("click", lookupCVE);
+    document.getElementById("cve-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") lookupCVE();
+    });
+  });
 </script>
 {{ end }}
