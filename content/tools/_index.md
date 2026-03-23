@@ -10,6 +10,7 @@ A collection of free tools and resources for blue teamers and security practitio
 | Tool | Description |
 |---|---|
 | [CVE Research](/tools/cve-research/) | Full CVE details with EPSS exploitation probability in one lookup |
+| [CISA KEV Checker](/tools/cisa-kev/) | Check if a CVE is in CISA's Known Exploited Vulnerabilities catalog |
 | [EPSS Scanner](/tools/epss/) | Check the Exploit Prediction Scoring System score for any CVE |
 | [IP Reputation Check](/tools/ip-reputation/) | Check abuse confidence score and reputation of any IP address |
 | [Threat Intel Feeds](/tools/threat-intel-feeds/) | Free OSINT and threat intelligence feeds |
