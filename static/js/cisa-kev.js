@@ -1,4 +1,4 @@
-const KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json";
+const KEV_URL = "https://cybergrind-kev-worker.wacker-jason.workers.dev";
 
 let kevData = null;
 
