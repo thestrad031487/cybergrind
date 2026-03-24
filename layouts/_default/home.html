@@ -1,0 +1,170 @@
+{{- define "main" }}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) }}
+{{- partial "index_profile.html" . }}
+{{- else }}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{- if and .IsHome site.Params.homeInfoParams }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+<!-- Threat Map Preview -->
+{{- if .IsHome }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<section style="margin: 32px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <div>
+      <h2 style="margin:0;font-size:18px;color:var(--primary)">🌐 Global Threat Map</h2>
+      <p style="margin:4px 0 0 0;font-size:13px;color:var(--secondary)">Live malicious IP activity by country</p>
+    </div>
+    <a href="/tools/threat-map/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View Full Map →</a>
+  </div>
+  <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+    <div id="home-threat-map" style="height:300px;width:100%;background:#0a0a0a;"></div>
+  </div>
+  <div id="home-map-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-total" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Malicious IPs</div>
+    </div>
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-countries" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Countries</div>
+    </div>
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-top" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Top Source</div>
+    </div>
+  </div>
+</section>
+<script>
+(function() {
+  const map = L.map('home-threat-map', {
+    center: [20, 0],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 3,
+    zoomControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+    attributionControl: false,
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+  }).addTo(map);
+
+  function getColor(count) {
+    if (count >= 50) return '#ff0000';
+    if (count >= 20) return '#ff6b00';
+    if (count >= 10) return '#ffaa00';
+    if (count >= 5)  return '#ffdd00';
+    return '#88cc00';
+  }
+
+  fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
+    .then(r => r.json())
+    .then(data => {
+      data.points.forEach(p => {
+        const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
+        L.circleMarker([p.lat, p.lng], {
+          radius: r,
+          fillColor: getColor(p.count),
+          color: getColor(p.count),
+          weight: 1,
+          opacity: 0.9,
+          fillOpacity: 0.5,
+        }).addTo(map);
+      });
+      document.getElementById('hm-total').textContent = data.totalIPs.toLocaleString();
+      document.getElementById('hm-countries').textContent = data.points.length;
+      document.getElementById('hm-top').textContent = data.topCountries[0];
+    })
+    .catch(console.error);
+})();
+</script>
+{{- end }}
+
+{{- $pages := union .RegularPages .Sections }}
+{{- if .IsHome }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- end }}
+
+{{- $paginator := .Paginate $pages }}
+
+{{- $term := .Data.Term }}
+{{- range $index, $page := $paginator.Pages }}
+{{- $class := "post-entry" }}
+{{- $user_preferred := or site.Params.disableSpecial1stPost site.Params.homeInfoParams }}
+{{- if (and $.IsHome (eq $paginator.PageNumber 1) (eq $index 0) (not $user_preferred)) }}
+{{- $class = "first-entry" }}
+{{- else if $term }}
+{{- $class = "post-entry tag-entry" }}
+{{- end }}
+
+<article class="{{ $class }}">
+  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">
+      {{- .Title }}
+      {{- if .Draft }}
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+      {{- end }}
+    </h2>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+  </div>
+  {{- end }}
+  {{- if not (.Param "hideMeta") }}
+  <footer class="entry-footer">
+    {{- partial "post_meta.html" . -}}
+  </footer>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}
+{{- end }}
