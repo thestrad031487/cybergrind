@@ -1,0 +1,146 @@
+{{ define "main" }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+#threat-map { height: 580px; width: 100%; border-radius: 8px; }
+.leaflet-container { background: #0a0a0a; }
+.stat-card { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px 16px; }
+.threat-popup h4 { margin: 0 0 6px 0; color: #ff6b6b; font-size: 14px; }
+.threat-popup p { margin: 2px 0; font-size: 12px; color: #ccc; }
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+</style>
+
+<div class="container" style="max-width:1200px;margin:0 auto;padding:20px">
+  <h1 style="color:#ff6b6b;margin-bottom:4px;">🌐 Global Threat Map</h1>
+  <p style="color:#888;margin-bottom:20px;">Real-time malicious IP activity aggregated by country via AbuseIPDB. Refreshes every 5 minutes.</p>
+
+  <!-- Stats Bar -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+    <div class="stat-card">
+      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
+      <div id="stat-total" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
+      <div id="stat-countries" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
+      <div id="stat-top" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
+    </div>
+    <div class="stat-card">
+      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
+      <div id="stat-updated" style="font-size:13px;font-weight:700;color:#ff6b6b;">—</div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
+    <div id="threat-map"></div>
+  </div>
+
+  <!-- Top Countries Table -->
+  <div class="stat-card">
+    <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
+    <div id="country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
+  </div>
+</div>
+
+<script>
+const WORKER_URL = 'https://cybergrind-threatmap-worker.wacker-jason.workers.dev';
+
+const map = L.map('threat-map', {
+  center: [20, 0],
+  zoom: 2,
+  minZoom: 2,
+  maxZoom: 6,
+  zoomControl: true,
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap © CARTO',
+  subdomains: 'abcd',
+}).addTo(map);
+
+let markers = [];
+
+function getColor(count) {
+  if (count >= 50) return '#ff0000';
+  if (count >= 20) return '#ff6b00';
+  if (count >= 10) return '#ffaa00';
+  if (count >= 5)  return '#ffdd00';
+  return '#88cc00';
+}
+
+function getRadius(count) {
+  if (count >= 100) return 28;
+  if (count >= 50)  return 22;
+  if (count >= 20)  return 16;
+  if (count >= 10)  return 12;
+  if (count >= 5)   return 9;
+  return 6;
+}
+
+async function loadData() {
+  document.getElementById('stat-updated').textContent = 'Loading...';
+  try {
+    const res = await fetch(WORKER_URL);
+    const data = await res.json();
+
+    // Clear old markers
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    data.points.forEach(p => {
+      const color = getColor(p.count);
+      const radius = getRadius(p.count);
+
+      const circle = L.circleMarker([p.lat, p.lng], {
+        radius,
+        fillColor: color,
+        color: color,
+        weight: 1,
+        opacity: 0.9,
+        fillOpacity: 0.5,
+      }).addTo(map);
+
+      circle.bindPopup(`
+        <div class="threat-popup">
+          <h4>${p.country}</h4>
+          <p>🚨 <strong>${p.count}</strong> malicious IPs</p>
+          <p>📊 Avg abuse score: <strong>${p.avgScore}%</strong></p>
+        </div>
+      `);
+
+      markers.push(circle);
+    });
+
+    // Update stats
+    document.getElementById('stat-total').textContent = data.totalIPs.toLocaleString();
+    document.getElementById('stat-countries').textContent = data.points.length;
+    document.getElementById('stat-top').textContent = data.topCountries[0];
+
+    const updated = new Date(data.generatedAt);
+    document.getElementById('stat-updated').textContent = updated.toLocaleTimeString();
+
+    // Top countries table
+    const table = document.getElementById('country-table');
+    table.innerHTML = data.points.slice(0, 10).map(p => `
+      <div style="background:#111;border:1px solid #222;border-radius:4px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:${getColor(p.count)}">${p.count}</div>
+        <div style="font-size:12px;color:#888;">${p.country}</div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    document.getElementById('stat-updated').textContent = 'Error loading data';
+    console.error(err);
+  }
+}
+
+loadData();
+setInterval(loadData, 300000); // refresh every 5 min
+</script>
+{{ end }}
