@@ -4,4 +4,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-connect-src 'self' https://cybergrind-epss-worker.wacker-jason.workers.dev https://cybergrind-ip-worker.wacker-jason.workers.dev https://cybergrind-kev-worker.wacker-jason.workers.dev https://cybergrind-threatmap-worker.wacker-jason.workers.dev https://cybergrind-cisa-worker.wacker-jason.workers.dev;
+connect-src 'self' https://cybergrind-epss-worker.wacker-jason.workers.dev https://cybergrind-ip-worker.wacker-jason.workers.dev https://cybergrind-kev-worker.wacker-jason.workers.dev https://cybergrind-threatmap-worker.wacker-jason.workers.dev https://cybergrind-cisa-worker.wacker-jason.workers.dev https://cybergrind-osint-worker.wacker-jason.workers.dev https://ip-api.com;
