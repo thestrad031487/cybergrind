@@ -14,4 +14,4 @@ A collection of free tools and resources for blue teamers and security practitio
 | [EPSS Scanner](/tools/epss/) | Check the Exploit Prediction Scoring System score for any CVE |
 | [IP Reputation Check](/tools/ip-reputation/) | Check abuse confidence score and reputation of any IP address |
 | [Threat Intel Feeds](/tools/threat-intel-feeds/) | Free OSINT and threat intelligence feeds |
-| [Global Threat Map](/tools/threat-map/) | Real-time malicious IP activity plotted on a world map via AbuseIPDB |
+| [Global Threat Map](/tools/threat-map/) | Real-time malicious IP activity plotted on a world map — AbuseIPDB and open source OSINT feeds |
