@@ -3,70 +3,143 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
-#threat-map { height: 580px; width: 100%; border-radius: 8px; }
+.threat-map-container { max-width:1200px; margin:0 auto; padding:20px; }
+#threat-map, #osint-map { height: 580px; width: 100%; border-radius: 8px; }
 .leaflet-container { background: #0a0a0a; }
 .stat-card { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px 16px; }
 .threat-popup h4 { margin: 0 0 6px 0; color: #ff6b6b; font-size: 14px; }
 .threat-popup p { margin: 2px 0; font-size: 12px; color: #ccc; }
-.pulse { animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+/* Tabs */
+.tab-bar { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid #333; }
+.tab-btn {
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: #888;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tab-btn:hover { color: #ccc; }
+.tab-btn.active { color: #ff6b6b; border-bottom-color: #ff6b6b; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Source badges */
+.source-badge {
+  display:inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 4px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #aaa;
+}
 </style>
 
-<div class="container" style="max-width:1200px;margin:0 auto;padding:20px">
+<div class="threat-map-container">
   <h1 style="color:#ff6b6b;margin-bottom:4px;">🌐 Global Threat Map</h1>
-  <p style="color:#888;margin-bottom:20px;">Real-time malicious IP activity aggregated by country via AbuseIPDB. Refreshes every 5 minutes.</p>
+  <p style="color:#888;margin-bottom:20px;">Real-time malicious IP activity aggregated by country. Refreshes automatically.</p>
 
-  <!-- Stats Bar -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-    <div class="stat-card">
-      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
-      <div id="stat-total" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('abuseipdb')">🔴 AbuseIPDB</button>
+    <button class="tab-btn" onclick="switchTab('osint')">🟢 OSINT Feeds</button>
+  </div>
+
+  <!-- AbuseIPDB Tab -->
+  <div id="tab-abuseipdb" class="tab-panel active">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
+        <div id="stat-total" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
+        <div id="stat-countries" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
+        <div id="stat-top" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
+        <div id="stat-updated" style="font-size:13px;font-weight:700;color:#ff6b6b;">...</div>
+      </div>
+    </div>
+    <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
+      <div id="threat-map"></div>
     </div>
     <div class="stat-card">
-      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
-      <div id="stat-countries" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
-    </div>
-    <div class="stat-card">
-      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
-      <div id="stat-top" style="font-size:24px;font-weight:700;color:#ff6b6b;">—</div>
-    </div>
-    <div class="stat-card">
-      <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
-      <div id="stat-updated" style="font-size:13px;font-weight:700;color:#ff6b6b;">—</div>
+      <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
+      <div id="country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
     </div>
   </div>
 
-  <!-- Map -->
-  <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
-    <div id="threat-map"></div>
-  </div>
-
-  <!-- Top Countries Table -->
-  <div class="stat-card">
-    <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
-    <div id="country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
+  <!-- OSINT Feeds Tab -->
+  <div id="tab-osint" class="tab-panel">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
+        <div id="osint-total" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
+        <div id="osint-countries" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
+        <div id="osint-top" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
+        <div id="osint-updated" style="font-size:13px;font-weight:700;color:#00cc88;">...</div>
+      </div>
+    </div>
+    <!-- Source breakdown -->
+    <div style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;">
+      <div id="osint-sources" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <span style="font-size:12px;color:#888;">Sources:</span>
+      </div>
+    </div>
+    <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
+      <div id="osint-map"></div>
+    </div>
+    <div class="stat-card">
+      <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
+      <div id="osint-country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
+    </div>
   </div>
 </div>
 
 <script>
-const WORKER_URL = 'https://cybergrind-threatmap-worker.wacker-jason.workers.dev';
+const ABUSEIPDB_WORKER = 'https://cybergrind-threatmap-worker.wacker-jason.workers.dev';
+const OSINT_WORKER = 'https://cybergrind-osint-worker.wacker-jason.workers.dev';
 
-const map = L.map('threat-map', {
-  center: [20, 0],
-  zoom: 2,
-  minZoom: 2,
-  maxZoom: 6,
-  zoomControl: true,
-});
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'osint') osintMap.invalidateSize();
+  if (tab === 'abuseipdb') abuseMap.invalidateSize();
+}
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '© OpenStreetMap © CARTO',
-  subdomains: 'abcd',
-}).addTo(map);
-
-let markers = [];
-
-function getColor(count) {
+function getColor(count, accent) {
+  if (accent === 'green') {
+    if (count >= 50) return '#00ff99';
+    if (count >= 20) return '#00cc88';
+    if (count >= 10) return '#00aa66';
+    if (count >= 5)  return '#008844';
+    return '#006633';
+  }
   if (count >= 50) return '#ff0000';
   if (count >= 20) return '#ff6b00';
   if (count >= 10) return '#ffaa00';
@@ -83,64 +156,114 @@ function getRadius(count) {
   return 6;
 }
 
-async function loadData() {
-  document.getElementById('stat-updated').textContent = 'Loading...';
-  try {
-    const res = await fetch(WORKER_URL);
-    const data = await res.json();
+function makeTileLayer() {
+  return L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CARTO',
+    subdomains: 'abcd',
+  });
+}
 
-    // Clear old markers
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
+// --- AbuseIPDB Map ---
+const abuseMap = L.map('threat-map', { center:[20,0], zoom:2, minZoom:2, maxZoom:6 });
+makeTileLayer().addTo(abuseMap);
+let abuseMarkers = [];
+
+async function loadAbuseData() {
+  try {
+    const res = await fetch(ABUSEIPDB_WORKER);
+    if (!res.ok) throw new Error('Status ' + res.status);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    abuseMarkers.forEach(m => abuseMap.removeLayer(m));
+    abuseMarkers = [];
 
     data.points.forEach(p => {
-      const color = getColor(p.count);
-      const radius = getRadius(p.count);
-
+      const color = getColor(p.count, 'red');
       const circle = L.circleMarker([p.lat, p.lng], {
-        radius,
-        fillColor: color,
-        color: color,
-        weight: 1,
-        opacity: 0.9,
-        fillOpacity: 0.5,
-      }).addTo(map);
-
-      circle.bindPopup(`
-        <div class="threat-popup">
-          <h4>${p.country}</h4>
-          <p>🚨 <strong>${p.count}</strong> malicious IPs</p>
-          <p>📊 Avg abuse score: <strong>${p.avgScore}%</strong></p>
-        </div>
-      `);
-
-      markers.push(circle);
+        radius: getRadius(p.count),
+        fillColor: color, color, weight:1, opacity:0.9, fillOpacity:0.5,
+      }).addTo(abuseMap);
+      circle.bindPopup(`<div class="threat-popup"><h4>${p.country}</h4><p>🚨 <strong>${p.count}</strong> malicious IPs</p><p>📊 Avg abuse score: <strong>${p.avgScore}%</strong></p></div>`);
+      abuseMarkers.push(circle);
     });
 
-    // Update stats
     document.getElementById('stat-total').textContent = data.totalIPs.toLocaleString();
     document.getElementById('stat-countries').textContent = data.points.length;
     document.getElementById('stat-top').textContent = data.topCountries[0];
+    document.getElementById('stat-updated').textContent = new Date(data.generatedAt).toLocaleTimeString();
 
-    const updated = new Date(data.generatedAt);
-    document.getElementById('stat-updated').textContent = updated.toLocaleTimeString();
-
-    // Top countries table
     const table = document.getElementById('country-table');
-    table.innerHTML = data.points.slice(0, 10).map(p => `
+    table.innerHTML = data.points.slice(0,10).map(p => `
       <div style="background:#111;border:1px solid #222;border-radius:4px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:${getColor(p.count)}">${p.count}</div>
+        <div style="font-size:18px;font-weight:700;color:${getColor(p.count,'red')}">${p.count}</div>
         <div style="font-size:12px;color:#888;">${p.country}</div>
-      </div>
-    `).join('');
-
-  } catch (err) {
-    document.getElementById('stat-updated').textContent = 'Error loading data';
-    console.error(err);
+      </div>`).join('');
+  } catch(err) {
+    document.getElementById('stat-updated').textContent = 'Unavailable';
+    document.getElementById('stat-total').textContent = 'N/A';
+    document.getElementById('stat-countries').textContent = 'N/A';
+    document.getElementById('stat-top').textContent = 'N/A';
+    console.error('AbuseIPDB worker error:', err);
   }
 }
 
-loadData();
-setInterval(loadData, 300000); // refresh every 5 min
+// --- OSINT Map ---
+const osintMap = L.map('osint-map', { center:[20,0], zoom:2, minZoom:2, maxZoom:6 });
+makeTileLayer().addTo(osintMap);
+let osintMarkers = [];
+
+async function loadOsintData() {
+  try {
+    const res = await fetch(OSINT_WORKER);
+    if (!res.ok) throw new Error('Status ' + res.status);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    osintMarkers.forEach(m => osintMap.removeLayer(m));
+    osintMarkers = [];
+
+    data.points.forEach(p => {
+      const color = getColor(p.count, 'green');
+      const circle = L.circleMarker([p.lat, p.lng], {
+        radius: getRadius(p.count),
+        fillColor: color, color, weight:1, opacity:0.9, fillOpacity:0.5,
+      }).addTo(osintMap);
+      circle.bindPopup(`<div class="threat-popup"><h4>${p.country}</h4><p>🚨 <strong>${p.count}</strong> malicious IPs</p></div>`);
+      osintMarkers.push(circle);
+    });
+
+    document.getElementById('osint-total').textContent = data.totalIPs.toLocaleString();
+    document.getElementById('osint-countries').textContent = data.points.length;
+    document.getElementById('osint-top').textContent = data.topCountries[0];
+    document.getElementById('osint-updated').textContent = new Date(data.generatedAt).toLocaleTimeString();
+
+    // Source badges
+    const sourcesDiv = document.getElementById('osint-sources');
+    sourcesDiv.innerHTML = '<span style="font-size:12px;color:#888;">Sources:</span> ' +
+      data.sourceStats.map(s => `
+        <span class="source-badge" title="${s.count.toLocaleString()} IPs${s.error ? ' (error: '+s.error+')' : ''}">
+          ${s.error ? '⚠️' : '✅'} ${s.name} (${s.count.toLocaleString()})
+        </span>`).join('');
+
+    const table = document.getElementById('osint-country-table');
+    table.innerHTML = data.points.slice(0,10).map(p => `
+      <div style="background:#111;border:1px solid #222;border-radius:4px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:${getColor(p.count,'green')}">${p.count}</div>
+        <div style="font-size:12px;color:#888;">${p.country}</div>
+      </div>`).join('');
+  } catch(err) {
+    document.getElementById('osint-updated').textContent = 'Unavailable';
+    document.getElementById('osint-total').textContent = 'N/A';
+    document.getElementById('osint-countries').textContent = 'N/A';
+    document.getElementById('osint-top').textContent = 'N/A';
+    console.error('OSINT worker error:', err);
+  }
+}
+
+loadAbuseData();
+loadOsintData();
+setInterval(loadAbuseData, 1800000); // 30 min
+setInterval(loadOsintData, 3600000); // 1 hour
 </script>
 {{ end }}
