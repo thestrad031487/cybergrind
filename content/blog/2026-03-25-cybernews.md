@@ -13,11 +13,21 @@ draft: false
 - [RSA ID Plus Sovereign Deployment delivers full-stack identity for high-risk environments](https://www.helpnetsecurity.com/2026/03/24/rsa-id-plus-sovereign-deployment/) — *Help Net Security*
 - [Citrix Urges Patching Critical NetScaler Flaw Allowing Unauthenticated Data Leaks](https://thehackernews.com/2026/03/citrix-urges-patching-critical.html) — *Internet*
 - [Cybersecurity jobs available right now: March 24, 2026](https://www.helpnetsecurity.com/2026/03/24/cybersecurity-jobs-available-right-now-march-24-2026/) — *Help Net Security*
-- [What does “AI security” mean and why does it matter to your business?](https://www.redhat.com/en/blog/what-does-ai-security-mean-and-why-does-it-matter-your-business) — *Redhat.com*
+- [What does "AI security" mean and why does it matter to your business?](https://www.redhat.com/en/blog/what-does-ai-security-mean-and-why-does-it-matter-your-business) — *Redhat.com*
 - [AI boom reveals weak cyber defences across countries](https://punchng.com/ai-boom-reveals-weak-cyber-defences-across-countries/) — *The Punch*
 - [Critical Remote Code Execution Vulnerability in Cisco Secure Firewall Management Center (CVE-2026-20131)](https://www.zscaler.com/blogs/security-research/critical-remote-code-execution-vulnerability-cisco-secure-firewall) — *Zscaler.com*
 - [Iran built a vast camera network to control dissent. Israel used it to track targets, AP sources say](https://www.pbs.org/newshour/world/iran-built-a-vast-camera-network-to-control-dissent-israel-used-it-to-track-targets-ap-sources-say) — *PBS*
 - [Iran built a vast camera network to control dissent. Israel turned it into a targeting tool](https://economictimes.indiatimes.com/news/international/world-news/iran-built-a-vast-camera-network-to-control-dissent-israel-turned-it-into-a-targeting-tool/articleshow/129762101.cms) — *The Times of India*
+
+---
+
+## From the Trenches
+
+The Cisco FMC RCE (CVE-2026-20131) is the story that matters most today. Interlock ransomware was already exploiting it weeks before the patch dropped — that gap between discovery and disclosure is exactly the window threat actors live in. If you're running Firewall Management Center and haven't patched yet, treat it as a priority one.
+
+The Iran/Israel camera network story is worth a slow read too. Iran built a nationwide surveillance infrastructure to monitor its own citizens, and Israel reportedly turned it into a targeting tool. It's a real-world case study in how surveillance systems built for one purpose get repurposed in ways nobody planned for — relevant to anyone thinking about the downstream risks of mass data collection.
+
+**🔧 Patch Priority:** Cisco Secure Firewall Management Center — CVE-2026-20131, critical RCE, actively exploited by Interlock ransomware group.
 
 ---
 *Compiled daily. Stay patched, stay vigilant.*
