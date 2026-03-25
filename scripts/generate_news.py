@@ -3,6 +3,7 @@ import datetime
 import urllib.request
 import urllib.error
 import json
+import ssl
 
 # --- Config ---
 BLOG_DIR = "content/blog"
@@ -30,8 +31,9 @@ def fetch_headlines():
     )
 
     try:
+        ctx = ssl.create_default_context()
         req = urllib.request.Request(url, headers={"User-Agent": "CyberGrind/1.0"})
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, context=ctx, timeout=30) as response:
             data = json.loads(response.read().decode())
             articles = data.get("articles", [])
             return [
@@ -46,27 +48,30 @@ def fetch_headlines():
 def generate_commentary(headlines):
     headline_list = "\n".join(f"- {h['title']} ({h['source']})" for h in headlines)
 
-    prompt = f"""You are a cybersecurity practitioner with 13+ years of experience writing a daily news blog called CyberGrind. Your audience is blue teamers and security practitioners doing hands-on work.
+    prompt = f"""You are a cybersecurity practitioner writing a short commentary for a daily news blog called CyberGrind.
 
-Here are today's cybersecurity headlines:
-
+TODAY'S HEADLINES (you must ONLY reference these — do not mention any other CVEs, incidents, or stories):
 {headline_list}
 
-Write a "From the Trenches" commentary section for these headlines. Follow these rules exactly:
-- 2-3 short paragraphs, plain prose, no bullet points
-- Pick the 2 most actionable or interesting stories and give your honest practitioner take
-- Finish with a single line starting with "**🔧 Patch Priority:**" naming the most critical thing to patch today and why in one sentence
-- Write in first person, direct and no-nonsense tone
-- Do not use phrases like "as a cybersecurity professional" or "it's important to note"
-- Do not add any intro or outro, just the commentary paragraphs and the patch priority line
-- Do not use headers or markdown except for the bold patch priority line
+STRICT RULES:
+1. You may ONLY reference stories from the list above. Do not invent, assume, or recall any other cybersecurity events.
+2. Write 2-3 short paragraphs in plain prose. No bullet points, no headers.
+3. Pick the 2 most interesting or actionable stories from the list above and give a direct practitioner take on them.
+4. End with exactly one line starting with "**🔧 Patch Priority:**" — name a specific product or CVE from the headlines above and why it matters in one sentence.
+5. Write in first person, direct and no-nonsense tone. No corporate speak.
+6. Do not add any intro, outro, or commentary outside the paragraphs and patch priority line.
+7. If you reference a story not in the list above, you have failed the task.
 
-Output only the commentary text, nothing else."""
+Write the commentary now, referencing ONLY the headlines provided:"""
 
     payload = json.dumps({
         "model": OLLAMA_MODEL,
         "prompt": prompt,
         "stream": False,
+        "options": {
+            "temperature": 0.5,
+            "num_predict": 400,
+        }
     }).encode()
 
     try:
@@ -128,7 +133,11 @@ def main():
 
     print("Fetching headlines...")
     headlines = fetch_headlines()
+    if not headlines:
+        print("No headlines fetched, aborting.")
+        return
 
+    print(f"Got {len(headlines)} headlines")
     print("Generating commentary via Ollama...")
     commentary = generate_commentary(headlines)
     if not commentary:
