@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Cryptography</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --midnight: #0d1428;
+    --panel: #111827;
+    --panel2: #141d2e;
+    --border: rgba(99,179,237,0.15);
+    --accent-blue: #63b3ed;
+    --accent-cyan: #4fd1c7;
+    --accent-amber: #f6ad55;
+    --accent-rose: #fc8181;
+    --accent-green: #68d391;
+    --accent-purple: #b794f4;
+    --text: #e2e8f0;
+    --muted: #718096;
+    --dim: #4a5568;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+    padding: 4px 14px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 7vw, 82px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
+
+  .hero h1 span {
+    color: var(--accent-blue);
+  }
+
+  .hero-sub {
+    margin: 20px auto 0;
+    max-width: 520px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(99,179,237,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .section-label-line {
+    height: 1px;
+    flex: 1;
+    background: var(--border);
+  }
+
+  .section-label span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── GLOSSARY ── */
+  .glossary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  @media (min-width: 640px) {
+    .glossary { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .gterm {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .gterm:hover { border-color: var(--accent-blue); }
+
+  .gterm-word {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-cyan);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .gterm-def {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .gterm-num {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .timeline-track {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .timeline-track::-webkit-scrollbar { height: 4px; }
+  .timeline-track::-webkit-scrollbar-track { background: var(--panel); }
+  .timeline-track::-webkit-scrollbar-thumb { background: var(--dim); }
+
+  .t-node {
+    flex: 0 0 auto;
+    width: 180px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .t-connector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    height: 24px;
+  }
+
+  .t-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    background: var(--navy);
+  }
+
+  .t-line {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .t-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 14px;
+    margin-right: 16px;
+    flex: 1;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .t-card:hover {
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+  }
+
+  .t-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .t-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .t-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .t-badge {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CAESAR DEMO ── */
+  .caesar-demo {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .caesar-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cipher-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .cipher-char {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    background: var(--midnight);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cipher-char.space-char {
+    background: transparent;
+    border-color: transparent;
+    opacity: 0.3;
+  }
+
+  .cipher-char.plain { color: var(--text); }
+  .cipher-char.encrypted { color: var(--accent-amber); border-color: rgba(246,173,85,0.3); background: rgba(246,173,85,0.05); }
+  .cipher-char.highlighted { background: var(--accent-blue); color: var(--navy); border-color: var(--accent-blue); transform: scale(1.1); }
+
+  .cipher-arrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin: 10px 0;
+  }
+
+  .shift-control {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .shift-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .shift-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-amber);
+    width: 40px;
+    text-align: center;
+  }
+
+  .shift-btn {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .shift-btn:hover { background: var(--dim); }
+
+  .cipher-input {
+    background: var(--midnight);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 8px 14px;
+    width: 280px;
+    outline: none;
+    text-transform: uppercase;
+    transition: border-color 0.2s;
+  }
+
+  .cipher-input:focus { border-color: var(--accent-amber); }
+
+  /* ── CONCEPT CARDS ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 64px;
+  }
+
+  @media (min-width: 700px) {
+    .concept-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .concept-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .concept-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .concept-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+
+  .concept-card.c-sym::before { background: var(--accent-blue); }
+  .concept-card.c-asym::before { background: var(--accent-purple); }
+  .concept-card.c-dh::before { background: var(--accent-cyan); }
+  .concept-card.c-hash::before { background: var(--accent-green); }
+
+  .concept-card.c-sym:hover { border-color: rgba(99,179,237,0.4); }
+  .concept-card.c-asym:hover { border-color: rgba(183,148,244,0.4); }
+  .concept-card.c-dh:hover { border-color: rgba(79,209,199,0.4); }
+  .concept-card.c-hash:hover { border-color: rgba(104,211,145,0.4); }
+
+  .card-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .c-sym .card-label { color: var(--accent-blue); }
+  .c-asym .card-label { color: var(--accent-purple); }
+  .c-dh .card-label { color: var(--accent-cyan); }
+  .c-hash .card-label { color: var(--accent-green); }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .card-body {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  .key-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .kf {
+    display: flex;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    align-items: flex-start;
+  }
+
+  .kf-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .c-sym .kf-dot { background: var(--accent-blue); }
+  .c-asym .kf-dot { background: var(--accent-purple); }
+  .c-dh .kf-dot { background: var(--accent-cyan); }
+  .c-hash .kf-dot { background: var(--accent-green); }
+
+  .use-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 3px 10px;
+    letter-spacing: 0.1em;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+
+  .c-sym .use-tag { color: var(--accent-blue); border-color: rgba(99,179,237,0.3); }
+  .c-asym .use-tag { color: var(--accent-purple); border-color: rgba(183,148,244,0.3); }
+  .c-dh .use-tag { color: var(--accent-cyan); border-color: rgba(79,209,199,0.3); }
+  .c-hash .use-tag { color: var(--accent-green); border-color: rgba(104,211,145,0.3); }
+
+  /* ── DIAGRAM ── */
+  .diagram-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .diagram-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-purple);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .rsa-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .rsa-actor {
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .rsa-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 8px;
+    border: 2px solid;
+  }
+
+  .rsa-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .rsa-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .rsa-line {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+    position: relative;
+  }
+
+  .rsa-line::after {
+    content: '▶';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-blue);
+    font-size: 10px;
+  }
+
+  .rsa-msg {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 120px;
+  }
+
+  .key-display {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .key-pill {
+    background: var(--midnight);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .key-pill-icon { font-size: 14px; }
+
+  /* ── DH DIAGRAM ── */
+  .dh-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .dh-party {
+    background: var(--midnight);
+    border: 1px solid var(--border);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .dh-party-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .dh-party-secret {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .dh-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .dh-public {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-cyan);
+    background: rgba(79,209,199,0.08);
+    border: 1px solid rgba(79,209,199,0.2);
+    padding: 4px 8px;
+  }
+
+  .dh-shared {
+    margin-top: 16px;
+    text-align: center;
+    background: rgba(104,211,145,0.08);
+    border: 1px solid rgba(104,211,145,0.2);
+    padding: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-green);
+  }
+
+  /* ── PKI CHAIN ── */
+  .pki-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 28px;
+  }
+
+  .pki-node {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .pki-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48px;
+    flex-shrink: 0;
+  }
+
+  .pki-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    border: 2px solid;
+  }
+
+  .pki-vline {
+    width: 2px;
+    flex: 1;
+    min-height: 20px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  .pki-content {
+    flex: 1;
+    padding: 12px 0 20px;
+  }
+
+  .pki-content-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .pki-content-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── HTTPS FLOW ── */
+  .https-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .https-step {
+    background: var(--midnight);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .https-step:hover { border-color: var(--accent-cyan); }
+
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dim);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .step-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── HASH DEMO ── */
+  .hash-demo {
+    background: var(--midnight);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .hash-input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hash-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .hash-input:focus { border-color: var(--accent-green); }
+
+  .hash-output {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    word-break: break-all;
+    padding: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--accent-green);
+    transition: background 0.3s;
+    min-height: 40px;
+  }
+
+  .hash-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--dim); }
+
+  /* ── TOOLTIP ── */
+  [data-tip] { position: relative; cursor: help; }
+  [data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e2a3a;
+    border: 1px solid var(--accent-blue);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-tag">Interactive Infographic</div>
+    <h1>Intro to <span>Crypto</span>graphy</h1>
+    <p class="hero-sub">From Caesar's cipher to AES-256 — how humans have protected secrets across 2,000 years.</p>
+  </div>
+
+  <!-- ── GLOSSARY ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Core Terminology</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="glossary">
+    <div class="gterm">
+      <div class="gterm-num">01</div>
+      <div class="gterm-word">Plaintext</div>
+      <div class="gterm-def">The original, readable message before encryption.</div>
+    </div>
+    <div class="gterm">
+      <div class="gterm-num">02</div>
+      <div class="gterm-word">Ciphertext</div>
+      <div class="gterm-def">The scrambled, unreadable output after encryption.</div>
+    </div>
+    <div class="gterm">
+      <div class="gterm-num">03</div>
+      <div class="gterm-word">Key</div>
+      <div class="gterm-def">Secret value that controls the encryption / decryption process.</div>
+    </div>
+    <div class="gterm">
+      <div class="gterm-num">04</div>
+      <div class="gterm-word">Cipher</div>
+      <div class="gterm-def">The algorithm defining how encryption and decryption are performed.</div>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Historical Timeline</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="timeline-track">
+
+      <div class="t-node">
+        <div class="t-connector">
+          <div class="t-dot" style="border-color:var(--accent-amber)"></div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-card">
+          <div class="t-year" style="color:var(--accent-amber)">~50 BC</div>
+          <div class="t-title">Caesar Cipher</div>
+          <div class="t-desc">Shift each letter by a fixed amount. Keyspace of 25.</div>
+          <div class="t-badge" style="background:rgba(246,173,85,0.1);color:var(--accent-amber);border:1px solid rgba(246,173,85,0.3)">BROKEN</div>
+        </div>
+      </div>
+
+      <div class="t-node">
+        <div class="t-connector">
+          <div class="t-dot" style="border-color:var(--accent-amber)"></div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-card">
+          <div class="t-year" style="color:var(--accent-amber)">Classical</div>
+          <div class="t-title">Substitution Ciphers</div>
+          <div class="t-desc">Map each letter to another. 400 septillion keys — but broken by frequency analysis.</div>
+          <div class="t-badge" style="background:rgba(246,173,85,0.1);color:var(--accent-amber);border:1px solid rgba(246,173,85,0.3)">BROKEN</div>
+        </div>
+      </div>
+
+      <div class="t-node">
+        <div class="t-connector">
+          <div class="t-dot" style="border-color:var(--accent-rose)"></div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-card">
+          <div class="t-year" style="color:var(--accent-rose)">1977</div>
+          <div class="t-title">DES Published</div>
+          <div class="t-desc">56-bit key. Cracked in 56 hours by 1998. Retired.</div>
+          <div class="t-badge" style="background:rgba(252,129,129,0.1);color:var(--accent-rose);border:1px solid rgba(252,129,129,0.3)">DEPRECATED</div>
+        </div>
+      </div>
+
+      <div class="t-node">
+        <div class="t-connector">
+          <div class="t-dot" style="border-color:var(--accent-cyan)"></div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-card">
+          <div class="t-year" style="color:var(--accent-cyan)">1976–77</div>
+          <div class="t-title">DH + RSA Born</div>
+          <div class="t-desc">Diffie-Hellman (1976) and RSA (1977) introduce public-key cryptography.</div>
+          <div class="t-badge" style="background:rgba(79,209,199,0.1);color:var(--accent-cyan);border:1px solid rgba(79,209,199,0.3)">MILESTONE</div>
+        </div>
+      </div>
+
+      <div class="t-node">
+        <div class="t-connector">
+          <div class="t-dot" style="border-color:var(--accent-green)"></div>
+          <div class="t-line"></div>
+        </div>
+        <div class="t-card">
+          <div class="t-year" style="color:var(--accent-green)">2001</div>
+          <div class="t-title">AES Standard</div>
+          <div class="t-desc">NIST selects Rijndael. 128/192/256-bit keys. Still the gold standard today.</div>
+          <div class="t-badge" style="background:rgba(104,211,145,0.1);color:var(--accent-green);border:1px solid rgba(104,211,145,0.3)">SECURE ✓</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CAESAR DEMO ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Interactive Caesar Cipher</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="caesar-demo reveal">
+    <div class="caesar-title">▸ Try It — Type a Message and Adjust the Shift</div>
+
+    <div class="shift-control" style="margin-bottom:20px">
+      <div class="shift-label">Message:</div>
+      <input class="cipher-input" id="caesarInput" type="text" value="CRYPTOGRAPHY" maxlength="20" placeholder="TYPE HERE...">
+      <div class="shift-label">Shift:</div>
+      <button class="shift-btn" onclick="changeShift(-1)">−</button>
+      <div class="shift-val" id="shiftVal">3</div>
+      <button class="shift-btn" onclick="changeShift(1)">+</button>
+    </div>
+
+    <div class="hash-label">Plaintext</div>
+    <div class="cipher-row" id="plainRow"></div>
+    <div class="cipher-arrow">
+      <span>↓ shift right by <strong id="shiftDisplay" style="color:var(--accent-amber)">3</strong></span>
+    </div>
+    <div class="hash-label">Ciphertext</div>
+    <div class="cipher-row" id="cipherRow"></div>
+  </div>
+
+  <!-- ── CONCEPT CARDS ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Core Cryptographic Concepts</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="concept-grid">
+
+    <!-- SYMMETRIC -->
+    <div class="concept-card c-sym reveal">
+      <span class="card-icon">🔐</span>
+      <div class="card-label">01 / Symmetric Encryption</div>
+      <div class="card-title">Same Key,<br>Both Ways</div>
+      <div class="card-body">One shared secret key encrypts and decrypts. Fast and efficient for large data, but both parties must securely exchange the key first.</div>
+      <div class="key-facts">
+        <div class="kf"><div class="kf-dot"></div><span>AES-128/192/256 are the modern standard (NIST FIPS 197, 2001)</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>DES (1977) used a 56-bit key — cracked by 1998</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>100 users need ~4,950 unique keys — doesn't scale</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Block ciphers (AES) process fixed 128-bit chunks</span></div>
+      </div>
+      <div class="use-tag">Used in: File encryption · VPNs · HTTPS bulk data</div>
+    </div>
+
+    <!-- ASYMMETRIC -->
+    <div class="concept-card c-asym reveal">
+      <span class="card-icon">🗝️</span>
+      <div class="card-label">02 / Asymmetric Encryption</div>
+      <div class="card-title">Public + Private<br>Key Pair</div>
+      <div class="card-body">Each party holds a public key (shareable) and a private key (secret). A message encrypted with one can only be decrypted with the other.</div>
+      <div class="key-facts">
+        <div class="kf"><div class="kf-dot"></div><span>RSA described publicly in 1977 by Rivest, Shamir & Adleman (MIT)</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Security relies on the difficulty of factoring large prime numbers</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Enables: confidentiality, integrity, authenticity, non-repudiation</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Slower than symmetric — used for key exchange, not bulk data</span></div>
+      </div>
+      <div class="use-tag">Used in: Digital signatures · Email encryption · TLS handshake</div>
+    </div>
+
+    <!-- DH -->
+    <div class="concept-card c-dh reveal">
+      <span class="card-icon">🤝</span>
+      <div class="card-label">03 / Diffie-Hellman Key Exchange</div>
+      <div class="card-title">Shared Secret<br>in Public</div>
+      <div class="card-body">Two parties agree on a shared secret over an open channel without ever transmitting the secret itself — using modular exponentiation math.</div>
+      <div class="key-facts">
+        <div class="kf"><div class="kf-dot"></div><span>Published by Diffie & Hellman in 1976 — "New Directions in Cryptography"</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Security relies on the discrete logarithm problem</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Alone, it's vulnerable to Man-in-the-Middle (MitM) attacks</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Combined with PKI certificates to defeat MitM</span></div>
+      </div>
+      <div class="use-tag">Used in: HTTPS · SSH · IPsec · Signal Protocol</div>
+    </div>
+
+    <!-- HASHING -->
+    <div class="concept-card c-hash reveal">
+      <span class="card-icon">#️⃣</span>
+      <div class="card-label">04 / Cryptographic Hashing</div>
+      <div class="card-title">One-Way<br>Fingerprint</div>
+      <div class="card-body">Takes any input and produces a fixed-size digest. One-way (irreversible) and collision-resistant. Even a 1-bit change produces a completely different hash.</div>
+      <div class="key-facts">
+        <div class="kf"><div class="kf-dot"></div><span>SHA-256 produces a 256-bit (64 hex char) digest regardless of input size</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>MD5 and SHA-1 are cryptographically broken — do not use</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>Passwords are stored as salted hashes, not plaintext</span></div>
+        <div class="kf"><div class="kf-dot"></div><span>HMAC adds a secret key to a hash for message authentication</span></div>
+      </div>
+      <div class="use-tag">Used in: Password storage · File integrity · Digital signatures</div>
+    </div>
+
+  </div>
+
+  <!-- ── RSA DIAGRAM ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>RSA Encryption Flow</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="diagram-box reveal">
+    <div class="diagram-title">▸ How RSA Achieves Confidentiality</div>
+    <div class="rsa-flow">
+      <div class="rsa-actor">
+        <div class="rsa-avatar" style="border-color:var(--accent-purple);background:rgba(183,148,244,0.1)">👩</div>
+        <div class="rsa-name">Alice</div>
+      </div>
+      <div class="rsa-arrow">
+        <div class="rsa-msg" style="color:var(--muted)">Alice uses Bob's<br><span style="color:var(--accent-purple)">PUBLIC KEY</span><br>to encrypt</div>
+        <div class="rsa-line"></div>
+      </div>
+      <div class="rsa-actor">
+        <div class="rsa-avatar" style="border-color:var(--accent-blue);background:rgba(99,179,237,0.1)">👨</div>
+        <div class="rsa-name">Bob</div>
+      </div>
+      <div class="rsa-arrow">
+        <div class="rsa-msg" style="color:var(--muted)">Bob uses his<br><span style="color:var(--accent-rose)">PRIVATE KEY</span><br>to decrypt</div>
+        <div class="rsa-line" style="background:linear-gradient(90deg,var(--accent-blue),var(--accent-rose))"></div>
+      </div>
+      <div class="rsa-actor">
+        <div class="rsa-avatar" style="border-color:var(--accent-blue);background:rgba(99,179,237,0.1)">🔓</div>
+        <div class="rsa-name">Message</div>
+      </div>
+    </div>
+    <div class="key-display">
+      <div class="key-pill"><span class="key-pill-icon">🔑</span><span style="color:var(--accent-purple)">PUBLIC KEY</span> — Share freely. Anyone can encrypt.</div>
+      <div class="key-pill"><span class="key-pill-icon">🗝️</span><span style="color:var(--accent-rose)">PRIVATE KEY</span> — Never share. Only you can decrypt.</div>
+    </div>
+  </div>
+
+  <!-- ── DH DIAGRAM ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Diffie-Hellman Key Exchange</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="diagram-box reveal">
+    <div class="diagram-title">▸ Agreeing on a Secret Key Over a Public Channel</div>
+    <div class="dh-grid">
+      <div class="dh-party">
+        <div class="dh-party-name">👩 Alice</div>
+        <div class="dh-party-secret">Private: a = 13</div>
+        <div class="dh-party-secret">Computes: A = 3¹³ mod 29</div>
+        <div class="dh-party-secret" style="color:var(--accent-cyan)">Sends A = 19 →</div>
+      </div>
+      <div class="dh-center">
+        <div class="dh-public">q = 29, g = 3 (public)</div>
+        <div style="color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;">←exchanges public values→</div>
+        <div style="color:var(--accent-rose);font-family:'Space Mono',monospace;font-size:9px;">⚠ Eavesdropper sees q, g, A, B<br>but cannot compute the secret</div>
+      </div>
+      <div class="dh-party">
+        <div class="dh-party-name">👨 Bob</div>
+        <div class="dh-party-secret">Private: b = 15</div>
+        <div class="dh-party-secret">Computes: B = 3¹⁵ mod 29</div>
+        <div class="dh-party-secret" style="color:var(--accent-cyan)">← Sends B = 26</div>
+      </div>
+    </div>
+    <div class="dh-shared">
+      ✓ Both independently compute the same shared secret: <strong>key = 10</strong><br>
+      <span style="font-size:9px;color:var(--muted)">Alice: 26¹³ mod 29 = 10 &nbsp;|&nbsp; Bob: 19¹⁵ mod 29 = 10</span>
+    </div>
+  </div>
+
+  <!-- ── HASH DEMO ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Interactive Hash Demo (SHA-256 Simulation)</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="diagram-box reveal">
+    <div class="diagram-title">▸ See How Even One Character Change Transforms the Hash</div>
+    <div class="hash-demo">
+      <div class="hash-input-row">
+        <div style="flex:1">
+          <div class="hash-label">Input A</div>
+          <input class="hash-input" id="hashA" value="Hello World" placeholder="Type message A...">
+        </div>
+        <div style="flex:1">
+          <div class="hash-label">Input B</div>
+          <input class="hash-input" id="hashB" value="Hello World!" placeholder="Type message B...">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div class="hash-label">SHA-256 Hash of A</div>
+          <div class="hash-output" id="hashOutA"></div>
+        </div>
+        <div>
+          <div class="hash-label">SHA-256 Hash of B</div>
+          <div class="hash-output" id="hashOutB"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)" id="hashCompare"></div>
+    </div>
+  </div>
+
+  <!-- ── PKI ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>Public Key Infrastructure (PKI)</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="diagram-box reveal">
+    <div class="diagram-title">▸ The Certificate Trust Chain</div>
+    <div class="pki-chain">
+
+      <div class="pki-node">
+        <div class="pki-left">
+          <div class="pki-circle" style="border-color:var(--accent-amber);background:rgba(246,173,85,0.1)">🌐</div>
+          <div class="pki-vline"></div>
+        </div>
+        <div class="pki-content">
+          <div class="pki-content-title">Your Browser</div>
+          <div class="pki-content-desc">Connects to example.com over HTTPS. Requests the server's TLS certificate to verify its identity before exchanging data.</div>
+        </div>
+      </div>
+
+      <div class="pki-node">
+        <div class="pki-left">
+          <div class="pki-circle" style="border-color:var(--accent-blue);background:rgba(99,179,237,0.1)">📄</div>
+          <div class="pki-vline"></div>
+        </div>
+        <div class="pki-content">
+          <div class="pki-content-title">Server Certificate</div>
+          <div class="pki-content-desc">Contains the server's public key and identity. Digitally signed by an Intermediate CA. Browser checks the signature using the CA's public key.</div>
+        </div>
+      </div>
+
+      <div class="pki-node">
+        <div class="pki-left">
+          <div class="pki-circle" style="border-color:var(--accent-purple);background:rgba(183,148,244,0.1)">🏛️</div>
+          <div class="pki-vline"></div>
+        </div>
+        <div class="pki-content">
+          <div class="pki-content-title">Intermediate Certificate Authority (CA)</div>
+          <div class="pki-content-desc">Signs server certificates after verifying the requester's identity. Is itself signed by the Root CA. E.g., DigiCert, Let's Encrypt.</div>
+        </div>
+      </div>
+
+      <div class="pki-node">
+        <div class="pki-left">
+          <div class="pki-circle" style="border-color:var(--accent-green);background:rgba(104,211,145,0.1)">🔒</div>
+        </div>
+        <div class="pki-content">
+          <div class="pki-content-title">Root Certificate Authority</div>
+          <div class="pki-content-desc">The ultimate trust anchor. Self-signed and pre-installed in your OS and browser. Everything traces trust back here. Kept offline for maximum security.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── HTTPS FLOW ── -->
+  <div class="section-label reveal">
+    <div class="section-label-line"></div>
+    <span>How It All Works Together — HTTPS Connection</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="diagram-box reveal">
+    <div class="diagram-title">▸ Every Padlock in Your Browser Follows This Flow</div>
+    <div class="https-steps">
+      <div class="https-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Certificate Request</div>
+        <div class="step-desc">Browser asks server for its TLS certificate and public key.</div>
+      </div>
+      <div class="https-step">
+        <div class="step-num">02</div>
+        <div class="step-title">PKI Verification</div>
+        <div class="step-desc">Browser verifies the certificate signature against a trusted Root CA.</div>
+      </div>
+      <div class="https-step">
+        <div class="step-num">03</div>
+        <div class="step-title">TLS Handshake</div>
+        <div class="step-desc">Asymmetric crypto (RSA / DH) negotiates a shared symmetric session key.</div>
+      </div>
+      <div class="https-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Symmetric Session</div>
+        <div class="step-desc">All data is now encrypted with AES using the agreed session key. Fast and secure.</div>
+      </div>
+      <div class="https-step">
+        <div class="step-num">05</div>
+        <div class="step-title">Hashed + Signed</div>
+        <div class="step-desc">Each message is hashed and signed to guarantee integrity and authenticity.</div>
+      </div>
+    </div>
+    <div style="background:rgba(104,211,145,0.08);border:1px solid rgba(104,211,145,0.2);padding:14px;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent-green);text-align:center;">
+      ✓ Result: Confidentiality · Integrity · Authenticity · Non-Repudiation
+    </div>
+  </div>
+
+  <div class="footer">
+    <div style="margin-bottom:8px;color:var(--muted)">Sources: NIST FIPS 197 · Rivest/Shamir/Adleman (1977) · Diffie/Hellman (1976) · RFC 2104 · TryHackMe Cryptography Room</div>
+    Introduction to Cryptography — Interactive Infographic
+  </div>
+
+</div>
+
+<script>
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // ── CAESAR CIPHER ──
+  let shift = 3;
+
+  function shiftChar(c, n) {
+    if (!/[A-Z]/.test(c)) return c;
+    return String.fromCharCode(((c.charCodeAt(0) - 65 + n) % 26 + 26) % 26 + 65);
+  }
+
+  function renderCaesar() {
+    const text = (document.getElementById('caesarInput').value || '').toUpperCase().slice(0, 20);
+    document.getElementById('shiftVal').textContent = shift;
+    document.getElementById('shiftDisplay').textContent = shift;
+
+    const plainRow = document.getElementById('plainRow');
+    const cipherRow = document.getElementById('cipherRow');
+    plainRow.innerHTML = '';
+    cipherRow.innerHTML = '';
+
+    for (const ch of text) {
+      const pd = document.createElement('div');
+      pd.className = 'cipher-char ' + (ch === ' ' ? 'space-char plain' : 'plain');
+      pd.textContent = ch === ' ' ? '·' : ch;
+      plainRow.appendChild(pd);
+
+      const cd = document.createElement('div');
+      const enc = shiftChar(ch, shift);
+      cd.className = 'cipher-char ' + (ch === ' ' ? 'space-char encrypted' : 'encrypted');
+      cd.textContent = ch === ' ' ? '·' : enc;
+      cipherRow.appendChild(cd);
+    }
+  }
+
+  function changeShift(d) {
+    shift = ((shift - 1 + d) % 25 + 25) % 25 + 1;
+    renderCaesar();
+  }
+
+  document.getElementById('caesarInput').addEventListener('input', renderCaesar);
+  renderCaesar();
+
+  // ── HASH DEMO (uses Web Crypto API SHA-256) ──
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function highlightDiff(a, b) {
+    // returns count of differing hex chars
+    let diff = 0;
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      if (a[i] !== b[i]) diff++;
+    }
+    return diff;
+  }
+
+  async function updateHashes() {
+    const a = document.getElementById('hashA').value;
+    const b = document.getElementById('hashB').value;
+    const ha = await sha256(a);
+    const hb = await sha256(b);
+    document.getElementById('hashOutA').textContent = ha;
+    document.getElementById('hashOutB').textContent = hb;
+    const diff = highlightDiff(ha, hb);
+    const pct = Math.round((diff / 64) * 100);
+    document.getElementById('hashCompare').textContent =
+      a === b
+        ? '✓ Identical inputs → identical hashes'
+        : `⚡ ${diff}/64 hex characters differ (${pct}%) — despite inputs being nearly the same`;
+    document.getElementById('hashCompare').style.color = a === b ? 'var(--accent-green)' : 'var(--accent-amber)';
+  }
+
+  document.getElementById('hashA').addEventListener('input', updateHashes);
+  document.getElementById('hashB').addEventListener('input', updateHashes);
+  updateHashes();
+</script>
+
+</body>
+</html>
