@@ -15,10 +15,9 @@
   <a class="back-link" href="{{ . }}">{{ $.Params.back_label | default "← Back to article" }}</a>
   {{ end }}
 
-  {{ $infographic := .Params.infographic | default "infographic.html" }}
-  {{ with .Resources.GetMatch $infographic }}
+  {{ with .Params.infographic }}
   <iframe
-    src="{{ .RelPermalink }}"
+    src="{{ . }}"
     class="infographic-frame"
     id="infographic-frame"
     scrolling="no"
@@ -30,7 +29,6 @@
 </div>
 
 <script>
-  // Auto-resize iframe to fit content height
   const frame = document.getElementById('infographic-frame');
   frame.addEventListener('load', function() {
     try {

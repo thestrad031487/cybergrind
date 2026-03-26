@@ -5,5 +5,5 @@ draft: false
 layout: "infographic"
 back_link: "/orange-book/introduction-to-cryptography/"
 back_label: "← Back to article"
-infographic: "infographic.html"
+infographic: "/infographics/cryptography.html"
 ---
