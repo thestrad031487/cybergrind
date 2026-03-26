@@ -8,7 +8,7 @@ tags: ["cryptography", "security", "fundamentals", "AES", "RSA", "PKI", "TLS"]
 
 A practical guide to securing information in the digital age — from ancient ciphers and brute-force attacks to AES, RSA, Diffie-Hellman, cryptographic hashing, and Public Key Infrastructure.
 
-*[🔬 Interactive Infographic →](../cryptography-infographic/)*
+*[🔬 Interactive Infographic →](/orange-book/cryptography-infographic/)*
 
 ---
 
