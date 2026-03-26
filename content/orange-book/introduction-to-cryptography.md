@@ -251,7 +251,6 @@ Together, these components deliver the four pillars of cryptographic security: *
 17. Comparitech. "What is the Diffie–Hellman key exchange and how does it work?" https://www.comparitech.com/blog/information-security/diffie-hellman-key-exchange/
 18. Splunk. "RSA Algorithm in Cryptography: Rivest Shamir Adleman Explained." https://www.splunk.com/en_us/blog/learn/rsa-algorithm-cryptography.html
 19. OWASP. "Password Storage Cheat Sheet." https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-20. TryHackMe. "Introduction to Cryptography" room. https://tryhackme.com
 
 ---
 
