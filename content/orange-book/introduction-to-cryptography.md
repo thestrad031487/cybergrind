@@ -31,7 +31,7 @@ Before diving into specific algorithms, it helps to define some core terms:
 
 ### The Caesar Cipher
 
-One of the simplest and oldest encryption methods is the Caesar cipher, used by Julius Caesar more than 2,000 years ago. It works by shifting each letter of the alphabet a fixed number of positions. With a shift of 3, the letter A becomes D, B becomes E, and so on. To encrypt "TRY HACK ME" with a shift of 3, you get "WUB KDFN PH."
+One of the simplest and oldest encryption methods is the Caesar cipher, used by Julius Caesar more than 2,000 years ago. It works by shifting each letter of the alphabet a fixed number of positions. With a shift of 3, the letter A becomes D, B becomes E, and so on.
 
 The Caesar cipher uses a keyspace of 25 — meaning there are only 25 possible shift values. Because there are so few possibilities, an attacker can simply try all of them — an approach called **brute force** — to recover the original message without knowing the key. A message encrypted with Caesar cipher can typically be broken in seconds by a modern computer.
 
