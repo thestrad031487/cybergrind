@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIST CSF 2.0 · Visual Reference | CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1220;--panel:#111827;--panel2:#162033;--border:#1e2d45;
+  --blue:#2e7de4;--blue2:#5ba3ff;--blue3:#1a3a6e;
+  --gold:#c8963e;--gold2:#e8b86d;
+  --teal:#1aab8a;--teal2:#2dd4aa;
+  --red:#e05a5a;--red2:#ff8080;
+  --text:#e2e8f4;--muted:#7a8aa8;--dim:#3a4a62;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{
+  background:var(--navy);color:var(--text);
+  font-family:'Space Mono',monospace;
+  line-height:1.6;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(46,125,228,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(46,125,228,0.035) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 1.5rem 5rem;}
+
+/* ── HEADER ── */
+.ig-head{
+  text-align:center;padding:3.5rem 0 2rem;
+  opacity:0;animation:fadeUp 0.8s ease 0.1s forwards;
+}
+.ig-eyebrow{
+  font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--blue2);margin-bottom:0.8rem;
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+}
+.ig-eyebrow::before,.ig-eyebrow::after{content:'';display:block;height:1px;width:50px;background:rgba(91,163,255,0.4);}
+.ig-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-0.02em;line-height:1.1;
+  margin-bottom:0.6rem;
+}
+.ig-title span{color:var(--blue2);}
+.ig-sub{font-size:0.72rem;color:var(--muted);letter-spacing:0.04em;max-width:500px;margin:0 auto;}
+
+/* ── SECTION LABEL ── */
+.sec-label{
+  display:flex;align-items:center;gap:0.8rem;margin:3.5rem 0 1.2rem;
+  opacity:0;
+}
+.sec-label.vis{animation:fadeUp 0.6s ease forwards;}
+.sl-num{font-size:0.55rem;letter-spacing:0.18em;color:var(--blue2);background:rgba(46,125,228,0.1);border:1px solid rgba(46,125,228,0.25);padding:0.2rem 0.5rem;border-radius:3px;}
+.sl-text{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text);}
+.sl-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* ══════════════════
+   SECTION 1 — TIMELINE
+══════════════════ */
+.timeline{
+  display:grid;grid-template-columns:1fr 48px 1fr;
+  opacity:0;
+}
+.timeline.vis{animation:fadeUp 0.7s ease forwards;}
+.tl-col{display:flex;flex-direction:column;gap:1rem;padding:0 1rem;}
+.tl-col.l{padding-left:0;align-items:flex-end;text-align:right;}
+.tl-col.r{padding-right:0;}
+.tl-axis{position:relative;display:flex;flex-direction:column;align-items:center;}
+.tl-line{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--border) 10%,var(--border) 90%,transparent);}
+.tl-dot{width:8px;height:8px;border-radius:50%;z-index:1;margin:1.5rem 0;flex-shrink:0;}
+.tl-dot.b{background:var(--blue);box-shadow:0 0 8px rgba(46,125,228,0.7);}
+.tl-dot.g{background:var(--gold);box-shadow:0 0 8px rgba(200,150,62,0.7);}
+.tl-dot.d{background:var(--dim);border:1px solid var(--border);}
+.tl-ev{
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;
+  padding:0.8rem 1rem;width:100%;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.tl-ev:hover{border-color:var(--blue);box-shadow:0 0 16px rgba(46,125,228,0.08);}
+.tl-yr{font-size:0.55rem;letter-spacing:0.12em;color:var(--blue2);margin-bottom:0.2rem;}
+.tl-etitle{font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;color:var(--text);margin-bottom:0.2rem;}
+.tl-edesc{font-size:0.62rem;color:var(--muted);line-height:1.5;}
+
+/* ══════════════════
+   SECTION 2 — WHAT IT IS
+══════════════════ */
+.what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;opacity:0;}
+.what-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.what-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:1.1rem;text-align:center;
+}
+.what-icon{font-size:1.4rem;margin-bottom:0.5rem;}
+.what-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;color:var(--blue2);margin-bottom:0.35rem;}
+.what-desc{font-size:0.62rem;color:var(--muted);line-height:1.55;}
+
+/* ══════════════════
+   SECTION 3 — GOVERN SPOTLIGHT
+══════════════════ */
+.govern-block{
+  background:linear-gradient(135deg,rgba(200,150,62,0.08),rgba(200,150,62,0.03));
+  border:1px solid rgba(200,150,62,0.25);border-radius:8px;
+  padding:1.8rem;margin-bottom:1rem;opacity:0;position:relative;overflow:hidden;
+}
+.govern-block.vis{animation:fadeUp 0.7s ease forwards;}
+.govern-block::before{
+  content:'GV';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);
+  font-family:'Syne',sans-serif;font-weight:800;font-size:5rem;
+  color:rgba(200,150,62,0.06);line-height:1;pointer-events:none;
+}
+.gb-label{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.5rem;}
+.gb-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+.gb-new{
+  display:inline-block;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;
+  background:rgba(200,150,62,0.2);border:1px solid rgba(200,150,62,0.4);
+  color:var(--gold2);padding:0.2rem 0.6rem;border-radius:3px;margin-bottom:0.8rem;
+}
+.gb-desc{font-size:0.73rem;color:var(--muted);line-height:1.65;max-width:640px;}
+.gb-pills{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+.gb-pill{font-size:0.58rem;letter-spacing:0.06em;padding:0.25rem 0.7rem;border-radius:20px;background:rgba(200,150,62,0.1);border:1px solid rgba(200,150,62,0.2);color:var(--gold2);}
+
+/* ══════════════════
+   SECTION 4 — SIX FUNCTIONS
+══════════════════ */
+.fn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;opacity:0;}
+.fn-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.fn-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-top:2px solid var(--blue);border-radius:6px;
+  padding:1.1rem;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;
+}
+.fn-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(46,125,228,0.12);border-top-color:var(--blue2);}
+.fn-tag{font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.25rem;}
+.fn-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;color:var(--text);margin-bottom:0.4rem;}
+.fn-desc{font-size:0.63rem;color:var(--muted);line-height:1.55;margin-bottom:0.7rem;}
+.fn-cats{display:flex;flex-direction:column;gap:0.25rem;}
+.fn-cat{font-size:0.58rem;color:var(--dim);padding:0.2rem 0;border-top:1px solid rgba(30,45,69,0.5);}
+.fn-cat:first-child{border-top:none;}
+
+/* ══════════════════
+   SECTION 5 — TIERS
+══════════════════ */
+.tiers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;opacity:0;}
+.tiers-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.tier-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:1.1rem;text-align:center;position:relative;overflow:hidden;
+  transition:transform 0.2s;
+}
+.tier-card:hover{transform:translateY(-2px);}
+.tier-bg{position:absolute;inset:0;pointer-events:none;opacity:0.05;}
+.t1 .tier-bg{background:radial-gradient(circle at 50% 0%,var(--dim),transparent 70%);}
+.t2 .tier-bg{background:radial-gradient(circle at 50% 0%,var(--teal),transparent 70%);}
+.t3 .tier-bg{background:radial-gradient(circle at 50% 0%,var(--blue),transparent 70%);}
+.t4 .tier-bg{background:radial-gradient(circle at 50% 0%,var(--gold),transparent 70%);}
+.tier-n{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;line-height:1;margin-bottom:0.3rem;}
+.t1 .tier-n{color:var(--muted);}
+.t2 .tier-n{color:var(--teal2);}
+.t3 .tier-n{color:var(--blue2);}
+.t4 .tier-n{color:var(--gold2);}
+.tier-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;color:var(--text);margin-bottom:0.5rem;}
+.tier-desc{font-size:0.62rem;color:var(--muted);line-height:1.5;}
+.tier-bar{height:2px;border-radius:1px;margin-top:0.9rem;}
+.t1 .tier-bar{background:var(--dim);width:25%;}
+.t2 .tier-bar{background:var(--teal2);width:50%;margin:0.9rem auto 0;}
+.t3 .tier-bar{background:var(--blue2);width:75%;margin:0.9rem auto 0;}
+.t4 .tier-bar{background:var(--gold2);width:100%;}
+
+/* ══════════════════
+   SECTION 6 — PROFILES
+══════════════════ */
+.profile-split{display:grid;grid-template-columns:1fr 1fr;gap:1rem;opacity:0;}
+.profile-split.vis{animation:fadeUp 0.7s ease forwards;}
+.prof-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:1.3rem;}
+.prof-tag{font-size:0.52rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.4rem;}
+.pc-current .prof-tag{color:var(--muted);}
+.pc-target .prof-tag{color:var(--blue2);}
+.prof-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--text);margin-bottom:0.5rem;}
+.prof-desc{font-size:0.65rem;color:var(--muted);line-height:1.6;}
+.prof-gap{
+  background:linear-gradient(135deg,rgba(46,125,228,0.06),rgba(200,150,62,0.06));
+  border:1px dashed var(--border);border-radius:6px;
+  padding:1.2rem;display:flex;align-items:center;gap:1rem;
+  grid-column:1/-1;
+}
+.gap-icon{font-size:1.5rem;flex-shrink:0;}
+.gap-text{font-size:0.65rem;color:var(--muted);line-height:1.6;}
+.gap-text strong{color:var(--text);font-size:0.72rem;display:block;margin-bottom:0.2rem;}
+
+/* ══════════════════
+   SECTION 7 — KEY CHANGES v2
+══════════════════ */
+.changes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;opacity:0;}
+.changes-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.chg-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:1rem 1.1rem;display:flex;gap:0.8rem;align-items:flex-start;
+  transition:border-color 0.2s;
+}
+.chg-card:hover{border-color:var(--blue);}
+.chg-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;}
+.chg-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;color:var(--text);margin-bottom:0.2rem;}
+.chg-desc{font-size:0.62rem;color:var(--muted);line-height:1.5;}
+
+/* ── FOOTER ── */
+.ig-footer{
+  text-align:center;margin-top:3.5rem;padding-top:2rem;
+  border-top:1px solid var(--border);opacity:0;
+}
+.ig-footer.vis{animation:fadeUp 0.6s ease forwards;}
+.ig-footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.75rem;letter-spacing:0.15em;color:var(--blue2);margin-bottom:0.4rem;}
+.ig-footer-text{font-size:0.58rem;color:var(--dim);letter-spacing:0.06em;line-height:1.8;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:700px){
+  .timeline{grid-template-columns:1fr 32px 1fr;}
+  .what-grid,.fn-grid,.changes-grid{grid-template-columns:1fr 1fr;}
+  .tiers-grid{grid-template-columns:1fr 1fr;}
+  .profile-split{grid-template-columns:1fr;}
+  .prof-gap{grid-column:1;}
+}
+@media(max-width:480px){
+  .what-grid,.fn-grid,.changes-grid,.tiers-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="ig-head">
+    <div class="ig-eyebrow">Visual Reference Guide</div>
+    <div class="ig-title">NIST <span>CSF 2.0</span></div>
+    <div class="ig-sub">Cybersecurity Framework Version 2.0 — Released February 26, 2024</div>
+  </div>
+
+  <!-- ── 01 TIMELINE ── -->
+  <div class="sec-label"><span class="sl-num">01</span><span class="sl-text">How We Got Here</span><span class="sl-line"></span></div>
+  <div class="timeline">
+    <div class="tl-col l">
+      <div class="tl-ev">
+        <div class="tl-yr">FEB 2013</div>
+        <div class="tl-etitle">Executive Order 13636</div>
+        <div class="tl-edesc">President Obama directs NIST to build a framework to improve critical infrastructure cybersecurity.</div>
+      </div>
+      <div style="height:0.5rem"></div>
+      <div class="tl-ev">
+        <div class="tl-yr">APR 2018</div>
+        <div class="tl-etitle">CSF 1.1</div>
+        <div class="tl-edesc">Minor update. Adds supply chain risk category and improves authentication guidance.</div>
+      </div>
+      <div style="height:0.5rem"></div>
+      <div class="tl-ev" style="border-color:rgba(91,163,255,0.3);background:rgba(46,125,228,0.05)">
+        <div class="tl-yr">FEB 26, 2024</div>
+        <div class="tl-etitle" style="color:var(--blue2)">CSF 2.0 — Current</div>
+        <div class="tl-edesc">Major overhaul. New Govern function. All-sector scope. Stronger supply chain &amp; governance guidance.</div>
+      </div>
+    </div>
+    <div class="tl-axis">
+      <div class="tl-line"></div>
+      <div class="tl-dot b" style="margin-top:1.4rem"></div>
+      <div class="tl-dot d" style="margin-top:2rem"></div>
+      <div class="tl-dot d" style="margin-top:2rem"></div>
+      <div class="tl-dot d" style="margin-top:2rem"></div>
+      <div class="tl-dot b" style="margin-top:2rem"></div>
+    </div>
+    <div class="tl-col r">
+      <div style="height:2.5rem"></div>
+      <div class="tl-ev">
+        <div class="tl-yr">FEB 2014</div>
+        <div class="tl-etitle">CSF 1.0 Published</div>
+        <div class="tl-edesc">Initial release. Five core functions: Identify, Protect, Detect, Respond, Recover. Rapid adoption beyond critical infrastructure.</div>
+      </div>
+      <div style="height:0.5rem"></div>
+      <div class="tl-ev">
+        <div class="tl-yr">FEB 2022</div>
+        <div class="tl-etitle">Revision Process Begins</div>
+        <div class="tl-edesc">NIST opens public comment, workshops, and community engagement to build CSF 2.0.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 WHAT IS IT ── -->
+  <div class="sec-label"><span class="sl-num">02</span><span class="sl-text">What Is It?</span><span class="sl-line"></span></div>
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="what-icon">🗺️</div>
+      <div class="what-title">Outcome-Based</div>
+      <div class="what-desc">Describes what you should achieve — not which products to buy or exactly how to implement controls. Technology-neutral by design.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-icon">🔓</div>
+      <div class="what-title">Voluntary</div>
+      <div class="what-desc">Compliance is not legally mandated for most organizations. It is a best-practice framework, not a regulation.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-icon">🌐</div>
+      <div class="what-title">Universal Scope</div>
+      <div class="what-desc">CSF 2.0 applies to all organizations — any size, any sector, any maturity level. Not just critical infrastructure.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-icon">🗣️</div>
+      <div class="what-title">Shared Language</div>
+      <div class="what-desc">Bridges technical teams and executive leadership. Provides vocabulary for communicating cyber risk to any audience.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-icon">🔗</div>
+      <div class="what-title">Maps to Other Frameworks</div>
+      <div class="what-desc">Official mappings exist to SP 800-53, ISO 27001, CIS Controls, NIST Privacy Framework, and others.</div>
+    </div>
+    <div class="what-card">
+      <div class="what-icon">📊</div>
+      <div class="what-title">Risk Management Tool</div>
+      <div class="what-desc">Designed to integrate with enterprise risk management (ERM) — treating cyber risk the same as financial or reputational risk.</div>
+    </div>
+  </div>
+
+  <!-- ── 03 GOVERN SPOTLIGHT ── -->
+  <div class="sec-label"><span class="sl-num">03</span><span class="sl-text">The New Govern Function</span><span class="sl-line"></span></div>
+  <div class="govern-block">
+    <div class="gb-label">New in CSF 2.0</div>
+    <div class="gb-title">Govern (GV)</div>
+    <div class="gb-new">★ Most Significant Change in Version 2.0</div>
+    <div class="gb-desc">Elevating governance from a subcategory to a core function signals that cybersecurity strategy, leadership accountability, and supply chain risk management must be treated as first-class organizational priorities — not technical afterthoughts. Govern establishes, communicates, and monitors the organization's cybersecurity risk management strategy and underpins all five other functions.</div>
+    <div class="gb-pills">
+      <span class="gb-pill">Organizational Context</span>
+      <span class="gb-pill">Risk Management Strategy</span>
+      <span class="gb-pill">Supply Chain Risk (SCRM)</span>
+      <span class="gb-pill">Roles &amp; Responsibilities</span>
+      <span class="gb-pill">Policy</span>
+      <span class="gb-pill">Oversight</span>
+    </div>
+  </div>
+
+  <!-- ── 04 SIX FUNCTIONS ── -->
+  <div class="sec-label"><span class="sl-num">04</span><span class="sl-text">The Six Core Functions</span><span class="sl-line"></span></div>
+  <div class="fn-grid">
+    <div class="fn-card" style="border-top-color:var(--gold);grid-column:1/-1">
+      <div class="fn-tag" style="color:var(--gold2)">GV · GOVERN · NEW</div>
+      <div class="fn-name">Govern</div>
+      <div class="fn-desc">Strategy, policy, accountability, and supply chain risk. Underpins all other functions — makes cybersecurity a business risk, not just a technical problem.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">GV.OC — Organizational Context</span>
+        <span class="fn-cat">GV.RM — Risk Management Strategy</span>
+        <span class="fn-cat">GV.RR — Roles, Responsibilities, Authorities</span>
+        <span class="fn-cat">GV.PO — Policy · GV.OV — Oversight · GV.SC — Supply Chain Risk</span>
+      </div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-tag">ID · IDENTIFY</div>
+      <div class="fn-name">Identify</div>
+      <div class="fn-desc">Understand assets, suppliers, threats, and risks. The foundation for everything else — you cannot protect what you don't know exists.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">ID.AM — Asset Management</span>
+        <span class="fn-cat">ID.RA — Risk Assessment</span>
+        <span class="fn-cat">ID.IM — Improvement</span>
+      </div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-tag">PR · PROTECT</div>
+      <div class="fn-name">Protect</div>
+      <div class="fn-desc">Safeguards to manage risk and prevent or reduce likelihood and impact of cybersecurity events.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">PR.AA — Identity Mgmt &amp; Access Control</span>
+        <span class="fn-cat">PR.AT — Awareness &amp; Training</span>
+        <span class="fn-cat">PR.DS — Data Security · PR.PS — Platform Security</span>
+      </div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-tag">DE · DETECT</div>
+      <div class="fn-name">Detect</div>
+      <div class="fn-desc">Find and analyze attacks and compromises in a timely manner. Closes the gap between breach and response.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">DE.CM — Continuous Monitoring</span>
+        <span class="fn-cat">DE.AE — Adverse Event Analysis</span>
+      </div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-tag">RS · RESPOND</div>
+      <div class="fn-name">Respond</div>
+      <div class="fn-desc">Contain and manage the effects of a detected incident. Speed and coordination determine damage.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">RS.MA — Incident Management</span>
+        <span class="fn-cat">RS.AN — Incident Analysis</span>
+        <span class="fn-cat">RS.CO — Reporting &amp; Communication</span>
+      </div>
+    </div>
+    <div class="fn-card">
+      <div class="fn-tag">RC · RECOVER</div>
+      <div class="fn-name">Recover</div>
+      <div class="fn-desc">Restore assets and operations. A mature Recover function means the organization returns to normal — or better — without catastrophic downtime.</div>
+      <div class="fn-cats">
+        <span class="fn-cat">RC.RP — Incident Recovery Plan</span>
+        <span class="fn-cat">RC.CO — Recovery Communication</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05 TIERS ── -->
+  <div class="sec-label"><span class="sl-num">05</span><span class="sl-text">Implementation Tiers</span><span class="sl-line"></span></div>
+  <div class="tiers-grid">
+    <div class="tier-card t1">
+      <div class="tier-bg"></div>
+      <div class="tier-n">1</div>
+      <div class="tier-name">Partial</div>
+      <div class="tier-desc">Ad hoc and reactive risk management. Limited leadership awareness. Little integration with enterprise risk management.</div>
+      <div class="tier-bar"></div>
+    </div>
+    <div class="tier-card t2">
+      <div class="tier-bg"></div>
+      <div class="tier-n">2</div>
+      <div class="tier-name">Risk Informed</div>
+      <div class="tier-desc">Leadership-approved risk practices, but not applied organization-wide. Some awareness of supply chain risk.</div>
+      <div class="tier-bar"></div>
+    </div>
+    <div class="tier-card t3">
+      <div class="tier-bg"></div>
+      <div class="tier-n">3</div>
+      <div class="tier-name">Repeatable</div>
+      <div class="tier-desc">Formally approved policies. Consistent implementation across the organization. Supply chain risk managed.</div>
+      <div class="tier-bar"></div>
+    </div>
+    <div class="tier-card t4">
+      <div class="tier-bg"></div>
+      <div class="tier-n">4</div>
+      <div class="tier-name">Adaptive</div>
+      <div class="tier-desc">Practices adapt based on lessons learned and predictive indicators. Continuous improvement embedded in culture. Active information sharing.</div>
+      <div class="tier-bar"></div>
+    </div>
+  </div>
+  <p style="font-size:0.62rem;color:var(--dim);margin-top:0.6rem;text-align:center;">Tiers describe posture — not a maturity ladder to climb. A Tier 2 may be appropriate for a given organization's context and risk appetite.</p>
+
+  <!-- ── 06 PROFILES ── -->
+  <div class="sec-label"><span class="sl-num">06</span><span class="sl-text">Organizational Profiles</span><span class="sl-line"></span></div>
+  <div class="profile-split">
+    <div class="prof-card pc-current">
+      <div class="prof-tag">Current Profile</div>
+      <div class="prof-title">Where You Are</div>
+      <div class="prof-desc">Documents the cybersecurity outcomes your organization is currently achieving. An honest snapshot of existing posture — the baseline from which gaps are identified and priorities set.</div>
+    </div>
+    <div class="prof-card pc-target">
+      <div class="prof-tag">Target Profile</div>
+      <div class="prof-title">Where You're Going</div>
+      <div class="prof-desc">Documents the outcomes your organization aims to achieve, driven by mission objectives, risk tolerance, and regulatory requirements. Defines the destination for resource allocation and roadmapping.</div>
+    </div>
+    <div class="prof-gap">
+      <div class="gap-icon">↕️</div>
+      <div class="gap-text">
+        <strong>The Gap = Your Security Roadmap</strong>
+        The difference between Current and Target Profiles is not a failure — it is the prioritized work ahead. CSF 2.0 also introduces Community Profiles: sector-specific templates that allow organizations in the same domain to benchmark against a shared reference rather than starting from scratch.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07 KEY CHANGES ── -->
+  <div class="sec-label"><span class="sl-num">07</span><span class="sl-text">What Changed from CSF 1.1 → 2.0</span><span class="sl-line"></span></div>
+  <div class="changes-grid">
+    <div class="chg-card">
+      <div class="chg-icon">🏛️</div>
+      <div><div class="chg-title">New Govern Function</div><div class="chg-desc">Governance elevated from subcategory to standalone core function. Cybersecurity now treated as enterprise risk management, not just IT.</div></div>
+    </div>
+    <div class="chg-card">
+      <div class="chg-icon">🌍</div>
+      <div><div class="chg-title">Universal Scope</div><div class="chg-desc">Explicitly expanded beyond critical infrastructure to all organizations of any size or sector worldwide.</div></div>
+    </div>
+    <div class="chg-card">
+      <div class="chg-icon">🔗</div>
+      <div><div class="chg-title">Supply Chain Emphasis</div><div class="chg-desc">Significantly expanded supply chain risk management coverage, particularly within the Govern function, reflecting post-SolarWinds threat reality.</div></div>
+    </div>
+    <div class="chg-card">
+      <div class="chg-icon">📋</div>
+      <div><div class="chg-title">Formalized Profiles</div><div class="chg-desc">Organizational and Community Profiles formalized and expanded. Quick-Start Guides added for small businesses and new programs.</div></div>
+    </div>
+    <div class="chg-card">
+      <div class="chg-icon">💡</div>
+      <div><div class="chg-title">Implementation Examples</div><div class="chg-desc">Concrete examples added for every subcategory — showing what achieving an outcome looks like without prescribing the method.</div></div>
+    </div>
+    <div class="chg-card">
+      <div class="chg-icon">🔤</div>
+      <div><div class="chg-title">Simplified Language</div><div class="chg-desc">Clearer, more accessible writing throughout. Easier for non-technical executives and smaller organizations to engage with.</div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ig-footer">
+    <div class="ig-footer-logo">CYBERGRIND.ORG</div>
+    <div class="ig-footer-text">
+      Primary source: NIST CSF 2.0 (CSWP 29, Feb. 26, 2024) · nist.gov/cyberframework<br>
+      Informational only — not legal or compliance advice · Accessed March 2026
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.sec-label,.timeline,.what-grid,.govern-block,.fn-grid,.tiers-grid,.profile-split,.changes-grid,.ig-footer')
+  .forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
