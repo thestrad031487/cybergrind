@@ -4,6 +4,7 @@ title = "CyberGrind"
 theme = "PaperMod"
 paginate = 10
 mainSections = ["blog"]
+copyright = "2026 CyberGrind"
 
 [params]
   author = "Jason, Cyber Professional"
@@ -14,6 +15,9 @@ mainSections = ["blog"]
   ShowCodeCopyButtons = true
   defaultTheme = "dark"
   
+[params.footer]
+    text = "[GitHub](https://github.com/thestrad031487) · [Data Sources](/data-sources/) · Informational only — not legal or security advice"
+
   [params.profileMode]
     enabled = false
 
