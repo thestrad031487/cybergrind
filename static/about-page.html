@@ -32,6 +32,8 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+main { text-align: center; }
+
 body {
   background: var(--theme);
   color: var(--primary);
@@ -45,6 +47,7 @@ body {
   max-width: calc(var(--main-width) + var(--gap) * 2);
   margin: 0 auto;
   padding: 40px var(--gap) 80px;
+  text-align: center;
 }
 
 /* HERO */
@@ -53,6 +56,9 @@ body {
   padding: 48px 0 40px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-tag {
@@ -469,12 +475,12 @@ body {
 <body>
 <div class="container">
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-tag">cybergrind.org</div>
-    <h1>Built for <span>Defenders</span>.<br>Not Dashboards.</h1>
-    <p class="hero-sub">An independent threat intelligence platform focused on turning raw security data into clear, actionable insight — built by a practitioner, for practitioners.</p>
-  </div>
+<!-- HERO -->
+<div class="hero">
+  <img src="/images/cybergrind-logo.svg" alt="CyberGrind" style="width:300px; height:auto; margin:0 auto 24px; display:block;"/>
+  <h1>Built for <span>Defenders</span>.<br>Not Dashboards.</h1>
+  <p class="hero-sub">An independent threat intelligence platform focused on turning raw security data into clear, actionable insight — built by a practitioner, for practitioners.</p>
+</div>
 
   <!-- PROBLEM -->
   <div class="problem-block fade-in">
