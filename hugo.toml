@@ -15,6 +15,14 @@ copyright = "2026 CyberGrind"
   ShowCodeCopyButtons = true
   defaultTheme = "dark"
   
+[params.assets]
+    favicon = "/favicon.svg"
+
+[params.label]
+  icon = "/images/cybergrind-logo.svg"
+  iconHeight = 55
+  text = " "
+
 [params.footer]
     text = "[GitHub](https://github.com/thestrad031487) · [Data Sources](/data-sources/) · Informational only — not legal or security advice"
 
