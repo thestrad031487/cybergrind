@@ -83,8 +83,16 @@
     return '#88cc00';
   }
 
+// Set loading state
+  document.getElementById('hm-total').textContent = '...';
+  document.getElementById('hm-countries').textContent = '...';
+  document.getElementById('hm-top').textContent = '...';
+
   fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
-    .then(r => r.json())
+    .then(r => {
+      if (!r.ok) throw new Error('Worker returned ' + r.status);
+      return r.json();
+    })
     .then(data => {
       data.points.forEach(p => {
         const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
@@ -101,7 +109,12 @@
       document.getElementById('hm-countries').textContent = data.points.length;
       document.getElementById('hm-top').textContent = data.topCountries[0];
     })
-    .catch(console.error);
+    .catch(err => {
+      console.error('Threat map error:', err);
+      document.getElementById('hm-total').textContent = 'N/A';
+      document.getElementById('hm-countries').textContent = 'N/A';
+      document.getElementById('hm-top').textContent = 'Unavailable';
+    });
 })();
 </script>
 {{- end }}

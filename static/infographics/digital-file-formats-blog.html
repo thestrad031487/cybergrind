@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Information & File Formats</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0e1a;
+    --bg-panel: #0f1525;
+    --bg-card: #131928;
+    --bg-card2: #161d2e;
+    --border: #1e2d4a;
+    --border-bright: #2a3f60;
+    --text: #c8d4e8;
+    --text-dim: #7a8ca8;
+    --text-muted: #4a5a72;
+    --accent: #00d4ff;
+    --accent-dim: rgba(0,212,255,0.12);
+    --accent-glow: rgba(0,212,255,0.25);
+    --green: #00ff9d;
+    --green-dim: rgba(0,255,157,0.1);
+    --amber: #ffb800;
+    --amber-dim: rgba(255,184,0,0.1);
+    --purple: #a855f7;
+    --purple-dim: rgba(168,85,247,0.1);
+    --red: #ff4d6d;
+    --red-dim: rgba(255,77,109,0.1);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.1);
+    --grid-color: rgba(30,45,74,0.6);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
+  }
+
+  /* ─── Fade-in animations ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    background: linear-gradient(160deg, #0a0e1a 0%, #0d1530 50%, #0a1428 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 40px 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(0,212,255,0.07), transparent);
+    pointer-events: none;
+  }
+  .hero .kicker {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0.85;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5.5vw, 60px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: #e8f0ff;
+    max-width: 820px;
+    margin: 0 auto 24px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+  .hero .meta {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .hero .meta span { color: var(--accent); margin: 0 6px; }
+
+  /* ─── Layout ─── */
+  .wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ─── TOC ─── */
+  .toc-block {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    margin: 56px auto 0;
+    padding: 28px 32px;
+    border-radius: 0 8px 8px 0;
+  }
+  .toc-block .toc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .toc-block ol {
+    list-style: none;
+    counter-reset: toc;
+  }
+  .toc-block ol li {
+    counter-increment: toc;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .toc-block ol li:last-child { border-bottom: none; }
+  .toc-block ol li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-size: 10px;
+    color: var(--accent);
+    min-width: 20px;
+    opacity: 0.7;
+  }
+  .toc-block ol li a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc-block ol li a:hover { color: var(--accent); }
+
+  /* ─── Section structure ─── */
+  .section {
+    padding: 64px 0 0;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #e8f0ff;
+    line-height: 1.2;
+  }
+  .rule-line {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  p {
+    margin-bottom: 1.35em;
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  p:last-child { margin-bottom: 0; }
+  p strong { color: var(--text); }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #e8f0ff;
+    margin: 2.2em 0 0.65em;
+  }
+  h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin: 1.8em 0 0.5em;
+  }
+
+  /* ─── Data tables ─── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 28px 0;
+    background: var(--bg-panel);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .data-table caption {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    caption-side: top;
+    text-align: left;
+    padding: 0 0 10px;
+  }
+  .data-table thead th {
+    background: var(--bg-card2);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-bright);
+  }
+  .data-table tbody tr { border-bottom: 1px solid var(--border); }
+  .data-table tbody tr:last-child { border-bottom: none; }
+  .data-table tbody tr:nth-child(even) { background: var(--bg-card); }
+  .data-table td {
+    padding: 11px 16px;
+    vertical-align: top;
+    line-height: 1.65;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .data-table td:first-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+    min-width: 120px;
+  }
+
+  /* ─── Format cards ─── */
+  .format-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .format-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .format-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-bright);
+  }
+  .format-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .format-card.lossy::before    { background: linear-gradient(90deg, var(--red), transparent); }
+  .format-card.lossless::before { background: linear-gradient(90deg, var(--green), transparent); }
+  .format-card.uncompressed::before { background: linear-gradient(90deg, var(--blue), transparent); }
+  .format-card.special::before  { background: linear-gradient(90deg, var(--purple), transparent); }
+
+  .format-card .ext {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8f0ff;
+    margin-bottom: 8px;
+  }
+  .format-card .badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 14px;
+    border: 1px solid;
+  }
+  .badge.lossy       { background: var(--red-dim);    color: var(--red);    border-color: rgba(255,77,109,0.3); }
+  .badge.lossless    { background: var(--green-dim);  color: var(--green);  border-color: rgba(0,255,157,0.3); }
+  .badge.uncompressed{ background: var(--blue-dim);   color: var(--blue);   border-color: rgba(59,130,246,0.3); }
+  .badge.special     { background: var(--purple-dim); color: var(--purple); border-color: rgba(168,85,247,0.3); }
+
+  .format-card p { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.65; }
+
+  /* ─── Callouts ─── */
+  .callout {
+    border-left: 2px solid var(--accent);
+    background: var(--accent-dim);
+    padding: 18px 22px;
+    margin: 28px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout p { color: var(--text-dim); font-size: 13px; margin: 0; }
+  .callout strong { color: var(--accent); }
+
+  .callout.green  { border-color: var(--green);  background: var(--green-dim); }
+  .callout.green p { color: var(--text-dim); }
+  .callout.green strong { color: var(--green); }
+  .callout.amber  { border-color: var(--amber);  background: var(--amber-dim); }
+  .callout.amber p { color: var(--text-dim); }
+  .callout.amber strong { color: var(--amber); }
+
+  /* ─── Codec diagram ─── */
+  .codec-visual {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 20px;
+    margin: 28px 0;
+    text-align: center;
+  }
+  .codec-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .codec-box {
+    background: var(--bg-card2);
+    border: 1px solid var(--border-bright);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 12px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    min-width: 120px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .codec-box.mid {
+    background: var(--accent-dim);
+    border-color: rgba(0,212,255,0.35);
+    color: var(--accent);
+  }
+  .codec-arrow {
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+  .codec-visual p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 14px;
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  /* ─── References ─── */
+  .references {
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    padding: 48px 0 64px;
+    margin-top: 64px;
+  }
+  .references h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8f0ff;
+    margin-bottom: 24px;
+  }
+  .ref-list {
+    list-style: none;
+    font-size: 13px;
+  }
+  .ref-list li {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .ref-list li:last-child { border-bottom: none; }
+  .ref-list li strong { color: var(--text-dim); }
+  .ref-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  /* ─── Footer ─── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 600px) {
+    .wrapper { padding: 0 20px; }
+    .format-grid { grid-template-columns: 1fr; }
+    .codec-flow { flex-direction: column; }
+    .codec-arrow { transform: rotate(90deg); }
+    .hero { padding: 56px 24px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero fade-in">
+  <div class="kicker">// Orange Book &mdash; Digital Literacy Series</div>
+  <h1>Digital Information<br>&amp; <span>File Formats</span></h1>
+  <p class="subtitle">A comprehensive guide to how computers represent, store, compress, and display digital data — from bits and bytes to video codecs and 3D rendering.</p>
+  <div class="meta">Published 2026-03-27 <span>·</span> ~15 min read <span>·</span> CyberGrind Orange Book</div>
+</header>
+
+<!-- TOC -->
+<div class="wrapper">
+  <nav class="toc-block fade-in">
+    <div class="toc-label">// Contents</div>
+    <ol>
+      <li><a href="#digital-info">Digital Information: Bits, Bytes &amp; Beyond</a></li>
+      <li><a href="#text-encoding">Encoding Text: ASCII &amp; Unicode</a></li>
+      <li><a href="#sound-video">Digital Sound &amp; Video Fundamentals</a></li>
+      <li><a href="#image-formats">Digital Image Formats</a></li>
+      <li><a href="#audio-formats">Digital Audio Formats</a></li>
+      <li><a href="#video-formats">Digital Video Formats &amp; Codecs</a></li>
+      <li><a href="#compression">File Compression</a></li>
+      <li><a href="#3d-models">3D Models &amp; Rendering</a></li>
+      <li><a href="#references">References &amp; Sources</a></li>
+    </ol>
+  </nav>
+</div>
+
+<!-- SECTION 1 -->
+<div class="wrapper">
+  <section class="section fade-in" id="digital-info">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Digital Information: Bits, Bytes &amp; Beyond</h2>
+    </div>
+
+    <p>At the heart of every computer, smartphone, and digital device lies a remarkably simple concept: information expressed as a sequence of ones and zeros. Computers work by translating physical signals — such as electrical charges — into this binary form. Each individual one or zero is called a <strong>bit</strong>, the smallest possible unit of digital information.<sup>[1]</sup></p>
+
+    <p>Eight bits grouped together form a <strong>byte</strong>. A single byte can represent any value from 0 (eight zeros) to 255 (eight ones), giving 256 possible states. From there, we use the metric system to describe larger quantities of data.</p>
+
+    <table class="data-table">
+      <caption>Table 1 — Digital information units</caption>
+      <thead>
+        <tr><th>Unit</th><th>Size</th><th>Common use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Bit</td><td>1 binary digit (0 or 1)</td><td>Smallest data unit; used in throughput measurements</td></tr>
+        <tr><td>Byte</td><td>8 bits</td><td>Single character of text; smallest addressable memory unit</td></tr>
+        <tr><td>Kilobyte (KB)</td><td>~1,000 bytes (1,024 in storage)</td><td>Small text files, short emails</td></tr>
+        <tr><td>Megabyte (MB)</td><td>~1 million bytes</td><td>Photos, songs, small documents</td></tr>
+        <tr><td>Gigabyte (GB)</td><td>~1 billion bytes</td><td>HD videos, app installs</td></tr>
+        <tr><td>Terabyte (TB)</td><td>~1 trillion bytes</td><td>Hard drives, large backups</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout amber">
+      <p><strong>Note on storage vs. networking:</strong> You will often see two different definitions. In storage contexts, 1 kilobyte = 1,024 bytes (powers of 2). In networking and marketing contexts, 1 kilobyte = 1,000 bytes (powers of 10). Both usages are common — context matters.<sup>[1]</sup></p>
+    </div>
+
+    <h3>How Computers Encode Numbers and Text</h3>
+    <p>Integers are stored using a portion of the available bits to represent the sign. In a 32-bit integer, the first bit indicates positive (0) or negative (1), and the remaining 31 bits encode the magnitude — yielding a range of roughly negative 2 billion to positive 2 billion.<sup>[1]</sup></p>
+
+    <h3>Processing Speed</h3>
+    <p>In a 64-bit processor, the CPU can read or write eight bytes at a time. Each such read/write is called a <em>cycle</em>, measured in hertz (Hz). Modern CPUs operate in the gigahertz range — meaning billions of cycles per second.<sup>[1]</sup></p>
+
+    <h3>System Memory (RAM)</h3>
+    <p>For processing, computers rely on <strong>Random Access Memory (RAM)</strong> — a fast, temporary workspace that clears when the machine powers off. The two main types are:</p>
+    <p><strong>Dynamic RAM (DRAM)</strong> stores each bit as a charge in a tiny capacitor. Because capacitors discharge naturally, the system must refresh them every few milliseconds. <strong>Synchronous DRAM (SDRAM)</strong> is synchronized to the system bus for faster access. Physical RAM modules for desktops are called <em>DIMMs</em>; laptops use the smaller <em>SO-DIMM</em> form factor.<sup>[1]</sup></p>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 2 -->
+  <section class="section fade-in" id="text-encoding">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Encoding Text: ASCII &amp; Unicode</h2>
+    </div>
+
+    <p>Representing human-readable text in binary requires an agreed-upon mapping between characters and numbers. Two major systems have shaped how computers handle text worldwide.</p>
+
+    <table class="data-table">
+      <caption>Table 2 — Text encoding schemes</caption>
+      <thead>
+        <tr><th>Scheme</th><th>Year</th><th>Capacity &amp; notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ASCII</td>
+          <td>1963</td>
+          <td>7-bit code; 128 characters. Covers the English alphabet, digits 0–9, and common punctuation. Codes 128–255 were later adapted for other Western languages, but international transfers often caused character corruption — accented characters would display as unrelated symbols on systems using different regional extensions.<sup>[1]</sup></td>
+        </tr>
+        <tr>
+          <td>Unicode</td>
+          <td>1992</td>
+          <td>16-bit+ encoding; capable of representing millions of characters across every human language, plus emoji. Most commonly implemented as UTF-8 or UTF-16. Web pages typically use UTF-8.<sup>[1]</sup></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 3 -->
+  <section class="section fade-in" id="sound-video">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Digital Sound &amp; Video Fundamentals</h2>
+    </div>
+
+    <p>Sound and video were once recorded exclusively in analog form — physically represented on tape, film, or vinyl. Today they are captured digitally as sequences of binary values. Understanding a few core concepts helps explain why some files sound or look better than others.</p>
+
+    <table class="data-table">
+      <caption>Table 3 — Key terms for digital sound and video</caption>
+      <thead>
+        <tr><th>Term</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sample</td><td>A single measurement of a sound wave's amplitude at a specific moment in time, converted to a numeric value.</td></tr>
+        <tr><td>Bit depth</td><td>How many bits are used to store each sample. 8-bit audio uses 1 byte per sample; 16-bit uses 2 bytes. Higher bit depth = greater dynamic range and sound quality.<sup>[1]</sup></td></tr>
+        <tr><td>Sampling rate</td><td>The number of samples captured per second, measured in hertz. Most modern recordings use 44.1 kHz (44,100 samples/second).<sup>[1]</sup></td></tr>
+        <tr><td>Frame rate</td><td>The number of still images (frames) shown per second in a video. Most digital video runs at approximately 30 frames per second.<sup>[1]</sup></td></tr>
+        <tr><td>Resolution</td><td>The pixel dimensions (width × height) of each video frame. Higher resolution produces a clearer image.<sup>[1]</sup></td></tr>
+        <tr><td>Color depth</td><td>How much memory is used to describe the color of each pixel. 8-bit = 256 colors per pixel; 24-bit ("true color") = over 16 million colors.<sup>[1]</sup></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Display Technology</h3>
+    <p>Computer monitors use an <strong>RGB display</strong> — each pixel is a set of three tiny lights: red, green, and blue. By varying the brightness of each light independently, a monitor can produce any color in the visible spectrum. When all three shine at full brightness, the eye perceives white; all three off produces black.<sup>[1]</sup></p>
+    <p>Resolution standards have their own naming conventions, from SVGA (800 × 600) up through 4K UHD (3840 × 2160). The <strong>aspect ratio</strong> — the proportion of width to height — also matters. The widescreen 16:9 ratio is now standard for HDTVs and most computer monitors, while older 4:3 content was designed for analog televisions.<sup>[1]</sup></p>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 4 -->
+  <section class="section fade-in" id="image-formats">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Digital Image Formats</h2>
+    </div>
+
+    <p>Digital images come in two fundamental types. <strong>Raster (bitmap) images</strong> store the color of every individual pixel — excellent for photographs, but the file size grows with resolution, and enlarging the image causes pixelation. <strong>Vector images</strong> store mathematical descriptions of shapes (points, curves, fills), allowing infinite scaling without quality loss; they are ideal for logos and icons but require specialized software to create.<sup>[1]</sup></p>
+
+    <h4>Common image file formats</h4>
+    <div class="format-grid">
+      <div class="format-card lossy">
+        <div class="ext">.jpg / .jpeg</div>
+        <span class="badge lossy">Lossy</span>
+        <p>Joint Photographic Experts Group format. Compresses images at roughly 20:1 with minimal visible quality loss. Supports 24-bit color. The dominant format for web photos and social media.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossless">
+        <div class="ext">.png</div>
+        <span class="badge lossless">Lossless</span>
+        <p>Portable Network Graphics. Lossless compression with support for an alpha (transparency) channel — enabling transparent backgrounds. Ideal for web design and UI graphics.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossless">
+        <div class="ext">.gif</div>
+        <span class="badge lossless">Lossless</span>
+        <p>Graphics Interchange Format (1987). Limited to 256 colors, making it poor for photos but effective for simple icons and short looping animations.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card uncompressed">
+        <div class="ext">.tiff</div>
+        <span class="badge uncompressed">Uncompressed</span>
+        <p>Tagged Image File Format (1986). Uncompressed raster format optimized for high-quality print. Not natively supported by modern web browsers.<sup>[1]</sup></p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 5 -->
+  <section class="section fade-in" id="audio-formats">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Digital Audio Formats</h2>
+    </div>
+
+    <p>Before selecting an audio format, it helps to understand <strong>bitrate</strong> — the kilobits of audio data processed each second. Higher bitrate means better quality but larger files. Lossy formats reduce the bitrate by discarding audio data the ear is unlikely to notice, while lossless and uncompressed formats preserve every bit.<sup>[1]</sup></p>
+
+    <div class="format-grid">
+      <div class="format-card uncompressed">
+        <div class="ext">.wav / .aiff</div>
+        <span class="badge uncompressed">Uncompressed</span>
+        <p>WAV (Microsoft/IBM, 1991) and AIFF (Apple, 1988) are uncompressed audio formats. Preferred by broadcast professionals for editing and archiving, but large file sizes make them impractical for mobile use.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossy">
+        <div class="ext">.mp3</div>
+        <span class="badge lossy">Lossy</span>
+        <p>MPEG Layer 3 audio. Developed by the Moving Pictures Experts Group (founded 1988), patented 1996. Uses auditory masking to reduce file size by 75–95% while maintaining perceived quality. Sparked a digital music revolution in the mid-1990s.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossy">
+        <div class="ext">.aac</div>
+        <span class="badge lossy">Lossy</span>
+        <p>Advanced Audio Coding (1997). Similar to MP3 but uses more sophisticated compression algorithms for better quality at the same file size. Used by YouTube, iOS, Android, and gaming platforms.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossy">
+        <div class="ext">.wma</div>
+        <span class="badge lossy">Lossy</span>
+        <p>Windows Media Audio (Microsoft, 1999). Developed to avoid MP3 licensing issues. Similar quality-to-size ratio as MP3 but primarily Windows-centric and less widely supported on other platforms.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card special">
+        <div class="ext">.midi</div>
+        <span class="badge special">Protocol</span>
+        <p>Musical Instrument Digital Interface. Unlike other audio formats, MIDI contains no actual audio waveforms — only instructions (which notes to play, when, and for how long). Easily editable and widely used with synthesizers and music production software.<sup>[1]</sup></p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 6 -->
+  <section class="section fade-in" id="video-formats">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Digital Video Formats &amp; Codecs</h2>
+    </div>
+
+    <p>Video files are among the largest in digital computing. To make them manageable, developers created <strong>video codecs</strong> — software that compresses and decompresses digital media. Without codecs, only the most powerful computers could handle raw video data.<sup>[1]</sup></p>
+
+    <h3>How Codecs Work</h3>
+    <p>Most codecs have two components: an <strong>encoder</strong> that compresses data when saving, and a <strong>decoder</strong> that decompresses it during playback. Some codecs include only one of the two.</p>
+
+    <div class="codec-visual">
+      <div class="codec-flow">
+        <div class="codec-box">Raw video data</div>
+        <div class="codec-arrow">→</div>
+        <div class="codec-box mid">Encoder<br><small style="font-size:10px;opacity:0.8">(compresses)</small></div>
+        <div class="codec-arrow">→</div>
+        <div class="codec-box">Compressed file<br><small style="font-size:10px;opacity:0.7">stored on disk</small></div>
+        <div class="codec-arrow">→</div>
+        <div class="codec-box mid">Decoder<br><small style="font-size:10px;opacity:0.8">(decompresses)</small></div>
+        <div class="codec-arrow">→</div>
+        <div class="codec-box">Playback<br><small style="font-size:10px;opacity:0.7">on screen</small></div>
+      </div>
+      <p>The codec encode/decode pipeline. Most consumer video formats use this two-step process.<sup>[1]</sup></p>
+    </div>
+
+    <h4>Common codecs</h4>
+    <p><strong>MPEG-4</strong> is one of the most widely used codecs, developed through several generations (MPEG-1, MPEG-2, MPEG-4). Its advanced compression algorithm can reduce a standard 120-minute film to approximately 300 MB.<sup>[1]</sup></p>
+    <p><strong>DivX</strong> is a movie-encoding codec built on a variant of MPEG-4, often used to compress full films onto a single DVD. A high-definition variant, DivX HD, applies the same approach to HD content.<sup>[1]</sup></p>
+
+    <h3>Common Video File Formats</h3>
+    <div class="format-grid">
+      <div class="format-card lossy">
+        <div class="ext">.mp4</div>
+        <span class="badge lossy">Lossy</span>
+        <p>MPEG-4 video. The most common internet video format due to small file size. Can also store audio, subtitles, and still images within the same container. Natively supported on virtually all devices and operating systems.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card uncompressed">
+        <div class="ext">.avi</div>
+        <span class="badge uncompressed">Uncompressed</span>
+        <p>Audio Video Interleave (Microsoft, 1992). An uncompressed container storing both audio and video. Files can be very large. Runs natively only on Windows and lacks many features of modern formats.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossy">
+        <div class="ext">.mov</div>
+        <span class="badge lossy">Lossy</span>
+        <p>Apple's QuickTime format. Similar capabilities to MP4 — supports video, audio, text tracks, and timecodes. Easier to edit than MP4 but has slightly less universal support. Playable on Windows with VLC or similar players.<sup>[1]</sup></p>
+      </div>
+      <div class="format-card lossy">
+        <div class="ext">.wmv</div>
+        <span class="badge lossy">Lossy</span>
+        <p>Windows Media Video (Microsoft). Compressed format based on Microsoft's Advanced Systems Format (ASF), encoded with proprietary codecs. Requires additional software to play on macOS.<sup>[1]</sup></p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 7 -->
+  <section class="section fade-in" id="compression">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>File Compression</h2>
+    </div>
+
+    <p>As the volume of digital files created and transmitted each day has grown, storage and bandwidth have become constant concerns. <strong>File compression</strong> reduces file sizes to make them easier to store and share.<sup>[1]</sup> There are two fundamentally different approaches.</p>
+
+    <table class="data-table">
+      <caption>Table 4 — Compression types compared</caption>
+      <thead>
+        <tr><th>Type</th><th>How it works</th><th>Common formats</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lossless</td>
+          <td>Reduces file size without discarding any data. Decompressing a lossless file restores it bit-for-bit to its original state.<sup>[1]</sup></td>
+          <td>GIF, PNG, PDF, ZIP</td>
+        </tr>
+        <tr>
+          <td>Lossy</td>
+          <td>Achieves greater compression by permanently discarding data the human eye or ear is unlikely to detect. Ideal for images, video, and audio.<sup>[1]</sup></td>
+          <td>JPG, MP3, MP4</td>
+        </tr>
+        <tr>
+          <td>Run-Length Encoding (RLE)</td>
+          <td>A lossless algorithm that records repeated patterns rather than each individual bit. For example, thirty consecutive zeros are stored as "30, 0" rather than thirty separate values.<sup>[1]</sup></td>
+          <td>Used internally in many formats</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p><strong>Compression artifact:</strong> When a video or image is compressed too aggressively, patches of pixels can appear that have less detail than the surrounding image. These are called <em>compression artifacts</em>. They are common in highly compressed streaming video or educational content where file size is prioritized over visual sharpness.<sup>[1]</sup></p>
+    </div>
+  </section>
+
+  <hr class="rule-line">
+
+  <!-- SECTION 8 -->
+  <section class="section fade-in" id="3d-models">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2>3D Models &amp; Rendering</h2>
+    </div>
+
+    <p>3D graphics underpin film, gaming, product design, scientific visualization, and 3D printing. All 3D graphics are based on vectors — meaning they can be scaled to any size without pixelation — and are built through a multi-step process.<sup>[1]</sup></p>
+
+    <h3>Step 1: Wireframing</h3>
+    <p><strong>Wireframing</strong> defines the shape using only vertices (points) and edges (lines connecting them), without any surfaces, textures, or lighting. These "wires" form the skeleton of the model. More polygons in the wireframe mean a more complex and detailed final result. Wireframes render quickly and are easy to edit, which is why animators use them before committing to the more computationally expensive rendering stage.<sup>[1]</sup></p>
+
+    <h3>Step 2: Rendering</h3>
+    <p><strong>Rendering</strong> converts the 3D wireframe model into a 2D image, adding lighting, shadows, color shading, textures, and visual effects such as motion blur. The process is analogous to photography: the artist stages a scene with lighting and positioning to achieve a desired look, but every element must be constructed digitally. Rendering complex scenes can take significant time depending on scene complexity and available processing power.<sup>[1]</sup></p>
+
+    <h3>Step 3: Ray Tracing</h3>
+    <p><strong>Ray tracing</strong> is an advanced rendering technique that simulates every ray of light produced by each light source in a scene, tracking how those rays interact with surfaces in real time. The result is highly realistic reflections, shadows, and lighting. Ray tracing is used in major films and modern video games, and can blend computer-generated objects seamlessly into live-action footage. It requires specialized, powerful hardware to execute efficiently.<sup>[1]</sup></p>
+
+    <div class="callout green">
+      <p><strong>3D printing:</strong> 3D graphic models can be converted into physical solid objects via 3D printing, making 3D modeling skills directly applicable to manufacturing and prototyping workflows.<sup>[1]</sup></p>
+    </div>
+  </section>
+</div>
+
+<!-- REFERENCES -->
+<section class="references fade-in" id="references">
+  <div class="wrapper">
+    <h2>References &amp; Sources</h2>
+    <ul class="ref-list">
+      <li>
+        <span class="ref-num">[1]</span>
+        <strong>Primary source material (provided by client).</strong> Internal instructional documents covering digital information fundamentals, text encoding schemes, digital sound and video, image and audio file formats, digital video formats, file compression, and 3D graphics. All technical definitions, specifications, and format descriptions in this article are sourced directly from these documents.
+      </li>
+      <li>
+        <span class="ref-num">[2]</span>
+        <strong>Unicode Consortium.</strong> <em>The Unicode Standard.</em> unicode.org. The Unicode Consortium has maintained the Unicode standard since its first release in 1992. Referenced for background on Unicode's origins and implementation variants (UTF-8, UTF-16, UTF-32).
+      </li>
+      <li>
+        <span class="ref-num">[3]</span>
+        <strong>Moving Pictures Experts Group (MPEG).</strong> mpeg.chiariglione.org. The MPEG working group, founded in 1988, developed the MPEG-1, MPEG-2, and MPEG-4 compression standards referenced throughout this article.
+      </li>
+      <li>
+        <span class="ref-num">[4]</span>
+        <strong>Internet Assigned Numbers Authority (IANA).</strong> <em>MIME Types Registry.</em> iana.org. The authoritative registry for standardized media type identifiers (e.g., video/mp4, audio/mpeg, image/png) that correspond to the file formats discussed in this article.
+      </li>
+      <li>
+        <span class="ref-num">[5]</span>
+        <em>Note on storage unit conventions:</em> There is a known discrepancy in how kilobytes, megabytes, and gigabytes are defined. The International System of Units (SI) defines 1 kilobyte = 1,000 bytes. The IEC 80000-13 standard defines 1 kibibyte (KiB) = 1,024 bytes. Operating systems and storage manufacturers use different conventions. This article notes both where relevant, following the conventions used in the primary source material.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 CyberGrind &nbsp;&mdash;&nbsp; Orange Book &nbsp;&mdash;&nbsp; Digital Literacy Series
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

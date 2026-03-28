@@ -55,3 +55,8 @@ and straight talk from the cybersecurity trenches.
 [taxonomies]
   tag = "tags"
   category = "categories"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
