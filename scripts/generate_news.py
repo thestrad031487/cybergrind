@@ -96,6 +96,7 @@ def generate_post(headlines, commentary=None):
         "---",
         f'title: "CyberNews {TODAY.strftime("%Y-%m-%d")}"',
         f"date: {iso_date}",
+        f'description: "Daily cybersecurity headlines and practitioner commentary for {date_str}."',
         'tags: ["news", "daily"]',
         'categories: ["Daily News"]',
         "draft: false",
