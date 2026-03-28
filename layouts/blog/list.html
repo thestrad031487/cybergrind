@@ -1,0 +1,133 @@
+{{- define "main" }}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{/* Search and filter bar */}}
+<div class="section-search" style="margin-bottom:24px;">
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <input
+      type="text"
+      id="news-search"
+      placeholder="Search news..."
+      autocomplete="off"
+      style="flex:1;min-width:200px;padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;outline:none;"
+    >
+    <select
+      id="news-date-filter"
+      style="padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;cursor:pointer;outline:none;"
+    >
+      <option value="all">All time</option>
+      <option value="7">Last 7 days</option>
+      <option value="30">Last 30 days</option>
+      <option value="90">Last 90 days</option>
+    </select>
+  </div>
+  <div id="news-count" style="margin-top:8px;font-size:13px;color:var(--secondary);"></div>
+</div>
+
+{{- $pages := union .RegularPages .Sections }}
+{{- $paginator := .Paginate $pages }}
+
+<div id="news-list">
+{{- range $index, $page := $paginator.Pages }}
+<article
+  class="post-entry"
+  data-title="{{ .Title | lower }}"
+  data-summary="{{ .Summary | plainify | lower }}"
+  data-date="{{ .Date.Format "2006-01-02" }}"
+>
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" true) }}
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">{{ .Title }}</h2>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+  </div>
+  {{- end }}
+  {{- if not (.Param "hideMeta") }}
+  <footer class="entry-footer">
+    {{- partial "post_meta.html" . -}}
+  </footer>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+</div>
+
+<div id="news-empty" style="display:none;padding:24px 0;color:var(--secondary);font-size:14px;">
+  No results found.
+</div>
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer" id="news-pagination">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+<script>
+(function() {
+  const searchInput = document.getElementById('news-search');
+  const dateFilter = document.getElementById('news-date-filter');
+  const list = document.getElementById('news-list');
+  const empty = document.getElementById('news-empty');
+  const count = document.getElementById('news-count');
+  const pagination = document.getElementById('news-pagination');
+  const articles = Array.from(list.querySelectorAll('article'));
+
+  function updateCount(visible) {
+    count.textContent = visible === articles.length
+      ? `${articles.length} posts`
+      : `${visible} of ${articles.length} posts`;
+  }
+
+  function filter() {
+    const query = searchInput.value.toLowerCase().trim();
+    const days = dateFilter.value;
+    const cutoff = days === 'all' ? null : new Date(Date.now() - days * 86400000);
+
+    let visible = 0;
+
+    articles.forEach(article => {
+      const title = article.dataset.title || '';
+      const summary = article.dataset.summary || '';
+      const date = article.dataset.date ? new Date(article.dataset.date) : null;
+
+      const matchesQuery = !query || title.includes(query) || summary.includes(query);
+      const matchesDate = !cutoff || !date || date >= cutoff;
+
+      if (matchesQuery && matchesDate) {
+        article.style.display = '';
+        visible++;
+      } else {
+        article.style.display = 'none';
+      }
+    });
+
+    empty.style.display = visible === 0 ? 'block' : 'none';
+    if (pagination) pagination.style.display = query || days !== 'all' ? 'none' : '';
+    updateCount(visible);
+  }
+
+  searchInput.addEventListener('input', filter);
+  dateFilter.addEventListener('change', filter);
+  updateCount(articles.length);
+})();
+</script>
+
+{{- end }}
