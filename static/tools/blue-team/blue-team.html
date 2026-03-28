@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Team Resources | CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0b1220;
+  --panel:  #111827;
+  --panel2: #162033;
+  --border: #1e2d45;
+  --blue:   #2e7de4;
+  --blue2:  #5ba3ff;
+  --gold:   #c8963e;
+  --gold2:  #e8b86d;
+  --teal:   #1aab8a;
+  --teal2:  #2dd4aa;
+  --red:    #e05252;
+  --text:   #e2e8f4;
+  --muted:  #7a8fa6;
+  --grid-color: rgba(46,125,228,0.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.page-header .eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.page-header h1 span {
+  color: var(--blue2);
+}
+
+.page-header .subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  max-width: 600px;
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  margin-top: 48px;
+}
+
+.section-header:first-of-type {
+  margin-top: 0;
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.section-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-header .count {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Cards grid */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.card:hover {
+  border-color: var(--blue);
+  background: var(--panel2);
+  transform: translateY(-2px);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue2);
+  line-height: 1.3;
+}
+
+.card-tag {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tag-free  { background: rgba(26,171,138,0.15); color: var(--teal2); border: 1px solid rgba(26,171,138,0.3); }
+.tag-freemium { background: rgba(200,150,62,0.15); color: var(--gold2); border: 1px solid rgba(200,150,62,0.3); }
+.tag-paid  { background: rgba(224,82,82,0.15); color: #f08080; border: 1px solid rgba(224,82,82,0.3); }
+
+.card-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* CISA KEV section */
+.kev-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.1s forwards;
+}
+
+.kev-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.kev-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kev-title h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kev-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  background: rgba(224,82,82,0.15);
+  color: #f08080;
+  border: 1px solid rgba(224,82,82,0.3);
+  border-radius: 3px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.kev-meta {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+}
+
+.kev-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.kev-stat {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.kev-stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.kev-stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* KEV table */
+.kev-table-wrap {
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+thead th {
+  background: var(--panel2);
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(30,45,69,0.6);
+  transition: background 0.15s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--panel2); }
+
+tbody td {
+  padding: 10px 14px;
+  vertical-align: top;
+  color: var(--text);
+}
+
+.cve-id {
+  font-family: 'Space Mono', monospace;
+  color: var(--blue2);
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.vendor-col { color: var(--gold2); font-size: 12px; }
+
+.due-date {
+  white-space: nowrap;
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+}
+
+.due-overdue { color: var(--red); }
+.due-soon    { color: var(--gold2); }
+.due-ok      { color: var(--teal2); }
+
+.product-col {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 200px;
+}
+
+.kev-loading, .kev-error {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.kev-error { color: var(--red); }
+
+.kev-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--muted);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kev-footer a {
+  color: var(--blue2);
+  text-decoration: none;
+}
+
+.kev-footer a:hover { text-decoration: underline; }
+
+/* Divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 40px 0;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.30s; }
+.card:nth-child(7) { animation-delay: 0.35s; }
+.card:nth-child(8) { animation-delay: 0.40s; }
+
+/* Scroll fade-in for sections */
+.fade-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="eyebrow">// Tools · Blue Team</div>
+    <h1>Blue Team <span>Resources</span></h1>
+    <p class="subtitle">Curated tools and live threat data for defenders. No fluff — just what's actually useful in the field.</p>
+  </div>
+
+  <!-- CISA KEV Live Feed -->
+  <div class="kev-section">
+    <div class="kev-header">
+      <div class="kev-title">
+        <h2>🛡️ CISA Known Exploited Vulnerabilities</h2>
+        <span class="kev-badge">LIVE</span>
+      </div>
+      <div class="kev-meta" id="kev-updated">Loading...</div>
+    </div>
+
+    <div class="kev-stats">
+      <div class="kev-stat">
+        <div class="kev-stat-val" id="kev-total">—</div>
+        <div class="kev-stat-label">Total KEVs</div>
+      </div>
+      <div class="kev-stat">
+        <div class="kev-stat-val" id="kev-recent">—</div>
+        <div class="kev-stat-label">Added This Month</div>
+      </div>
+      <div class="kev-stat">
+        <div class="kev-stat-val" id="kev-overdue">—</div>
+        <div class="kev-stat-label">Past Due Date</div>
+      </div>
+    </div>
+
+    <div class="kev-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>CVE ID</th>
+            <th>Vendor</th>
+            <th>Product</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody id="kev-tbody">
+          <tr><td colspan="4" class="kev-loading">Fetching latest KEV data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kev-footer">
+      <span>Showing 20 most recent entries · Updated hourly</span>
+      <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">View full catalog at CISA →</a>
+    </div>
+  </div>
+
+  <!-- Threat Intelligence -->
+  <div class="fade-section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(46,125,228,0.15);">🔍</div>
+      <h2>Threat Intelligence</h2>
+      <span class="count">6 resources</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="https://www.virustotal.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">VirusTotal</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Analyze suspicious files, URLs, IPs, and domains against 70+ AV engines and threat intel feeds.</div>
+      </a>
+      <a class="card" href="https://otx.alienvault.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">AlienVault OTX</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Open threat exchange platform with community-sourced IOC pulses, threat reports, and API access.</div>
+      </a>
+      <a class="card" href="https://www.misp-project.org" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">MISP</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Open source threat intelligence platform for sharing, storing, and correlating IOCs across organizations.</div>
+      </a>
+      <a class="card" href="https://attack.mitre.org" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">MITRE ATT&CK</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Globally accessible adversary tactics and techniques knowledge base based on real-world observations.</div>
+      </a>
+      <a class="card" href="https://threatfox.abuse.ch" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">ThreatFox</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">IOC sharing platform from abuse.ch. Covers malware hashes, IPs, domains, and URLs with API access.</div>
+      </a>
+      <a class="card" href="https://www.mandiant.com/advantage/threat-intelligence" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Mandiant Advantage</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Enterprise-grade threat intelligence from frontline incident responders. Free tier available with limited access.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Incident Response -->
+  <div class="fade-section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(224,82,82,0.15);">🚨</div>
+      <h2>Incident Response</h2>
+      <span class="count">5 resources</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="https://github.com/Neo23x0/Loki" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Loki IOC Scanner</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Simple IOC and YARA rule scanner for endpoint triage. Detects known malware artifacts on live systems.</div>
+      </a>
+      <a class="card" href="https://www.volatilityfoundation.org" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Volatility</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Industry-standard memory forensics framework. Extract artifacts from RAM dumps across Windows, Linux, and Mac.</div>
+      </a>
+      <a class="card" href="https://github.com/google/grr" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">GRR Rapid Response</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Google's remote live forensics framework. Agent-based collection of artifacts from endpoints at scale.</div>
+      </a>
+      <a class="card" href="https://thehive-project.org" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">TheHive</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Scalable open source security incident response platform. Integrates with MISP, Cortex, and common SIEM tools.</div>
+      </a>
+      <a class="card" href="https://www.cisa.gov/resources-tools/resources/incident-response-playbooks" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">CISA IR Playbooks</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Federal incident response playbooks for ransomware, phishing, and more. Practical checklists for response teams.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Vulnerability Management -->
+  <div class="fade-section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(200,150,62,0.15);">⚠️</div>
+      <h2>Vulnerability Management</h2>
+      <span class="count">5 resources</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="https://nvd.nist.gov" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">NVD — NIST</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">The U.S. government's official CVE repository. CVSS scores, CWE mappings, and CPE data for every published vuln.</div>
+      </a>
+      <a class="card" href="https://www.first.org/epss" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">EPSS</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Exploit Prediction Scoring System. Probability-based scores for which CVEs are likely to be exploited in the wild.</div>
+      </a>
+      <a class="card" href="https://www.opencve.io" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">OpenCVE</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">CVE monitoring with vendor/product subscriptions and alerting. Self-hostable open source version available.</div>
+      </a>
+      <a class="card" href="https://vuldb.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">VulDB</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Vulnerability database with exploit availability tracking, timeline data, and countermeasure guidance.</div>
+      </a>
+      <a class="card" href="https://www.openvas.org" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">OpenVAS</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Open source vulnerability scanner from Greenbone. Full-featured network scanning with regularly updated NVTs.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- OSINT -->
+  <div class="fade-section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(26,171,138,0.15);">🌐</div>
+      <h2>OSINT</h2>
+      <span class="count">6 resources</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="https://www.shodan.io" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Shodan</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Search engine for internet-connected devices. Find exposed services, banners, and misconfigurations by IP or org.</div>
+      </a>
+      <a class="card" href="https://censys.io" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Censys</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Attack surface visibility platform. Scans the entire IPv4 space and indexes certificates, protocols, and services.</div>
+      </a>
+      <a class="card" href="https://www.maltego.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Maltego</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Visual link analysis tool for mapping relationships between domains, IPs, people, and organizations.</div>
+      </a>
+      <a class="card" href="https://hunter.io" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Hunter.io</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Email discovery and verification. Find email addresses associated with a domain and verify deliverability.</div>
+      </a>
+      <a class="card" href="https://www.spiderfoot.net" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">SpiderFoot</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Automated OSINT framework. Aggregates data from 200+ sources on IPs, domains, emails, and usernames.</div>
+      </a>
+      <a class="card" href="https://intelx.io" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Intelligence X</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Search engine for leaked data, darkweb content, and historical records. Indexes pastes, breach data, and more.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Malware Analysis -->
+  <div class="fade-section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(224,82,82,0.12);">🦠</div>
+      <h2>Malware Analysis</h2>
+      <span class="count">6 resources</span>
+    </div>
+    <div class="cards">
+      <a class="card" href="https://any.run" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">ANY.RUN</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Interactive online sandbox. Execute malware in a browser and watch behavior in real time with process tree and network captures.</div>
+      </a>
+      <a class="card" href="https://www.hybrid-analysis.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">Hybrid Analysis</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Free malware analysis service powered by CrowdStrike Falcon Sandbox. Supports PE, Office, PDF, and script files.</div>
+      </a>
+      <a class="card" href="https://cape.contextis.com" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">CAPE Sandbox</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Open source malware sandbox focused on config extraction. Supports dozens of malware families with custom signatures.</div>
+      </a>
+      <a class="card" href="https://bazaar.abuse.ch" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">MalwareBazaar</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Community malware repository from abuse.ch. Search and download malware samples by hash, tag, or family.</div>
+      </a>
+      <a class="card" href="https://github.com/mandiant/flare-vm" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">FLARE VM</div><span class="card-tag tag-free">FREE</span></div>
+        <div class="card-desc">Mandiant's Windows-based malware analysis distribution. Installs RE tools (IDA, Ghidra, x64dbg, etc.) automatically.</div>
+      </a>
+      <a class="card" href="https://www.unpac.me" target="_blank" rel="noopener">
+        <div class="card-top"><div class="card-name">UnpacMe</div><span class="card-tag tag-freemium">FREEMIUM</span></div>
+        <div class="card-desc">Automated malware unpacking service. Submit packed samples and retrieve unpacked payloads and config extractions.</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    CyberGrind.org · Blue Team Resources · Links verified March 2026 · Not affiliated with any listed tool or vendor
+  </footer>
+
+</div>
+
+<script>
+// Scroll fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+
+// CISA KEV Feed
+async function loadKEV() {
+  try {
+    const res = await fetch('https://cybergrind-cisa-worker.wacker-jason.workers.dev/');
+    if (!res.ok) throw new Error('Worker error ' + res.status);
+    const data = await res.json();
+
+    const vulns = data.vulnerabilities || [];
+    const now = new Date();
+    const thisMonth = now.getMonth();
+    const thisYear = now.getFullYear();
+
+    // Stats
+    const total = vulns.length;
+    const recentCount = vulns.filter(v => {
+      const d = new Date(v.dateAdded);
+      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    }).length;
+    const overdueCount = vulns.filter(v => {
+      return v.dueDate && new Date(v.dueDate) < now;
+    }).length;
+
+    document.getElementById('kev-total').textContent = total.toLocaleString();
+    document.getElementById('kev-recent').textContent = recentCount;
+    document.getElementById('kev-overdue').textContent = overdueCount;
+    document.getElementById('kev-updated').textContent = 'Updated: ' + now.toLocaleString();
+
+    // Sort by dateAdded desc, take top 20
+    const sorted = [...vulns].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)).slice(0, 20);
+
+    const tbody = document.getElementById('kev-tbody');
+    tbody.innerHTML = sorted.map(v => {
+      const due = v.dueDate ? new Date(v.dueDate) : null;
+      let dueCls = '';
+      let dueStr = v.dueDate || '—';
+      if (due) {
+        const diff = (due - now) / (1000 * 60 * 60 * 24);
+        if (diff < 0) dueCls = 'due-overdue';
+        else if (diff < 30) dueCls = 'due-soon';
+        else dueCls = 'due-ok';
+      }
+      return `<tr>
+        <td class="cve-id">${v.cveID || '—'}</td>
+        <td class="vendor-col">${v.vendorProject || '—'}</td>
+        <td class="product-col">${v.product || '—'}</td>
+        <td class="due-date ${dueCls}">${dueStr}</td>
+      </tr>`;
+    }).join('');
+
+  } catch (err) {
+    document.getElementById('kev-tbody').innerHTML =
+      `<tr><td colspan="4" class="kev-error">Failed to load KEV data: ${err.message}</td></tr>`;
+    document.getElementById('kev-updated').textContent = 'Feed unavailable';
+    console.error('KEV fetch error:', err);
+  }
+}
+
+loadKEV();
+</script>
+</body>
+</html>
