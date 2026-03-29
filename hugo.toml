@@ -3,6 +3,7 @@ languageCode = "en-us"
 title = "CyberGrind"
 theme = "PaperMod"
 paginate = 10
+summarylength = 30
 mainSections = ["blog"]
 copyright = "2026 CyberGrind"
 
