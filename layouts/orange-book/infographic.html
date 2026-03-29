@@ -2,12 +2,24 @@
 <style>
   .infographic-wrap { max-width: 960px; margin: 0 auto; padding: 20px 0; }
   .back-link { font-size: 13px; color: var(--primary); margin-bottom: 16px; display: inline-block; }
-  .infographic-frame {
+
+  .iframe-scaler {
+    width: 1200px;
+    transform-origin: top left;
+    transform: scale(var(--scale, 1));
+    height: var(--scaled-height, auto);
+  }
+
+  .iframe-outer {
     width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .infographic-frame {
+    width: 1200px;
     border: none;
-    min-height: 100vh;
     display: block;
-    overflow: auto;
   }
 </style>
 <article class="post-single">
@@ -29,25 +41,46 @@
   <a class="back-link" href="{{ . }}">{{ $.Params.back_label | default "← Back to article" }}</a>
   {{ end }}
   {{ with .Params.infographic }}
-  <iframe
-    src="/infographics/{{ . }}"
-    class="infographic-frame"
-    id="infographic-frame"
-    title="{{ $.Title }}"
-  ></iframe>
+  <div class="iframe-outer" id="iframe-outer">
+    <iframe
+      src="/infographics/{{ . }}"
+      class="infographic-frame"
+      id="infographic-frame"
+      scrolling="no"
+      title="{{ $.Title }}"
+    ></iframe>
+  </div>
   {{ else }}
   <p style="color:#999;">Infographic file not found.</p>
   {{ end }}
 </div>
 <script>
+  const outer = document.getElementById('iframe-outer');
   const frame = document.getElementById('infographic-frame');
-  frame.addEventListener('load', function() {
+
+  function scaleFrame() {
+    const containerWidth = outer.offsetWidth;
+    const scale = containerWidth / 1200;
+    frame.style.transform = 'scale(' + scale + ')';
+    frame.style.transformOrigin = 'top left';
+    frame.style.width = '1200px';
+
+    // Wait for iframe content then set height
     try {
-      const height = frame.contentDocument.documentElement.scrollHeight;
-      frame.style.height = height + 'px';
+      const contentHeight = frame.contentDocument.documentElement.scrollHeight;
+      frame.style.height = contentHeight + 'px';
+      outer.style.height = (contentHeight * scale) + 'px';
     } catch(e) {
-      frame.style.height = '100vh';
+      outer.style.height = (900 * scale) + 'px';
     }
+  }
+
+  frame.addEventListener('load', function() {
+    scaleFrame();
+    // Re-run after fonts load
+    setTimeout(scaleFrame, 500);
   });
+
+  window.addEventListener('resize', scaleFrame);
 </script>
 {{ end }}
