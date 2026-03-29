@@ -7,33 +7,47 @@
     border: none;
     min-height: 100vh;
     display: block;
+    overflow: auto;
   }
 </style>
-
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">{{ .Description }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+</article>
 <div class="infographic-wrap">
   {{ with .Params.back_link }}
   <a class="back-link" href="{{ . }}">{{ $.Params.back_label | default "← Back to article" }}</a>
   {{ end }}
-
   {{ with .Params.infographic }}
   <iframe
     src="/infographics/{{ . }}"
     class="infographic-frame"
     id="infographic-frame"
-    scrolling="no"
     title="{{ $.Title }}"
   ></iframe>
   {{ else }}
   <p style="color:#999;">Infographic file not found.</p>
   {{ end }}
 </div>
-
 <script>
   const frame = document.getElementById('infographic-frame');
   frame.addEventListener('load', function() {
     try {
-      frame.style.height = frame.contentDocument.body.scrollHeight + 'px';
-    } catch(e) {}
+      const height = frame.contentDocument.documentElement.scrollHeight;
+      frame.style.height = height + 'px';
+    } catch(e) {
+      frame.style.height = '100vh';
+    }
   });
 </script>
 {{ end }}

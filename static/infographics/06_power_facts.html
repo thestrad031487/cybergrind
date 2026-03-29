@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Power Supply Facts</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#070b14;--panel:#0d1424;--border:#1a2a4a;--accent:#ffd700;--text:#c8d8e8;--dim:#5a7a9a}
+  body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;width:1200px;min-height:900px}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,215,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,215,0,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .wrapper{padding:36px 40px;position:relative;z-index:1}
+  .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+  h1{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;line-height:1.1}
+  h1 span{color:var(--accent)}
+  .header-meta{text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);line-height:1.8}
+
+  .top-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 12px;text-align:center;position:relative;overflow:hidden}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--s-color,var(--accent))}
+  .stat-val{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--s-color,var(--accent));display:block;margin-bottom:3px}
+  .stat-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px}
+
+  .main{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;position:relative;overflow:hidden}
+  .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--p-color,var(--accent))}
+  .panel-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--p-color,var(--accent));letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .panel-title::before{content:'';display:inline-block;width:3px;height:14px;background:var(--p-color,var(--accent));border-radius:2px;flex-shrink:0}
+
+  /* AC→DC flow diagram */
+  .flow{display:flex;align-items:center;gap:0;margin-bottom:14px}
+  .flow-box{flex:1;text-align:center;padding:12px 6px;background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:3px}
+  .flow-box .fval{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--accent)}
+  .flow-box .flbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-top:4px}
+  .flow-arrow{font-size:16px;color:var(--accent);padding:0 8px;flex-shrink:0}
+
+  /* Voltage rail table */
+  .rail-table{width:100%;border-collapse:collapse}
+  .rail-table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);letter-spacing:1px}
+  .rail-table td{font-family:'Share Tech Mono',monospace;font-size:11px;padding:7px 8px;border-bottom:1px solid rgba(26,42,74,0.4)}
+  .rail-table tr:last-child td{border-bottom:none}
+  .v-badge{display:inline-block;padding:1px 8px;border-radius:2px;font-weight:700}
+
+  /* Connector grid */
+  .conn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .conn-item{background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:3px;padding:9px 10px}
+  .conn-name{font-family:'Orbitron',monospace;font-size:10px;color:#fff;letter-spacing:1px;margin-bottom:3px}
+  .conn-desc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
+
+  /* Wattage bar */
+  .watt-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .watt-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);width:150px;flex-shrink:0}
+  .watt-track{flex:1;height:16px;background:rgba(255,215,0,0.08);border-radius:2px;overflow:hidden}
+  .watt-fill{height:100%;border-radius:2px}
+  .watt-val{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);width:80px;text-align:right;flex-shrink:0}
+
+  /* Failure symptoms */
+  .symptom-list{list-style:none}
+  .symptom-list li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(26,42,74,0.4);font-size:12px;color:var(--text);line-height:1.4}
+  .symptom-list li:last-child{border-bottom:none}
+  .symptom-list li::before{content:'⚠';color:#ff4466;flex-shrink:0}
+
+  .footer{border-top:1px solid var(--border);padding-top:14px;display:flex;justify-content:space-between;align-items:center}
+  .footer-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
+  .source-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent)}
+  .source-tag::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <div>
+      <div class="label">// POWER DELIVERY — MODULE 06</div>
+      <h1>POWER SUPPLY UNIT<br><span>FACTS & SPECIFICATIONS</span></h1>
+    </div>
+    <div class="header-meta">CYBERGRIND.ORG<br>REF: HW-006<br>v1.0 // 2026</div>
+  </div>
+
+  <div class="top-stats">
+    <div class="stat" style="--s-color:#ffd700"><span class="stat-val">ATX</span><span class="stat-lbl">DOMINANT FORM FACTOR</span></div>
+    <div class="stat" style="--s-color:#ff6b35"><span class="stat-val">AC→DC</span><span class="stat-lbl">CONVERSION TYPE</span></div>
+    <div class="stat" style="--s-color:#39ff14"><span class="stat-val">5VSB</span><span class="stat-lbl">STANDBY RAIL (ALWAYS ON)</span></div>
+    <div class="stat" style="--s-color:#00d4ff"><span class="stat-val">80+</span><span class="stat-lbl">EFFICIENCY CERTIFICATION</span></div>
+    <div class="stat" style="--s-color:#b44fff"><span class="stat-val">1000W+</span><span class="stat-lbl">HIGH-PERF MAX WATTAGE</span></div>
+  </div>
+
+  <div class="main">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <!-- AC→DC conversion flow -->
+      <div class="panel" style="--p-color:#ffd700">
+        <div class="panel-title">POWER CONVERSION FLOW</div>
+        <div class="flow">
+          <div class="flow-box"><div class="fval">120V AC</div><div class="flbl">WALL OUTLET</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><div class="fval">SMPS</div><div class="flbl">SWITCHED-MODE<br>POWER SUPPLY</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><div class="fval">DC RAILS</div><div class="flbl">3.3V · 5V · 12V</div></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><div class="fval">COMPONENTS</div><div class="flbl">CPU · GPU · RAM · DRIVES</div></div>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)">
+          PSU also sends "POWER GOOD" signal to motherboard → triggers boot sequence
+        </div>
+      </div>
+
+      <!-- Voltage Rails -->
+      <div class="panel" style="--p-color:#ff6b35">
+        <div class="panel-title">DC VOLTAGE RAILS</div>
+        <table class="rail-table">
+          <tr><th>RAIL</th><th>POWERS</th><th>TYPICAL AMPERAGE</th></tr>
+          <tr>
+            <td><span class="v-badge" style="background:rgba(255,100,100,0.15);color:#ff6666">+3.3V</span></td>
+            <td>RAM, chipset, I/O controllers</td><td>20–25A</td>
+          </tr>
+          <tr>
+            <td><span class="v-badge" style="background:rgba(255,200,50,0.15);color:#ffd700">+5V</span></td>
+            <td>USB ports, logic circuits, standby</td><td>20–30A</td>
+          </tr>
+          <tr>
+            <td><span class="v-badge" style="background:rgba(255,107,53,0.15);color:#ff6b35">+12V</span></td>
+            <td>CPU, GPU, fans, motors (main power)</td><td>40–80A</td>
+          </tr>
+          <tr>
+            <td><span class="v-badge" style="background:rgba(57,255,20,0.1);color:#39ff14">+5VSB</span></td>
+            <td>Standby functions (always on)</td><td>2–3A</td>
+          </tr>
+          <tr>
+            <td><span class="v-badge" style="background:rgba(90,90,90,0.2);color:#999">-12V</span></td>
+            <td>Legacy serial ports (rare)</td><td>0.5–1A</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- PSU Wattage by Use Case -->
+      <div class="panel" style="--p-color:#00d4ff">
+        <div class="panel-title">WATTAGE BY SYSTEM TYPE</div>
+        <div class="watt-row">
+          <div class="watt-lbl">Office / Basic PC</div>
+          <div class="watt-track"><div class="watt-fill" style="width:30%;background:#444"></div></div>
+          <div class="watt-val">300–400W</div>
+        </div>
+        <div class="watt-row">
+          <div class="watt-lbl">Mid-Range Desktop</div>
+          <div class="watt-track"><div class="watt-fill" style="width:50%;background:#00d4ff"></div></div>
+          <div class="watt-val">400–600W</div>
+        </div>
+        <div class="watt-row">
+          <div class="watt-lbl">Gaming Rig</div>
+          <div class="watt-track"><div class="watt-fill" style="width:70%;background:linear-gradient(90deg,#00d4ff,#ffd700)"></div></div>
+          <div class="watt-val">650–850W</div>
+        </div>
+        <div class="watt-row">
+          <div class="watt-lbl">High-End / Workstation</div>
+          <div class="watt-track"><div class="watt-fill" style="width:90%;background:linear-gradient(90deg,#ffd700,#ff6b35)"></div></div>
+          <div class="watt-val">850–1000W</div>
+        </div>
+        <div class="watt-row">
+          <div class="watt-lbl">Extreme / Multi-GPU</div>
+          <div class="watt-track"><div class="watt-fill" style="width:100%;background:linear-gradient(90deg,#ff6b35,#ff4466)"></div></div>
+          <div class="watt-val">1000W+</div>
+        </div>
+        <div style="margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)">
+          PSUs designed with ~40% overhead above estimated system load
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <!-- Connectors -->
+      <div class="panel" style="--p-color:#b44fff">
+        <div class="panel-title">KEY CONNECTORS</div>
+        <div class="conn-grid">
+          <div class="conn-item">
+            <div class="conn-name">24-PIN ATX</div>
+            <div class="conn-desc">Main motherboard power. Required for any boot.</div>
+          </div>
+          <div class="conn-item">
+            <div class="conn-name">8-PIN EPS</div>
+            <div class="conn-desc">CPU power connector (4+4 or 8-pin). High-end boards may use two.</div>
+          </div>
+          <div class="conn-item">
+            <div class="conn-name">PCIe 6+2 PIN</div>
+            <div class="conn-desc">GPU auxiliary power. Each connector carries up to 150W.</div>
+          </div>
+          <div class="conn-item">
+            <div class="conn-name">12VHPWR</div>
+            <div class="conn-desc">New ATX 3.0 connector for high-TDP GPUs. Up to 600W.</div>
+          </div>
+          <div class="conn-item">
+            <div class="conn-name">SATA POWER</div>
+            <div class="conn-desc">SSDs, HDDs, and accessories (RGB, fans).</div>
+          </div>
+          <div class="conn-item">
+            <div class="conn-name">MOLEX 4-PIN</div>
+            <div class="conn-desc">Legacy peripheral connector. Still found on some fans and devices.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Failure symptoms -->
+      <div class="panel" style="--p-color:#ff4466">
+        <div class="panel-title">PSU FAILURE SYMPTOMS</div>
+        <ul class="symptom-list">
+          <li>Random system restarts or sudden shutdowns</li>
+          <li>PC won't POST or fails to power on</li>
+          <li>System freezes under load (GPU or CPU intensive)</li>
+          <li>Unusual buzzing, whining, or clicking from PSU</li>
+          <li>Components getting unusually hot (voltage sag)</li>
+          <li>Intermittent USB drops or peripheral failures</li>
+          <li>BSOD events tied to power-related stop codes</li>
+        </ul>
+      </div>
+
+      <!-- ATX Facts -->
+      <div class="panel" style="--p-color:#39ff14">
+        <div class="panel-title">ATX STANDARD KEY FACTS</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:2">
+          <div>▸ <span style="color:#fff">Form factor:</span> 150mm W × 86mm H × 140–230mm D</div>
+          <div>▸ <span style="color:#fff">5VSB rail:</span> Always live while plugged in</div>
+          <div>▸ <span style="color:#fff">Power-on signal:</span> Motherboard controls via PS_ON pin</div>
+          <div>▸ <span style="color:#fff">Power Good:</span> PSU signals MB when rails stabilize</div>
+          <div>▸ <span style="color:#fff">Protection:</span> OVP, UVP, OCP, OPP, SCP built-in</div>
+          <div>▸ <span style="color:#fff">80 PLUS:</span> White → Bronze → Silver → Gold → Platinum → Titanium</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">CYBERGRIND.ORG // HARDWARE SERIES // HW-006</div>
+    <div class="source-tag">SOURCE: Wikipedia.org · EcoFlow.com · Seasonic.com</div>
+    <div class="footer-text">© 2026 CYBERGRIND</div>
+  </div>
+</div>
+</body>
+</html>

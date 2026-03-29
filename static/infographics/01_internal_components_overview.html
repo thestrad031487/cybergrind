@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Components Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #070b14;
+    --panel: #0d1424;
+    --border: #1a2a4a;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #39ff14;
+    --text: #c8d8e8;
+    --dim: #5a7a9a;
+    --glow: rgba(0,212,255,0.15);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    width: 1200px;
+    min-height: 900px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .wrapper {
+    padding: 36px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+
+  .title-block { }
+  .label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+  h1 span { color: var(--accent); }
+
+  .header-meta {
+    text-align: right;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    line-height: 1.8;
+  }
+
+  /* Main grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 18px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent));
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--card-accent, var(--accent)) 0%, transparent 70%);
+    opacity: 0.04;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card-num {
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+  .card-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .card-abbr {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--card-accent, var(--accent));
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+  .card-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .card-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--card-accent, var(--accent));
+    color: var(--card-accent, var(--accent));
+    border-radius: 2px;
+    letter-spacing: 1px;
+  }
+
+  /* Input/Output/Processing/Storage row */
+  .io-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .io-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .io-block::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--io-color);
+  }
+
+  .io-icon { font-size: 22px; }
+  .io-info { }
+  .io-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--io-color);
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+  .io-components {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+  }
+  .footer-right {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+  }
+  .source-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+  }
+  .source-tag::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="title-block">
+      <div class="label">// SYSTEM ARCHITECTURE — MODULE 01</div>
+      <h1>INTERNAL COMPONENTS<br><span>OVERVIEW</span></h1>
+    </div>
+    <div class="header-meta">
+      CYBERGRIND.ORG<br>
+      REF: HW-001<br>
+      v1.0 // 2026
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- CPU -->
+    <div class="card" style="--card-accent:#00d4ff">
+      <span class="card-num">01</span>
+      <span class="card-icon">⚡</span>
+      <div class="card-title">PROCESSOR</div>
+      <div class="card-abbr">CPU</div>
+      <div class="card-desc">The "brain" of the computer. Fetches, decodes, and executes all program instructions. Controls every other component.</div>
+      <span class="card-tag">PROCESSING</span>
+    </div>
+    <!-- RAM -->
+    <div class="card" style="--card-accent:#39ff14">
+      <span class="card-num">02</span>
+      <span class="card-icon">🗄</span>
+      <div class="card-title">MEMORY</div>
+      <div class="card-abbr">RAM</div>
+      <div class="card-desc">Volatile short-term memory. Stores active program instructions and data for fast CPU access. Lost on power off.</div>
+      <span class="card-tag">STORAGE</span>
+    </div>
+    <!-- Motherboard -->
+    <div class="card" style="--card-accent:#ff6b35">
+      <span class="card-num">03</span>
+      <span class="card-icon">🔌</span>
+      <div class="card-title">MOTHERBOARD</div>
+      <div class="card-abbr">PCB</div>
+      <div class="card-desc">Central hub connecting all components via the system bus. Houses BIOS chip, expansion slots, and power connectors.</div>
+      <span class="card-tag">BACKBONE</span>
+    </div>
+    <!-- PSU -->
+    <div class="card" style="--card-accent:#ffd700">
+      <span class="card-num">04</span>
+      <span class="card-icon">⚡</span>
+      <div class="card-title">POWER SUPPLY</div>
+      <div class="card-abbr">PSU</div>
+      <div class="card-desc">Converts AC wall power to regulated DC. Distributes 3.3V, 5V, and 12V rails to all system components.</div>
+      <span class="card-tag">POWER</span>
+    </div>
+    <!-- GPU -->
+    <div class="card" style="--card-accent:#b44fff">
+      <span class="card-num">05</span>
+      <span class="card-icon">🖥</span>
+      <div class="card-title">GRAPHICS UNIT</div>
+      <div class="card-abbr">GPU</div>
+      <div class="card-desc">Dedicated processor for rendering images, video, and 3D graphics. Offloads visual compute from the CPU.</div>
+      <span class="card-tag">OUTPUT</span>
+    </div>
+    <!-- NIC -->
+    <div class="card" style="--card-accent:#00ffa3">
+      <span class="card-num">06</span>
+      <span class="card-icon">🌐</span>
+      <div class="card-title">NETWORK CARD</div>
+      <div class="card-abbr">NIC</div>
+      <div class="card-desc">Enables wired (RJ-45) or wireless network connectivity. May be integrated on motherboard or added via PCIe slot.</div>
+      <span class="card-tag">I/O</span>
+    </div>
+    <!-- Cooling -->
+    <div class="card" style="--card-accent:#00bfff">
+      <span class="card-num">07</span>
+      <span class="card-icon">❄</span>
+      <div class="card-title">COOLING SYSTEM</div>
+      <div class="card-abbr">HSF / AIO</div>
+      <div class="card-desc">Heat sinks, fans, and/or liquid loops that regulate component temperatures and prevent thermal throttling or damage.</div>
+      <span class="card-tag">THERMAL</span>
+    </div>
+    <!-- Storage -->
+    <div class="card" style="--card-accent:#ff4466">
+      <span class="card-num">08</span>
+      <span class="card-icon">💾</span>
+      <div class="card-title">STORAGE</div>
+      <div class="card-abbr">SSD / HDD</div>
+      <div class="card-desc">Non-volatile long-term data storage. SSDs use NAND flash; HDDs use spinning magnetic platters. Connected via SATA or NVMe.</div>
+      <span class="card-tag">STORAGE</span>
+    </div>
+  </div>
+
+  <!-- I/O Function Row -->
+  <div class="io-bar">
+    <div class="io-block" style="--io-color:#39ff14">
+      <div class="io-icon">📥</div>
+      <div class="io-info">
+        <div class="io-label">INPUT</div>
+        <div class="io-components">Peripherals → RAM → CPU</div>
+      </div>
+    </div>
+    <div class="io-block" style="--io-color:#00d4ff">
+      <div class="io-icon">⚙</div>
+      <div class="io-info">
+        <div class="io-label">PROCESSING</div>
+        <div class="io-components">CPU + GPU + RAM</div>
+      </div>
+    </div>
+    <div class="io-block" style="--io-color:#ffd700">
+      <div class="io-icon">💾</div>
+      <div class="io-info">
+        <div class="io-label">STORAGE</div>
+        <div class="io-components">RAM (volatile) · SSD/HDD</div>
+      </div>
+    </div>
+    <div class="io-block" style="--io-color:#ff6b35">
+      <div class="io-icon">📤</div>
+      <div class="io-info">
+        <div class="io-label">OUTPUT</div>
+        <div class="io-components">GPU → Display · NIC → Net</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">CYBERGRIND.ORG // HARDWARE SERIES // HW-001</div>
+    <div class="source-tag">SOURCE: Intel.com · Wikipedia.org · Kingston.com</div>
+    <div class="footer-right">© 2026 CYBERGRIND</div>
+  </div>
+
+</div>
+</body>
+</html>

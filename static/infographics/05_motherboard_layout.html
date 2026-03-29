@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Motherboard Layout</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#070b14;--panel:#0d1424;--border:#1a2a4a;--accent:#ff6b35;--text:#c8d8e8;--dim:#5a7a9a}
+  body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;width:1200px;min-height:900px}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,107,53,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,53,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .wrapper{padding:36px 40px;position:relative;z-index:1}
+  .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;border-bottom:1px solid var(--border);padding-bottom:18px}
+  .label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+  h1{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;line-height:1.1}
+  h1 span{color:var(--accent)}
+  .header-meta{text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);line-height:1.8}
+
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:22px}
+  .board-panel{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;display:flex;flex-direction:column;align-items:center}
+  .board-label{font-family:'Orbitron',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:14px}
+
+  .legend-panel{display:flex;flex-direction:column;gap:8px}
+  .legend-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:11px 13px;display:flex;align-items:flex-start;gap:10px}
+  .legend-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0;margin-top:3px}
+  .legend-title{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:3px}
+  .legend-desc{font-size:11px;color:var(--dim);line-height:1.4}
+
+  .footer{border-top:1px solid var(--border);padding-top:14px;margin-top:18px;display:flex;justify-content:space-between;align-items:center}
+  .footer-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
+  .source-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent)}
+  .source-tag::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <div>
+      <div class="label">// MOTHERBOARD INTERNALS — MODULE 05</div>
+      <h1>MOTHERBOARD <span>LAYOUT</span></h1>
+    </div>
+    <div class="header-meta">CYBERGRIND.ORG<br>REF: HW-005<br>v1.0 // 2026</div>
+  </div>
+
+  <div class="layout">
+    <div class="board-panel">
+      <div class="board-label">// ATX MOTHERBOARD — COMPONENT MAP</div>
+      <svg viewBox="0 0 720 560" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- PCB background -->
+        <rect width="720" height="560" fill="#071510" rx="6"/>
+        <!-- PCB trace overlay -->
+        <rect width="720" height="560" fill="url(#pcb-grid)" rx="6" opacity="0.4"/>
+        <defs>
+          <pattern id="pcb-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0d3020" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <!-- Board outline -->
+        <rect x="2" y="2" width="716" height="556" rx="5" fill="none" stroke="#1a4030" stroke-width="2"/>
+
+        <!-- Mounting holes -->
+        <circle cx="20" cy="20" r="6" fill="none" stroke="#1a4030" stroke-width="1.5"/>
+        <circle cx="700" cy="20" r="6" fill="none" stroke="#1a4030" stroke-width="1.5"/>
+        <circle cx="20" cy="540" r="6" fill="none" stroke="#1a4030" stroke-width="1.5"/>
+        <circle cx="700" cy="540" r="6" fill="none" stroke="#1a4030" stroke-width="1.5"/>
+
+        <!-- ── CPU SOCKET ── -->
+        <rect x="60" y="60" width="160" height="160" rx="4" fill="#0a1a28" stroke="#00d4ff" stroke-width="2"/>
+        <rect x="75" y="75" width="130" height="130" rx="2" fill="#071015" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4,2"/>
+        <!-- LGA pads -->
+        <g fill="#0066aa" opacity="0.7">
+          <rect x="82" y="82" width="4" height="4" rx="1"/>
+          <rect x="92" y="82" width="4" height="4" rx="1"/>
+          <rect x="102" y="82" width="4" height="4" rx="1"/>
+          <rect x="112" y="82" width="4" height="4" rx="1"/>
+          <rect x="122" y="82" width="4" height="4" rx="1"/>
+          <rect x="132" y="82" width="4" height="4" rx="1"/>
+          <rect x="142" y="82" width="4" height="4" rx="1"/>
+          <rect x="152" y="82" width="4" height="4" rx="1"/>
+          <rect x="162" y="82" width="4" height="4" rx="1"/>
+          <rect x="172" y="82" width="4" height="4" rx="1"/>
+          <rect x="182" y="82" width="4" height="4" rx="1"/>
+          <rect x="82" y="92" width="4" height="4" rx="1"/>
+          <rect x="92" y="92" width="4" height="4" rx="1"/>
+          <rect x="82" y="102" width="4" height="4" rx="1"/>
+          <rect x="82" y="112" width="4" height="4" rx="1"/>
+          <rect x="82" y="122" width="4" height="4" rx="1"/>
+          <rect x="82" y="132" width="4" height="4" rx="1"/>
+          <rect x="82" y="142" width="4" height="4" rx="1"/>
+          <rect x="82" y="152" width="4" height="4" rx="1"/>
+          <rect x="82" y="162" width="4" height="4" rx="1"/>
+          <rect x="82" y="172" width="4" height="4" rx="1"/>
+          <rect x="82" y="182" width="4" height="4" rx="1"/>
+          <rect x="182" y="192" width="4" height="4" rx="1"/>
+          <rect x="172" y="192" width="4" height="4" rx="1"/>
+          <rect x="162" y="192" width="4" height="4" rx="1"/>
+          <rect x="152" y="192" width="4" height="4" rx="1"/>
+          <rect x="142" y="192" width="4" height="4" rx="1"/>
+          <rect x="132" y="192" width="4" height="4" rx="1"/>
+          <rect x="122" y="192" width="4" height="4" rx="1"/>
+          <rect x="112" y="192" width="4" height="4" rx="1"/>
+          <rect x="102" y="192" width="4" height="4" rx="1"/>
+          <rect x="92" y="192" width="4" height="4" rx="1"/>
+          <rect x="82" y="192" width="4" height="4" rx="1"/>
+          <rect x="182" y="92" width="4" height="4" rx="1"/>
+          <rect x="182" y="102" width="4" height="4" rx="1"/>
+          <rect x="182" y="112" width="4" height="4" rx="1"/>
+          <rect x="182" y="122" width="4" height="4" rx="1"/>
+          <rect x="182" y="132" width="4" height="4" rx="1"/>
+          <rect x="182" y="142" width="4" height="4" rx="1"/>
+          <rect x="182" y="152" width="4" height="4" rx="1"/>
+          <rect x="182" y="162" width="4" height="4" rx="1"/>
+          <rect x="182" y="172" width="4" height="4" rx="1"/>
+          <rect x="182" y="182" width="4" height="4" rx="1"/>
+        </g>
+        <text x="140" y="143" text-anchor="middle" font-family="Orbitron" font-size="11" fill="#00d4ff" letter-spacing="2">CPU</text>
+        <text x="140" y="158" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#0099bb">SOCKET</text>
+        <text x="140" y="235" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00d4ff" letter-spacing="1">CPU SOCKET</text>
+
+        <!-- VRM (Voltage Regulator Modules) top -->
+        <rect x="60" y="28" width="160" height="28" rx="3" fill="#0d1a0d" stroke="#39ff14" stroke-width="1.5"/>
+        <text x="140" y="46" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#39ff14" letter-spacing="1">VRM (VOLTAGE REGULATORS)</text>
+
+        <!-- VRM left -->
+        <rect x="28" y="60" width="28" height="160" rx="3" fill="#0d1a0d" stroke="#39ff14" stroke-width="1.5"/>
+        <text x="42" y="145" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#39ff14" transform="rotate(-90,42,145)">VRM PHASES</text>
+
+        <!-- RAM SLOTS -->
+        <rect x="250" y="44" width="28" height="220" rx="2" fill="#1a1020" stroke="#b44fff" stroke-width="1.5"/>
+        <text x="264" y="60" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#b44fff" transform="rotate(-90,264,60)">DIMM A1</text>
+        <rect x="285" y="44" width="28" height="220" rx="2" fill="#1a1020" stroke="#b44fff" stroke-width="1.5"/>
+        <text x="299" y="60" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#b44fff" transform="rotate(-90,299,60)">DIMM A2</text>
+        <rect x="320" y="44" width="28" height="220" rx="2" fill="#1a1020" stroke="#7a4aaa" stroke-width="1.5"/>
+        <text x="334" y="60" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#7a4aaa" transform="rotate(-90,334,60)">DIMM B1</text>
+        <rect x="355" y="44" width="28" height="220" rx="2" fill="#1a1020" stroke="#7a4aaa" stroke-width="1.5"/>
+        <text x="369" y="60" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#7a4aaa" transform="rotate(-90,369,60)">DIMM B2</text>
+        <text x="310" y="280" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#b44fff" letter-spacing="1">RAM SLOTS (DDR5)</text>
+
+        <!-- BIOS Chip -->
+        <rect x="420" y="64" width="80" height="50" rx="3" fill="#1a1a08" stroke="#ffd700" stroke-width="1.5"/>
+        <text x="460" y="87" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#ffd700">BIOS/UEFI</text>
+        <text x="460" y="102" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#aa9900">FIRMWARE CHIP</text>
+
+        <!-- 24-pin ATX power -->
+        <rect x="540" y="44" width="30" height="120" rx="2" fill="#1a0808" stroke="#ff4466" stroke-width="1.5"/>
+        <!-- Pin dots -->
+        <g fill="#ff4466" opacity="0.7">
+          <circle cx="550" cy="56" r="2"/><circle cx="562" cy="56" r="2"/>
+          <circle cx="550" cy="66" r="2"/><circle cx="562" cy="66" r="2"/>
+          <circle cx="550" cy="76" r="2"/><circle cx="562" cy="76" r="2"/>
+          <circle cx="550" cy="86" r="2"/><circle cx="562" cy="86" r="2"/>
+          <circle cx="550" cy="96" r="2"/><circle cx="562" cy="96" r="2"/>
+          <circle cx="550" cy="106" r="2"/><circle cx="562" cy="106" r="2"/>
+          <circle cx="550" cy="116" r="2"/><circle cx="562" cy="116" r="2"/>
+          <circle cx="550" cy="126" r="2"/><circle cx="562" cy="126" r="2"/>
+          <circle cx="550" cy="136" r="2"/><circle cx="562" cy="136" r="2"/>
+          <circle cx="550" cy="146" r="2"/><circle cx="562" cy="146" r="2"/>
+          <circle cx="550" cy="156" r="2"/><circle cx="562" cy="156" r="2"/>
+          <circle cx="550" cy="166" r="2"/><circle cx="562" cy="166" r="2"/>
+        </g>
+        <text x="555" y="178" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#ff4466" transform="rotate(0)">24-PIN ATX</text>
+
+        <!-- 8-pin CPU power -->
+        <rect x="400" y="28" width="18" height="28" rx="2" fill="#1a0808" stroke="#ff4466" stroke-width="1.5"/>
+        <text x="409" y="68" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#ff4466">8-PIN EPS</text>
+
+        <!-- Chipset -->
+        <rect x="320" y="310" width="110" height="80" rx="4" fill="#0d1a1a" stroke="#00ffa3" stroke-width="1.5"/>
+        <text x="375" y="346" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00ffa3" letter-spacing="1">CHIPSET</text>
+        <text x="375" y="362" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#00aa70">(PCH)</text>
+        <text x="375" y="405" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#00ffa3" letter-spacing="1">CHIPSET</text>
+
+        <!-- PCIe x16 slot 1 (primary GPU) -->
+        <rect x="60" y="310" width="240" height="24" rx="2" fill="#1a0d20" stroke="#b44fff" stroke-width="2"/>
+        <text x="180" y="326" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#b44fff">PCIe x16 — PRIMARY GPU SLOT</text>
+
+        <!-- PCIe x16 slot 2 -->
+        <rect x="60" y="344" width="240" height="24" rx="2" fill="#140a1a" stroke="#7a4aaa" stroke-width="1.5"/>
+        <text x="180" y="360" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#7a4aaa">PCIe x16 (wired x4) — SLOT 2</text>
+
+        <!-- PCIe x1 slots -->
+        <rect x="60" y="378" width="100" height="18" rx="2" fill="#0d0d1a" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="110" y="391" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">PCIe x1</text>
+        <rect x="60" y="402" width="100" height="18" rx="2" fill="#0d0d1a" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="110" y="415" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">PCIe x1</text>
+
+        <!-- M.2 slots -->
+        <rect x="60" y="430" width="140" height="14" rx="2" fill="#0d1a10" stroke="#39ff14" stroke-width="1.5"/>
+        <text x="130" y="441" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#39ff14">M.2 NVMe (PCIe 5.0 x4)</text>
+        <rect x="60" y="452" width="140" height="14" rx="2" fill="#0d1a10" stroke="#26aa0a" stroke-width="1"/>
+        <text x="130" y="463" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#26aa0a">M.2 NVMe (PCIe 4.0 x4)</text>
+
+        <!-- SATA ports -->
+        <rect x="460" y="310" width="20" height="80" rx="2" fill="#0d1520" stroke="#00d4ff" stroke-width="1.5"/>
+        <rect x="486" y="310" width="20" height="80" rx="2" fill="#0d1520" stroke="#00d4ff" stroke-width="1.5"/>
+        <rect x="512" y="310" width="20" height="80" rx="2" fill="#0d1520" stroke="#00d4ff" stroke-width="1.5"/>
+        <rect x="538" y="310" width="20" height="80" rx="2" fill="#0d1520" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="500" y="408" text-anchor="middle" font-family="Share Tech Mono" font-size="9" fill="#00d4ff">SATA PORTS (x4)</text>
+
+        <!-- USB headers -->
+        <rect x="460" y="430" width="60" height="30" rx="2" fill="#0d1520" stroke="#00d4ff" stroke-width="1"/>
+        <text x="490" y="447" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#00d4ff">USB 3.2</text>
+        <text x="490" y="459" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#00d4ff">HEADER</text>
+
+        <!-- IO shield / rear panel -->
+        <rect x="590" y="44" width="108" height="220" rx="3" fill="#0a1020" stroke="#ff6b35" stroke-width="2"/>
+        <text x="644" y="155" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#ff6b35" transform="rotate(-90,644,155)" letter-spacing="1">REAR I/O PANEL</text>
+        <!-- Port stubs -->
+        <rect x="596" y="52" width="96" height="16" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="63" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">USB-A / USB-C / USB 3.2</text>
+        <rect x="596" y="74" width="96" height="14" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="84" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">DisplayPort / HDMI (iGPU)</text>
+        <rect x="596" y="94" width="96" height="14" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="104" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">RJ-45 Ethernet (2.5G)</text>
+        <rect x="596" y="114" width="96" height="14" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="124" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">WiFi / BT Antenna</text>
+        <rect x="596" y="134" width="96" height="20" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="147" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">Audio Jacks (6x)</text>
+        <rect x="596" y="160" width="96" height="14" rx="1" fill="#0d2030" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="644" y="170" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">BIOS FlashBack BTN</text>
+
+        <!-- Fan headers -->
+        <rect x="160" y="290" width="50" height="16" rx="2" fill="#0d1a0d" stroke="#39ff14" stroke-width="1"/>
+        <text x="185" y="302" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#39ff14">CPU_FAN</text>
+        <rect x="220" y="290" width="50" height="16" rx="2" fill="#0d1a0d" stroke="#26aa0a" stroke-width="1"/>
+        <text x="245" y="302" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#26aa0a">SYS_FAN</text>
+
+        <!-- Traces suggesting bus routing -->
+        <line x1="220" y1="140" x2="250" y2="140" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+        <line x1="250" y1="140" x2="250" y2="270" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+        <line x1="250" y1="270" x2="320" y2="350" stroke="#00ffa3" stroke-width="1" opacity="0.3" stroke-dasharray="6,3"/>
+        <line x1="320" y1="140" x2="320" y2="310" stroke="#b44fff" stroke-width="1" opacity="0.25"/>
+
+        <!-- Bottom panel connectors -->
+        <rect x="60" y="498" width="240" height="20" rx="2" fill="#0a0d15" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="180" y="512" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">FRONT PANEL / POWER / RESET HEADERS</text>
+
+        <rect x="320" y="498" width="140" height="20" rx="2" fill="#0a0d15" stroke="#5a7a9a" stroke-width="1"/>
+        <text x="390" y="512" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">RGB / ARGB HEADERS</text>
+      </svg>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend-panel">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#00d4ff"></div>
+        <div><div class="legend-title">CPU SOCKET</div><div class="legend-desc">LGA/AM5 socket with hundreds of contact pads. Holds CPU and connects via VRM-regulated power.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#b44fff"></div>
+        <div><div class="legend-title">RAM SLOTS (DIMM)</div><div class="legend-desc">DDR5 slots for system memory. A1/B1 = Channel A/B for dual-channel bandwidth.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ffd700"></div>
+        <div><div class="legend-title">BIOS/UEFI CHIP</div><div class="legend-desc">Firmware that runs POST at boot and initializes hardware before the OS loads.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ff4466"></div>
+        <div><div class="legend-title">POWER CONNECTORS</div><div class="legend-desc">24-pin ATX (main board power) + 8-pin EPS (CPU power). Both required for operation.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#b44fff"></div>
+        <div><div class="legend-title">PCIe x16 SLOTS</div><div class="legend-desc">Primary slot for GPU at full x16 bandwidth. Secondary slot often wired at x4 via chipset.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#39ff14"></div>
+        <div><div class="legend-title">M.2 SLOTS</div><div class="legend-desc">High-speed NVMe SSD slots. PCIe 5.0 x4 = ~14 GB/s. CPU-direct for lowest latency.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#00ffa3"></div>
+        <div><div class="legend-title">CHIPSET (PCH)</div><div class="legend-desc">Platform Controller Hub. Routes USB, SATA, extra PCIe, and secondary M.2 through a DMI link to CPU.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ff6b35"></div>
+        <div><div class="legend-title">REAR I/O PANEL</div><div class="legend-desc">USB-A/C, HDMI/DP (integrated GPU), Ethernet, WiFi antenna, audio jacks, BIOS flash button.</div></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#00d4ff"></div>
+        <div><div class="legend-title">SATA PORTS</div><div class="legend-desc">6 Gb/s ports for SSDs and HDDs. Managed by the PCH/chipset, not directly CPU-attached.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">CYBERGRIND.ORG // HARDWARE SERIES // HW-005</div>
+    <div class="source-tag">SOURCE: Intel.com · Wikipedia.org · TechRadar.com</div>
+    <div class="footer-text">© 2026 CYBERGRIND</div>
+  </div>
+</div>
+</body>
+</html>
