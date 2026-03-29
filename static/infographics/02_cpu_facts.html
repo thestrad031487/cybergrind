@@ -1,313 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CPU Facts</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<title>CPU Facts — CyberGrind</title>
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #070b14;
-    --panel: #0d1424;
-    --border: #1a2a4a;
-    --accent: #00d4ff;
-    --accent2: #ff6b35;
-    --text: #c8d8e8;
-    --dim: #5a7a9a;
-  }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    width: 1200px;
-    min-height: 900px;
-    position: relative;
-  }
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-  }
-  .wrapper { padding: 36px 40px; position: relative; z-index: 1; }
+:root {
+  --gap: 24px;
+  --radius: 8px;
+  --theme: rgb(29, 30, 32);
+  --entry: rgb(46, 46, 51);
+  --primary: rgb(218, 218, 219);
+  --secondary: rgb(155, 156, 157);
+  --tertiary: rgb(65, 66, 68);
+  --content: rgb(196, 196, 197);
+  --code-block-bg: rgb(46, 46, 51);
+  --border: rgb(51, 51, 51);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --gold: #c8963e;
+  --gold2: #e8b86d;
+  --blue2: #5ba3ff;
+  --teal2: #2dd4aa;
+  --green: #68d391;
+  --purple: #b794f4;
+  --red-soft: #f08080;
+  --amber: #f6ad55;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--theme);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+  padding: 32px 24px 64px;
+}
+.container { max-width: 900px; margin: 0 auto; }
 
-  .header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 22px;
-  }
-  .label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  h1 { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; color: #fff; letter-spacing: 2px; line-height: 1.1; }
-  h1 span { color: var(--accent); }
-  .header-meta { text-align: right; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--dim); line-height: 1.8; }
+/* HEADER */
+.infographic-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.module-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--teal2);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  border: 1px solid rgba(45,212,170,0.3);
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+.infographic-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+.infographic-header h1 span { color: var(--blue2); }
+.header-meta {
+  text-align: right;
+  font-size: 11px;
+  color: var(--tertiary);
+  line-height: 1.8;
+}
 
-  .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  .left-col { display: flex; flex-direction: column; gap: 14px; }
-  .right-col { display: flex; flex-direction: column; gap: 14px; }
+/* SECTION HEADER */
+.section { margin-bottom: 28px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-header .label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.section-header .line { flex: 1; height: 1px; background: var(--border); }
 
-  .panel {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 18px; position: relative; overflow: hidden;
-  }
-  .panel-title {
-    font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700;
-    color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-  }
-  .panel-title::before {
-    content: ''; display: inline-block; width: 3px; height: 14px;
-    background: var(--accent); border-radius: 2px; flex-shrink: 0;
-  }
+/* CARDS */
+.card-grid {
+  display: grid;
+  gap: 10px;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
 
-  /* Fetch-Execute cycle */
-  .cycle { display: flex; align-items: center; gap: 0; }
-  .cycle-step {
-    flex: 1; text-align: center; padding: 14px 8px;
-    background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 4px; position: relative;
-  }
-  .cycle-step .step-num {
-    font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900;
-    color: var(--accent); display: block; margin-bottom: 4px;
-  }
-  .cycle-step .step-name {
-    font-family: 'Orbitron', monospace; font-size: 10px; color: #fff;
-    letter-spacing: 2px; margin-bottom: 6px;
-  }
-  .cycle-step .step-desc { font-size: 12px; color: var(--dim); line-height: 1.4; }
-  .cycle-arrow {
-    font-size: 18px; color: var(--accent); padding: 0 6px; flex-shrink: 0;
-  }
+.card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+}
+.card-top { height: 2px; border-radius: 2px 2px 0 0; position: absolute; top: 0; left: 0; right: 0; }
+.card h3 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.card p, .card li { font-size: 13px; color: var(--secondary); line-height: 1.65; }
+.card ul { list-style: none; padding: 0; }
+.card ul li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+.card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--blue2); font-size: 11px; }
 
-  /* CPU types comparison */
-  .compare-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  }
-  .cpu-type {
-    padding: 14px; border-radius: 4px; border: 1px solid;
-  }
-  .cpu-type.x86 { border-color: #00d4ff; background: rgba(0,212,255,0.05); }
-  .cpu-type.arm { border-color: #ff6b35; background: rgba(255,107,53,0.05); }
-  .cpu-type-label {
-    font-family: 'Orbitron', monospace; font-size: 12px; font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .cpu-type.x86 .cpu-type-label { color: #00d4ff; }
-  .cpu-type.arm .cpu-type-label { color: #ff6b35; }
-  .cpu-fact { display: flex; gap: 8px; margin-bottom: 5px; font-size: 12px; color: var(--text); }
-  .cpu-fact::before { content: '▸'; flex-shrink: 0; }
-  .cpu-type.x86 .cpu-fact::before { color: #00d4ff; }
-  .cpu-type.arm .cpu-fact::before { color: #ff6b35; }
+/* STAT BLOCKS */
+.stat-row { display: grid; gap: 10px; margin-bottom: 28px; }
+.stat-block {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--stat-color, var(--blue2));
+}
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--stat-color, var(--blue2));
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 10px; letter-spacing: 0.1em; color: var(--tertiary); text-transform: uppercase; }
 
-  /* Brand grid */
-  .brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .brand-col-title {
-    font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700;
-    color: #fff; letter-spacing: 1px; margin-bottom: 8px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--border);
-  }
-  .brand-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0; border-bottom: 1px solid rgba(26,42,74,0.5);
-  }
-  .brand-name { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text); }
-  .brand-tier {
-    font-family: 'Share Tech Mono', monospace; font-size: 10px;
-    padding: 1px 6px; border-radius: 2px;
-  }
-  .tier-low { background: rgba(57,255,20,0.1); color: #39ff14; border: 1px solid rgba(57,255,20,0.3); }
-  .tier-mid { background: rgba(0,212,255,0.1); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
-  .tier-high { background: rgba(255,107,53,0.1); color: #ff6b35; border: 1px solid rgba(255,107,53,0.3); }
-  .tier-server { background: rgba(180,79,255,0.1); color: #b44fff; border: 1px solid rgba(180,79,255,0.3); }
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
+.data-table th {
+  background: var(--code-block-bg);
+  color: var(--blue2);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--secondary);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: rgba(46,46,51,0.4); }
+.data-table td strong { color: var(--primary); }
 
-  /* Stats row */
-  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
-  .stat-block {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 16px 14px; text-align: center; position: relative; overflow: hidden;
-  }
-  .stat-block::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--stat-color, var(--accent));
-  }
-  .stat-value {
-    font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900;
-    color: var(--stat-color, var(--accent)); display: block; margin-bottom: 4px;
-  }
-  .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 1px; }
+/* PIPELINE / FLOW */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+.flow-step { display: flex; align-items: center; gap: 6px; }
+.badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-blue  { background: rgba(91,163,255,0.12);  color: var(--blue2);  border: 1px solid rgba(91,163,255,0.25); }
+.badge-teal  { background: rgba(45,212,170,0.12);  color: var(--teal2);  border: 1px solid rgba(45,212,170,0.25); }
+.badge-green { background: rgba(104,211,145,0.12); color: var(--green);  border: 1px solid rgba(104,211,145,0.25); }
+.badge-amber { background: rgba(246,173,85,0.12);  color: var(--amber);  border: 1px solid rgba(246,173,85,0.25); }
+.badge-purple{ background: rgba(183,148,244,0.12); color: var(--purple); border: 1px solid rgba(183,148,244,0.25); }
+.badge-red   { background: rgba(240,128,128,0.12); color: var(--red-soft); border: 1px solid rgba(240,128,128,0.25); }
+.flow-arrow { color: var(--tertiary); font-size: 14px; }
 
-  /* Multi-core visual */
-  .core-visual {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-  }
-  .core-box {
-    aspect-ratio: 1; background: rgba(0,212,255,0.08);
-    border: 1px solid rgba(0,212,255,0.3); border-radius: 3px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--accent);
-  }
+/* HIGHLIGHT BLOCK */
+.highlight-block {
+  background: var(--entry);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+.highlight-block strong { color: var(--primary); }
 
-  .footer {
-    border-top: 1px solid var(--border); padding-top: 14px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-text { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--dim); }
-  .source-tag { display: inline-flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--accent); }
-  .source-tag::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+/* WARNING BLOCK */
+.warning-block {
+  background: rgba(240,128,128,0.06);
+  border: 1px solid rgba(240,128,128,0.25);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}
+.warning-block .warn-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--red-soft);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* FOOTER */
+.infographic-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--tertiary);
+}
+.source-tag { color: var(--teal2); }
 </style>
+
 </head>
 <body>
-<div class="wrapper">
+<div class="container">
 
-  <div class="header">
-    <div class="title-block">
-      <div class="label">// CPU ARCHITECTURE — MODULE 02</div>
-      <h1>CENTRAL PROCESSING UNIT<br><span>FACTS & ARCHITECTURE</span></h1>
+  <div class="infographic-header">
+    <div>
+      <div class="module-tag">// HARDWARE MODULE 02</div>
+      <h1>Central Processing Unit <span>Facts & Architecture</span></h1>
     </div>
-    <div class="header-meta">CYBERGRIND.ORG<br>REF: HW-002<br>v1.0 // 2026</div>
+    <div class="header-meta">CYBERGRIND.ORG<br>HW-002<br>v1.0 // 2026</div>
   </div>
 
-  <!-- Stats row -->
-  <div class="stats-row">
-    <div class="stat-block" style="--stat-color:#00d4ff">
-      <span class="stat-value">GHz</span>
-      <span class="stat-label">CLOCK SPEED UNIT</span>
+  
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Fetch-Decode-Execute Cycle</span>
+      <div class="line"></div>
     </div>
-    <div class="stat-block" style="--stat-color:#39ff14">
-      <span class="stat-value">64-bit</span>
-      <span class="stat-label">MODERN X86 WIDTH</span>
+    
+    <div class="card-grid grid-3">
+      <div class="card"><div class="card-top" style="background:var(--blue2)"></div>
+        <h3 style="color:var(--blue2)">01 — FETCH</h3>
+        <p>CPU reads the next instruction from RAM using the Program Counter register.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--teal2)"></div>
+        <h3 style="color:var(--teal2)">02 — DECODE</h3>
+        <p>Control Unit interprets the instruction and prepares the appropriate CPU components.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--green)"></div>
+        <h3 style="color:var(--green)">03 — EXECUTE</h3>
+        <p>ALU or FPU carries out the operation. Result stored in a register or written back to RAM.</p>
+      </div>
     </div>
-    <div class="stat-block" style="--stat-color:#ff6b35">
-      <span class="stat-value">3-STEP</span>
-      <span class="stat-label">FETCH-EXECUTE CYCLE</span>
-    </div>
-    <div class="stat-block" style="--stat-color:#ffd700">
-      <span class="stat-value">SMP</span>
-      <span class="stat-label">MULTI-CPU ARCHITECTURE</span>
+    <div class="highlight-block">
+      Repeats billions of times per second. Modern CPUs use <strong>pipelining</strong> — the next instruction begins before the previous one finishes, enabling parallel execution.
     </div>
   </div>
-
-  <div class="main-layout">
-    <div class="left-col">
-
-      <!-- Fetch-Execute Cycle -->
-      <div class="panel">
-        <div class="panel-title">FETCH-DECODE-EXECUTE CYCLE</div>
-        <div class="cycle">
-          <div class="cycle-step">
-            <span class="step-num">01</span>
-            <div class="step-name">FETCH</div>
-            <div class="step-desc">CPU reads next instruction from RAM via Program Counter</div>
-          </div>
-          <div class="cycle-arrow">→</div>
-          <div class="cycle-step">
-            <span class="step-num">02</span>
-            <div class="step-name">DECODE</div>
-            <div class="step-desc">Control Unit interprets instruction; identifies operands</div>
-          </div>
-          <div class="cycle-arrow">→</div>
-          <div class="cycle-step">
-            <span class="step-num">03</span>
-            <div class="step-name">EXECUTE</div>
-            <div class="step-desc">ALU or FPU carries out operation; result stored in register or RAM</div>
-          </div>
-        </div>
-        <div style="margin-top:12px; font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--dim)">
-          ↻ REPEATS BILLIONS OF TIMES PER SECOND &nbsp;|&nbsp; MODERN CPUs USE PIPELINING FOR PARALLEL EXECUTION
-        </div>
-      </div>
-
-      <!-- CPU Types -->
-      <div class="panel">
-        <div class="panel-title">PROCESSOR ARCHITECTURE TYPES</div>
-        <div class="compare-row">
-          <div class="cpu-type x86">
-            <div class="cpu-type-label">⚡ x86 / x64</div>
-            <div class="cpu-fact">Desktops, laptops, servers</div>
-            <div class="cpu-fact">Complex Instruction Set (CISC)</div>
-            <div class="cpu-fact">64-bit data width (modern)</div>
-            <div class="cpu-fact">High performance output</div>
-            <div class="cpu-fact">Higher power &amp; heat</div>
-            <div class="cpu-fact">Intel &amp; AMD</div>
-          </div>
-          <div class="cpu-type arm">
-            <div class="cpu-type-label">📱 ARM</div>
-            <div class="cpu-fact">Smartphones, tablets</div>
-            <div class="cpu-fact">Reduced Instruction Set (RISC)</div>
-            <div class="cpu-fact">Smaller die, less heat</div>
-            <div class="cpu-fact">Battery-optimized design</div>
-            <div class="cpu-fact">Lower power consumption</div>
-            <div class="cpu-fact">Apple, Qualcomm, Samsung</div>
-          </div>
-        </div>
-      </div>
-
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Architecture Types</span>
+      <div class="line"></div>
     </div>
-    <div class="right-col">
-
-      <!-- Multi-core -->
-      <div class="panel">
-        <div class="panel-title">MULTI-CORE ARCHITECTURE</div>
-        <div style="display:flex; gap:16px; align-items:flex-start">
-          <div class="core-visual" style="width:140px; flex-shrink:0">
-            <div class="core-box">C1</div>
-            <div class="core-box">C2</div>
-            <div class="core-box">C3</div>
-            <div class="core-box">C4</div>
-            <div class="core-box">C5</div>
-            <div class="core-box">C6</div>
-            <div class="core-box">C7</div>
-            <div class="core-box">C8</div>
-          </div>
-          <div>
-            <div style="font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--dim); line-height:1.8">
-              <div>▸ <span style="color:#fff">Dual-core</span> = 2 cores on 1 chip</div>
-              <div>▸ <span style="color:#fff">Multi-core</span> = 3+ cores on 1 chip</div>
-              <div>▸ <span style="color:#fff">SMP</span> = Multiple physical CPUs</div>
-              <div>▸ Each core runs its own fetch-execute cycle</div>
-              <div>▸ Parallel workloads split across cores</div>
-              <div>▸ OS scheduler assigns threads to cores</div>
-              <div>▸ More cost-effective than SMP per unit</div>
-            </div>
-          </div>
-        </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--blue2)"></div>
+        <h3 style="color:var(--blue2)">⚡ x86 / x64</h3>
+        <ul>
+          <li>Desktops, laptops, servers</li>
+          <li>Complex Instruction Set (CISC)</li>
+          <li>64-bit data width (modern)</li>
+          <li>High performance, higher power and heat</li>
+          <li>Manufactured by Intel and AMD</li>
+        </ul>
       </div>
-
-      <!-- Brand breakdown -->
-      <div class="panel">
-        <div class="panel-title">CPU BRAND LINEUP</div>
-        <div class="brand-grid">
-          <div>
-            <div class="brand-col-title">🔴 AMD</div>
-            <div class="brand-item"><span class="brand-name">Athlon</span><span class="brand-tier tier-low">BUDGET</span></div>
-            <div class="brand-item"><span class="brand-name">Ryzen 3</span><span class="brand-tier tier-low">ENTRY</span></div>
-            <div class="brand-item"><span class="brand-name">Ryzen 5</span><span class="brand-tier tier-mid">MID</span></div>
-            <div class="brand-item"><span class="brand-name">Ryzen 7/9</span><span class="brand-tier tier-high">HIGH</span></div>
-            <div class="brand-item"><span class="brand-name">Threadripper</span><span class="brand-tier tier-high">EXTREME</span></div>
-            <div class="brand-item"><span class="brand-name">EPYC</span><span class="brand-tier tier-server">SERVER</span></div>
-          </div>
-          <div>
-            <div class="brand-col-title">🔵 INTEL</div>
-            <div class="brand-item"><span class="brand-name">Celeron / Atom</span><span class="brand-tier tier-low">BUDGET</span></div>
-            <div class="brand-item"><span class="brand-name">Core i3</span><span class="brand-tier tier-low">ENTRY</span></div>
-            <div class="brand-item"><span class="brand-name">Core i5</span><span class="brand-tier tier-mid">MID</span></div>
-            <div class="brand-item"><span class="brand-name">Core i7</span><span class="brand-tier tier-high">HIGH</span></div>
-            <div class="brand-item"><span class="brand-name">Core i9</span><span class="brand-tier tier-high">EXTREME</span></div>
-            <div class="brand-item"><span class="brand-name">Xeon</span><span class="brand-tier tier-server">SERVER</span></div>
-          </div>
-        </div>
+      <div class="card"><div class="card-top" style="background:var(--amber)"></div>
+        <h3 style="color:var(--amber)">📱 ARM</h3>
+        <ul>
+          <li>Smartphones, tablets, embedded systems</li>
+          <li>Reduced Instruction Set (RISC)</li>
+          <li>Smaller die, less heat generated</li>
+          <li>Battery-optimized, lower power draw</li>
+          <li>Apple, Qualcomm, Samsung, NVIDIA</li>
+        </ul>
       </div>
-
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">CPU Brand Lineup</span>
+      <div class="line"></div>
+    </div>
+    
+    <table class="data-table">
+      <thead><tr><th>Brand</th><th>Series</th><th>Tier</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AMD</strong></td><td>Athlon</td><td>Budget / Entry</td></tr>
+        <tr><td><strong>AMD</strong></td><td>Ryzen 3</td><td>Entry</td></tr>
+        <tr><td><strong>AMD</strong></td><td>Ryzen 5</td><td>Mid-Range</td></tr>
+        <tr><td><strong>AMD</strong></td><td>Ryzen 7 / 9</td><td>High-End</td></tr>
+        <tr><td><strong>AMD</strong></td><td>Threadripper</td><td>Extreme Workstation</td></tr>
+        <tr><td><strong>AMD</strong></td><td>EPYC</td><td>Server</td></tr>
+        <tr><td><strong>Intel</strong></td><td>Celeron / Atom</td><td>Budget / Ultra-Low Power</td></tr>
+        <tr><td><strong>Intel</strong></td><td>Core i3</td><td>Entry</td></tr>
+        <tr><td><strong>Intel</strong></td><td>Core i5</td><td>Mid-Range</td></tr>
+        <tr><td><strong>Intel</strong></td><td>Core i7 / i9</td><td>High-End</td></tr>
+        <tr><td><strong>Intel</strong></td><td>Xeon</td><td>Server / Workstation</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Multi-Core Architecture</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="highlight-block">
+      <strong>Chip-level Multiprocessing (CMP)</strong> integrates multiple processor cores onto a single chip.
+      Each core runs its own fetch-execute cycle independently. The OS scheduler assigns threads to cores,
+      enabling parallel workloads without raising clock speed. More cost-effective than multi-socket SMP setups.
+    </div>
+    <div class="warning-block">
+      <div class="warn-label">⚠ ESD Safety</div>
+      Always unplug the computer before opening the case and use an anti-static wrist strap when handling CPUs and RAM. Electrostatic discharge can permanently damage sensitive components.
     </div>
   </div>
 
-  <div class="footer">
-    <div class="footer-text">CYBERGRIND.ORG // HARDWARE SERIES // HW-002</div>
-    <div class="source-tag">SOURCE: Baeldung.com · Wikipedia.org · Intel.com</div>
-    <div class="footer-text">© 2026 CYBERGRIND</div>
+  <div class="infographic-footer">
+    <span>CYBERGRIND.ORG // HARDWARE SERIES // HW-002</span>
+    <span class="source-tag">SOURCES: Baeldung.com · Wikipedia.org · Intel.com</span>
+    <span>© 2026 CYBERGRIND</span>
   </div>
 
 </div>

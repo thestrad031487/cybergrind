@@ -1,249 +1,367 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<title>Liquid Cooling Facts</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share Tech Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid Cooling Facts — CyberGrind</title>
+
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--bg:#070b14;--panel:#0d1424;--border:#1a2a4a;--accent:#00ffa3;--text:#c8d8e8;--dim:#5a7a9a}
-  body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;width:1200px;min-height:900px}
-  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,163,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,163,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
-  .wrapper{padding:36px 40px;position:relative;z-index:1}
-  .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:20px}
-  .label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
-  h1{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;line-height:1.1}
-  h1 span{color:var(--accent)}
-  .header-meta{text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);line-height:1.8}
+:root {
+  --gap: 24px;
+  --radius: 8px;
+  --theme: rgb(29, 30, 32);
+  --entry: rgb(46, 46, 51);
+  --primary: rgb(218, 218, 219);
+  --secondary: rgb(155, 156, 157);
+  --tertiary: rgb(65, 66, 68);
+  --content: rgb(196, 196, 197);
+  --code-block-bg: rgb(46, 46, 51);
+  --border: rgb(51, 51, 51);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --gold: #c8963e;
+  --gold2: #e8b86d;
+  --blue2: #5ba3ff;
+  --teal2: #2dd4aa;
+  --green: #68d391;
+  --purple: #b794f4;
+  --red-soft: #f08080;
+  --amber: #f6ad55;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--theme);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+  padding: 32px 24px 64px;
+}
+.container { max-width: 900px; margin: 0 auto; }
 
-  .top-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
-  .stat{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 12px;text-align:center;position:relative;overflow:hidden}
-  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--s,var(--accent))}
-  .stat-val{font-family:'Orbitron',monospace;font-size:17px;font-weight:900;color:var(--s,var(--accent));display:block;margin-bottom:3px}
-  .stat-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px}
+/* HEADER */
+.infographic-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.module-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--teal2);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  border: 1px solid rgba(45,212,170,0.3);
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+.infographic-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+.infographic-header h1 span { color: var(--blue2); }
+.header-meta {
+  text-align: right;
+  font-size: 11px;
+  color: var(--tertiary);
+  line-height: 1.8;
+}
 
-  .layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
-  .panel{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;position:relative;overflow:hidden}
-  .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--p,var(--accent))}
-  .ptitle{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--p,var(--accent));letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-  .ptitle::before{content:'';display:inline-block;width:3px;height:14px;background:var(--p,var(--accent));border-radius:2px;flex-shrink:0}
+/* SECTION HEADER */
+.section { margin-bottom: 28px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-header .label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.section-header .line { flex: 1; height: 1px; background: var(--border); }
 
-  .facts{list-style:none}
-  .facts li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(26,42,74,0.4);font-size:13px;color:var(--text);line-height:1.4}
-  .facts li:last-child{border-bottom:none}
-  .facts li::before{content:'▸';color:var(--p,var(--accent));flex-shrink:0;margin-top:1px}
+/* CARDS */
+.card-grid {
+  display: grid;
+  gap: 10px;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
 
-  .pro-con{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .pro-box,.con-box{border-radius:3px;padding:12px}
-  .pro-box{background:rgba(0,255,163,0.05);border:1px solid rgba(0,255,163,0.25)}
-  .con-box{background:rgba(255,68,102,0.05);border:1px solid rgba(255,68,102,0.25)}
-  .pc-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1px;margin-bottom:8px}
-  .pro-box .pc-title{color:#00ffa3}
-  .con-box .pc-title{color:#ff4466}
-  .pc-item{font-size:12px;color:var(--dim);padding:3px 0;display:flex;gap:6px}
-  .pro-box .pc-item::before{content:'✓';color:#00ffa3;flex-shrink:0}
-  .con-box .pc-item::before{content:'✗';color:#ff4466;flex-shrink:0}
+.card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+}
+.card-top { height: 2px; border-radius: 2px 2px 0 0; position: absolute; top: 0; left: 0; right: 0; }
+.card h3 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.card p, .card li { font-size: 13px; color: var(--secondary); line-height: 1.65; }
+.card ul { list-style: none; padding: 0; }
+.card ul li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+.card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--blue2); font-size: 11px; }
 
-  .type-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .type-card{border-radius:3px;padding:13px;border:1px solid var(--border)}
-  .type-title{font-family:'Orbitron',monospace;font-size:10px;color:#fff;letter-spacing:1px;margin-bottom:6px}
-  .type-desc{font-size:11px;color:var(--dim);line-height:1.4}
-  .type-badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;padding:1px 6px;border-radius:2px;margin-top:6px}
+/* STAT BLOCKS */
+.stat-row { display: grid; gap: 10px; margin-bottom: 28px; }
+.stat-block {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--stat-color, var(--blue2));
+}
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--stat-color, var(--blue2));
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 10px; letter-spacing: 0.1em; color: var(--tertiary); text-transform: uppercase; }
 
-  /* Immersion section */
-  .immersion-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .imm-box{border-radius:3px;padding:12px;border:1px solid var(--border);background:rgba(0,212,255,0.03)}
-  .imm-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1px;margin-bottom:6px}
-  .imm-desc{font-size:11px;color:var(--dim);line-height:1.4}
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
+.data-table th {
+  background: var(--code-block-bg);
+  color: var(--blue2);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--secondary);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: rgba(46,46,51,0.4); }
+.data-table td strong { color: var(--primary); }
 
-  .footer{border-top:1px solid var(--border);padding-top:14px;display:flex;justify-content:space-between;align-items:center}
-  .footer-text{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
-  .source-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent)}
-  .source-tag::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+/* PIPELINE / FLOW */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+.flow-step { display: flex; align-items: center; gap: 6px; }
+.badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-blue  { background: rgba(91,163,255,0.12);  color: var(--blue2);  border: 1px solid rgba(91,163,255,0.25); }
+.badge-teal  { background: rgba(45,212,170,0.12);  color: var(--teal2);  border: 1px solid rgba(45,212,170,0.25); }
+.badge-green { background: rgba(104,211,145,0.12); color: var(--green);  border: 1px solid rgba(104,211,145,0.25); }
+.badge-amber { background: rgba(246,173,85,0.12);  color: var(--amber);  border: 1px solid rgba(246,173,85,0.25); }
+.badge-purple{ background: rgba(183,148,244,0.12); color: var(--purple); border: 1px solid rgba(183,148,244,0.25); }
+.badge-red   { background: rgba(240,128,128,0.12); color: var(--red-soft); border: 1px solid rgba(240,128,128,0.25); }
+.flow-arrow { color: var(--tertiary); font-size: 14px; }
+
+/* HIGHLIGHT BLOCK */
+.highlight-block {
+  background: var(--entry);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+.highlight-block strong { color: var(--primary); }
+
+/* WARNING BLOCK */
+.warning-block {
+  background: rgba(240,128,128,0.06);
+  border: 1px solid rgba(240,128,128,0.25);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}
+.warning-block .warn-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--red-soft);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* FOOTER */
+.infographic-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--tertiary);
+}
+.source-tag { color: var(--teal2); }
 </style>
+
 </head>
 <body>
-<div class="wrapper">
-  <div class="header">
+<div class="container">
+
+  <div class="infographic-header">
     <div>
-      <div class="label">// THERMAL MANAGEMENT — MODULE 08</div>
-      <h1>LIQUID COOLING<br><span>FACTS, TYPES & SYSTEMS</span></h1>
+      <div class="module-tag">// HARDWARE MODULE 08</div>
+      <h1>Liquid Cooling <span>Facts & Technologies</span></h1>
     </div>
-    <div class="header-meta">CYBERGRIND.ORG<br>REF: HW-008<br>v1.0 // 2026</div>
+    <div class="header-meta">CYBERGRIND.ORG<br>HW-008<br>v1.0 // 2026</div>
   </div>
 
-  <div class="top-stats">
-    <div class="stat" style="--s:#00ffa3"><span class="stat-val">HIGHER</span><span class="stat-lbl">THERMAL DENSITY THAN AIR</span></div>
-    <div class="stat" style="--s:#00d4ff"><span class="stat-val">AIO</span><span class="stat-lbl">ALL-IN-ONE LOOP TYPE</span></div>
-    <div class="stat" style="--s:#b44fff"><span class="stat-val">CUSTOM</span><span class="stat-lbl">LOOP — FULL DIY SYSTEM</span></div>
-    <div class="stat" style="--s:#ffd700"><span class="stat-val">QUIETER</span><span class="stat-lbl">FAN SPEEDS REDUCED</span></div>
-  </div>
-
-  <div class="layout">
-    <div style="display:flex;flex-direction:column;gap:14px">
-
-      <!-- Liquid cooling loop diagram -->
-      <div class="panel" style="--p:#00ffa3">
-        <div class="ptitle">LIQUID COOLING LOOP — HOW IT WORKS</div>
-        <svg viewBox="0 0 500 210" width="100%" xmlns="http://www.w3.org/2000/svg">
-          <!-- CPU / Water block -->
-          <rect x="20" y="80" width="100" height="60" rx="4" fill="#071015" stroke="#00d4ff" stroke-width="1.5"/>
-          <text x="70" y="106" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00d4ff">WATER</text>
-          <text x="70" y="120" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00d4ff">BLOCK</text>
-          <rect x="30" y="140" width="80" height="16" rx="2" fill="#071015" stroke="#00d4ff" stroke-width="1"/>
-          <text x="70" y="152" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">CPU (heat source)</text>
-
-          <!-- Pump -->
-          <rect x="170" y="155" width="80" height="40" rx="4" fill="#071015" stroke="#ffd700" stroke-width="1.5"/>
-          <circle cx="210" cy="175" r="14" fill="none" stroke="#ffd700" stroke-width="1.5"/>
-          <text x="210" y="179" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#ffd700">PUMP</text>
-
-          <!-- Radiator -->
-          <rect x="340" y="20" width="140" height="80" rx="4" fill="#071015" stroke="#00ffa3" stroke-width="1.5"/>
-          <!-- Radiator fins -->
-          <g stroke="#00ffa3" stroke-width="0.5" opacity="0.4">
-            <line x1="360" y1="28" x2="360" y2="92"/>
-            <line x1="375" y1="28" x2="375" y2="92"/>
-            <line x1="390" y1="28" x2="390" y2="92"/>
-            <line x1="405" y1="28" x2="405" y2="92"/>
-            <line x1="420" y1="28" x2="420" y2="92"/>
-            <line x1="435" y1="28" x2="435" y2="92"/>
-            <line x1="450" y1="28" x2="450" y2="92"/>
-            <line x1="465" y1="28" x2="465" y2="92"/>
-          </g>
-          <text x="410" y="56" text-anchor="middle" font-family="Orbitron" font-size="9" fill="#00ffa3">RADIATOR</text>
-          <text x="410" y="72" text-anchor="middle" font-family="Share Tech Mono" font-size="8" fill="#5a7a9a">+ FANS (exhaust heat)</text>
-
-          <!-- Reservoir (optional) -->
-          <rect x="170" y="20" width="80" height="55" rx="4" fill="#071015" stroke="#5a7a9a" stroke-width="1" stroke-dasharray="4,2"/>
-          <text x="210" y="47" text-anchor="middle" font-family="Orbitron" font-size="8" fill="#5a7a9a">RESERVOIR</text>
-          <text x="210" y="61" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#3a5a7a">(custom loop)</text>
-
-          <!-- Tubes / flow paths -->
-          <!-- Hot: water block → pump (bottom, orange) -->
-          <path d="M 120 120 L 140 120 L 140 175 L 170 175" fill="none" stroke="#ff6b35" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <!-- Hot: pump → radiator (orange) -->
-          <path d="M 250 165 L 330 165 L 330 60 L 340 60" fill="none" stroke="#ff6b35" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <!-- Cool: radiator → water block (top, teal) -->
-          <path d="M 340 40 L 100 40 L 100 80" fill="none" stroke="#00ffa3" stroke-width="2.5"/>
-
-          <!-- Flow direction arrows -->
-          <polygon points="155,116 145,121 155,126" fill="#ff6b35"/>
-          <polygon points="326,169 316,164 316,174" fill="#ff6b35"/>
-          <polygon points="104,76 99,66 109,66" fill="#00ffa3"/>
-
-          <!-- Labels -->
-          <text x="130" y="136" font-family="Share Tech Mono" font-size="8" fill="#ff6b35">HOT</text>
-          <text x="300" y="158" font-family="Share Tech Mono" font-size="8" fill="#ff6b35">HOT →</text>
-          <text x="190" y="35" font-family="Share Tech Mono" font-size="8" fill="#00ffa3">← COOL</text>
-
-          <!-- Thermal paste layer -->
-          <rect x="30" y="138" width="80" height="4" rx="1" fill="#39ff14" opacity="0.5"/>
-
-          <!-- Fan icons on radiator -->
-          <circle cx="370" cy="105" r="10" fill="none" stroke="#5a7a9a" stroke-width="1"/>
-          <text x="370" y="109" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">FAN</text>
-          <circle cx="410" cy="105" r="10" fill="none" stroke="#5a7a9a" stroke-width="1"/>
-          <text x="410" y="109" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">FAN</text>
-          <circle cx="450" cy="105" r="10" fill="none" stroke="#5a7a9a" stroke-width="1"/>
-          <text x="450" y="109" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#5a7a9a">FAN</text>
-        </svg>
-      </div>
-
-      <!-- Pros / Cons -->
-      <div class="panel" style="--p:#00ffa3">
-        <div class="ptitle">PROS & CONS</div>
-        <div class="pro-con">
-          <div class="pro-box">
-            <div class="pc-title">✓ ADVANTAGES</div>
-            <div class="pc-item">Superior heat absorption vs air</div>
-            <div class="pc-item">Lower sustained CPU temps</div>
-            <div class="pc-item">Quieter under heavy load</div>
-            <div class="pc-item">No bulky heatsink blocking RAM</div>
-            <div class="pc-item">Better for overclocking</div>
-            <div class="pc-item">Can cool GPU + CPU in loop</div>
-          </div>
-          <div class="con-box">
-            <div class="pc-title">✗ LIMITATIONS</div>
-            <div class="pc-item">More expensive than air</div>
-            <div class="pc-item">Leak risk (rare but serious)</div>
-            <div class="pc-item">Complex custom loop setup</div>
-            <div class="pc-item">Requires radiator mounting space</div>
-            <div class="pc-item">Pump failure = no cooling</div>
-            <div class="pc-item">More maintenance for custom</div>
-          </div>
-        </div>
-      </div>
+  
+  <div class="section">
+    <div class="section-header">
+      <span class="label">How Liquid Cooling Works</span>
+      <div class="line"></div>
     </div>
-
-    <div style="display:flex;flex-direction:column;gap:14px">
-
-      <!-- AIO vs Custom Loop -->
-      <div class="panel" style="--p:#00d4ff">
-        <div class="ptitle">AIO vs CUSTOM LOOP</div>
-        <div class="type-cards">
-          <div class="type-card" style="border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.04)">
-            <div class="type-title" style="color:#00d4ff">AIO (ALL-IN-ONE)</div>
-            <div class="type-desc">Pre-filled sealed loop. Waterblock, pump, tubing, and radiator in one unit. Easy install, no maintenance.</div>
-            <span class="type-badge" style="background:rgba(0,212,255,0.1);color:#00d4ff;border:1px solid rgba(0,212,255,0.3)">PLUG-AND-PLAY</span>
-          </div>
-          <div class="type-card" style="border-color:rgba(180,79,255,0.3);background:rgba(180,79,255,0.04)">
-            <div class="type-title" style="color:#b44fff">CUSTOM LOOP</div>
-            <div class="type-desc">DIY: separate pump, reservoir, blocks, radiator, tubing. Fully configurable. Can cool CPU + GPU + RAM.</div>
-            <span class="type-badge" style="background:rgba(180,79,255,0.1);color:#b44fff;border:1px solid rgba(180,79,255,0.3)">MAXIMUM PERFORMANCE</span>
-          </div>
-        </div>
-        <div style="margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.7">
-          <div>▸ AIO radiator sizes: <span style="color:#fff">120mm / 240mm / 280mm / 360mm</span></div>
-          <div>▸ Larger radiator = more surface area = lower temps</div>
-          <div>▸ Custom loops use distilled water + biocide additive</div>
-          <div>▸ Glycol (antifreeze) prevents corrosion in mixed-metal loops</div>
-        </div>
-      </div>
-
-      <!-- Immersion cooling -->
-      <div class="panel" style="--p:#ffd700">
-        <div class="ptitle">IMMERSION COOLING</div>
-        <div class="immersion-grid">
-          <div class="imm-box" style="border-color:rgba(0,212,255,0.25)">
-            <div class="imm-title" style="color:#00d4ff">SINGLE-PHASE</div>
-            <div class="imm-desc">Components submerged in dielectric fluid (mineral oil or engineered fluid). Fluid pumped to external heat exchanger. No phase change. Messy maintenance.</div>
-          </div>
-          <div class="imm-box" style="border-color:rgba(255,215,0,0.25)">
-            <div class="imm-title" style="color:#ffd700">TWO-PHASE</div>
-            <div class="imm-desc">Fluid boils at CPU operating temp. Vapor rises, condenses on cooled coil, drips back. Highly efficient but expensive. No moving parts allowed in system.</div>
-          </div>
-        </div>
-        <ul class="facts" style="--p:#ffd700;margin-top:12px">
-          <li>PUE of 1.05 vs 1.35 for air cooling (Wikipedia, Computer Cooling)</li>
-          <li>Handles up to 100 kW per rack vs ~23 kW for air</li>
-          <li>Primarily used in data centers, not consumer builds</li>
-          <li>System cannot have spinning drives (e.g., HDDs)</li>
+    
+    <div class="flow">
+      <div class="flow-step"><span class="badge badge-red">CPU Heat</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="badge badge-amber">Water Block</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="badge badge-blue">Pump</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="badge badge-teal">Radiator</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="badge badge-green">Fan Dissipation</span><span class="flow-arrow">→</span></div>
+      <div class="flow-step"><span class="badge badge-blue">Back to Block</span></div>
+    </div>
+    <div class="highlight-block">
+      Coolant absorbs heat from the CPU baseplate via the water block, travels through tubes to the radiator,
+      is cooled by fans, and returns to repeat the cycle. Water's higher thermal density allows it to absorb
+      more heat than air, enabling <strong>lower fan speeds, reduced noise, and better sustained temperatures.</strong>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Consumer Liquid Cooling Options</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--blue2)"></div>
+        <h3 style="color:var(--blue2)">AIO — All-In-One</h3>
+        <p>Self-contained pre-filled loop with a water block, pump, tubing, and radiator in a single unit. Easy to install, no maintenance, good for most users.</p>
+        <ul>
+          <li>120mm, 240mm, 280mm, 360mm radiator sizes</li>
+          <li>No refilling or maintenance required</li>
+          <li>Fixed configuration — not expandable</li>
         </ul>
       </div>
-
-      <!-- ALHS -->
-      <div class="panel" style="--p:#b44fff">
-        <div class="ptitle">ACTIVE-LIQUID HEAT SINK (ALHS)</div>
-        <ul class="facts" style="--p:#b44fff">
-          <li>Self-contained: liquid heat sink + internal pump + fan + radiator in one unit</li>
-          <li>No external liquid pumps required</li>
-          <li>More compact than full liquid cooling loops</li>
-          <li>Consistently outperforms air-cooled and standard heat pipe systems</li>
-          <li>Best thermal performance of any single-cooler solution</li>
+      <div class="card"><div class="card-top" style="background:var(--teal2)"></div>
+        <h3 style="color:var(--teal2)">Custom Loop</h3>
+        <p>Fully configurable systems with separate pump, reservoir, radiator, and water blocks. Can cool CPU, GPU, and VRMs simultaneously.</p>
+        <ul>
+          <li>Higher upfront cost and complexity</li>
+          <li>Requires periodic fluid top-up</li>
+          <li>Best sustained thermals available</li>
         </ul>
-        <div style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)">
-          COOLING HIERARCHY: AIR &lt; WATER / AIO &lt; ALHS &lt; IMMERSION
-        </div>
       </div>
     </div>
   </div>
-
-  <div class="footer">
-    <div class="footer-text">CYBERGRIND.ORG // HARDWARE SERIES // HW-008</div>
-    <div class="source-tag">SOURCE: Submer.com · Kingston.com · Intel.com · Wikipedia.org</div>
-    <div class="footer-text">© 2026 CYBERGRIND</div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Advanced Cooling Technologies</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--purple)"></div>
+        <h3 style="color:var(--purple)">ALHS — Active-Liquid Heat Sink</h3>
+        <p>Integrates the liquid heat sink, internal pump, fan, and radiator into a single compact self-contained unit.
+        Eliminates external pumps required in traditional water loops. Strong all-around thermal performance in a smaller footprint.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--amber)"></div>
+        <h3 style="color:var(--amber)">Immersion Cooling</h3>
+        <p>Components submerged in thermally conductive, electrically non-conductive dielectric fluid. Primarily used in data centers. Can achieve PUE as low as 1.05 vs 1.35 for air cooling.</p>
+      </div>
+    </div>
   </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Immersion Cooling Types</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--teal2)"></div>
+        <h3 style="color:var(--teal2)">Single-Phase Immersion</h3>
+        <p>Components sit in dielectric fluid (often mineral oil). Heat transfers to the fluid, which is pumped to an external heat exchanger. Fluid stays liquid throughout. Complex cleanup when replacing components.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--gold)"></div>
+        <h3 style="color:var(--gold)">Two-Phase Immersion</h3>
+        <p>Dielectric fluid engineered to boil at CPU operating temperatures. Vapor rises, condenses on a cooled coil, and drips back as liquid. Extremely efficient but very expensive. Primarily enterprise data centers.</p>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Cooling Method Comparison</span>
+      <div class="line"></div>
+    </div>
+    
+    <table class="data-table">
+      <thead><tr><th>Method</th><th>Efficiency</th><th>Cost</th><th>Use Case</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Air Cooling</strong></td><td>Low to Moderate</td><td>Low</td><td>Most consumer systems</td></tr>
+        <tr><td><strong>AIO Liquid</strong></td><td>Moderate to High</td><td>Medium</td><td>Gaming / enthusiast builds</td></tr>
+        <tr><td><strong>Custom Loop</strong></td><td>High</td><td>High</td><td>Extreme overclocking, multi-component</td></tr>
+        <tr><td><strong>ALHS</strong></td><td>High</td><td>Medium-High</td><td>Compact high-performance builds</td></tr>
+        <tr><td><strong>Immersion</strong></td><td>Highest</td><td>Very High</td><td>Data centers only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="infographic-footer">
+    <span>CYBERGRIND.ORG // HARDWARE SERIES // HW-008</span>
+    <span class="source-tag">SOURCES: Intel.com · Submer.com · Kingston.com · Wikipedia.org</span>
+    <span>© 2026 CYBERGRIND</span>
+  </div>
+
 </div>
 </body>
 </html>
