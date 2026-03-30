@@ -13,8 +13,7 @@ if ! curl -s http://127.0.0.1:11434 > /dev/null 2>&1; then
         fi
         if [ $i -eq 30 ]; then
             echo "Ollama failed to start after 60s, aborting"
-            osascript -e 'display notification "Ollama failed to start — no post generated" with title "CyberGrind" sound name "Basso"'
-            exit 1
+osascript -e 'tell app "System Events" to display dialog "CyberGrind: Ollama failed to start — no post generated" buttons {"OK"} default button 1'            exit 1
         fi
     done
 fi
@@ -32,9 +31,7 @@ if [[ -n $(git status --porcelain content/blog/) ]]; then
     git add content/blog/
     git commit -m "auto: daily cybernews $(date +%Y-%m-%d)"
     git push
-    osascript -e 'display notification "Daily cybernews posted successfully" with title "CyberGrind" sound name "Glass"'
-    echo "Post published successfully"
+osascript -e 'tell app "System Events" to display dialog "CyberGrind: Daily cybernews posted successfully" buttons {"OK"} default button 1'    echo "Post published successfully"
 else
-    osascript -e 'display notification "No new post — already up to date" with title "CyberGrind" sound name "Purr"'
-    echo "No new post to publish"
+osascript -e 'tell app "System Events" to display dialog "CyberGrind: No new post — already up to date" buttons {"OK"} default button 1'    echo "No new post to publish"
 fi
