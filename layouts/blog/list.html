@@ -34,10 +34,9 @@
 </div>
 
 {{- $pages := union .RegularPages .Sections }}
-{{- $paginator := .Paginate $pages }}
 
 <div id="news-list">
-{{- range $index, $page := $paginator.Pages }}
+{{- range $index, $page := $pages }}
 <article
   class="post-entry"
   data-title="{{ .Title | lower }}"
@@ -67,19 +66,6 @@
   No results found.
 </div>
 
-{{- if gt $paginator.TotalPages 1 }}
-<footer class="page-footer" id="news-pagination">
-  <nav class="pagination">
-    {{- if $paginator.HasPrev }}
-    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
-    {{- end }}
-    {{- if $paginator.HasNext }}
-    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
-    {{- end }}
-  </nav>
-</footer>
-{{- end }}
-
 <script>
 (function() {
   const searchInput = document.getElementById('news-search');
@@ -87,7 +73,6 @@
   const list = document.getElementById('news-list');
   const empty = document.getElementById('news-empty');
   const count = document.getElementById('news-count');
-  const pagination = document.getElementById('news-pagination');
   const articles = Array.from(list.querySelectorAll('article'));
 
   function updateCount(visible) {
@@ -120,7 +105,6 @@
     });
 
     empty.style.display = visible === 0 ? 'block' : 'none';
-    if (pagination) pagination.style.display = query || days !== 'all' ? 'none' : '';
     updateCount(visible);
   }
 
