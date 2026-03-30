@@ -119,64 +119,65 @@
 </script>
 {{- end }}
 
-{{- $pages := union .RegularPages .Sections }}
 {{- if .IsHome }}
-{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
-{{- end }}
+<div id="post-list"></div>
+<div id="load-more-wrap" style="text-align:center;margin:24px 0;display:none;">
+  <button id="load-more-btn" style="padding:10px 28px;background:transparent;border:1px solid var(--primary);color:var(--primary);font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:0.05em;">
+    Load More
+  </button>
+</div>
+<script>
+(function() {
+  const BATCH = 5;
+  let allPosts = [];
+  let shown = 0;
 
-{{- $paginator := .Paginate $pages }}
+  function formatDate(isoString) {
+    if (!isoString) return '';
+    const d = new Date(isoString);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
 
-{{- $term := .Data.Term }}
-{{- range $index, $page := $paginator.Pages }}
-{{- $class := "post-entry" }}
-{{- $user_preferred := or site.Params.disableSpecial1stPost site.Params.homeInfoParams }}
-{{- if (and $.IsHome (eq $paginator.PageNumber 1) (eq $index 0) (not $user_preferred)) }}
-{{- $class = "first-entry" }}
-{{- else if $term }}
-{{- $class = "post-entry tag-entry" }}
-{{- end }}
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  }
 
-<article class="{{ $class }}">
-  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
-  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">
-      {{- .Title }}
-      {{- if .Draft }}
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-      {{- end }}
-    </h2>
-  </header>
-  {{- if (ne (.Param "hideSummary") true) }}
-  <div class="entry-content">
-    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
-  </div>
-  {{- end }}
-  {{- if not (.Param "hideMeta") }}
-  <footer class="entry-footer">
-    {{- partial "post_meta.html" . -}}
-  </footer>
-  {{- end }}
-  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
-</article>
-{{- end }}
+  function renderPost(post) {
+    const summary = stripHtml(post.summary || post.content || '').slice(0, 200);
+    const date = post.permalink.match(/(\d{4}-\d{2}-\d{2})/)?.[1] || '';
+    return `<article class="post-entry">
+      <header class="entry-header">
+        <h2 class="entry-hint-parent">${post.title}</h2>
+      </header>
+      <div class="entry-content"><p>${summary}${summary.length >= 200 ? '...' : ''}</p></div>
+      <footer class="entry-footer"><span>${formatDate(date)}</span></footer>
+      <a class="entry-link" aria-label="post link to ${post.title}" href="${post.permalink}"></a>
+    </article>`;
+  }
 
-{{- if gt $paginator.TotalPages 1 }}
-<footer class="page-footer">
-  <nav class="pagination">
-    {{- if $paginator.HasPrev }}
-    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
-    {{- end }}
-    {{- if $paginator.HasNext }}
-    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
-    {{- end }}
-  </nav>
-</footer>
+  function showMore() {
+    const list = document.getElementById('post-list');
+    const batch = allPosts.slice(shown, shown + BATCH);
+    batch.forEach(post => {
+      list.insertAdjacentHTML('beforeend', renderPost(post));
+    });
+    shown += batch.length;
+    const btn = document.getElementById('load-more-wrap');
+    btn.style.display = shown < allPosts.length ? 'block' : 'none';
+  }
+
+  fetch('/index.json')
+    .then(r => r.json())
+    .then(data => {
+      allPosts = data.filter(p => p.permalink.includes('/blog/') && p.title && p.title !== '');
+      showMore();
+      document.getElementById('load-more-btn').addEventListener('click', showMore);
+    })
+    .catch(err => console.error('Failed to load posts:', err));
+})();
+</script>
 {{- end }}
 
 {{- end }}
