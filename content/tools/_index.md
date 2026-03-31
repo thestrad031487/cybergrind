@@ -2,8 +2,15 @@
 title: "Tools"
 draft: false
 ---
-## CyberGrind Tools
+
+{{< rawhtml >}}
+<div style="text-align:center; margin: 0 auto 32px;">
+  <img src="/images/tools_logo.png" alt="CyberGrind Tools" style="max-width: 420px; width: 100%; height: auto;"/>
+</div>
+{{< /rawhtml >}}
+
 A collection of free tools and resources for blue teamers and security practitioners.
+
 | Tool | Description |
 |---|---|
 | [CVE Research](/tools/cve-research/) | Full CVE details with EPSS exploitation probability in one lookup |
