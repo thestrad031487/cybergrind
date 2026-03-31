@@ -3,11 +3,15 @@
 {{- if not .IsHome | and .Title }}
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
-  <h1>{{ .Title }}</h1>
+  <h1></h1>
   {{- if .Description }}
   <div class="post-description">{{ .Description | markdownify }}</div>
   {{- end }}
 </header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content">{{ .Content }}</div>
 {{- end }}
 
 {{/* Search and filter bar */}}
