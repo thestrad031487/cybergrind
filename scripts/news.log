@@ -7,3 +7,28 @@ failed to store: -61
 Already up to date.
 Post already exists: content/blog/2026-03-31-cybernews.md
 button returned:OK
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   66d2d8e..9753f5f  main       -> origin/main
+Updating 66d2d8e..9753f5f
+Fast-forward
+ .gitignore                           |   8 ++-
+ app/collectors/abusech.py            |  71 +++++++++++++++++++++++
+ app/collectors/cisa.py               |  51 +++++++++++++++++
+ app/collectors/news.py               |  50 ++++++++++++++++
+ app/database.py                      |  59 +++++++++++++++++++
+ app/main.py                          | 108 +++++++++++++++++++++++++++++++++++
+ content/blog/2026-04-01-cybernews.md |  25 ++++++++
+ docker-compose.yml                   |  17 ++++++
+ requirements.txt                     |   5 ++
+ 9 files changed, 393 insertions(+), 1 deletion(-)
+ create mode 100644 app/collectors/abusech.py
+ create mode 100644 app/collectors/cisa.py
+ create mode 100644 app/collectors/news.py
+ create mode 100644 app/database.py
+ create mode 100644 app/main.py
+ create mode 100644 content/blog/2026-04-01-cybernews.md
+ create mode 100644 docker-compose.yml
+ create mode 100644 requirements.txt
+Post already exists: content/blog/2026-04-01-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
