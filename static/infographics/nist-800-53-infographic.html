@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIST SP 800-53 · Visual Reference | CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1220;--panel:#111827;--panel2:#162033;--border:#1e2d45;
+  --gold:#c8963e;--gold2:#e8b86d;--gold3:rgba(200,150,62,0.12);
+  --blue:#2e7de4;--blue2:#5ba3ff;
+  --teal:#1aab8a;--teal2:#2dd4aa;
+  --red:#e05a5a;--red2:#ff8080;
+  --purple:#7c5cbf;--purple2:#a98de8;
+  --text:#e2e8f4;--muted:#7a8aa8;--dim:#3a4a62;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{
+  background:var(--navy);color:var(--text);
+  font-family:'Space Mono',monospace;line-height:1.6;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(200,150,62,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,150,62,0.03) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 1.5rem 5rem;}
+
+/* ── HEADER ── */
+.ig-head{text-align:center;padding:3.5rem 0 2rem;opacity:0;animation:fadeUp 0.8s ease 0.1s forwards;}
+.ig-eyebrow{font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.8rem;display:flex;align-items:center;justify-content:center;gap:1rem;}
+.ig-eyebrow::before,.ig-eyebrow::after{content:'';display:block;height:1px;width:50px;background:rgba(232,184,109,0.35);}
+.ig-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-0.02em;line-height:1.1;margin-bottom:0.6rem;}
+.ig-title span{color:var(--gold2);}
+.ig-sub{font-size:0.72rem;color:var(--muted);letter-spacing:0.04em;max-width:520px;margin:0 auto;}
+
+/* ── SECTION LABEL ── */
+.sec-label{display:flex;align-items:center;gap:0.8rem;margin:3.5rem 0 1.2rem;opacity:0;}
+.sec-label.vis{animation:fadeUp 0.6s ease forwards;}
+.sl-num{font-size:0.55rem;letter-spacing:0.18em;color:var(--gold2);background:rgba(200,150,62,0.1);border:1px solid rgba(200,150,62,0.25);padding:0.2rem 0.5rem;border-radius:3px;}
+.sl-text{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--text);}
+.sl-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* ══════════════════
+   SECTION 1 — ORIGIN / FISMA BANNER
+══════════════════ */
+.fisma-banner{
+  background:linear-gradient(135deg,rgba(200,150,62,0.08),rgba(200,150,62,0.03));
+  border:1px solid rgba(200,150,62,0.2);border-radius:8px;
+  padding:1.8rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;
+  opacity:0;
+}
+.fisma-banner.vis{animation:fadeUp 0.7s ease forwards;}
+.fb-label{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.5rem;}
+.fb-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);margin-bottom:0.4rem;}
+.fb-desc{font-size:0.67rem;color:var(--muted);line-height:1.65;max-width:580px;}
+.fb-stat{text-align:center;flex-shrink:0;}
+.fb-stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--gold2);line-height:1;}
+.fb-stat-unit{font-size:0.55rem;letter-spacing:0.1em;color:var(--dim);margin-top:0.2rem;}
+
+/* ══════════════════
+   SECTION 2 — REVISION TIMELINE (horizontal)
+══════════════════ */
+.rev-track{
+  display:flex;align-items:flex-start;gap:0;
+  opacity:0;overflow-x:auto;padding-bottom:0.5rem;
+}
+.rev-track.vis{animation:fadeUp 0.7s ease forwards;}
+.rev-step{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;min-width:120px;
+}
+.rev-body{
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;
+  padding:0.75rem 0.7rem;text-align:center;width:100%;
+  transition:border-color 0.2s;
+}
+.rev-body:hover{border-color:var(--gold);}
+.rev-body.current{border-color:rgba(200,150,62,0.4);background:rgba(200,150,62,0.05);}
+.rev-yr{font-size:0.55rem;letter-spacing:0.1em;color:var(--gold2);margin-bottom:0.2rem;}
+.rev-ver{font-family:'Syne',sans-serif;font-weight:800;font-size:0.85rem;color:var(--text);margin-bottom:0.25rem;}
+.rev-highlight{font-size:0.58rem;color:var(--muted);line-height:1.45;}
+.rev-connector{
+  display:flex;align-items:center;padding-top:1.1rem;flex-shrink:0;
+}
+.rev-arrow{font-size:0.7rem;color:var(--dim);padding:0 0.3rem;}
+
+/* ══════════════════
+   SECTION 3 — THE 20 FAMILIES (color-coded grid)
+══════════════════ */
+.families-wrap{opacity:0;}
+.families-wrap.vis{animation:fadeUp 0.7s ease forwards;}
+.fam-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:0.9rem;}
+.fam-leg-item{display:flex;align-items:center;gap:0.4rem;font-size:0.58rem;color:var(--muted);}
+.fam-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+.families-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:0.45rem;
+}
+.fam-cell{
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;
+  padding:0.7rem 0.6rem;
+  transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.fam-cell:hover{transform:translateY(-3px);z-index:2;}
+.fam-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+
+/* Color categories */
+.cat-access .fam-cell::before{background:var(--blue);}
+.cat-audit  .fam-cell::before{background:var(--purple);}
+.cat-ops    .fam-cell::before{background:var(--teal);}
+.cat-risk   .fam-cell::before{background:var(--gold);}
+.cat-privacy.fam-cell::before{background:var(--red);}
+.cat-supply .fam-cell::before{background:#e87d3e;}
+
+.cat-access .fam-cell:hover{border-color:var(--blue);box-shadow:0 4px 16px rgba(46,125,228,0.12);}
+.cat-audit  .fam-cell:hover{border-color:var(--purple);box-shadow:0 4px 16px rgba(124,92,191,0.12);}
+.cat-ops    .fam-cell:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(26,171,138,0.12);}
+.cat-risk   .fam-cell:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(200,150,62,0.12);}
+.cat-privacy.fam-cell:hover{border-color:var(--red);box-shadow:0 4px 16px rgba(224,90,90,0.12);}
+.cat-supply .fam-cell:hover{border-color:#e87d3e;box-shadow:0 4px 16px rgba(232,125,62,0.12);}
+
+.fam-id{font-weight:700;font-size:0.72rem;margin-bottom:0.2rem;}
+.cat-access .fam-id{color:var(--blue2);}
+.cat-audit  .fam-id{color:var(--purple2);}
+.cat-ops    .fam-id{color:var(--teal2);}
+.cat-risk   .fam-id{color:var(--gold2);}
+.cat-privacy.fam-id{color:var(--red2);}
+.cat-supply .fam-id{color:#f0a070;}
+
+.fam-name{font-size:0.58rem;color:var(--muted);line-height:1.4;}
+.new-badge{
+  font-size:0.45rem;letter-spacing:0.1em;
+  background:rgba(26,171,138,0.15);border:1px solid rgba(26,171,138,0.3);
+  color:var(--teal2);padding:0.1rem 0.35rem;border-radius:2px;
+  display:inline-block;margin-top:0.3rem;
+}
+
+/* ══════════════════
+   SECTION 4 — THREE BASELINES
+══════════════════ */
+.baselines{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;opacity:0;}
+.baselines.vis{animation:fadeUp 0.7s ease forwards;}
+.bl{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;transition:transform 0.2s;
+}
+.bl:hover{transform:translateY(-3px);}
+.bl-head{padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
+.bl.low  .bl-head{background:rgba(26,171,138,0.08);border-bottom-color:rgba(26,171,138,0.2);}
+.bl.mod  .bl-head{background:rgba(200,150,62,0.08);border-bottom-color:rgba(200,150,62,0.2);}
+.bl.high .bl-head{background:rgba(224,90,90,0.08);border-bottom-color:rgba(224,90,90,0.2);}
+.bl-tier{font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.3rem;}
+.bl.low  .bl-tier{color:var(--teal2);}
+.bl.mod  .bl-tier{color:var(--gold2);}
+.bl.high .bl-tier{color:var(--red2);}
+.bl-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;line-height:1;}
+.bl.low  .bl-num{color:var(--teal2);}
+.bl.mod  .bl-num{color:var(--gold2);}
+.bl.high .bl-num{color:var(--red2);}
+.bl-unit{font-size:0.55rem;color:var(--muted);margin-top:0.1rem;}
+.bl-body{padding:1rem 1.2rem;}
+.bl-desc{font-size:0.63rem;color:var(--muted);line-height:1.6;margin-bottom:0.8rem;}
+.bl-examples{display:flex;flex-direction:column;gap:0.3rem;}
+.bl-ex{font-size:0.58rem;color:var(--dim);display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4;}
+.bl-ex::before{content:'·';flex-shrink:0;color:var(--border);}
+.bl.low  .bl-ex::before{color:var(--teal);}
+.bl.mod  .bl-ex::before{color:var(--gold);}
+.bl.high .bl-ex::before{color:var(--red);}
+
+/* ══════════════════
+   SECTION 5 — KEY STATS
+══════════════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;opacity:0;}
+.stats-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.stat-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:1.2rem;text-align:center;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.stat-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--gold2);line-height:1;margin-bottom:0.3rem;}
+.stat-label{font-size:0.58rem;color:var(--muted);line-height:1.45;letter-spacing:0.05em;}
+
+/* ══════════════════
+   SECTION 6 — RMF RELATIONSHIP
+══════════════════ */
+.rmf-flow{opacity:0;}
+.rmf-flow.vis{animation:fadeUp 0.7s ease forwards;}
+.rmf-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:0.4rem;margin-bottom:1rem;}
+.rmf-step{
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;
+  padding:0.8rem 0.5rem;text-align:center;
+  transition:border-color 0.2s,transform 0.2s;position:relative;
+}
+.rmf-step:hover{transform:translateY(-2px);}
+.rmf-step.active{
+  background:rgba(200,150,62,0.08);
+  border-color:rgba(200,150,62,0.35);
+}
+.rmf-step.active::after{
+  content:'SP 800-53';
+  position:absolute;bottom:-1.6rem;left:50%;transform:translateX(-50%);
+  font-size:0.45rem;color:var(--gold2);white-space:nowrap;letter-spacing:0.08em;
+}
+.rmf-n{font-family:'Syne',sans-serif;font-weight:800;font-size:0.75rem;margin-bottom:0.2rem;}
+.rmf-step.active .rmf-n{color:var(--gold2);}
+.rmf-label{font-size:0.55rem;color:var(--muted);line-height:1.3;}
+.rmf-step.active .rmf-label{color:var(--text);}
+.rmf-note{
+  margin-top:2.2rem;padding:1rem 1.2rem;
+  background:rgba(200,150,62,0.04);border:1px dashed rgba(200,150,62,0.2);border-radius:5px;
+  font-size:0.65rem;color:var(--muted);line-height:1.6;
+}
+.rmf-note strong{color:var(--gold2);}
+
+/* ══════════════════
+   SECTION 7 — WHO USES IT
+══════════════════ */
+.who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;opacity:0;}
+.who-grid.vis{animation:fadeUp 0.7s ease forwards;}
+.who-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:1.1rem;display:flex;gap:0.8rem;align-items:flex-start;
+  transition:border-color 0.2s;
+}
+.who-card:hover{border-color:var(--gold);}
+.who-icon{font-size:1.2rem;flex-shrink:0;}
+.who-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;color:var(--text);margin-bottom:0.25rem;}
+.who-desc{font-size:0.62rem;color:var(--muted);line-height:1.5;}
+.who-tag{display:inline-block;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.15rem 0.45rem;border-radius:3px;margin-top:0.4rem;}
+.tag-required{background:rgba(224,90,90,0.15);color:var(--red2);border:1px solid rgba(224,90,90,0.2);}
+.tag-voluntary{background:rgba(26,171,138,0.12);color:var(--teal2);border:1px solid rgba(26,171,138,0.2);}
+
+/* FOOTER */
+.ig-footer{text-align:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border);opacity:0;}
+.ig-footer.vis{animation:fadeUp 0.6s ease forwards;}
+.ig-footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.75rem;letter-spacing:0.15em;color:var(--gold2);margin-bottom:0.4rem;}
+.ig-footer-text{font-size:0.58rem;color:var(--dim);letter-spacing:0.06em;line-height:1.8;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:800px){.families-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:640px){
+  .families-grid{grid-template-columns:repeat(3,1fr);}
+  .baselines{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .rmf-steps{grid-template-columns:repeat(4,1fr);}
+  .who-grid{grid-template-columns:1fr;}
+  .fisma-banner{grid-template-columns:1fr;}
+}
+@media(max-width:420px){.families-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="ig-head">
+    <div class="ig-eyebrow">Visual Reference Guide</div>
+    <div class="ig-title">NIST <span>SP 800-53</span></div>
+    <div class="ig-sub">Security &amp; Privacy Controls for Information Systems — Revision 5 (September 2020)</div>
+  </div>
+
+  <!-- ── 01 ORIGIN ── -->
+  <div class="sec-label"><span class="sl-num">01</span><span class="sl-text">Legislative Origin</span><span class="sl-line"></span></div>
+  <div class="fisma-banner">
+    <div>
+      <div class="fb-label">Why It Exists</div>
+      <div class="fb-title">Created in Response to FISMA (2002)</div>
+      <div class="fb-desc">The Federal Information Security Management Act (December 17, 2002) directed NIST to develop security standards and guidelines for all federal information systems not designated national security systems. SP 800-53 — first published in 2005 — was the direct result: a comprehensive, structured catalog of controls that federal agencies could use to protect their systems and satisfy FISMA's requirements. It has since been revised five times to keep pace with evolving threats and technologies.</div>
+    </div>
+    <div class="fb-stat">
+      <div class="fb-stat-num">2005</div>
+      <div class="fb-stat-unit">Year First Published</div>
+    </div>
+  </div>
+
+  <!-- ── 02 REVISION TIMELINE ── -->
+  <div class="sec-label"><span class="sl-num">02</span><span class="sl-text">Revision History</span><span class="sl-line"></span></div>
+  <div class="rev-track">
+    <div class="rev-step">
+      <div class="rev-body">
+        <div class="rev-yr">2005</div>
+        <div class="rev-ver">Rev. 1</div>
+        <div class="rev-highlight">Initial publication. FISMA Implementation Project. Foundational control catalog.</div>
+      </div>
+    </div>
+    <div class="rev-connector"><div class="rev-arrow">→</div></div>
+    <div class="rev-step">
+      <div class="rev-body">
+        <div class="rev-yr">2007</div>
+        <div class="rev-ver">Rev. 2</div>
+        <div class="rev-highlight">Refined controls &amp; enhancements. Continued RMF alignment.</div>
+      </div>
+    </div>
+    <div class="rev-connector"><div class="rev-arrow">→</div></div>
+    <div class="rev-step">
+      <div class="rev-body">
+        <div class="rev-yr">2009</div>
+        <div class="rev-ver">Rev. 3</div>
+        <div class="rev-highlight">Added national security systems. Application security, insider threats, external services.</div>
+      </div>
+    </div>
+    <div class="rev-connector"><div class="rev-arrow">→</div></div>
+    <div class="rev-step">
+      <div class="rev-body">
+        <div class="rev-yr">2013</div>
+        <div class="rev-ver">Rev. 4</div>
+        <div class="rev-highlight">Cloud, mobile, APTs, supply chain, insider threats. Appendix J — Privacy Controls added.</div>
+      </div>
+    </div>
+    <div class="rev-connector"><div class="rev-arrow">→</div></div>
+    <div class="rev-step">
+      <div class="rev-body current">
+        <div class="rev-yr">SEPT 2020</div>
+        <div class="rev-ver" style="color:var(--gold2)">Rev. 5 ★</div>
+        <div class="rev-highlight">All orgs. Privacy integrated. New PT &amp; SR families. Outcome-based. IoT, OT, cloud.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 KEY STATS ── -->
+  <div class="sec-label"><span class="sl-num">03</span><span class="sl-text">By the Numbers</span><span class="sl-line"></span></div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">~1,189</div>
+      <div class="stat-label">Total Controls &amp;<br>Enhancements</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">20</div>
+      <div class="stat-label">Control Families<br>(2 new in Rev. 5)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Impact Baselines<br>(Low / Mod / High)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Major Revisions<br>since 2005</div>
+    </div>
+  </div>
+
+  <!-- ── 04 THE 20 FAMILIES ── -->
+  <div class="sec-label"><span class="sl-num">04</span><span class="sl-text">The 20 Control Families</span><span class="sl-line"></span></div>
+  <div class="families-wrap">
+    <div class="fam-legend">
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:var(--blue)"></div>Access &amp; Identity</div>
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:var(--purple)"></div>Audit &amp; Monitoring</div>
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:var(--teal)"></div>Operations &amp; Management</div>
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:var(--gold)"></div>Risk &amp; Planning</div>
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:var(--red)"></div>Privacy (New)</div>
+      <div class="fam-leg-item"><div class="fam-leg-dot" style="background:#e87d3e"></div>Supply Chain (New)</div>
+    </div>
+    <div class="families-grid">
+      <!-- Access & Identity -->
+      <div class="cat-access"><div class="fam-cell">
+        <div class="fam-id">AC</div><div class="fam-name">Access Control</div>
+      </div></div>
+      <div class="cat-access"><div class="fam-cell">
+        <div class="fam-id">IA</div><div class="fam-name">Identification &amp; Auth</div>
+      </div></div>
+      <div class="cat-access"><div class="fam-cell">
+        <div class="fam-id">PS</div><div class="fam-name">Personnel Security</div>
+      </div></div>
+      <div class="cat-access"><div class="fam-cell">
+        <div class="fam-id">PE</div><div class="fam-name">Physical &amp; Environmental</div>
+      </div></div>
+      <div class="cat-access"><div class="fam-cell">
+        <div class="fam-id">MP</div><div class="fam-name">Media Protection</div>
+      </div></div>
+      <!-- Audit & Monitoring -->
+      <div class="cat-audit"><div class="fam-cell">
+        <div class="fam-id">AU</div><div class="fam-name">Audit &amp; Accountability</div>
+      </div></div>
+      <div class="cat-audit"><div class="fam-cell">
+        <div class="fam-id">CA</div><div class="fam-name">Assessment &amp; Monitoring</div>
+      </div></div>
+      <div class="cat-audit"><div class="fam-cell">
+        <div class="fam-id">SI</div><div class="fam-name">System &amp; Info Integrity</div>
+      </div></div>
+      <div class="cat-audit"><div class="fam-cell">
+        <div class="fam-id">SC</div><div class="fam-name">Comms Protection</div>
+      </div></div>
+      <div class="cat-audit"><div class="fam-cell">
+        <div class="fam-id">AT</div><div class="fam-name">Awareness &amp; Training</div>
+      </div></div>
+      <!-- Operations & Management -->
+      <div class="cat-ops"><div class="fam-cell">
+        <div class="fam-id">CM</div><div class="fam-name">Config Management</div>
+      </div></div>
+      <div class="cat-ops"><div class="fam-cell">
+        <div class="fam-id">CP</div><div class="fam-name">Contingency Planning</div>
+      </div></div>
+      <div class="cat-ops"><div class="fam-cell">
+        <div class="fam-id">IR</div><div class="fam-name">Incident Response</div>
+      </div></div>
+      <div class="cat-ops"><div class="fam-cell">
+        <div class="fam-id">MA</div><div class="fam-name">Maintenance</div>
+      </div></div>
+      <div class="cat-ops"><div class="fam-cell">
+        <div class="fam-id">SA</div><div class="fam-name">Systems Acquisition</div>
+      </div></div>
+      <!-- Risk & Planning -->
+      <div class="cat-risk"><div class="fam-cell">
+        <div class="fam-id">RA</div><div class="fam-name">Risk Assessment</div>
+      </div></div>
+      <div class="cat-risk"><div class="fam-cell">
+        <div class="fam-id">PL</div><div class="fam-name">Planning</div>
+      </div></div>
+      <div class="cat-risk"><div class="fam-cell">
+        <div class="fam-id">PM</div><div class="fam-name">Program Management</div>
+      </div></div>
+      <!-- Privacy (new) -->
+      <div class="cat-privacy"><div class="fam-cell">
+        <div class="fam-id">PT</div>
+        <div class="fam-name">PII Processing &amp; Transparency</div>
+        <div class="new-badge">NEW Rev.5</div>
+      </div></div>
+      <!-- Supply Chain (new) -->
+      <div class="cat-supply"><div class="fam-cell">
+        <div class="fam-id">SR</div>
+        <div class="fam-name">Supply Chain Risk Mgmt</div>
+        <div class="new-badge">NEW Rev.5</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── 05 BASELINES ── -->
+  <div class="sec-label"><span class="sl-num">05</span><span class="sl-text">Security Control Baselines (SP 800-53B)</span><span class="sl-line"></span></div>
+  <div class="baselines">
+    <div class="bl low">
+      <div class="bl-head">
+        <div class="bl-tier">Low Impact</div>
+        <div class="bl-num">~149</div>
+        <div class="bl-unit">Controls Required</div>
+      </div>
+      <div class="bl-body">
+        <div class="bl-desc">For systems where a breach would have limited adverse effects on operations, assets, or individuals. A foundational starting point.</div>
+        <div class="bl-examples">
+          <div class="bl-ex">Basic access control &amp; authentication</div>
+          <div class="bl-ex">Core audit &amp; accountability</div>
+          <div class="bl-ex">Incident response planning</div>
+          <div class="bl-ex">Security awareness training</div>
+        </div>
+      </div>
+    </div>
+    <div class="bl mod">
+      <div class="bl-head">
+        <div class="bl-tier">Moderate Impact</div>
+        <div class="bl-num">~287</div>
+        <div class="bl-unit">Controls Required</div>
+      </div>
+      <div class="bl-body">
+        <div class="bl-desc">For systems where a breach causes serious adverse effects — significant mission degradation, financial loss, or harm to individuals. Most common federal baseline.</div>
+        <div class="bl-examples">
+          <div class="bl-ex">Multi-factor authentication required</div>
+          <div class="bl-ex">Continuous monitoring programs</div>
+          <div class="bl-ex">Supply chain risk management</div>
+          <div class="bl-ex">Advanced incident handling</div>
+        </div>
+      </div>
+    </div>
+    <div class="bl high">
+      <div class="bl-head">
+        <div class="bl-tier">High Impact</div>
+        <div class="bl-num">~370</div>
+        <div class="bl-unit">Controls Required</div>
+      </div>
+      <div class="bl-body">
+        <div class="bl-desc">For systems where a breach could cause severe or catastrophic harm — national security, critical infrastructure, or public safety at stake.</div>
+        <div class="bl-examples">
+          <div class="bl-ex">Maximum security &amp; redundancy</div>
+          <div class="bl-ex">Enhanced cryptographic protections</div>
+          <div class="bl-ex">Stringent physical security</div>
+          <div class="bl-ex">Full cyber resiliency controls</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.6rem;color:var(--dim);margin-top:0.7rem;text-align:center;">Control counts are approximate. Consult SP 800-53B for authoritative baselines. A separate Privacy Baseline applies to systems processing PII regardless of impact level.</p>
+
+  <!-- ── 06 RMF RELATIONSHIP ── -->
+  <div class="sec-label"><span class="sl-num">06</span><span class="sl-text">Where SP 800-53 Fits in the RMF</span><span class="sl-line"></span></div>
+  <div class="rmf-flow">
+    <div class="rmf-steps">
+      <div class="rmf-step">
+        <div class="rmf-n">1</div>
+        <div class="rmf-label">Prepare</div>
+      </div>
+      <div class="rmf-step">
+        <div class="rmf-n">2</div>
+        <div class="rmf-label">Categorize</div>
+      </div>
+      <div class="rmf-step active">
+        <div class="rmf-n">3</div>
+        <div class="rmf-label">Select</div>
+      </div>
+      <div class="rmf-step">
+        <div class="rmf-n">4</div>
+        <div class="rmf-label">Implement</div>
+      </div>
+      <div class="rmf-step">
+        <div class="rmf-n">5</div>
+        <div class="rmf-label">Assess</div>
+      </div>
+      <div class="rmf-step">
+        <div class="rmf-n">6</div>
+        <div class="rmf-label">Authorize</div>
+      </div>
+      <div class="rmf-step">
+        <div class="rmf-n">7</div>
+        <div class="rmf-label">Monitor</div>
+      </div>
+    </div>
+    <div class="rmf-note">
+      <strong>SP 800-53 enters at Step 3 — Select.</strong> After a system is categorized (Step 2, using FIPS 199), the organization selects the appropriate baseline from SP 800-53 via SP 800-53B, then tailors it for their specific environment and risk profile. Controls are then implemented, assessed using <strong>SP 800-53A</strong> procedures, and continuously monitored throughout the system lifecycle. SP 800-53 works alongside SP 800-37 (RMF) — they are designed to be used together, not separately.
+    </div>
+  </div>
+
+  <!-- ── 07 WHO USES IT ── -->
+  <div class="sec-label"><span class="sl-num">07</span><span class="sl-text">Who Uses It &amp; Why</span><span class="sl-line"></span></div>
+  <div class="who-grid">
+    <div class="who-card">
+      <div class="who-icon">🏛️</div>
+      <div>
+        <div class="who-title">Federal Agencies</div>
+        <div class="who-desc">All U.S. civilian executive branch agencies must comply with SP 800-53 under FISMA. Agencies are expected to be compliant within one year of a major revision's publication date.</div>
+        <div class="who-tag tag-required">Required by Law</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon">☁️</div>
+      <div>
+        <div class="who-title">Cloud Service Providers</div>
+        <div class="who-desc">Providers seeking FedRAMP authorization must demonstrate compliance with SP 800-53 control baselines. Required to sell cloud services to federal agencies.</div>
+        <div class="who-tag tag-required">Required (FedRAMP)</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon">⚙️</div>
+      <div>
+        <div class="who-title">Defense Contractors</div>
+        <div class="who-desc">DoD contractors operating under CMMC (Cybersecurity Maturity Model Certification) work with controls heavily derived from SP 800-53. Almost every CMMC control maps to an 800-53 control.</div>
+        <div class="who-tag tag-required">Required (CMMC)</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon">🏥</div>
+      <div>
+        <div class="who-title">Healthcare &amp; Finance</div>
+        <div class="who-desc">Organizations in regulated industries voluntarily adopt SP 800-53 for its comprehensiveness. Its controls map to HIPAA, PCI DSS, GDPR, and other compliance requirements simultaneously.</div>
+        <div class="who-tag tag-voluntary">Voluntary Adoption</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon">🔬</div>
+      <div>
+        <div class="who-title">Mature Security Programs</div>
+        <div class="who-desc">Any organization seeking a rigorous, comprehensive security baseline uses SP 800-53 to identify gaps. At 1,189 controls across 20 domains, it's among the most thorough frameworks available.</div>
+        <div class="who-tag tag-voluntary">Voluntary Adoption</div>
+      </div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon">🌐</div>
+      <div>
+        <div class="who-title">International Organizations</div>
+        <div class="who-desc">Since Rev. 5's expansion beyond federal scope, organizations globally use SP 800-53. Official crosswalks exist to ISO/IEC 27001:2022, allowing use alongside international standards.</div>
+        <div class="who-tag tag-voluntary">Voluntary Adoption</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ig-footer">
+    <div class="ig-footer-logo">CYBERGRIND.ORG</div>
+    <div class="ig-footer-text">
+      Primary source: NIST SP 800-53 Rev. 5 (Sept. 2020) · csrc.nist.gov · SP 800-53B for baselines<br>
+      Control counts approximate — consult csrc.nist.gov for authoritative figures · Informational only · Not legal or compliance advice · Accessed March 2026
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+},{threshold:0.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.sec-label,.fisma-banner,.rev-track,.stats-grid,.families-wrap,.baselines,.rmf-flow,.who-grid,.ig-footer')
+  .forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

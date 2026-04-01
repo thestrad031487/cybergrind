@@ -1,0 +1,110 @@
+{{- define "main" }}
+
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1></h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{/* Search bar */}}
+<div class="section-search" style="margin-bottom:24px;">
+  <input
+    type="text"
+    id="ob-search"
+    placeholder="Search the Orange Book..."
+    autocomplete="off"
+    style="width:100%;padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;"
+  >
+  <div id="ob-count" style="margin-top:8px;font-size:13px;color:var(--secondary);"></div>
+</div>
+
+{{- $pages := union .RegularPages .Sections }}
+{{- $paginator := .Paginate $pages }}
+
+<div id="ob-list">
+{{- range $index, $page := $paginator.Pages }}
+<article
+  class="post-entry"
+  data-title="{{ .Title | lower }}"
+  data-summary="{{ .Summary | plainify | lower }}"
+  data-tags="{{ range .Params.tags }}{{ . | lower }} {{ end }}"
+>
+  <header class="entry-header">
+    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ if .Description }}{{ .Description }}{{ else }}{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}{{ end }}</p>
+  </div>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+</div>
+
+<div id="ob-empty" style="display:none;padding:24px 0;color:var(--secondary);font-size:14px;">
+  No results found.
+</div>
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer" id="ob-pagination">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+<script>
+(function() {
+  const searchInput = document.getElementById('ob-search');
+  const list = document.getElementById('ob-list');
+  const empty = document.getElementById('ob-empty');
+  const count = document.getElementById('ob-count');
+  const pagination = document.getElementById('ob-pagination');
+  const articles = Array.from(list.querySelectorAll('article'));
+
+  function updateCount(visible) {
+    count.textContent = visible === articles.length
+      ? `${articles.length} articles`
+      : `${visible} of ${articles.length} articles`;
+  }
+
+  function filter() {
+    const query = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    articles.forEach(article => {
+      const title = article.dataset.title || '';
+      const summary = article.dataset.summary || '';
+      const tags = article.dataset.tags || '';
+      const matches = !query || title.includes(query) || summary.includes(query) || tags.includes(query);
+      article.style.display = matches ? '' : 'none';
+      if (matches) visible++;
+    });
+
+    empty.style.display = visible === 0 ? 'block' : 'none';
+    if (pagination) pagination.style.display = query ? 'none' : '';
+    updateCount(visible);
+  }
+
+  searchInput.addEventListener('input', filter);
+  updateCount(articles.length);
+})();
+</script>
+
+{{- end }}

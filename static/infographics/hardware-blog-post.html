@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside Your Computer — Hardware Module</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0f;
+    color: #c9d1d9;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #ff6600;
+  }
+
+  .header p:first-child {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #ff6600;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .header em {
+    color: #8b949e;
+    font-style: normal;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff6600;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e1e2e;
+    letter-spacing: 1px;
+  }
+
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e07b00;
+    margin: 28px 0 12px;
+    letter-spacing: 1px;
+  }
+
+  h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #c96a00;
+    margin: 20px 0 8px;
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    color: #c9d1d9;
+  }
+
+  strong { color: #e6edf3; }
+  em { color: #8b949e; }
+
+  a {
+    color: #ff6600;
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+
+  ul, ol {
+    margin: 12px 0 16px 24px;
+    color: #c9d1d9;
+  }
+
+  li { margin-bottom: 6px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 10px 14px;
+    border: 1px solid #1e1e2e;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  tr:first-child td {
+    background: #1a1a2e;
+    color: #ff6600;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  tr:not(:first-child):nth-child(even) td {
+    background: #0f0f1a;
+  }
+
+  tr:not(:first-child):nth-child(odd) td {
+    background: #0a0a0f;
+  }
+
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #ff6600;
+    text-align: center;
+    color: #8b949e;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<p><strong>Inside Your Computer</strong></p><p><em>A Comprehensive Technical Overview of Internal Components</em></p><p>CPU • Motherboard • Power Supply • Cooling Systems</p><p>Published March 2026</p><h1><strong>Introduction</strong></h1><p>Every modern computer is built around a core set of internal components that work together to process information, manage data, and communicate with the outside world. Understanding these components is foundational for anyone working in IT, cybersecurity, technical support, or hardware engineering.</p><p>This post covers the most important internal hardware: the CPU, RAM, motherboard, power supply, GPU, NIC, and cooling systems. It also explains CPU architecture types, bus technology, and expansion cards. All factual claims are sourced from reputable online references, cited at the end of each section and in the full reference list.</p><h1><strong>1. Internal Components Overview</strong></h1><p>The table below summarizes each primary internal component and its function within a computer system.</p><table><tr><td><p><strong>Component</strong></p></td><td><p>Role</p></td></tr><tr><td><p><strong>CPU</strong></p></td><td><p>Processes instructions; the brain of the system</p></td></tr><tr><td><p><strong>RAM</strong></p></td><td><p>Fast, volatile memory for active programs and data</p></td></tr><tr><td><p><strong>Motherboard</strong></p></td><td><p>Connects and coordinates all major components</p></td></tr><tr><td><p><strong>Power Supply (PSU)</strong></p></td><td><p>Converts AC wall power to regulated DC power</p></td></tr><tr><td><p><strong>GPU</strong></p></td><td><p>Handles graphics rendering; offloads visual work from the CPU</p></td></tr><tr><td><p><strong>NIC</strong></p></td><td><p>Provides wired or wireless network connectivity</p></td></tr><tr><td><p><strong>Cooling System</strong></p></td><td><p>Regulates heat to protect components and sustain performance</p></td></tr></table><p>These components map to the four fundamental computing functions:</p><ul><li>Input: Data enters through peripherals and is staged in RAM</li><li>Processing: The CPU (and GPU for graphics) executes instructions against that data</li><li>Storage: Persistent data lives on drives; active working data lives in RAM</li><li>Output: Processed results go to displays, speakers, or network interfaces</li></ul><h1><strong>2. The Central Processing Unit (CPU)</strong></h1><p>The CPU is the most critical component in any computer system. It retrieves raw data, applies it to a set of programmed instructions, and produces output — a process called processing. As Intel’s System Thermal &amp; Mechanical Architect Mark Gallina explains, “during normal operation, the transistors inside a CPU convert electrical energy into thermal energy (heat).” [1]</p><h2><strong>2.1 The Fetch-Execute Cycle</strong></h2><p>CPUs process instructions using a repeating three-stage cycle known as the fetch-execute (or fetch-decode-execute) cycle. According to Baeldung on Computer Science, the cycle works as follows [2]:</p><ul><li>Fetch: The CPU retrieves the next instruction from RAM using the Program Counter register</li><li>Decode: The Control Unit interprets the instruction and prepares the appropriate CPU components</li><li>Execute: The CPU carries out the instruction (e.g., arithmetic via the ALU) and stores the result</li></ul><p>Wikipedia’s Instruction Cycle article notes that in simple CPUs this cycle runs sequentially, while in modern CPUs it runs concurrently via instruction pipelining — meaning the next instruction begins before the previous one finishes. [3]</p><p>Speed is measured in gigahertz (GHz), representing the number of cycles per second. Modern processors can handle billions of instructions per second. [2]</p><h2><strong>2.2 Multi-Core Processing</strong></h2><p>To overcome single-core limitations, modern CPUs support Symmetric Multiprocessing (SMP), and more commonly, chip-level multiprocessing (CMP) — also called multi-core processing. In CMP, multiple processor cores are integrated onto a single chip. A dual-core chip contains two cores; multi-core chips contain more than two, and they divide workloads to improve throughput without simply raising clock speed.</p><h2><strong>2.3 CPU Architecture Types</strong></h2><table><tr><td><p><strong>CPU Type</strong></p></td><td><p>Description</p></td></tr><tr><td><p><strong>x86 / x64 Processors</strong></p></td><td><p>Used in most desktops, laptops, and servers. Process 64-bit instructions (x64) and are backward-compatible with 32-bit software (x86). Manufactured primarily by Intel and AMD. High performance but higher power consumption and heat output.</p></td></tr><tr><td><p><strong>ARM Processors</strong></p></td><td><p>Used in most smartphones and tablets. Use a Reduced Instruction Set (RISC), resulting in lower power draw and less heat. Common in Apple, Samsung, Qualcomm, and NVIDIA mobile devices. Trade raw performance for energy efficiency.</p></td></tr></table><p>Note on naming: 64-bit x86 processors are labeled x86-64 or x64, while 32-bit variants are labeled x86. 64-bit systems run both 32-bit and 64-bit software.</p><h2><strong>2.4 CPU Brands</strong></h2><h3><strong>AMD</strong></h3><ul><li>Athlon: Entry-level desktops and laptops</li><li>Ryzen 3: Home and light-use computing</li><li>Ryzen 5: Mid-range desktops and laptops</li><li>Ryzen 7 / Ryzen 9: High-end workstations and gaming systems</li><li>Threadripper: Extreme workloads such as 3D modeling and CAD</li><li>EPYC: High-performance server processors</li><li>“Pro” variants of Ryzen/Athlon: Enterprise-targeted configurations</li></ul><h3><strong>Intel</strong></h3><ul><li>Celeron / Atom: Low-cost and ultra-low-power devices (netbooks, tablets)</li><li>Core i3: Budget and entry-level computing</li><li>Core i5: Mainstream mid-range performance</li><li>Core i7 / Core i9: High-performance desktops and workstations</li><li>Xeon: Server, workstation, and embedded systems (introduced 1998)</li><li>Pentium 4: Legacy single-core series used 2000–2008</li></ul><p>Note: Intel’s i3/i5/i7/i9 designations reflect performance tiers, not literal core counts. Core counts and specs vary by generation.</p><p>⚠️  ESD Safety: Electrostatic Discharge (ESD) occurs when two objects with different charge levels make contact, potentially damaging sensitive components like CPUs and RAM. Always unplug the computer before opening the case and use an anti-static wrist strap when handling internal hardware.</p><p>Section 2 sources: [1] Intel — CPU Cooler: Liquid Cooling vs. Air Cooling | [2] Baeldung — Introduction to the Fetch-Execute Cycle | [3] Wikipedia — Instruction Cycle</p><h1><strong>3. The Motherboard</strong></h1><p>The motherboard is a large flat circuit board that connects and coordinates all major computer components. It houses the CPU and RAM slots, the BIOS/UEFI chip, expansion slots, power connectors, and often integrated NIC, audio, and graphics circuits.</p><p>The BIOS (Basic Input/Output System) or modern UEFI firmware is stored on a chip on the motherboard. At startup, it performs a Power-On Self-Test (POST) to verify that required components are present and functioning, then instructs the operating system to load.</p><h2><strong>3.1 The System Bus</strong></h2><p>The bus is the internal communication system that transfers data between components. The term comes from the Latin omnibus, meaning “for all.” The bus handles:</p><ul><li>Power distribution to each component</li><li>Data transfer between CPU, RAM, storage, and peripherals</li><li>Memory addressing: tracking where data is stored in RAM</li><li>Clock timing: synchronizing how components operate together</li></ul><h2><strong>3.2 Bus Architecture: PCI and PCIe</strong></h2><p>According to Intel’s PCIe explainer and Wikipedia’s PCI Express article, expansion bus technology has evolved through several generations [4][5]:</p><table><tr><td><p><strong>Bus Type</strong></p></td><td><p>Details</p></td></tr><tr><td><p><strong>PCI</strong></p></td><td><p>Peripheral Component Interconnect. 32-bit shared bus at 33 MHz, up to 133 MB/s. Older technology, still found in some systems.</p></td></tr><tr><td><p><strong>AGP</strong></p></td><td><p>Accelerated Graphics Port. Dedicated graphics slot derived from PCI. Replaced by PCIe.</p></td></tr><tr><td><p><strong>PCIe Gen 1</strong></p></td><td><p>PCI Express. Point-to-point, full-duplex serial. 250 MB/s per lane (x1).</p></td></tr><tr><td><p><strong>PCIe Gen 2</strong></p></td><td><p>500 MB/s per lane. Doubles Gen 1.</p></td></tr><tr><td><p><strong>PCIe Gen 3</strong></p></td><td><p>~1 GB/s per lane. Current mainstream standard for many platforms.</p></td></tr><tr><td><p><strong>PCIe Gen 4</strong></p></td><td><p>~2 GB/s per lane. Adopted by AMD Zen 2+ and Intel 11th Gen+.</p></td></tr><tr><td><p><strong>PCIe Gen 5</strong></p></td><td><p>~4 GB/s per lane. Supported by AMD Zen 4, Intel 12th Gen+, RTX 50 series GPUs.</p></td></tr></table><p>PCIe lanes come in slot sizes of x1, x4, x8, and x16. More lanes mean more bandwidth. GPUs typically occupy an x16 slot — the highest-bandwidth configuration. According to Intel: “on the motherboard, PCIe lanes appear in x1, x2, x4, x8, and x16 variations. More lanes mean more bandwidth, as well as a longer slot.” [4] Every PCIe generation is backward compatible with previous generations.</p><h2><strong>3.3 Expansion Cards</strong></h2><p>Expansion cards are circuit boards that slot into the motherboard to add or extend functionality:</p><ul><li>Video cards (GPU): Dedicated graphics processing with onboard VRAM and cooling</li><li>Network cards (NIC): Wired (RJ-45) or wireless connectivity</li><li>Audio cards: Converts electrical signals to audio via a Digital Signal Processor (DSP). Supports surround sound (5.1, 7.1 systems), VoIP, and teleconferencing</li><li>USB expansion cards: Adds USB ports beyond what the motherboard provides, without the bandwidth limits of a USB hub</li></ul><p>Audio card ports are color-coded: lime green (front speakers/headphones), pink (microphone), light blue (stereo line-in), orange (subwoofer/center), black (rear surround 5.1/7.1), gray (middle surround 7.1), gold (MIDI/game port). Some cards also include an S/PDIF port for digital audio via TOSLINK or RCA coaxial.</p><p>Section 3 sources: [4] Intel — What Are PCIe 4.0 and 5.0? | [5] Wikipedia — PCI Express | [6] Tom’s Hardware — What Is PCIe? | [7] TechRadar — PCIe Lanes Explained 2026</p><h1><strong>4. Power Supply Unit (PSU)</strong></h1><p>The Power Supply Unit (PSU) converts alternating current (AC) from the wall outlet into the low-voltage direct current (DC) required by all internal components. According to the Wikipedia PSU article: “modern personal computers universally use switched-mode power supplies” and “most modern desktop personal computer power supplies conform to the ATX specification.” [8]</p><p>Key ATX PSU behaviors per Wikipedia [8]:</p><ul><li>While connected to AC power, the PSU always provides 5-Volt Standby (5VSB) power for standby functions</li><li>The PSU turns on and off via a signal from the motherboard</li><li>It sends a “power good” signal to the motherboard when DC voltages are within specification, allowing the computer to safely boot</li></ul><p>Wattage requirements vary significantly by system type. According to the EcoFlow PSU guide [9]:</p><ul><li>Standard desktops without high-end CPUs or GPUs: typically 300W–500W</li><li>High-performance systems with dedicated GPUs: up to 1000W or more</li><li>ATX PSUs commonly range from 450W to 1000W+, ideal for systems with powerful GPUs and multiple drives</li></ul><p>Undersized or unstable PSUs can cause random restarts, system freezes, boot failures, or hardware damage — symptoms that can be difficult to diagnose without isolating the PSU. Quality and efficiency ratings (such as 80 PLUS certification) matter as much as raw wattage: a high-quality 650W PSU is safer than a low-quality 850W unit with poor voltage regulation. [9]</p><p>The PSU is mounted at the rear of the case and distributes power through cable bundles connected to the motherboard (24-pin ATX), CPU (4/8-pin EPS), GPU (6/8-pin PCIe or 12VHPWR), and storage drives (SATA/Molex).</p><p>Section 4 sources: [8] Wikipedia — Power Supply Unit (Computer) | [9] EcoFlow — A Complete Guide to PC Power Supplies</p><h1><strong>5. Cooling Systems</strong></h1><p>Modern CPUs generate significant heat during operation. Without adequate cooling, this heat causes thermal throttling (the CPU reduces its speed to protect itself) or permanent hardware damage. Intel engineer Mark Gallina notes that “if an efficient path for that heat doesn’t exist, then the CPU will exceed its safe operating temperature.” [1]</p><p>Cooling technologies have advanced substantially as CPU power density has increased while physical die sizes have shrunk. There are currently four main categories of cooling used in consumer and enterprise systems.</p><h2><strong>5.1 Heat Sinks</strong></h2><p>A heat sink is a passive component that attaches directly to a chip (typically the CPU) and transfers heat to a surrounding medium — either air or liquid. According to a DSI Ventures examination of CPU cooling technologies, “a heat sink uses its extended surface (also called fins) to extend the surface of the material that is in contact with air or liquid,” and its thermal performance is affected by air velocity, material choice, and fin design. [10]</p><p>Laptops typically use heat spreaders instead of finned heat sinks — flat metal plates that spread heat across a large surface area without fins or fans, making them suited to slim form factors.</p><h2><strong>5.2 Air Cooling</strong></h2><p>Air cooling is currently the most common method. An air cooler consists of a heat sink and one or more fans. According to Kingston Technology’s cooling guide, fans can be arranged in series or parallel configurations to move hot air out of the case, and air cooling is the most affordable and easiest-to-install option. [11]</p><p>Drawbacks include reduced efficiency at extreme heat loads compared to liquid cooling, larger physical footprint, and higher noise levels under load.</p><h2><strong>5.3 Water / Liquid Cooling</strong></h2><p>Liquid cooling circulates coolant through a water block mounted on the CPU, then pumps it to a radiator where fans dissipate the heat. Intel’s CPU cooler guide describes the process: the coolant absorbs heat from the CPU baseplate, travels via tubes to the radiator, is cooled by fans, and then returns to the water block to repeat the cycle. [1]</p><p>Water’s higher thermal density allows it to absorb more heat than air. Results include lower fan speeds, reduced noise, and lower sustained temperatures compared to equivalent air-cooled setups. Consumer options include:</p><ul><li>AIO (All-In-One): A self-contained pre-filled loop with a water block, pump, tubing, and radiator in a single unit</li><li>Custom Loop: Fully configurable systems with separate pump, reservoir, radiator, and water blocks for CPU, GPU, and other components</li></ul><h2><strong>5.4 Active-Liquid Heat Sink (ALHS)</strong></h2><p>ALHS designs integrate the liquid heat sink, internal pump, fan, and radiator into a single compact self-contained unit — eliminating the external pumps required in traditional water cooling loops. This reduces system footprint while delivering thermal performance that consistently outperforms air-cooled and standard heat pipe alternatives.</p><h2><strong>5.5 Immersion Cooling</strong></h2><p>Immersion cooling submerges computer components directly in a thermally conductive, electrically non-conductive (dielectric) fluid. According to Submer, a leading immersion cooling vendor: “immersion cooling a.k.a. liquid submersion cooling is the method of submerging computer components or full servers in a thermally, but not electrically, conductive liquid.” [12]</p><p>Two main variants exist [12][13]:</p><ul><li>Single-phase immersion: Components sit in dielectric fluid (often mineral oil). Heat transfers to the fluid, which is pumped to an external heat exchanger. Cleanup is complex when components need replacement.</li><li>Two-phase immersion: The dielectric fluid is engineered to boil at the CPU’s operating temperature. The vapor rises, condenses on a cooled coil, and drips back as liquid. Highly efficient but very expensive.</li></ul><p>Immersion cooling is primarily used in data centers, not consumer systems. Per the Wikipedia Computer Cooling article, immersion cooling can allow PUE (Power Usage Effectiveness) values as low as 1.05, compared to 1.35 for air cooling, and can handle up to 100 kW of compute per rack vs. ~23 kW for air. [14]</p><table><tr><td><p><strong>Cooling Method</strong></p></td><td><p>Thermal Efficiency / Notes</p></td></tr><tr><td><p><strong>Air Cooling</strong></p></td><td><p>Low to moderate. Cheapest, simplest, most common. Louder under heavy load.</p></td></tr><tr><td><p><strong>Water / Liquid Cooling</strong></p></td><td><p>Moderate to high. Better sustained temps, quieter. More complex setup.</p></td></tr><tr><td><p><strong>Active-Liquid Heat Sink (ALHS)</strong></p></td><td><p>High. Self-contained loop, compact. Strong all-around performance.</p></td></tr><tr><td><p><strong>Immersion Cooling</strong></p></td><td><p>Highest. Direct fluid contact. Primarily data center use; complex maintenance.</p></td></tr></table><p>Section 5 sources: [1] Intel — CPU Cooler Guide | [10] DSI Ventures / Soltex — CPU Cooling Technologies | [11] Kingston Technology — Air vs. Liquid Cooling | [12] Submer — What Is Immersion Cooling? | [13] Kooling Monster — Types of CPU Coolers | [14] Wikipedia — Computer Cooling</p><h1><strong>6. How Components Work Together</strong></h1><p>Each component depends on the others to function correctly. Here is a simplified flow:</p><ul><li>1. The PSU provides regulated DC power to the motherboard, which distributes it to all components.</li><li>2. On power-on, the BIOS/UEFI chip runs a POST check to verify components are present and functional.</li><li>3. The operating system is loaded from storage into RAM.</li><li>4. When an application runs, its instructions are placed in RAM. The CPU fetches, decodes, and executes those instructions in a continuous cycle.</li><li>5. Graphics rendering tasks are offloaded to the GPU, freeing the CPU for other work.</li><li>6. Network requests are handled by the NIC, transmitting and receiving data through the bus to RAM and CPU.</li><li>7. The cooling system continuously manages heat generated by the CPU, GPU, PSU, and other active components.</li></ul><p>Component failures ripple through the entire system. A failing PSU can cause random reboots, data corruption, or boot failure. A failed CPU cooler triggers thermal throttling or emergency shutdown. Faulty RAM causes crashes and data errors. A failed NIC severs network access. Understanding these interdependencies is essential for accurate troubleshooting and root cause analysis.</p><h1><strong>References</strong></h1><p>All factual claims in this document are supported by the following online sources. Accessed March 2026.</p><p><strong>[1] </strong><a href="https://www.intel.com/content/www/us/en/gaming/resources/cpu-cooler-liquid-cooling-vs-air-cooling.html">Intel — CPU Cooler: Liquid Cooling vs. Air Cooling</a></p><p><strong>[2] </strong><a href="https://www.baeldung.com/cs/fetch-execute-cycle">Baeldung on Computer Science — Introduction to the Fetch-Execute Cycle</a></p><p><strong>[3] </strong><a href="https://en.wikipedia.org/wiki/Instruction_cycle">Wikipedia — Instruction Cycle (Fetch-Decode-Execute Cycle)</a></p><p><strong>[4] </strong><a href="https://www.intel.com/content/www/us/en/gaming/resources/what-is-pcie-4-and-why-does-it-matter.html">Intel — What Are PCIe 4.0 and 5.0?</a></p><p><strong>[5] </strong><a href="https://en.wikipedia.org/wiki/PCI_Express">Wikipedia — PCI Express</a></p><p><strong>[6] </strong><a href="https://www.tomshardware.com/reviews/pcie-definition,5754.html">Tom’s Hardware — What Is PCIe? A Basic Definition</a></p><p><strong>[7] </strong><a href="https://www.techradar.com/computing/computing-components/pcie-lanes-explained">TechRadar — PCIe Lanes Explained 2026</a></p><p><strong>[8] </strong><a href="https://en.wikipedia.org/wiki/Power_supply_unit_(computer)">Wikipedia — Power Supply Unit (Computer)</a></p><p><strong>[9] </strong><a href="https://www.ecoflow.com/us/blog/pc-power-supplies-guide">EcoFlow — A Complete Guide to PC Power Supplies: ATX, SFX, TFX &amp; EPS Types</a></p><p><strong>[10] </strong><a href="https://soltexinc.com/wp-content/uploads/2023/09/CPU-Cooling-Technologies.pdf">Soltex Inc. / DSI Ventures — An Examination of CPU Cooling Technologies (PDF)</a></p><p><strong>[11] </strong><a href="https://www.kingston.com/en/blog/gaming/air-vs-liquid-cooling-pc-builds">Kingston Technology — Air Cooling vs. Liquid Cooling in PC Builds</a></p><p><strong>[12] </strong><a href="https://submer.com/blog/what-is-immersion-cooling/">Submer — What Is Immersion Cooling?</a></p><p><strong>[13] </strong><a href="https://koolingmonster.com/insights/different-types-of-cpu-coolers-from-air-to-liquid">Kooling Monster — Different Types of CPU Coolers: From Air to Liquid</a></p><p><strong>[14] </strong><a href="https://en.wikipedia.org/wiki/Computer_cooling">Wikipedia — Computer Cooling</a></p><p><em>End of Document</em></p>
+</div>
+</body>
+</html>

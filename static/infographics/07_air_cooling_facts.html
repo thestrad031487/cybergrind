@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air Cooling Facts — CyberGrind</title>
+
+<style>
+:root {
+  --gap: 24px;
+  --radius: 8px;
+  --theme: rgb(29, 30, 32);
+  --entry: rgb(46, 46, 51);
+  --primary: rgb(218, 218, 219);
+  --secondary: rgb(155, 156, 157);
+  --tertiary: rgb(65, 66, 68);
+  --content: rgb(196, 196, 197);
+  --code-block-bg: rgb(46, 46, 51);
+  --border: rgb(51, 51, 51);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --gold: #c8963e;
+  --gold2: #e8b86d;
+  --blue2: #5ba3ff;
+  --teal2: #2dd4aa;
+  --green: #68d391;
+  --purple: #b794f4;
+  --red-soft: #f08080;
+  --amber: #f6ad55;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--theme);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+  padding: 32px 24px 64px;
+}
+.container { max-width: 900px; margin: 0 auto; }
+
+/* HEADER */
+.infographic-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.module-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--teal2);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  border: 1px solid rgba(45,212,170,0.3);
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+.infographic-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+.infographic-header h1 span { color: var(--blue2); }
+.header-meta {
+  text-align: right;
+  font-size: 11px;
+  color: var(--tertiary);
+  line-height: 1.8;
+}
+
+/* SECTION HEADER */
+.section { margin-bottom: 28px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-header .label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.section-header .line { flex: 1; height: 1px; background: var(--border); }
+
+/* CARDS */
+.card-grid {
+  display: grid;
+  gap: 10px;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+}
+.card-top { height: 2px; border-radius: 2px 2px 0 0; position: absolute; top: 0; left: 0; right: 0; }
+.card h3 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.card p, .card li { font-size: 13px; color: var(--secondary); line-height: 1.65; }
+.card ul { list-style: none; padding: 0; }
+.card ul li { padding-left: 16px; position: relative; margin-bottom: 4px; }
+.card ul li::before { content: '▸'; position: absolute; left: 0; color: var(--blue2); font-size: 11px; }
+
+/* STAT BLOCKS */
+.stat-row { display: grid; gap: 10px; margin-bottom: 28px; }
+.stat-block {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--stat-color, var(--blue2));
+}
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--stat-color, var(--blue2));
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 10px; letter-spacing: 0.1em; color: var(--tertiary); text-transform: uppercase; }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
+.data-table th {
+  background: var(--code-block-bg);
+  color: var(--blue2);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--secondary);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: rgba(46,46,51,0.4); }
+.data-table td strong { color: var(--primary); }
+
+/* PIPELINE / FLOW */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+.flow-step { display: flex; align-items: center; gap: 6px; }
+.badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-blue  { background: rgba(91,163,255,0.12);  color: var(--blue2);  border: 1px solid rgba(91,163,255,0.25); }
+.badge-teal  { background: rgba(45,212,170,0.12);  color: var(--teal2);  border: 1px solid rgba(45,212,170,0.25); }
+.badge-green { background: rgba(104,211,145,0.12); color: var(--green);  border: 1px solid rgba(104,211,145,0.25); }
+.badge-amber { background: rgba(246,173,85,0.12);  color: var(--amber);  border: 1px solid rgba(246,173,85,0.25); }
+.badge-purple{ background: rgba(183,148,244,0.12); color: var(--purple); border: 1px solid rgba(183,148,244,0.25); }
+.badge-red   { background: rgba(240,128,128,0.12); color: var(--red-soft); border: 1px solid rgba(240,128,128,0.25); }
+.flow-arrow { color: var(--tertiary); font-size: 14px; }
+
+/* HIGHLIGHT BLOCK */
+.highlight-block {
+  background: var(--entry);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+.highlight-block strong { color: var(--primary); }
+
+/* WARNING BLOCK */
+.warning-block {
+  background: rgba(240,128,128,0.06);
+  border: 1px solid rgba(240,128,128,0.25);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}
+.warning-block .warn-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--red-soft);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* FOOTER */
+.infographic-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--tertiary);
+}
+.source-tag { color: var(--teal2); }
+</style>
+
+</head>
+<body>
+<div class="container">
+
+  <div class="infographic-header">
+    <div>
+      <div class="module-tag">// HARDWARE MODULE 07</div>
+      <h1>Air Cooling <span>Facts & Configurations</span></h1>
+    </div>
+    <div class="header-meta">CYBERGRIND.ORG<br>HW-007<br>v1.0 // 2026</div>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Heat Sink Fundamentals</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="highlight-block">
+      A heat sink is a passive component that attaches directly to a chip (typically the CPU) and transfers heat
+      to a surrounding medium. It uses <strong>extended fins</strong> to increase surface area in contact with air.
+      Thermal performance is affected by air velocity, material choice (aluminum vs copper), and fin density.
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--blue2)"></div>
+        <h3 style="color:var(--blue2)">Tower Heat Sinks</h3>
+        <p>Tall fin arrays with heat pipes. Most common for desktop CPU cooling. High surface area enables excellent passive and active cooling. Single or dual-tower configurations.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--teal2)"></div>
+        <h3 style="color:var(--teal2)">Low-Profile Heat Sinks</h3>
+        <p>Flat fin arrays for space-constrained builds (SFF cases, HTPCs). Lower thermal capacity than towers but sufficient for lower-TDP CPUs.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--amber)"></div>
+        <h3 style="color:var(--amber)">Heat Spreaders (Laptop)</h3>
+        <p>Flat metal plates spread heat across a large surface without fins. Suited to slim form factors. Often paired with heat pipes routed to a small fan and vent.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--green)"></div>
+        <h3 style="color:var(--green)">Heat Pipes</h3>
+        <p>Sealed copper tubes containing a working fluid. Liquid evaporates at the hot end, condenses at the cool end, and wicks back — transferring heat passively with high efficiency.</p>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Fan Configurations</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--blue2)"></div>
+        <h3 style="color:var(--blue2)">Fans in Series</h3>
+        <p>Fans stacked in line, blowing in the same direction. Increases static pressure — better for pushing air through dense fin arrays and restricted airflow paths.</p>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--teal2)"></div>
+        <h3 style="color:var(--teal2)">Fans in Parallel</h3>
+        <p>Fans side-by-side covering a larger area. Increases airflow volume (CFM) — better for moving large volumes of air through open spaces with low resistance.</p>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Air Cooling: Pros & Cons</span>
+      <div class="line"></div>
+    </div>
+    
+    <div class="card-grid grid-2">
+      <div class="card"><div class="card-top" style="background:var(--green)"></div>
+        <h3 style="color:var(--green)">Advantages</h3>
+        <ul>
+          <li>Most affordable cooling solution</li>
+          <li>Easiest to install and maintain</li>
+          <li>No risk of leaks or pump failure</li>
+          <li>Proven reliability over long periods</li>
+          <li>Widely compatible with most cases</li>
+        </ul>
+      </div>
+      <div class="card"><div class="card-top" style="background:var(--red-soft)"></div>
+        <h3 style="color:var(--red-soft)">Disadvantages</h3>
+        <ul>
+          <li>Less effective at extreme heat loads vs liquid</li>
+          <li>Larger physical footprint (tall tower coolers)</li>
+          <li>Higher noise levels under heavy load</li>
+          <li>May obstruct RAM slots on some motherboards</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <span class="label">Thermal Performance Factors</span>
+      <div class="line"></div>
+    </div>
+    
+    <table class="data-table">
+      <thead><tr><th>Factor</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Air Velocity (CFM)</strong></td><td>Higher airflow removes heat faster — directly proportional to cooling performance</td></tr>
+        <tr><td><strong>Fin Material</strong></td><td>Copper conducts heat ~2× better than aluminum but is heavier and more expensive</td></tr>
+        <tr><td><strong>Fin Density</strong></td><td>More fins = more surface area, but too dense restricts airflow — balance required</td></tr>
+        <tr><td><strong>Thermal Paste</strong></td><td>Fills microscopic gaps between IHS and cooler base; poor application raises temps significantly</td></tr>
+        <tr><td><strong>Ambient Temperature</strong></td><td>All cooling is relative to room temperature — hot rooms raise CPU temps proportionally</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="infographic-footer">
+    <span>CYBERGRIND.ORG // HARDWARE SERIES // HW-007</span>
+    <span class="source-tag">SOURCES: Kingston.com · DSI Ventures · Intel.com</span>
+    <span>© 2026 CYBERGRIND</span>
+  </div>
+
+</div>
+</body>
+</html>

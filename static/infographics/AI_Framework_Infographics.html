@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Governance Framework Infographics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --surface: #111420;
+    --surface2: #181c2e;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8eaf0;
+    --muted: #7a7f96;
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+
+    /* CyberGrind brand orange */
+    --cg-orange: #f97316;
+
+    /* Framework accent colors */
+    --mit: #e84c4c;
+    --nist: #2d8cff;
+    --eu: #003399;
+    --eu-accent: #f5c518;
+    --iso: #00b87c;
+    --oecd: #8b5cf6;
+    --unesco: #f97316;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .page-header h1 {
+    font-family: var(--mono);
+    font-size: clamp(20px, 4vw, 36px);
+    letter-spacing: -0.03em;
+    color: var(--cg-orange);
+    margin-bottom: 12px;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Card shell ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card-header {
+    padding: 28px 28px 20px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .card-header h2 {
+    font-family: var(--mono);
+    font-size: clamp(14px, 2vw, 18px);
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .card-header .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--muted);
+  }
+
+  .meta-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 24px 28px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Risk domains (MIT card) ── */
+  .domain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .domain-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .domain-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mit);
+    font-weight: 700;
+    padding-top: 2px;
+    min-width: 16px;
+  }
+
+  .domain-name {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .domain-sub {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.3;
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  /* ── NIST four functions ── */
+  .functions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .fn-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--nist);
+    position: relative;
+  }
+
+  .fn-card .fn-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+  }
+
+  .fn-card .fn-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.45;
+    font-weight: 300;
+  }
+
+  /* ── EU risk tiers ── */
+  .tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tier {
+    display: grid;
+    grid-template-columns: 36px 100px 1fr;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .tier-icon {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .tier-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  .tier-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  .fine-bar {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+  }
+
+  .fine-bar .label { font-size: 11px; color: var(--muted); }
+  .fine-bar .amount { font-family: var(--mono); font-size: 13px; color: var(--eu-accent); font-weight: 700; }
+
+  /* ── ISO steps ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--iso), transparent);
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 10px 0;
+  }
+
+  .step-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 2px solid var(--iso);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--iso);
+    flex-shrink: 0;
+    z-index: 1;
+    position: relative;
+  }
+
+  .step-content .step-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .step-content .step-detail {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  /* ── OECD principles ── */
+  .principles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .principle {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .p-num {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--oecd);
+    line-height: 1;
+    min-width: 24px;
+    padding-top: 2px;
+  }
+
+  .p-title { font-size: 12px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .p-desc  { font-size: 11px; color: var(--muted); line-height: 1.4; font-weight: 300; }
+
+  /* ── UNESCO areas ── */
+  .areas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .area {
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 9px 11px;
+    font-size: 11px;
+    color: var(--text);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .area-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--unesco);
+    flex-shrink: 0;
+  }
+
+  /* ── Stat blocks ── */
+  .stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  /* ── Timeline ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .tl-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--eu-accent);
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .tl-event {
+    font-size: 11px;
+    color: var(--text);
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: 7px 10px;
+    line-height: 1.3;
+    font-weight: 400;
+    border-left: 2px solid var(--eu-accent);
+  }
+
+  /* ── Source footer ── */
+  .card-footer {
+    padding: 14px 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .source-link {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .source-link::before { content: '↗'; font-size: 9px; }
+  .source-link:hover { color: var(--text); }
+
+  .source-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* MIT specific */
+  .mit .card-header { background: linear-gradient(135deg, rgba(232,76,76,0.12), transparent); }
+  .mit .badge { background: rgba(232,76,76,0.15); color: var(--mit); }
+
+  /* NIST specific */
+  .nist .card-header { background: linear-gradient(135deg, rgba(45,140,255,0.12), transparent); }
+  .nist .badge { background: rgba(45,140,255,0.15); color: var(--nist); }
+
+  /* EU specific */
+  .eu .card-header { background: linear-gradient(135deg, rgba(0,51,153,0.25), rgba(245,197,24,0.08)); }
+  .eu .badge { background: rgba(245,197,24,0.15); color: var(--eu-accent); }
+
+  /* ISO specific */
+  .iso .card-header { background: linear-gradient(135deg, rgba(0,184,124,0.12), transparent); }
+  .iso .badge { background: rgba(0,184,124,0.15); color: var(--iso); }
+
+  /* OECD specific */
+  .oecd .card-header { background: linear-gradient(135deg, rgba(139,92,246,0.12), transparent); }
+  .oecd .badge { background: rgba(139,92,246,0.15); color: var(--oecd); }
+
+  /* UNESCO specific */
+  .unesco .card-header { background: linear-gradient(135deg, rgba(249,115,22,0.12), transparent); }
+  .unesco .badge { background: rgba(249,115,22,0.15); color: var(--unesco); }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .domain-grid, .functions, .areas { grid-template-columns: 1fr; }
+    .tier { grid-template-columns: 28px 80px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>AI Governance Frameworks</h1>
+  <p>Visual reference cards for each major AI framework and risk initiative · <a href="https://cybergrind.org/orange-book/" style="color: var(--cg-orange); text-decoration: none;">CyberGrind Orange Book</a></p>
+</div>
+
+<div class="grid">
+
+  <!-- ─── MIT AI Risk Repository ─── -->
+  <div class="card mit">
+    <div class="card-header">
+      <div class="badge">Research Tool · 2024</div>
+      <h2>MIT AI Risk Repository</h2>
+      <div class="subtitle">MIT FutureTech · Part of the MIT AI Risk Initiative</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--mit)"></span>Non-regulatory</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--mit)"></span>1,700+ risks catalogued</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--mit)"></span>74 source frameworks</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="stats" style="margin-bottom:20px">
+        <div class="stat"><span class="stat-num" style="color:var(--mit)">1,700+</span><div class="stat-label">Risks Catalogued</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--mit)">74</span><div class="stat-label">Source Frameworks</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--mit)">7</span><div class="stat-label">Risk Domains</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--mit)">24</span><div class="stat-label">Subdomains</div></div>
+      </div>
+
+      <div class="section-label">7 Risk Domains</div>
+      <div class="domain-grid">
+        <div class="domain-item">
+          <div class="domain-num">01</div>
+          <div><div class="domain-name">Discrimination &amp; Toxicity</div><div class="domain-sub">Unfair treatment, harmful content, unequal AI performance</div></div>
+        </div>
+        <div class="domain-item">
+          <div class="domain-num">02</div>
+          <div><div class="domain-name">Privacy &amp; Security</div><div class="domain-sub">Data leakage, identity exposure, system vulnerabilities</div></div>
+        </div>
+        <div class="domain-item">
+          <div class="domain-num">03</div>
+          <div><div class="domain-name">Misinformation</div><div class="domain-sub">False outputs, filter bubbles, erosion of shared reality</div></div>
+        </div>
+        <div class="domain-item">
+          <div class="domain-num">04</div>
+          <div><div class="domain-name">Malicious Actors</div><div class="domain-sub">Disinformation at scale, fraud, cyberweapons</div></div>
+        </div>
+        <div class="domain-item">
+          <div class="domain-num">05</div>
+          <div><div class="domain-name">Human-Computer Interaction</div><div class="domain-sub">Overreliance, loss of human agency and autonomy</div></div>
+        </div>
+        <div class="domain-item">
+          <div class="domain-num">06</div>
+          <div><div class="domain-name">Socioeconomic &amp; Environmental</div><div class="domain-sub">Inequality, power centralization, governance failure</div></div>
+        </div>
+        <div class="domain-item" style="grid-column: 1 / -1;">
+          <div class="domain-num">07</div>
+          <div><div class="domain-name">AI System Safety, Failures &amp; Limitations</div><div class="domain-sub">Misaligned goals, dangerous capabilities, lack of transparency, multi-agent risks</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · Slattery et al., 2024 · arXiv:2408.12622</div>
+      <a class="source-link" href="https://airisk.mit.edu" target="_blank">airisk.mit.edu</a>
+    </div>
+  </div>
+
+  <!-- ─── NIST AI RMF ─── -->
+  <div class="card nist">
+    <div class="card-header">
+      <div class="badge">Voluntary Framework · January 2023</div>
+      <h2>NIST AI Risk Management Framework</h2>
+      <div class="subtitle">U.S. National Institute of Standards &amp; Technology</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--nist)"></span>Voluntary — no legal penalties</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--nist)"></span>U.S. federal agency baseline</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--nist)"></span>All sectors &amp; org sizes</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="section-label">Four Core Functions</div>
+      <div class="functions">
+        <div class="fn-card">
+          <div class="fn-name">GOVERN</div>
+          <div class="fn-desc">Establish org-level AI governance policies, roles, accountability structures, and culture of responsible AI.</div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-name">MAP</div>
+          <div class="fn-desc">Identify and analyze AI risk sources, affected parties, and potential societal and technical impacts.</div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-name">MEASURE</div>
+          <div class="fn-desc">Evaluate and quantify risks through bias detection, red-teaming, robustness testing, and benchmarking.</div>
+        </div>
+        <div class="fn-card">
+          <div class="fn-name">MANAGE</div>
+          <div class="fn-desc">Respond to, monitor, and improve risk management. Accept, mitigate, transfer, or avoid identified risks.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Key Updates</div>
+      <div class="principles">
+        <div class="principle">
+          <div class="p-num" style="color:var(--nist); font-size:13px; padding-top:3px">2024</div>
+          <div><div class="p-title">NIST-AI-600-1: Generative AI Profile</div><div class="p-desc">Released July 2024. Addresses unique risks from LLMs and generative systems — hallucination, synthetic content at scale, training data provenance.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--nist); font-size:13px; padding-top:3px">2025</div>
+          <div><div class="p-title">Domain-Specific Profiles</div><div class="p-desc">Sector profiles for healthcare, finance, and critical infrastructure turning high-level principles into practical, scenario-specific guidance.</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · NIST AI RMF 1.0 · nist.gov</div>
+      <a class="source-link" href="https://www.nist.gov/artificial-intelligence" target="_blank">nist.gov/artificial-intelligence</a>
+    </div>
+  </div>
+
+  <!-- ─── EU AI Act ─── -->
+  <div class="card eu">
+    <div class="card-header">
+      <div class="badge">Binding Law · August 2024</div>
+      <h2>EU Artificial Intelligence Act</h2>
+      <div class="subtitle">European Union · Regulation (EU) 2024/1689 · World's First Comprehensive AI Law</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--eu-accent)"></span>Legally binding</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--eu-accent)"></span>Extraterritorial reach</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--eu-accent)"></span>Phased enforcement 2024–2027</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="section-label">Risk Tier Classification</div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="tier-icon">🔴</div>
+          <div class="tier-name">PROHIBITED</div>
+          <div class="tier-desc">Banned outright. Social scoring, real-time public biometric ID, subliminal manipulation, scraping facial images.</div>
+        </div>
+        <div class="tier">
+          <div class="tier-icon">🟠</div>
+          <div class="tier-name">HIGH-RISK</div>
+          <div class="tier-desc">Strict pre-market compliance. Covers healthcare, HR, law enforcement, education, finance, migration, critical infrastructure.</div>
+        </div>
+        <div class="tier">
+          <div class="tier-icon">🟡</div>
+          <div class="tier-name">LIMITED RISK</div>
+          <div class="tier-desc">Transparency obligations only. Chatbots, deepfakes, AI-generated content must disclose AI involvement to users.</div>
+        </div>
+        <div class="tier">
+          <div class="tier-icon">🟢</div>
+          <div class="tier-name">MINIMAL RISK</div>
+          <div class="tier-desc">No specific obligations. Spam filters, AI-enabled video games, most consumer AI.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Enforcement Penalties</div>
+      <div class="fine-bar"><div class="label">Prohibited AI Violations</div><div class="amount">€35M or 7% revenue</div></div>
+      <div class="fine-bar" style="margin-top:6px"><div class="label">High-Risk Non-Compliance</div><div class="amount">€15M or 3% revenue</div></div>
+      <div class="fine-bar" style="margin-top:6px"><div class="label">Incorrect Information</div><div class="amount">€7.5M or 1.5% revenue</div></div>
+
+      <div class="section-label" style="margin-top:20px">Enforcement Timeline</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-date">Aug 2024</div><div class="tl-event">Act enters into force</div></div>
+        <div class="tl-item"><div class="tl-date">Feb 2025</div><div class="tl-event">Prohibited AI provisions enforceable</div></div>
+        <div class="tl-item"><div class="tl-date">Aug 2025</div><div class="tl-event">GPAI model obligations effective</div></div>
+        <div class="tl-item"><div class="tl-date">Aug 2026</div><div class="tl-event">Full European Commission enforcement begins</div></div>
+        <div class="tl-item"><div class="tl-date">Aug 2027</div><div class="tl-event">Some high-risk AI system requirements take effect</div></div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · EUR-Lex · Regulation (EU) 2024/1689</div>
+      <a class="source-link" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689" target="_blank">eur-lex.europa.eu</a>
+    </div>
+  </div>
+
+  <!-- ─── ISO/IEC 42001 ─── -->
+  <div class="card iso">
+    <div class="card-header">
+      <div class="badge">Certifiable Standard · 2023</div>
+      <h2>ISO/IEC 42001</h2>
+      <div class="subtitle">International Organization for Standardization · First International AI Management Standard</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--iso)"></span>Certifiable via third-party audit</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--iso)"></span>Global applicability</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--iso)"></span>Complements NIST &amp; EU Act</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="section-label">Implementation Path</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content"><div class="step-title">Gap Analysis</div><div class="step-detail">Evaluate existing AI policies against ISO/IEC 42001 requirements; identify overlapping controls and gaps.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content"><div class="step-title">Governance Structure</div><div class="step-detail">Appoint an AI governance lead; establish a cross-functional oversight committee aligned to the standard.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content"><div class="step-title">Risk Assessment</div><div class="step-detail">Conduct a formal AI risk assessment identifying risks to individuals, organizations, and society.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-content"><div class="step-title">Technical Documentation</div><div class="step-detail">Compile documentation, risk management measures, and human oversight procedures for the AIMS.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <div class="step-content"><div class="step-title">Internal Audit</div><div class="step-detail">Verify the AI Management System (AIMS) functions as intended before engaging external auditors.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">06</div>
+          <div class="step-content"><div class="step-title">Certification Audit</div><div class="step-detail">Engage an accredited certification body qualified under BS ISO/IEC 42006:2025 for formal assessment.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">07</div>
+          <div class="step-content"><div class="step-title">Continual Improvement</div><div class="step-detail">Monitor model performance, conduct post-market surveillance, update AIMS regularly. Re-certification required.</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · ISO/IEC 42001:2023</div>
+      <a class="source-link" href="https://www.iso.org/standard/81230.html" target="_blank">iso.org/standard/81230.html</a>
+    </div>
+  </div>
+
+  <!-- ─── OECD AI Principles ─── -->
+  <div class="card oecd">
+    <div class="card-header">
+      <div class="badge">Soft Law · 2019 · Updated 2023–2024</div>
+      <h2>OECD Principles on AI</h2>
+      <div class="subtitle">Organisation for Economic Co-operation and Development · G20 Endorsed</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--oecd)"></span>Non-binding intergovernmental</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--oecd)"></span>Influenced EU AI Act &amp; NIST RMF</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--oecd)"></span>First intergovernmental AI standard</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="section-label">Five Core Principles</div>
+      <div class="principles">
+        <div class="principle">
+          <div class="p-num" style="color:var(--oecd)">1</div>
+          <div><div class="p-title">Inclusive Growth &amp; Well-Being</div><div class="p-desc">AI should benefit people and the planet. Address environmental impacts. Promote inclusive, sustainable development.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--oecd)">2</div>
+          <div><div class="p-title">Human-Centred Values &amp; Fairness</div><div class="p-desc">Respect rule of law, human rights, and democratic values. Non-discriminatory, privacy-protective AI.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--oecd)">3</div>
+          <div><div class="p-title">Transparency &amp; Explainability</div><div class="p-desc">Provide meaningful information about how AI systems work, especially when affecting people's lives and decisions.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--oecd)">4</div>
+          <div><div class="p-title">Robustness, Security &amp; Safety</div><div class="p-desc">AI systems must function reliably and safely throughout their lifecycle. Continuously assess and mitigate risks.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--oecd)">5</div>
+          <div><div class="p-title">Accountability</div><div class="p-desc">AI actors are accountable for ensuring AI operates per these principles. Include mechanisms for redress when harm occurs.</div></div>
+        </div>
+      </div>
+
+      <div class="section-label">Influence &amp; Reach</div>
+      <div class="stats">
+        <div class="stat"><span class="stat-num" style="color:var(--oecd)">G20</span><div class="stat-label">Endorsed by all G20 nations</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--oecd)">2019</span><div class="stat-label">First intergovernmental AI standard</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--oecd)">2×</span><div class="stat-label">Updated 2023 &amp; 2024 for GenAI</div></div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · OECD AI Policy Observatory</div>
+      <a class="source-link" href="https://oecd.ai/en/ai-principles" target="_blank">oecd.ai/en/ai-principles</a>
+    </div>
+  </div>
+
+  <!-- ─── UNESCO ─── -->
+  <div class="card unesco">
+    <div class="card-header">
+      <div class="badge">Recommendation · November 2021</div>
+      <h2>UNESCO Recommendation on the Ethics of AI</h2>
+      <div class="subtitle">United Nations Educational, Scientific and Cultural Organization · 194 Member States</div>
+      <div class="meta-row">
+        <div class="meta-pill"><span class="dot" style="background:var(--unesco)"></span>Endorsed by 194 member states</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--unesco)"></span>Non-binding recommendation</div>
+        <div class="meta-pill"><span class="dot" style="background:var(--unesco)"></span>Human rights-centered</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="section-label">Four Core Values</div>
+      <div class="principles" style="margin-bottom:20px">
+        <div class="principle">
+          <div class="p-num" style="color:var(--unesco); font-size:15px">①</div>
+          <div><div class="p-title">Human Rights &amp; Human Dignity</div><div class="p-desc">AI must respect, protect, and promote human rights throughout its entire lifecycle — no exceptions.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--unesco); font-size:15px">②</div>
+          <div><div class="p-title">Peaceful, Just &amp; Interconnected Societies</div><div class="p-desc">AI should contribute to peace and justice, not be weaponized for surveillance or to suppress dissent.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--unesco); font-size:15px">③</div>
+          <div><div class="p-title">Diversity &amp; Inclusiveness</div><div class="p-desc">Develop AI for all of humanity — protect linguistic diversity, cultural pluralism, and marginalized communities.</div></div>
+        </div>
+        <div class="principle">
+          <div class="p-num" style="color:var(--unesco); font-size:15px">④</div>
+          <div><div class="p-title">Environment &amp; Ecosystem Flourishing</div><div class="p-desc">Account for AI's environmental footprint — energy, resource extraction, and hardware throughout the AI lifecycle.</div></div>
+        </div>
+      </div>
+
+      <div class="section-label">11 Policy Action Areas</div>
+      <div class="areas">
+        <div class="area"><div class="area-dot"></div>Ethics Impact Assessment</div>
+        <div class="area"><div class="area-dot"></div>Ethical Governance</div>
+        <div class="area"><div class="area-dot"></div>Data Policy</div>
+        <div class="area"><div class="area-dot"></div>International Cooperation</div>
+        <div class="area"><div class="area-dot"></div>Environment &amp; Ecosystems</div>
+        <div class="area"><div class="area-dot"></div>Gender Equality</div>
+        <div class="area"><div class="area-dot"></div>Cultural Protection</div>
+        <div class="area"><div class="area-dot"></div>Education &amp; Research</div>
+        <div class="area"><div class="area-dot"></div>Communication &amp; Information</div>
+        <div class="area"><div class="area-dot"></div>Economy &amp; Labour</div>
+        <div class="area"><div class="area-dot"></div>Health &amp; Social Wellbeing</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-num" style="color:var(--unesco)">194</span><div class="stat-label">Member States endorsed</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--unesco)">2021</span><div class="stat-label">Adopted at 41st General Conference</div></div>
+        <div class="stat"><span class="stat-num" style="color:var(--unesco)">11</span><div class="stat-label">Policy action areas</div></div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <div class="source-label">Source · UNESCO · unesdoc.unesco.org</div>
+      <a class="source-link" href="https://www.unesco.org/en/artificial-intelligence/recommendation-ethics" target="_blank">unesco.org/en/artificial-intelligence</a>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center; margin-top:48px; padding: 24px;">
+  <p style="font-family: var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.05em;">
+    CyberGrind · AI Governance Research · All frameworks cited with primary sources above each card
+  </p>
+</div>
+
+</body>
+</html>

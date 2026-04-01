@@ -1,0 +1,37 @@
+name: Daily CyberNews Post
+
+on:
+  schedule:
+    - cron: '0 13 * * *'    # 8am US Central (UTC-5)
+  workflow_dispatch:          # allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate daily post
+        env:
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+        run: python scripts/generate_news.py
+
+      - name: Commit and push if new post created
+        run: |
+          git config user.name "NewsBot"
+          git config user.email "bot@cybergrind.org"
+          git add content/blog/
+          git diff --staged --quiet || git commit -m "Daily CyberNews $(date +%Y-%m-%d)"
+          git push

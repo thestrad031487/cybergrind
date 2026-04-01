@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="4" fill="#1A1C1E"/>
+  <text x="16" y="22" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700">
+    <tspan fill="#FF8C00">&gt;_</tspan><tspan fill="#FFAD33">cg</tspan>
+  </text>
+</svg>

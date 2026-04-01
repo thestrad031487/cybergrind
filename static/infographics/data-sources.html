@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Sources & Methodology | CyberGrind</title>
+<style>
+/* PaperMod dark theme variables — matched exactly */
+:root {
+  --gap: 24px;
+  --content-gap: 20px;
+  --main-width: 720px;
+  --radius: 8px;
+  --theme: rgb(29, 30, 32);
+  --entry: rgb(46, 46, 51);
+  --primary: rgb(218, 218, 219);
+  --secondary: rgb(155, 156, 157);
+  --tertiary: rgb(65, 66, 68);
+  --content: rgb(196, 196, 197);
+  --code-block-bg: rgb(46, 46, 51);
+  --border: rgb(51, 51, 51);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* CyberGrind accent colors — kept minimal */
+  --gold: #c8963e;
+  --gold2: #e8b86d;
+  --blue2: #5ba3ff;
+  --teal2: #2dd4aa;
+  --red-soft: #f08080;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--theme);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.page-wrap {
+  max-width: calc(var(--main-width) + var(--gap) * 2);
+  margin: 0 auto;
+  padding: 40px var(--gap) 80px;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-family: var(--font);
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.lead {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.75;
+}
+
+/* Intro callout */
+.intro {
+  background: var(--entry);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  margin-bottom: 36px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.75;
+}
+
+.intro strong { color: var(--gold2); }
+
+/* TOC */
+.toc {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 48px;
+}
+
+.toc-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}
+
+.toc ol {
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+.toc li { margin-bottom: 5px; }
+
+.toc a {
+  color: var(--blue2);
+  text-decoration: none;
+}
+
+.toc a:hover { text-decoration: underline; }
+
+/* Doc sections */
+.doc-section {
+  margin-bottom: 52px;
+}
+
+.section-heading {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Source entries */
+.source-entry {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.source-entry:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.source-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.source-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.source-title a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.source-title a:hover {
+  color: var(--blue2);
+  border-color: var(--blue2);
+}
+
+.source-badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.badge-live   { background: rgba(45,212,170,0.12); color: var(--teal2);   border: 1px solid rgba(45,212,170,0.25); }
+.badge-static { background: rgba(91,163,255,0.12); color: var(--blue2);   border: 1px solid rgba(91,163,255,0.25); }
+.badge-gov    { background: rgba(240,128,128,0.10); color: var(--red-soft); border: 1px solid rgba(240,128,128,0.25); }
+.badge-public { background: rgba(155,156,157,0.12); color: var(--secondary); border: 1px solid rgba(155,156,157,0.25); }
+.badge-api    { background: rgba(200,150,62,0.12); color: var(--gold2);   border: 1px solid rgba(200,150,62,0.25); }
+
+.source-body {
+  font-size: 14px;
+  color: var(--content);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+/* Meta table */
+.source-meta {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.meta-row {
+  display: flex;
+  width: 50%;
+  border-bottom: 1px solid var(--border);
+}
+
+.meta-row:nth-child(even) { border-right: none; }
+.meta-row:nth-child(odd)  { border-right: 1px solid var(--border); }
+.meta-row:nth-last-child(-n+2) { border-bottom: none; }
+
+@media (max-width: 560px) {
+  .meta-row { width: 100%; border-right: none !important; }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-row:nth-last-child(2) { border-bottom: 1px solid var(--border); }
+}
+
+.meta-key {
+  background: var(--code-block-bg);
+  padding: 7px 12px;
+  font-size: 10px;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  min-width: 110px;
+}
+
+.meta-val {
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+
+/* Methodology */
+.method-list {
+  list-style: none;
+  padding: 0;
+}
+
+.method-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.method-list li:last-child { border-bottom: none; }
+
+.method-term {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  padding-top: 2px;
+}
+
+.method-def {
+  font-size: 14px;
+  color: var(--content);
+  line-height: 1.8;
+}
+
+@media (max-width: 520px) {
+  .method-list li { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* Limitations */
+.limitations-list {
+  list-style: none;
+  padding: 0;
+}
+
+.limitations-list li {
+  font-size: 14px;
+  color: var(--content);
+  padding: 10px 0 10px 20px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  line-height: 1.8;
+}
+
+.limitations-list li:last-child { border-bottom: none; }
+
+.limitations-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--secondary);
+}
+
+/* Disclaimer */
+.disclaimer {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.75;
+  margin-top: 20px;
+}
+
+/* Footer */
+footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--secondary);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="eyebrow">// Transparency</div>
+    <h1>Data Sources &amp; Methodology</h1>
+    <p class="lead">Where CyberGrind's data comes from, how it's used, and what its limitations are. No black boxes.</p>
+  </div>
+
+  <div class="intro">
+    <strong>Intellectual honesty is a core principle of this site.</strong> Every data source is documented here with its origin, update frequency, and known limitations. If something is uncertain, we say so. If a source has caveats, we surface them. CyberGrind does not fabricate data, manufacture threat scores, or present third-party feeds as proprietary intelligence.
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#live-threat-data">Live Threat Data</a></li>
+      <li><a href="#vulnerability-data">Vulnerability Data</a></li>
+      <li><a href="#reference-content">Reference &amp; Educational Content</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#limitations">Known Limitations</a></li>
+    </ol>
+  </div>
+
+  <!-- Live Threat Data -->
+  <div class="doc-section" id="live-threat-data">
+    <div class="section-heading">1 — Live Threat Data</div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA Known Exploited Vulnerabilities (KEV)</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-gov">U.S. Gov</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        The authoritative catalog of vulnerabilities confirmed to have been actively exploited in the wild, maintained by the Cybersecurity and Infrastructure Security Agency. Federal agencies are mandated to remediate KEV entries within defined timelines under Binding Operational Directive 22-01. CyberGrind fetches this feed to power the CISA KEV Checker tool and the Blue Team Resources page.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">As published by CISA</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">1 hour (Cloudflare Worker)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">JSON via CISA API</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">KEV Checker, Blue Team Resources</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.abuseipdb.com" target="_blank" rel="noopener">AbuseIPDB</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-api">API</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A community-driven database of IP addresses reported for malicious activity including brute force attacks, port scanning, spam, and DDoS participation. Each IP carries a confidence-of-abuse score (0–100) based on report volume, recency, and reporter reputation. CyberGrind uses the AbuseIPDB API for the IP Reputation Check tool and as one of two data layers in the Global Threat Map.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Continuous (community)</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">6 hours (threat map)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">REST API (JSON)</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">IP Reputation Check, Threat Map</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://github.com/stamparm/ipsum" target="_blank" rel="noopener">IPsum</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        An open source daily-updated blocklist aggregating malicious IPs from multiple threat intelligence sources. IPsum assigns a threat level (1–10) based on how many independent sources have flagged an IP. CyberGrind uses IPsum as one component of the OSINT Feeds layer in the Global Threat Map.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Daily</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">1 hour (OSINT worker)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">Plaintext blocklist</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Map (OSINT tab)</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://rules.emergingthreats.net" target="_blank" rel="noopener">Emerging Threats</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        Proofpoint's open source threat intelligence feed providing IDS/IPS rules and IP blocklists for known malicious infrastructure. The compromised IPs feed covers hosts confirmed to be participating in attack campaigns. CyberGrind uses the open Emerging Threats blocklist as a component of the OSINT Feeds threat map layer.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Daily</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">1 hour (OSINT worker)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">Plaintext blocklist</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Map (OSINT tab)</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://feodotracker.abuse.ch" target="_blank" rel="noopener">Feodo Tracker</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        Abuse.ch's tracker for botnet command-and-control infrastructure associated with banking trojans and ransomware families including Emotet, TrickBot, QakBot, and Dridex. Feodo Tracker provides a blocklist of active C2 IPs with malware family attribution. CyberGrind uses this feed as the third component of the OSINT Feeds threat map layer.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Continuous</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">1 hour (OSINT worker)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">JSON / plaintext</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Map (OSINT tab)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vulnerability Data -->
+  <div class="doc-section" id="vulnerability-data">
+    <div class="section-heading">2 — Vulnerability Data</div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.first.org/epss" target="_blank" rel="noopener">EPSS — Exploit Prediction Scoring System (FIRST)</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-api">API</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A data-driven probability model maintained by FIRST (Forum of Incident Response and Security Teams) that estimates the likelihood a given CVE will be exploited in the wild within the next 30 days. EPSS scores range from 0.0 to 1.0 and are updated daily based on threat intelligence and exploitation telemetry. CyberGrind uses EPSS scores in the CVE Research tool and the dedicated EPSS Scanner to help practitioners prioritize remediation beyond CVSS severity alone.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Daily</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">Per worker config</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">REST API (JSON)</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">CVE Research, EPSS Scanner</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reference & Educational Content -->
+  <div class="doc-section" id="reference-content">
+    <div class="section-heading">3 — Reference &amp; Educational Content</div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.nist.gov/publications" target="_blank" rel="noopener">NIST Publications</a></div>
+        <div class="source-badges">
+          <span class="badge badge-static">Reference</span>
+          <span class="badge badge-gov">U.S. Gov</span>
+          <span class="badge badge-public">Public Domain</span>
+        </div>
+      </div>
+      <div class="source-body">
+        Primary source publications from the National Institute of Standards and Technology used as the factual foundation for Orange Book educational content. This includes NIST Cybersecurity Framework 2.0 (NIST CSWP 29), Special Publication 800-53 Rev. 5, FIPS 197 (AES), and supporting documents. NIST publications are in the public domain. All Orange Book articles derived from NIST sources include full reference lists with direct links to the primary documents.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Type</div><div class="meta-val">Primary reference</div></div>
+        <div class="meta-row"><div class="meta-key">License</div><div class="meta-val">U.S. Public Domain</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">PDF / HTML publications</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Orange Book articles</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://newsapi.org" target="_blank" rel="noopener">NewsAPI</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-api">API</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A news aggregation API used to fetch cybersecurity headlines for the daily news posts published in the News section. Headlines are pulled from a curated set of security-focused publications and processed locally using Ollama (Llama 3.2) to generate practitioner commentary. The AI commentary is clearly identified and is generated from the provided headlines only — the model is explicitly instructed not to reference events outside the provided input to reduce hallucination risk.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Daily (11am CT, automated)</div></div>
+        <div class="meta-row"><div class="meta-key">Commentary</div><div class="meta-val">Llama 3.2 (local, Ollama)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">REST API (JSON)</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Daily News posts</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <div class="doc-section" id="methodology">
+    <div class="section-heading">4 — Methodology</div>
+    <ul class="method-list">
+      <li>
+        <div class="method-term">No Proprietary Scoring</div>
+        <div class="method-def">CyberGrind does not invent threat scores. All scoring displayed on the site — EPSS, AbuseIPDB confidence, CVSS — comes directly from the originating source and is presented as-is with full attribution.</div>
+      </li>
+      <li>
+        <div class="method-term">Cloudflare Caching</div>
+        <div class="method-def">Live feeds are proxied through Cloudflare Workers with defined cache TTLs to reduce API load and improve performance. Cached data may lag behind the source by up to the stated TTL window.</div>
+      </li>
+      <li>
+        <div class="method-term">Primary Sources First</div>
+        <div class="method-def">Orange Book educational content is built from primary sources — NIST PDFs, RFCs, and original research — not summaries of summaries. Secondary sources are used only to corroborate and are cited explicitly.</div>
+      </li>
+      <li>
+        <div class="method-term">AI Use Disclosure</div>
+        <div class="method-def">AI-generated content (daily news commentary) is produced locally using Llama 3.2 and constrained to provided headlines. AI is a writing aid, not a research source. Factual claims in Orange Book articles are human-verified.</div>
+      </li>
+      <li>
+        <div class="method-term">Uncertainty Acknowledged</div>
+        <div class="method-def">Where source data is incomplete, contested, or ambiguous, that uncertainty is surfaced explicitly rather than papered over. A confident-sounding wrong answer is worse than an honest acknowledgment of what we don't know.</div>
+      </li>
+      <li>
+        <div class="method-term">Feed Aggregation</div>
+        <div class="method-def">The OSINT Feeds threat map combines IPsum, Emerging Threats, and Feodo Tracker into a single enriched view. IPs appearing across multiple feeds are not deduplicated in the visual — each source contributes independently.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Limitations -->
+  <div class="doc-section" id="limitations">
+    <div class="section-heading">5 — Known Limitations</div>
+    <ul class="limitations-list">
+      <li>CyberGrind is not a commercial threat intelligence platform. Data depth and breadth are limited by free and public API tiers.</li>
+      <li>IP geolocation data is approximate. Country-level attribution is reliable; city-level is not. IPs can be misattributed due to VPNs, proxies, and Tor exit nodes.</li>
+      <li>AbuseIPDB scores reflect community reports and may include false positives. A high confidence score indicates reported abuse, not confirmed malicious activity.</li>
+      <li>EPSS scores are probabilistic estimates, not certainties. A low EPSS score does not mean a vulnerability is safe to deprioritize.</li>
+      <li>Daily news commentary is AI-generated and has not been independently fact-checked beyond the provided headlines. Treat it as a starting point, not a final word.</li>
+      <li>Feed caching means displayed data may be up to several hours behind the source. For time-critical decisions, always verify directly with the originating source.</li>
+      <li>CyberGrind content is informational only and does not constitute legal, compliance, or professional security advice.</li>
+    </ul>
+
+    <div class="disclaimer">
+      This page was last reviewed March 2026. Sources and methodology are updated as the site evolves. If you identify an inaccuracy or have questions about data sourcing, the GitHub repository is publicly available.
+    </div>
+  </div>
+
+  <footer>
+    <span>CyberGrind.org · Data Sources &amp; Methodology</span>
+    <span>Last reviewed March 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>

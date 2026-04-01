@@ -1,0 +1,64 @@
+/* CyberGrind — custom.css
+   Place this file at: assets/css/extended/custom.css
+   PaperMod will automatically bundle it.
+*/
+
+:root {
+  --cg-orange: #f97316;
+}
+
+/* Orange accent on links */
+.dark a,
+a {
+  color: var(--cg-orange);
+}
+
+.dark a:hover,
+a:hover {
+  color: var(--cg-orange);
+  opacity: 0.8;
+}
+
+/* Post title links */
+.post-title a,
+.entry-hint-parent a {
+  color: inherit;
+}
+
+.post-title a:hover {
+  color: var(--cg-orange);
+}
+
+/* Tags */
+.post-tags a {
+  border: 1px solid var(--cg-orange);
+  color: var(--cg-orange) !important;
+}
+
+.post-tags a:hover {
+  background: var(--cg-orange);
+  color: #0a0c14 !important;
+  opacity: 1;
+}
+
+/* Active nav link */
+.nav a.active,
+#menu-close-btn,
+#menu-open-btn {
+  color: var(--cg-orange);
+}
+
+/* Table of contents active heading */
+.toc a:hover {
+  color: var(--cg-orange);
+}
+
+/* Horizontal rules — subtle orange tint */
+hr {
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+/* Blockquote left border */
+blockquote {
+  border-left: 3px solid var(--cg-orange);
+}

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Video Formats</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a080e;
+  --panel:#100e16;
+  --panel2:#14121c;
+  --border:#1e1a2a;
+  --border2:#282438;
+  --text:#ece8f4;
+  --muted:#6a6088;
+  --dim:#201c30;
+  --accent:#7040d0;
+  --accent-light:#a888f8;
+  --accent-bg:#0c0818;
+  --coral:#c04060;
+  --coral-light:#f07898;
+  --coral-bg:#140810;
+  --teal:#18a090;
+  --teal-light:#4ad8c8;
+  --teal-bg:#041614;
+  --amber:#c07828;
+  --amber-light:#f0b058;
+  --amber-bg:#140e04;
+  --grid:rgba(112,64,208,0.04);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  line-height:1.65;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:36px 36px;
+}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+
+/* hero */
+.hero{padding:56px 0 64px;text-align:center}
+.eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-light);margin-bottom:18px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(40px,8vw,80px);font-weight:800;line-height:.95;letter-spacing:-.03em;color:var(--text)}
+.hero h1 em{font-style:normal;color:var(--accent-light)}
+.hero-sub{font-size:15px;color:var(--muted);max-width:460px;margin:20px auto 0;font-weight:300}
+.filmstrip{display:flex;gap:3px;justify-content:center;margin:28px auto 0;overflow:hidden;max-width:400px}
+.frame{width:36px;height:26px;border:1px solid var(--accent);border-radius:2px;flex-shrink:0;position:relative;overflow:hidden}
+.frame::before,.frame::after{content:'';position:absolute;width:5px;height:4px;border-radius:1px;background:var(--dim)}
+.frame::before{top:2px;left:2px;box-shadow:24px 0 var(--dim)}
+.frame::after{bottom:2px;left:2px;box-shadow:24px 0 var(--dim)}
+.frame-inner{position:absolute;inset:5px 0;background:var(--dim)}
+
+.divider{border:none;border-top:1px solid var(--border);margin:52px 0 0}
+.sec{margin-top:56px}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.sec-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-light);background:var(--accent-bg);border:1px solid var(--accent);padding:3px 8px;border-radius:3px}
+.sec-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text)}
+
+/* codec explainer */
+.codec-flow{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+.codec-pipeline{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap;gap:8px;justify-content:center}
+.cbox{background:var(--panel2);border:1px solid var(--border2);border-radius:8px;padding:14px 18px;text-align:center;min-width:120px}
+.cbox-title{font-family:'Space Mono',monospace;font-size:12px;color:var(--text);margin-bottom:3px}
+.cbox-sub{font-size:11px;color:var(--muted)}
+.cbox.active{border-color:var(--accent);background:var(--accent-bg)}
+.cbox.active .cbox-title{color:var(--accent-light)}
+.carr{color:var(--dim);font-size:18px;padding:0 2px}
+.codec-note{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cnote{background:var(--panel2);border:1px solid var(--border2);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--muted)}
+.cnote strong{display:block;font-family:'Space Mono',monospace;font-size:11px;color:var(--accent-light);margin-bottom:5px;letter-spacing:.05em}
+
+/* format cards */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.fcard{border-radius:10px;padding:22px 20px;border:1px solid var(--border2);position:relative;overflow:hidden;transition:transform .15s}
+.fcard:hover{transform:translateY(-3px)}
+.fcard-bar{height:2px;position:absolute;top:0;left:0;right:0}
+.fcard-ext{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px}
+.fcard-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:12px}
+.fcard-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.fcard-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;padding:2px 8px;border-radius:3px;background:var(--dim);color:var(--muted)}
+.tag.a{background:var(--accent-bg);color:var(--accent-light);border:1px solid rgba(112,64,208,.3)}
+.tag.c{background:var(--coral-bg);color:var(--coral-light);border:1px solid rgba(192,64,96,.3)}
+.tag.t{background:var(--teal-bg);color:var(--teal-light);border:1px solid rgba(24,160,144,.3)}
+.tag.w{background:var(--amber-bg);color:var(--amber-light);border:1px solid rgba(192,120,40,.3)}
+
+/* mp4 */
+.f-mp4 .fcard-bar{background:var(--teal-light)}
+.f-mp4{background:linear-gradient(135deg,var(--teal-bg) 0%,var(--panel) 60%)}
+.f-mp4 .fcard-badge{background:var(--teal-bg);color:var(--teal-light);border:1px solid var(--teal)}
+/* mov */
+.f-mov .fcard-bar{background:var(--accent-light)}
+.f-mov{background:linear-gradient(135deg,var(--accent-bg) 0%,var(--panel) 60%)}
+.f-mov .fcard-badge{background:var(--accent-bg);color:var(--accent-light);border:1px solid var(--accent)}
+/* wmv */
+.f-wmv .fcard-bar{background:var(--amber-light)}
+.f-wmv{background:linear-gradient(135deg,var(--amber-bg) 0%,var(--panel) 60%)}
+.f-wmv .fcard-badge{background:var(--amber-bg);color:var(--amber-light);border:1px solid var(--amber)}
+/* avi */
+.f-avi .fcard-bar{background:var(--coral-light)}
+.f-avi{background:linear-gradient(135deg,var(--coral-bg) 0%,var(--panel) 60%)}
+.f-avi .fcard-badge{background:var(--coral-bg);color:var(--coral-light);border:1px solid var(--coral)}
+
+/* resolution scale */
+.res-visual{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+.res-row{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--border)}
+.res-row:last-child{border-bottom:none}
+.res-name{font-family:'Space Mono',monospace;font-size:11px;color:var(--text);min-width:72px}
+.res-dims{font-size:12px;color:var(--muted);min-width:110px}
+.res-track{flex:1;height:5px;background:var(--dim);border-radius:3px;overflow:hidden}
+.res-fill{height:100%;border-radius:3px;background:var(--accent)}
+.res-ratio{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent-light);min-width:36px;text-align:right}
+
+/* fps scale */
+.fps-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.fps-badge{padding:8px 14px;border-radius:6px;text-align:center;border:1px solid var(--border2)}
+.fps-badge-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--accent-light)}
+.fps-badge-label{font-size:11px;color:var(--muted)}
+
+/* comparison */
+.ctable{width:100%;border-collapse:collapse;font-size:13px}
+.ctable thead th{background:var(--panel2);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border2)}
+.ctable tbody tr{border-bottom:1px solid var(--border)}
+.ctable tbody tr:last-child{border-bottom:none}
+.ctable tbody tr:hover{background:rgba(255,255,255,.015)}
+.ctable td{padding:11px 14px;vertical-align:middle;color:var(--muted)}
+.ctable td:first-child{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent-light)}
+.yes{color:#4ad8c8}.no{color:#f07898}.mid{color:#f0b058}
+
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:40px;padding:16px 22px;background:var(--panel);border:1px solid var(--border);border-radius:8px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.ldot{width:9px;height:9px;border-radius:2px}
+
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.fade-in.visible{opacity:1;transform:none}
+
+@media(max-width:580px){
+  .fgrid{grid-template-columns:1fr}
+  .codec-pipeline{flex-direction:column}
+  .carr{transform:rotate(90deg)}
+  .codec-note{grid-template-columns:1fr}
+  .fps-row{gap:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero fade-in">
+  <div class="eyebrow">Digital Formats · Video</div>
+  <h1>Digital <em>Video</em><br>Formats</h1>
+  <p class="hero-sub">Codecs, containers, and compression — how motion pictures are encoded, stored, and played back.</p>
+  <div class="filmstrip" id="fs"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: CODECS -->
+<div class="sec fade-in">
+  <div class="sec-label">
+    <span class="sec-tag">01</span>
+    <span class="sec-title">How video codecs work</span>
+  </div>
+  <div class="codec-flow">
+    <p style="font-size:13px;color:var(--muted);">A codec (coder-decoder) is software that compresses video for storage and decompresses it for playback. Without codecs, only the most powerful computers could handle raw video.</p>
+    <div class="codec-pipeline">
+      <div class="cbox">
+        <div class="cbox-title">Raw video</div>
+        <div class="cbox-sub">Large uncompressed data</div>
+      </div>
+      <div class="carr">→</div>
+      <div class="cbox active">
+        <div class="cbox-title">Encoder</div>
+        <div class="cbox-sub">Compresses &amp; writes file</div>
+      </div>
+      <div class="carr">→</div>
+      <div class="cbox">
+        <div class="cbox-title">File on disk</div>
+        <div class="cbox-sub">.mp4, .mov, .avi…</div>
+      </div>
+      <div class="carr">→</div>
+      <div class="cbox active">
+        <div class="cbox-title">Decoder</div>
+        <div class="cbox-sub">Decompresses for playback</div>
+      </div>
+      <div class="carr">→</div>
+      <div class="cbox">
+        <div class="cbox-title">Playback</div>
+        <div class="cbox-sub">Screen output</div>
+      </div>
+    </div>
+    <div class="codec-note">
+      <div class="cnote">
+        <strong>MPEG-4</strong>
+        Advanced compression algorithm. Can compress a 120-minute film to ~300 MB. The basis for .mp4 and many streaming formats.
+      </div>
+      <div class="cnote">
+        <strong>DivX</strong>
+        Movie-encoding codec built on MPEG-4. Used to fit full movies onto a single DVD. DivX HD extends this to high-definition content.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: RESOLUTION & FRAME RATE -->
+<div class="sec fade-in">
+  <div class="sec-label">
+    <span class="sec-tag">02</span>
+    <span class="sec-title">Resolution &amp; frame rate</span>
+  </div>
+  <div class="res-visual">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Resolution is the pixel count (width × height) of each video frame. Higher resolution = more detail = larger file.</p>
+    <div style="margin-top:18px">
+      <div class="res-row">
+        <div class="res-name">SD 480p</div>
+        <div class="res-dims">640 × 480</div>
+        <div class="res-track"><div class="res-fill" style="width:10%"></div></div>
+        <div class="res-ratio">4:3</div>
+      </div>
+      <div class="res-row">
+        <div class="res-name">HD 720p</div>
+        <div class="res-dims">1280 × 720</div>
+        <div class="res-track"><div class="res-fill" style="width:28%"></div></div>
+        <div class="res-ratio">16:9</div>
+      </div>
+      <div class="res-row">
+        <div class="res-name">FHD 1080p</div>
+        <div class="res-dims">1920 × 1080</div>
+        <div class="res-track"><div class="res-fill" style="width:52%"></div></div>
+        <div class="res-ratio">16:9</div>
+      </div>
+      <div class="res-row">
+        <div class="res-name">QHD 1440p</div>
+        <div class="res-dims">2560 × 1440</div>
+        <div class="res-track"><div class="res-fill" style="width:76%"></div></div>
+        <div class="res-ratio">16:9</div>
+      </div>
+      <div class="res-row">
+        <div class="res-name">4K UHD</div>
+        <div class="res-dims">3840 × 2160</div>
+        <div class="res-track"><div class="res-fill" style="width:100%"></div></div>
+        <div class="res-ratio">16:9</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:18px">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:4px;font-family:'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase">Common frame rates</p>
+      <div class="fps-row">
+        <div class="fps-badge"><div class="fps-badge-num">24</div><div class="fps-badge-label">fps · cinema</div></div>
+        <div class="fps-badge"><div class="fps-badge-num">30</div><div class="fps-badge-label">fps · standard</div></div>
+        <div class="fps-badge" style="border-color:var(--accent)"><div class="fps-badge-num" style="color:var(--accent-light)">60</div><div class="fps-badge-label">fps · smooth</div></div>
+        <div class="fps-badge"><div class="fps-badge-num">120</div><div class="fps-badge-label">fps · gaming</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: FORMAT CARDS -->
+<div class="sec fade-in">
+  <div class="sec-label">
+    <span class="sec-tag">03</span>
+    <span class="sec-title">Format profiles</span>
+  </div>
+  <div class="fgrid">
+    <div class="fcard f-mp4">
+      <div class="fcard-bar"></div>
+      <div class="fcard-ext">.mp4</div>
+      <div class="fcard-badge">Lossy / MPEG-4</div>
+      <div class="fcard-desc">The most common internet video format. Small file size, universal device support. Can store video, audio, subtitles, and still images in one container.</div>
+      <div class="fcard-tags">
+        <span class="tag t">universal</span>
+        <span class="tag t">streaming</span>
+        <span class="tag t">small files</span>
+      </div>
+    </div>
+    <div class="fcard f-mov">
+      <div class="fcard-bar"></div>
+      <div class="fcard-ext">.mov</div>
+      <div class="fcard-badge">Lossy / QuickTime</div>
+      <div class="fcard-desc">Apple's QuickTime format. Supports video, audio, text tracks, and timecodes. Easier to edit than MP4. Plays on Windows via VLC but not natively.</div>
+      <div class="fcard-tags">
+        <span class="tag a">Apple</span>
+        <span class="tag a">editable</span>
+        <span class="tag w">VLC on Windows</span>
+      </div>
+    </div>
+    <div class="fcard f-avi">
+      <div class="fcard-bar"></div>
+      <div class="fcard-ext">.avi</div>
+      <div class="fcard-badge">Uncompressed</div>
+      <div class="fcard-desc">Audio Video Interleave — created by Microsoft in 1992 for Video for Windows. Uncompressed, very large files. Made of RIFF chunks storing metadata and A/V data separately.</div>
+      <div class="fcard-tags">
+        <span class="tag">1992 legacy</span>
+        <span class="tag c">Windows only</span>
+        <span class="tag c">large files</span>
+      </div>
+    </div>
+    <div class="fcard f-wmv">
+      <div class="fcard-bar"></div>
+      <div class="fcard-ext">.wmv</div>
+      <div class="fcard-badge">Lossy / Microsoft</div>
+      <div class="fcard-desc">Windows Media Video — Microsoft's proprietary compressed format based on ASF (Advanced Systems Format). Requires additional software to play on macOS.</div>
+      <div class="fcard-tags">
+        <span class="tag w">Windows</span>
+        <span class="tag w">proprietary</span>
+        <span class="tag c">limited support</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: COMPARISON TABLE -->
+<div class="sec fade-in">
+  <div class="sec-label">
+    <span class="sec-tag">04</span>
+    <span class="sec-title">Side-by-side comparison</span>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th>Format</th>
+          <th>Compression</th>
+          <th>Cross-platform</th>
+          <th>Editable</th>
+          <th>File size</th>
+          <th>Best for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>.mp4</td>
+          <td>Lossy</td>
+          <td class="yes">Yes</td>
+          <td class="mid">Moderate</td>
+          <td>Small</td>
+          <td>Web, streaming, sharing</td>
+        </tr>
+        <tr>
+          <td>.mov</td>
+          <td>Lossy</td>
+          <td class="mid">Mac + VLC</td>
+          <td class="yes">Easy</td>
+          <td>Medium</td>
+          <td>Editing, Apple ecosystem</td>
+        </tr>
+        <tr>
+          <td>.avi</td>
+          <td>None</td>
+          <td class="no">Windows</td>
+          <td class="yes">Yes</td>
+          <td>Very large</td>
+          <td>Legacy archiving</td>
+        </tr>
+        <tr>
+          <td>.wmv</td>
+          <td>Lossy</td>
+          <td class="mid">Windows</td>
+          <td class="mid">Limited</td>
+          <td>Small–Med</td>
+          <td>Windows Media Player</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="legend fade-in">
+  <div class="legend-item"><div class="ldot" style="background:var(--teal-light)"></div>.mp4 — universal</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--accent-light)"></div>.mov — Apple</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--coral-light)"></div>.avi — legacy</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--amber-light)"></div>.wmv — Windows</div>
+  <div style="margin-left:auto;font-family:'Space Mono',monospace;font-size:9px;color:var(--dim)">Digital Literacy · 2025</div>
+</div>
+
+</div>
+<script>
+const fs = document.getElementById('fs');
+for(let i=0;i<10;i++){
+  const f=document.createElement('div');
+  f.className='frame';
+  const fi=document.createElement('div');
+  fi.className='frame-inner';
+  const hue = 260 + i*8;
+  fi.style.background=`hsl(${hue},40%,${12+i*1.5}%)`;
+  f.appendChild(fi);
+  fs.appendChild(f);
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*60);obs.unobserve(e.target)}
+  });
+},{threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

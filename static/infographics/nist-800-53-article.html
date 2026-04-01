@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIST SP 800-53 Rev. 5 — Deep Dive | CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1220;--panel:#111827;--panel2:#162033;--border:#1e2d45;
+  --gold:#c8963e;--gold2:#e8b86d;--gold3:#7a5010;
+  --blue:#2e7de4;--blue2:#5ba3ff;
+  --teal:#1aab8a;--teal2:#2dd4aa;
+  --red:#e05a5a;--red2:#ff8080;
+  --text:#e2e8f4;--muted:#7a8aa8;--dim:#3a4a62;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:17px;scroll-behavior:smooth;}
+body{
+  background:var(--navy);color:var(--text);
+  font-family:'Source Serif 4',Georgia,serif;
+  font-weight:300;line-height:1.85;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(200,150,62,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,150,62,0.025) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+
+.masthead{
+  position:relative;z-index:1;
+  background:rgba(11,18,32,0.95);border-bottom:1px solid var(--border);
+  padding:0.6rem 2rem;display:flex;align-items:center;justify-content:space-between;
+}
+.mast-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);}
+.mast-date{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dim);}
+
+.hero{
+  position:relative;z-index:1;
+  background:linear-gradient(160deg,#12180e 0%,#0b1220 50%,#0e1218 100%);
+  border-bottom:1px solid var(--border);padding:5rem 2rem 4rem;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 70% at 85% 40%,rgba(200,150,62,0.07),transparent 70%),
+    radial-gradient(ellipse 30% 40% at 10% 90%,rgba(46,125,228,0.04),transparent 60%);
+  pointer-events:none;
+}
+.hero-inner{max-width:760px;margin:0 auto;position:relative;}
+.hero-kicker{
+  font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:0.8rem;
+  opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;
+}
+.hero-kicker::before{content:'';display:block;height:1px;width:40px;background:var(--gold2);opacity:0.5;}
+.hero h1{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;letter-spacing:-0.02em;
+  margin-bottom:1.2rem;
+  opacity:0;animation:fadeUp 0.7s ease 0.22s forwards;
+}
+.hero h1 em{font-style:normal;color:var(--gold2);}
+.hero-sub{
+  font-size:1rem;color:var(--muted);line-height:1.75;max-width:580px;
+  font-style:italic;
+  opacity:0;animation:fadeUp 0.7s ease 0.34s forwards;
+}
+.hero-meta{
+  margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:2rem;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 0.7s ease 0.46s forwards;
+}
+.hero-meta-item{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);}
+.hero-meta-item strong{display:block;color:var(--text);font-size:0.7rem;margin-bottom:0.15rem;}
+
+.content{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 2rem 6rem;}
+
+.toc{
+  background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;padding:1.4rem 1.8rem;margin:3rem 0 2.5rem;
+}
+.toc-head{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.9rem;}
+.toc ol{padding-left:1.3rem;color:var(--muted);font-family:'Space Mono',monospace;font-size:0.72rem;line-height:2.2;}
+.toc a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.toc a:hover{color:var(--gold2);}
+
+h2{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;
+  color:var(--text);letter-spacing:-0.01em;
+  margin:3.5rem 0 0.8rem;padding-bottom:0.8rem;
+  border-bottom:1px solid var(--border);position:relative;
+}
+h2::after{content:'';position:absolute;left:0;bottom:-1px;width:50px;height:1px;background:var(--gold2);}
+h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--gold2);margin:2rem 0 0.6rem;letter-spacing:0.01em;}
+p{margin-bottom:1.2rem;}
+strong{color:var(--text);font-weight:600;}
+em{font-style:italic;color:var(--gold2);}
+
+.callout{
+  background:var(--panel2);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;padding:1.2rem 1.5rem;margin:1.8rem 0;
+}
+.callout-label{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.5rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout.blue{border-left-color:var(--blue);}
+.callout.blue .callout-label{color:var(--blue2);}
+
+/* ── REVISION TIMELINE ── */
+.rev-timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;}
+.rev-item{
+  display:grid;grid-template-columns:80px 24px 1fr;
+  align-items:start;gap:0 0.8rem;
+}
+.rev-year{
+  font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--gold2);
+  padding-top:0.1rem;text-align:right;padding-right:0.5rem;padding-bottom:1.2rem;
+}
+.rev-spine{display:flex;flex-direction:column;align-items:center;}
+.rev-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+  background:var(--gold);border:2px solid var(--gold2);
+  box-shadow:0 0 8px rgba(200,150,62,0.5);
+}
+.rev-dot.dim{background:var(--dim);border-color:var(--border);box-shadow:none;}
+.rev-vline{flex:1;width:1px;background:var(--border);min-height:1rem;}
+.rev-body{padding-bottom:1.2rem;}
+.rev-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:0.2rem;}
+.rev-desc{font-size:0.7rem;color:var(--muted);line-height:1.55;}
+
+/* ── FAMILY TABLE ── */
+.fam-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.77rem;}
+.fam-table th{
+  background:var(--panel2);font-family:'Space Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--gold2);padding:0.65rem 0.9rem;text-align:left;border-bottom:1px solid var(--border);
+}
+.fam-table td{padding:0.6rem 0.9rem;border-bottom:1px solid rgba(30,45,69,0.5);color:var(--muted);vertical-align:top;}
+.fam-table tr:hover td{background:rgba(200,150,62,0.02);}
+.fam-table td:first-child{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--gold2);white-space:nowrap;font-weight:700;}
+.fam-table td:nth-child(2){color:var(--text);}
+.new-badge{
+  font-size:0.5rem;letter-spacing:0.1em;background:rgba(26,171,138,0.15);
+  border:1px solid rgba(26,171,138,0.3);color:var(--teal2);
+  padding:0.1rem 0.4rem;border-radius:3px;display:inline-block;margin-left:0.4rem;
+}
+
+/* ── BASELINE CARDS ── */
+.baseline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;}
+.bl-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  padding:1.4rem;text-align:center;position:relative;overflow:hidden;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.bl-card:hover{transform:translateY(-3px);}
+.bl-card.low{border-top:3px solid var(--teal);}
+.bl-card.mod{border-top:3px solid var(--gold);}
+.bl-card.high{border-top:3px solid var(--red);}
+.bl-bg{position:absolute;inset:0;pointer-events:none;opacity:0.05;}
+.bl-card.low .bl-bg{background:radial-gradient(circle at 50% 0%,var(--teal),transparent 70%);}
+.bl-card.mod .bl-bg{background:radial-gradient(circle at 50% 0%,var(--gold),transparent 70%);}
+.bl-card.high .bl-bg{background:radial-gradient(circle at 50% 0%,var(--red),transparent 70%);}
+.bl-tier{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem;}
+.bl-card.low .bl-tier{color:var(--teal2);}
+.bl-card.mod .bl-tier{color:var(--gold2);}
+.bl-card.high .bl-tier{color:var(--red2);}
+.bl-num{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;line-height:1;margin-bottom:0.25rem;}
+.bl-card.low .bl-num{color:var(--teal2);}
+.bl-card.mod .bl-num{color:var(--gold2);}
+.bl-card.high .bl-num{color:var(--red2);}
+.bl-unit{font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:0.8rem;}
+.bl-desc{font-size:0.65rem;color:var(--muted);line-height:1.55;}
+
+/* ── REV5 CHANGES ── */
+.chg-list{display:flex;flex-direction:column;gap:0.75rem;margin:1.5rem 0;}
+.chg-row{
+  display:flex;gap:1rem;align-items:flex-start;
+  background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:0.9rem 1.1rem;
+  transition:border-color 0.2s;
+}
+.chg-row:hover{border-color:var(--gold);}
+.chg-icon{font-size:1rem;flex-shrink:0;margin-top:0.1rem;}
+.chg-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;color:var(--text);margin-bottom:0.2rem;}
+.chg-desc{font-size:0.7rem;color:var(--muted);line-height:1.55;}
+
+/* ── CONTRAST TABLE (CSF vs 800-53) ── */
+.ct-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.77rem;}
+.ct-table th{
+  background:var(--panel2);font-family:'Space Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;
+  padding:0.65rem 0.9rem;text-align:left;border-bottom:1px solid var(--border);
+}
+.ct-table th:nth-child(2){color:var(--blue2);}
+.ct-table th:nth-child(3){color:var(--gold2);}
+.ct-table td{padding:0.6rem 0.9rem;border-bottom:1px solid rgba(30,45,69,0.5);color:var(--muted);vertical-align:top;}
+.ct-table tr:hover td{background:rgba(200,150,62,0.02);}
+.ct-table td:first-child{color:var(--text);font-family:'Space Mono',monospace;font-size:0.7rem;}
+
+blockquote{border-left:2px solid var(--gold);padding-left:1.3rem;margin:1.8rem 0;color:var(--muted);font-style:italic;font-size:1rem;}
+.honest{background:rgba(200,150,62,0.06);border:1px solid rgba(200,150,62,0.2);border-radius:6px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:0.78rem;color:var(--muted);}
+.honest strong{color:var(--gold2);}
+.refs{border-top:1px solid var(--border);margin-top:3.5rem;padding-top:2rem;}
+.ref-list{list-style:none;padding:0;margin-top:1rem;}
+.ref-list li{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);margin-bottom:0.8rem;padding-left:2rem;position:relative;line-height:1.6;}
+.ref-list li::before{content:attr(data-n);position:absolute;left:0;color:var(--gold2);}
+.ref-list a{color:var(--gold2);word-break:break-all;}
+footer{position:relative;z-index:1;background:var(--panel);border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:var(--dim);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:640px){.baseline-grid{grid-template-columns:1fr;}.hero-meta{flex-direction:column;gap:0.8rem;}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <span class="mast-label">CyberGrind · Orange Book</span>
+  <span class="mast-date">Published March 27, 2026</span>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Framework Deep Dive</div>
+    <h1>NIST SP <em>800-53</em><br>Revision 5</h1>
+    <p class="hero-sub">The comprehensive security and privacy control catalog that underpins federal cybersecurity — what it is, why it exists, how its 20 control families are structured, and how organizations of all types can use it.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Current Version</strong>Revision 5 (Sept. 2020)</div>
+      <div class="hero-meta-item"><strong>Published By</strong>NIST (Dept. of Commerce)</div>
+      <div class="hero-meta-item"><strong>Federal Status</strong>Mandatory under FISMA</div>
+      <div class="hero-meta-item"><strong>Total Controls</strong>~1,189 across 20 families</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="toc">
+    <div class="toc-head">Contents</div>
+    <ol>
+      <li><a href="#what">What Is NIST SP 800-53?</a></li>
+      <li><a href="#origin">The Legislative Origin — FISMA</a></li>
+      <li><a href="#history">Revision History</a></li>
+      <li><a href="#rev5">What's New in Revision 5?</a></li>
+      <li><a href="#families">The 20 Control Families</a></li>
+      <li><a href="#baselines">Security Control Baselines</a></li>
+      <li><a href="#rmf">SP 800-53 and the Risk Management Framework</a></li>
+      <li><a href="#who">Who Must — and Who Should — Use It</a></li>
+      <li><a href="#honest">Limitations &amp; Uncertainty</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </div>
+
+  <!-- WHAT IS IT -->
+  <h2 id="what">What Is NIST SP 800-53?</h2>
+  <p><strong>NIST Special Publication 800-53</strong> is a comprehensive catalog of security and privacy controls for information systems and organizations. Published by the National Institute of Standards and Technology, it provides the specific, prescriptive controls that organizations can implement to protect their systems, data, and operations against a broad range of threats: hostile attacks, human errors, natural disasters, structural failures, foreign intelligence entities, and privacy risks.</p>
+  <p>If NIST CSF 2.0 is the strategic map — telling you <em>what outcomes</em> you need to achieve — then SP 800-53 is the toolbox. It contains more than 1,100 individual controls organized into 20 control families, each addressing a specific domain of information security or privacy. Organizations use SP 800-53 to select, implement, assess, and monitor controls appropriate for their systems and risk environment.</p>
+  <div class="callout">
+    <div class="callout-label">Core Purpose</div>
+    <p>SP 800-53 provides a catalog of security and privacy controls for information systems and organizations to protect organizational operations and assets, individuals, other organizations, and the nation from a diverse set of threats and risks. The controls are flexible and customizable, implemented as part of an organization-wide process to manage risk.</p>
+  </div>
+  <p>SP 800-53 is part of NIST's Special Publication 800-series, which covers information technology security research, guidelines, and outreach. The publication has companion documents: <strong>SP 800-53A</strong> provides procedures for assessing the effectiveness of controls, and <strong>SP 800-53B</strong> defines the three security control baselines (Low, Moderate, High) that serve as starting points for control selection.</p>
+
+  <!-- ORIGIN -->
+  <h2 id="origin">The Legislative Origin — FISMA</h2>
+  <p>SP 800-53's existence is rooted in law. The <strong>Federal Information Security Management Act (FISMA)</strong> was passed on December 17, 2002, as part of the E-Government Act. FISMA directed NIST to develop security standards and guidelines to help federal agencies implement information security programs and protect federal information and information systems.</p>
+  <p>In response, NIST launched the FISMA Implementation Project, which produced a suite of foundational publications: FIPS 199 (security categorization standards), FIPS 200 (minimum security requirements), SP 800-37 (risk management framework guidance), and SP 800-53 (the security control catalog). The first version of SP 800-53 was published in <strong>February 2005</strong>.</p>
+  <p>FISMA was subsequently updated by the <strong>Federal Information Security Modernization Act of 2014</strong>, which strengthened requirements around continuous monitoring and incident reporting while affirming NIST's role in developing standards and guidelines for non-national-security systems.</p>
+  <div class="callout blue">
+    <div class="callout-label">The Compliance Obligation</div>
+    <p>All U.S. federal agencies and their contractors are required to comply with SP 800-53 under FISMA. Agencies are expected to be compliant within one year of a major publication update. SP 800-53 also forms the basis of FedRAMP authorization requirements for cloud service providers doing business with the federal government.</p>
+  </div>
+
+  <!-- HISTORY -->
+  <h2 id="history">Revision History</h2>
+  <p>SP 800-53 has been revised five times since its initial publication. Each revision has responded to the evolving threat landscape and expanding technology environments that federal systems operate in.</p>
+
+  <div class="rev-timeline">
+    <div class="rev-item">
+      <div class="rev-year">2005</div>
+      <div class="rev-spine"><div class="rev-dot"></div><div class="rev-vline"></div></div>
+      <div class="rev-body">
+        <div class="rev-title">Revision 1 — Initial Publication</div>
+        <div class="rev-desc">First version published as part of the FISMA Implementation Project. Established the foundational catalog of security controls for federal information systems, building on concepts from FIPS 199 and FIPS 200.</div>
+      </div>
+    </div>
+    <div class="rev-item">
+      <div class="rev-year">2007</div>
+      <div class="rev-spine"><div class="rev-dot dim"></div><div class="rev-vline"></div></div>
+      <div class="rev-body">
+        <div class="rev-title">Revision 2</div>
+        <div class="rev-desc">Refined control definitions and added enhancements. Continued alignment with the Risk Management Framework (RMF).</div>
+      </div>
+    </div>
+    <div class="rev-item">
+      <div class="rev-year">2009</div>
+      <div class="rev-spine"><div class="rev-dot dim"></div><div class="rev-vline"></div></div>
+      <div class="rev-body">
+        <div class="rev-title">Revision 3</div>
+        <div class="rev-desc">Expanded scope to include national security systems. Introduced application security, insider threats, and external service provider considerations. Harmonized security requirements across government communities.</div>
+      </div>
+    </div>
+    <div class="rev-item">
+      <div class="rev-year">2013</div>
+      <div class="rev-spine"><div class="rev-dot dim"></div><div class="rev-vline"></div></div>
+      <div class="rev-body">
+        <div class="rev-title">Revision 4</div>
+        <div class="rev-desc">Major update addressing mobile and cloud computing, insider threats, advanced persistent threats, supply chain risks, and application security. Added Appendix J — privacy controls as a separate appendix (later integrated in Rev. 5).</div>
+      </div>
+    </div>
+    <div class="rev-item">
+      <div class="rev-year">Sept. 2020</div>
+      <div class="rev-spine"><div class="rev-dot"></div><div class="rev-vline"></div></div>
+      <div class="rev-body">
+        <div class="rev-title">Revision 5 — Current Version</div>
+        <div class="rev-desc">Multi-year effort to develop next-generation controls. Extended scope to all organizations (not just federal). Integrated privacy controls into the main catalog. Added two new control families (PT and SR). Shifted language from role-based to outcome-based. Expanded coverage to IoT, OT, cloud, mobile, and cyber-physical systems.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REV 5 CHANGES -->
+  <h2 id="rev5">What's New in Revision 5?</h2>
+  <p>Revision 5, published in September 2020 (with updates through December 2020), is the most significant overhaul in the publication's history. Several changes deserve particular attention:</p>
+
+  <div class="chg-list">
+    <div class="chg-row">
+      <div class="chg-icon">🌐</div>
+      <div>
+        <div class="chg-title">Extended Scope Beyond Federal Agencies</div>
+        <div class="chg-desc">For the first time, SP 800-53 explicitly positions itself as applicable to any organization — not just federal agencies. The language shifts from "federal information systems" to simply "systems," making the controls applicable to general-purpose computing, IoT, cloud, mobile, industrial control systems, cyber-physical systems, and more.</div>
+      </div>
+    </div>
+    <div class="chg-row">
+      <div class="chg-icon">🔒</div>
+      <div>
+        <div class="chg-title">Integrated Privacy Controls</div>
+        <div class="chg-desc">In Revision 4, privacy controls were a separate appendix (Appendix J). Revision 5 integrates privacy controls into the main catalog alongside security controls, reflecting the recognition that cybersecurity and privacy are deeply interrelated disciplines. The new PT (PII Processing and Transparency) family is the primary vehicle for this.</div>
+      </div>
+    </div>
+    <div class="chg-row">
+      <div class="chg-icon">🔗</div>
+      <div>
+        <div class="chg-title">New Supply Chain Risk Management Family (SR)</div>
+        <div class="chg-desc">Supply chain risk management was already a concern before 2020, but the landscape of supply chain attacks had accelerated dramatically. Revision 5 created a dedicated SR family with controls specifically targeting the management of cybersecurity risks from suppliers, vendors, and third-party components.</div>
+      </div>
+    </div>
+    <div class="chg-row">
+      <div class="chg-icon">🎯</div>
+      <div>
+        <div class="chg-title">Outcome-Based Language</div>
+        <div class="chg-desc">Revision 5 shifts control statements from specifying who is responsible (e.g., "the organization shall...") to describing outcomes. This makes the catalog more broadly applicable across different organizational structures, roles, and contexts — and aligns better with the outcome-based approach of NIST CSF.</div>
+      </div>
+    </div>
+    <div class="chg-row">
+      <div class="chg-icon">📦</div>
+      <div>
+        <div class="chg-title">Separation of Controls and Baselines</div>
+        <div class="chg-desc">Control selection guidance and baselines were moved from SP 800-53 into the companion publication SP 800-53B. This streamlines the main catalog and makes it easier for a broader range of organizations to use the controls without being overwhelmed by federal-specific guidance.</div>
+      </div>
+    </div>
+    <div class="chg-row">
+      <div class="chg-icon">🛡️</div>
+      <div>
+        <div class="chg-title">New State-of-the-Practice Controls</div>
+        <div class="chg-desc">Revision 5 incorporates new controls to support cyber resiliency, secure system design, and stronger governance and accountability — informed by the latest threat intelligence and empirical attack data available at the time of publication.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 20 FAMILIES -->
+  <h2 id="families">The 20 Control Families</h2>
+  <p>SP 800-53 Revision 5 organizes its controls into 20 families, each identified by a two-character identifier and addressing a specific domain of security or privacy. Two families — PT and SR — are new in Revision 5.</p>
+
+  <table class="fam-table">
+    <thead>
+      <tr><th>ID</th><th>Family Name</th><th>What It Addresses</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AC</td><td>Access Control</td><td>Who can access which systems and data, under what conditions. Account management, least privilege, remote access, session controls.</td></tr>
+      <tr><td>AT</td><td>Awareness &amp; Training</td><td>Security training programs for all personnel. Role-based training, records, and security awareness initiatives.</td></tr>
+      <tr><td>AU</td><td>Audit &amp; Accountability</td><td>Logging, audit trail generation and protection, audit log review, and accountability mechanisms for system events.</td></tr>
+      <tr><td>CA</td><td>Assessment, Authorization &amp; Monitoring</td><td>Security assessments, system authorization to operate, plans of action, continuous monitoring programs, and system interconnections.</td></tr>
+      <tr><td>CM</td><td>Configuration Management</td><td>Baseline configurations, change control, software usage restrictions, and system component inventory.</td></tr>
+      <tr><td>CP</td><td>Contingency Planning</td><td>Backup and recovery procedures, alternate processing sites, contingency plan development, testing, and maintenance.</td></tr>
+      <tr><td>IA</td><td>Identification &amp; Authentication</td><td>Identity verification, multi-factor authentication, credential management, and authenticator lifecycle.</td></tr>
+      <tr><td>IR</td><td>Incident Response</td><td>Incident response policy, planning, training, testing, handling procedures, monitoring, and reporting.</td></tr>
+      <tr><td>MA</td><td>Maintenance</td><td>Controlled maintenance of organizational systems, maintenance tools, remote maintenance, and maintenance personnel.</td></tr>
+      <tr><td>MP</td><td>Media Protection</td><td>Protection, marking, storage, transport, sanitization, and disposal of system media containing sensitive information.</td></tr>
+      <tr><td>PE</td><td>Physical &amp; Environmental Protection</td><td>Physical access controls, monitoring, visitor records, emergency power/shutoff, fire protection, water damage protection.</td></tr>
+      <tr><td>PL</td><td>Planning</td><td>System security and privacy plans, rules of behavior, privacy impact assessments, and concept of operations.</td></tr>
+      <tr><td>PM</td><td>Program Management</td><td>Organization-wide information security and privacy program management, including governance, risk strategy, and enterprise architecture.</td></tr>
+      <tr><td>PS</td><td>Personnel Security</td><td>Position risk designations, personnel screening, termination and transfer processes, access agreements, and personnel sanctions.</td></tr>
+      <tr><td>PT</td><td>PII Processing &amp; Transparency <span class="new-badge">NEW Rev.5</span></td><td>Privacy-specific controls for processing personally identifiable information. Consent, transparency, data minimization, and privacy notices.</td></tr>
+      <tr><td>RA</td><td>Risk Assessment</td><td>Risk assessment policy and procedures, vulnerability monitoring and scanning, risk response, and criticality analysis.</td></tr>
+      <tr><td>SA</td><td>System &amp; Services Acquisition</td><td>Security in procurement, software development lifecycle, developer security testing, and supply chain protections for acquired systems.</td></tr>
+      <tr><td>SC</td><td>System &amp; Communications Protection</td><td>Network boundary protection, encryption, denial-of-service protection, collaborative computing, and cryptographic key management.</td></tr>
+      <tr><td>SI</td><td>System &amp; Information Integrity</td><td>Malicious code protection, system monitoring, security alerts, software and firmware integrity, and spam protection.</td></tr>
+      <tr><td>SR</td><td>Supply Chain Risk Management <span class="new-badge">NEW Rev.5</span></td><td>Managing cybersecurity risks across the supply chain: supplier assessments, acquisition strategies, tamper resistance, component authenticity.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- BASELINES -->
+  <h2 id="baselines">Security Control Baselines</h2>
+  <p>Not every organization needs to implement every control. SP 800-53 defines three security control baselines — documented in the companion publication <strong>SP 800-53B</strong> — that serve as starting points for control selection based on a system's potential impact level. Organizations then "tailor" the baseline to their specific environment, adding or removing controls as appropriate.</p>
+  <p>The impact level is determined using <strong>FIPS 199</strong> and <strong>FIPS 200</strong> — federal standards that define how to categorize information and information systems based on the potential adverse effects of a security breach on organizational operations, assets, and individuals.</p>
+
+  <div class="baseline-grid">
+    <div class="bl-card low">
+      <div class="bl-bg"></div>
+      <div class="bl-tier">Low Impact</div>
+      <div class="bl-num">~149</div>
+      <div class="bl-unit">Controls Required</div>
+      <div class="bl-desc">A breach would have limited adverse effects. Appropriate for systems where loss of confidentiality, integrity, or availability causes minimal harm to operations, assets, or individuals.</div>
+    </div>
+    <div class="bl-card mod">
+      <div class="bl-bg"></div>
+      <div class="bl-tier">Moderate Impact</div>
+      <div class="bl-num">~287</div>
+      <div class="bl-unit">Controls Required</div>
+      <div class="bl-desc">A breach would have serious adverse effects — significant degradation of mission capability, financial loss, or harm to individuals. The most commonly applied baseline across federal agencies.</div>
+    </div>
+    <div class="bl-card high">
+      <div class="bl-bg"></div>
+      <div class="bl-tier">High Impact</div>
+      <div class="bl-num">~370</div>
+      <div class="bl-unit">Controls Required</div>
+      <div class="bl-desc">A breach could cause severe or catastrophic harm — major mission failure, significant financial loss, or serious injury or death. Applies to critical national security, public safety, or infrastructure systems.</div>
+    </div>
+  </div>
+
+  <p>There is also a <strong>privacy control baseline</strong> in SP 800-53B, which applies to systems that process personally identifiable information (PII), regardless of impact level.</p>
+
+  <!-- RMF -->
+  <h2 id="rmf">SP 800-53 and the Risk Management Framework</h2>
+  <p>SP 800-53 does not operate in isolation. It is a core component of NIST's <strong>Risk Management Framework (RMF)</strong>, documented in SP 800-37. The RMF provides a six-step process for managing security and privacy risks to information systems: Prepare, Categorize, Select, Implement, Assess, Authorize, and Monitor.</p>
+  <p>SP 800-53 enters the picture at the <strong>Select</strong> step — after a system has been categorized using FIPS 199, the organization selects the appropriate baseline of controls from SP 800-53 and tailors it to the system's specific environment and risk profile. Controls are then implemented, assessed for effectiveness (using procedures from SP 800-53A), and continuously monitored throughout the system's lifecycle.</p>
+
+  <blockquote>"SP 800-53 brought together the rules-based and risk-based approaches to risk management by specifying a common set of recommended security outcomes for each system, while allowing adjustments to take into account each system's unique characteristics and risk." — NIST Computer Security Resource Center</blockquote>
+
+  <!-- WHO SHOULD USE IT -->
+  <h2 id="who">Who Must — and Who Should — Use It</h2>
+
+  <h3>Required For</h3>
+  <p>All U.S. federal agencies and their contractors are required to comply with SP 800-53 under FISMA. This includes civilian executive branch agencies, and the framework also forms the basis of FedRAMP, which cloud service providers must satisfy to offer services to federal agencies. Department of Defense contractors operating under CMMC (Cybersecurity Maturity Model Certification) also find significant overlap with SP 800-53 controls.</p>
+
+  <h3>Beneficial For</h3>
+  <p>Beyond mandatory use, SP 800-53 is widely adopted voluntarily by organizations in healthcare, finance, defense contracting, and other regulated industries. Its comprehensiveness makes it a rigorous security program baseline that can help organizations satisfy multiple regulatory requirements simultaneously — controls in SP 800-53 map to HIPAA, GDPR, PCI DSS, and others.</p>
+
+  <table class="ct-table">
+    <thead><tr><th>Aspect</th><th>NIST CSF 2.0</th><th>NIST SP 800-53</th></tr></thead>
+    <tbody>
+      <tr><td>Nature</td><td>Outcome-based framework</td><td>Prescriptive control catalog</td></tr>
+      <tr><td>Compliance</td><td>Voluntary for most</td><td>Mandatory (federal agencies)</td></tr>
+      <tr><td>Level of Detail</td><td>High-level outcomes</td><td>Specific, granular controls</td></tr>
+      <tr><td>Audience</td><td>All levels incl. executives</td><td>Security engineers &amp; architects</td></tr>
+      <tr><td>Role</td><td>"What to achieve"</td><td>"How to implement"</td></tr>
+      <tr><td>Number of Items</td><td>6 functions, 106 subcategories</td><td>20 families, ~1,189 controls</td></tr>
+    </tbody>
+  </table>
+
+  <!-- LIMITATIONS -->
+  <h2 id="honest">Limitations &amp; Uncertainty</h2>
+  <div class="honest">
+    <strong>Transparency note:</strong> The following reflects genuine limitations and areas where confirmation is not possible from available sources.
+  </div>
+  <p><strong>Control counts vary by source:</strong> Different publications cite slightly different total control counts for SP 800-53 Rev. 5 (ranging from ~1,007 to ~1,189 depending on whether control enhancements are counted separately). We use "approximately 1,189" as a commonly cited figure but note this varies. Consult the primary NIST publication or the NIST CPRT web portal for authoritative counts.</p>
+  <p><strong>Baseline control counts are approximate:</strong> The figures cited (~149 Low, ~287 Moderate, ~370 High) are approximate and come from SP 800-53B. These counts changed between Revision 4 and Revision 5 as the framework was restructured. Always reference SP 800-53B directly for compliance purposes.</p>
+  <p><strong>Revision 6 status:</strong> As of the time of writing (March 2026), we are not aware of a confirmed public release date for SP 800-53 Revision 6. NIST periodically updates its publications. Check csrc.nist.gov for current status.</p>
+  <p><strong>This is not compliance advice:</strong> If your organization has FISMA, FedRAMP, CMMC, or other regulatory obligations tied to SP 800-53, consult qualified professionals and the authoritative NIST publications directly. Nothing here constitutes legal or compliance guidance.</p>
+
+  <!-- REFS -->
+  <div class="refs" id="refs">
+    <h2 style="margin-top:0;border:none;">References</h2>
+    <ol class="ref-list">
+      <li data-n="[1]"><strong>NIST. (2020).</strong> <em>Security and Privacy Controls for Information Systems and Organizations.</em> NIST SP 800-53 Rev. 5 (updated Dec. 2020). <a href="https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final" target="_blank">https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final</a></li>
+      <li data-n="[2]"><strong>NIST. (2020).</strong> <em>Control Baselines for Information Systems and Organizations.</em> NIST SP 800-53B. <a href="https://csrc.nist.gov/publications/detail/sp/800-53b/final" target="_blank">https://csrc.nist.gov/publications/detail/sp/800-53b/final</a></li>
+      <li data-n="[3]"><strong>NIST Computer Security Resource Center.</strong> <em>Risk Management — NIST Cyber History.</em> <a href="https://csrc.nist.gov/nist-cyber-history/risk-management/chapter" target="_blank">https://csrc.nist.gov/nist-cyber-history/risk-management/chapter</a></li>
+      <li data-n="[4]"><strong>CSF Tools.</strong> <em>NIST SP 800-53, Revision 5 — Reference.</em> <a href="https://csf.tools/reference/nist-sp-800-53/r5/" target="_blank">https://csf.tools/reference/nist-sp-800-53/r5/</a></li>
+      <li data-n="[5]"><strong>Secureframe. (2025).</strong> <em>What is NIST SP 800-53 &amp; Why Is It a Benchmark for Cybersecurity?</em> <a href="https://secureframe.com/hub/nist-800-53/special-publication" target="_blank">https://secureframe.com/hub/nist-800-53/special-publication</a></li>
+      <li data-n="[6]"><strong>Drata. (2025).</strong> <em>NIST SP 800-53 Control Families, Explained.</em> <a href="https://drata.com/blog/nist-sp-800-53-control-families" target="_blank">https://drata.com/blog/nist-sp-800-53-control-families</a></li>
+      <li data-n="[7]"><strong>Hyperproof. (2026).</strong> <em>NIST SP 800-53: Controls, Families, and Implementation Tips.</em> <a href="https://hyperproof.io/nist-800-53/" target="_blank">https://hyperproof.io/nist-800-53/</a></li>
+      <li data-n="[8]"><strong>Fortinet.</strong> <em>What is NIST 800-53?</em> <a href="https://www.fortinet.com/resources/cyberglossary/nist-800-53" target="_blank">https://www.fortinet.com/resources/cyberglossary/nist-800-53</a></li>
+      <li data-n="[9]"><strong>Wikipedia. (2026).</strong> <em>NIST SP 800-53.</em> (Used for historical revision timeline only; factual claims cross-referenced against primary NIST sources.) <a href="https://en.wikipedia.org/wiki/NIST_SP_800-53" target="_blank">https://en.wikipedia.org/wiki/NIST_SP_800-53</a></li>
+      <li data-n="[10]"><strong>Secureframe. (2025).</strong> <em>NIST SP 800-53 Control Families: All 20 Families Explained.</em> <a href="https://secureframe.com/hub/nist-800-53/control-families" target="_blank">https://secureframe.com/hub/nist-800-53/control-families</a></li>
+    </ol>
+  </div>
+
+</div><!-- /content -->
+
+<footer>CyberGrind.org · Informational only — not legal or compliance advice · Sources accessed March 2026 · NIST publications are in the public domain</footer>
+
+</body>
+</html>
