@@ -176,4 +176,141 @@
     color: #888;
   }
 </style>
+
+<div class="feed-section live-feed">
+  <h2>📡 Live Threat Intel — Powered by CyberGrind API</h2>
+
+  <div class="live-tabs">
+    <button class="tab-btn active" onclick="switchTab('news')">Security News</button>
+    <button class="tab-btn" onclick="switchTab('iocs')">Live IOCs</button>
+  </div>
+
+  <div id="tab-news" class="tab-content">
+    <p class="feed-meta">Latest security news from Krebs, Bleeping Computer, SANS ISC, CISA & The Hacker News.</p>
+    <div id="news-feed" class="live-list">
+      <p class="loading">Loading feed...</p>
+    </div>
+  </div>
+
+  <div id="tab-iocs" class="tab-content hidden">
+    <p class="feed-meta">Live malicious URLs from abuse.ch URLhaus — updated hourly.</p>
+    <div id="ioc-feed" class="live-table-wrap">
+      <p class="loading">Loading IOCs...</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .live-feed { margin-top: 3rem; }
+  .live-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tab-btn {
+    padding: 0.5rem 1.2rem; border-radius: 6px;
+    border: 1px solid #333; background: #111;
+    color: #aaa; cursor: pointer; font-size: 0.9rem;
+  }
+  .tab-btn.active { background: #0070f3; border-color: #0070f3; color: #fff; }
+  .tab-content { display: block; }
+  .tab-content.hidden { display: none; }
+  .feed-meta { color: #666; font-size: 0.85rem; margin-bottom: 1rem; }
+  .loading { color: #555; font-style: italic; }
+  .news-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .news-item a { color: #0070f3; text-decoration: none; font-size: 0.95rem; }
+  .news-item a:hover { text-decoration: underline; }
+  .news-meta { color: #555; font-size: 0.8rem; margin-top: 0.25rem; }
+  .live-table-wrap { overflow-x: auto; }
+  .ioc-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .ioc-table th {
+    text-align: left; padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #333; color: #888;
+    font-weight: normal; text-transform: uppercase;
+    font-size: 0.75rem; letter-spacing: 0.05em;
+  }
+  .ioc-table td { padding: 0.45rem 0.75rem; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+  .ioc-table tr:hover td { background: #111; }
+  .status-online { color: #ff4444; }
+  .status-offline { color: #555; }
+  .api-error { color: #ff4444; font-size: 0.875rem; }
+  .api-note {
+    margin-top: 1rem; font-size: 0.78rem; color: #444;
+    font-style: italic;
+  }
+</style>
+
+<script>
+const API = "https://api.cybergrind.org";
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+  event.target.classList.add('active');
+}
+
+async function loadNews() {
+  try {
+    const res = await fetch(API + "/api/news?limit=15");
+    const data = await res.json();
+    const el = document.getElementById("news-feed");
+    if (!data.results.length) {
+      el.innerHTML = '<p class="api-error">No news available.</p>';
+      return;
+    }
+    el.innerHTML = data.results.map(item => `
+      <div class="news-item">
+        <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+        <div class="news-meta">${item.source} · ${item.published ? new Date(item.published).toLocaleDateString() : ''}</div>
+      </div>
+    `).join('');
+    el.innerHTML += '<p class="api-note">Live feed via CyberGrind API · Updates every 2 hours</p>';
+  } catch(e) {
+    document.getElementById("news-feed").innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+  }
+}
+
+async function loadIOCs() {
+  try {
+    const res = await fetch(API + "/api/iocs?limit=20&status=online");
+    const data = await res.json();
+    const el = document.getElementById("ioc-feed");
+    if (!data.results.length) {
+      el.innerHTML = '<p class="api-error">No IOCs available.</p>';
+      return;
+    }
+    el.innerHTML = `
+      <table class="ioc-table">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Threat</th>
+            <th>Malware</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.results.map(ioc => `
+            <tr>
+              <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ioc.value}</td>
+              <td>${ioc.threat || '—'}</td>
+              <td>${ioc.malware || '—'}</td>
+              <td class="status-${ioc.status}">${ioc.status}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <p class="api-note">Live IOCs via abuse.ch URLhaus · Updates every hour</p>
+    `;
+  } catch(e) {
+    document.getElementById("ioc-feed").innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadNews();
+  loadIOCs();
+});
+</script>
+
 {{ end }}

@@ -15,8 +15,9 @@ A collection of free tools and resources for blue teamers and security practitio
 |---|---|
 | [CVE Research](/tools/cve-research/) | Full CVE details with EPSS exploitation probability in one lookup |
 | [CISA KEV Checker](/tools/cisa-kev/) | Check if a CVE is in CISA's Known Exploited Vulnerabilities catalog |
+| [Live CVE Feed](/tools/live-cves/) | Live CISA KEV vulnerabilities pulled from the CyberGrind API — filterable by vendor |
 | [EPSS Scanner](/tools/epss/) | Check the Exploit Prediction Scoring System score for any CVE |
 | [IP Reputation Check](/tools/ip-reputation/) | Check abuse confidence score and reputation of any IP address |
-| [Threat Intel Feeds](/tools/threat-intel-feeds/) | Free OSINT and threat intelligence feeds |
+| [Threat Intel Feeds](/tools/threat-intel-feeds/) | Free OSINT and threat intelligence feeds with live news and IOC data |
 | [Global Threat Map](/tools/threat-map/) | Real-time malicious IP activity plotted on a world map — AbuseIPDB and open source OSINT feeds |
 | [Blue Team Resources](/tools/blue-team/) | Curated tools and live CISA KEV feed for defenders |
