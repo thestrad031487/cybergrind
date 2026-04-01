@@ -54,6 +54,22 @@ def init_db():
         )
     """)
 
+# Malware hashes table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS hashes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sha256 TEXT UNIQUE NOT NULL,
+            md5 TEXT,
+            sha1 TEXT,
+            file_name TEXT,
+            file_type TEXT,
+            malware_family TEXT,
+            first_seen TEXT,
+            tags TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
     conn.commit()
     conn.close()
     print("Database initialized successfully")
