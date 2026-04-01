@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — CyberGrind</title>
+<style>
+/* PaperMod dark theme variables — matched exactly */
+:root {
+  --gap: 24px;
+  --main-width: 720px;
+  --radius: 8px;
+  --theme: rgb(29, 30, 32);
+  --entry: rgb(46, 46, 51);
+  --primary: rgb(218, 218, 219);
+  --secondary: rgb(155, 156, 157);
+  --tertiary: rgb(65, 66, 68);
+  --content: rgb(196, 196, 197);
+  --code-block-bg: rgb(46, 46, 51);
+  --border: rgb(51, 51, 51);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* CyberGrind accents — minimal */
+  --gold: #c8963e;
+  --gold2: #e8b86d;
+  --blue2: #5ba3ff;
+  --teal2: #2dd4aa;
+  --green: #68d391;
+  --purple: #b794f4;
+  --red-soft: #f08080;
+  --amber: #f6ad55;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+main { text-align: center; }
+
+body {
+  background: var(--theme);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: calc(var(--main-width) + var(--gap) * 2);
+  margin: 0 auto;
+  padding: 40px var(--gap) 80px;
+  text-align: center;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--teal2);
+  border: 1px solid rgba(45,212,170,0.3);
+  padding: 3px 12px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.hero h1 span { color: var(--blue2); }
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* PROBLEM */
+.problem-block {
+  border: 1px solid rgba(246,173,85,0.25);
+  background: rgba(246,173,85,0.06);
+  border-radius: var(--radius);
+  padding: 22px 28px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.problem-block .label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.problem-block p {
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 600;
+  color: var(--amber);
+  line-height: 1.4;
+}
+
+/* SECTION */
+.section { margin-bottom: 44px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-header .label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.section-header .line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* MISSION GRID */
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 560px) { .mission-grid { grid-template-columns: 1fr; } }
+
+.mission-card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+  font-size: 14px;
+  color: var(--content);
+}
+
+.mission-card:hover { border-color: var(--blue2); }
+.mission-card .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+/* SOURCES GRID */
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 560px) { .sources-grid { grid-template-columns: 1fr; } }
+
+.source-card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.source-card .source-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--blue2);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.source-card p {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
+/* PIPELINE */
+.pipeline {
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pipe-step { display: flex; align-items: center; gap: 4px; }
+
+.pipe-badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.pipe-badge.blue   { background: rgba(91,163,255,0.12);  color: var(--blue2);  border: 1px solid rgba(91,163,255,0.25); }
+.pipe-badge.cyan   { background: rgba(45,212,170,0.12);  color: var(--teal2);  border: 1px solid rgba(45,212,170,0.25); }
+.pipe-badge.green  { background: rgba(104,211,145,0.12); color: var(--green);  border: 1px solid rgba(104,211,145,0.25); }
+.pipe-badge.amber  { background: rgba(246,173,85,0.12);  color: var(--amber);  border: 1px solid rgba(246,173,85,0.25); }
+
+.pipe-arrow { color: var(--tertiary); font-size: 14px; padding: 0 2px; }
+
+/* PHILOSOPHY */
+.philosophy-block {
+  background: var(--entry);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px;
+}
+
+.philosophy-block p {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.philosophy-block .attr {
+  font-size: 11px;
+  color: var(--teal2);
+  margin-top: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* POSITIONING */
+.position-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 640px) { .position-grid { grid-template-columns: 1fr; } }
+
+.position-card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+}
+
+.position-card.highlight {
+  border-color: rgba(104,211,145,0.3);
+  background: rgba(104,211,145,0.05);
+}
+
+.pos-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.pos-label.bad  { color: var(--red-soft); }
+.pos-label.good { color: var(--green); }
+
+.position-card p {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
+/* CREATOR */
+.creator-card {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 12px;
+}
+
+.creator-card p {
+  font-size: 14px;
+  color: var(--content);
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 560px) { .exp-grid { grid-template-columns: 1fr; } }
+
+.exp-item {
+  background: var(--code-block-bg);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exp-item::before {
+  content: '▸';
+  color: var(--blue2);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 560px) { .stack-grid { grid-template-columns: 1fr; } }
+
+.stack-item {
+  background: var(--code-block-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stack-cat {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--purple);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.stack-tools {
+  font-size: 13px;
+  color: var(--primary);
+}
+
+/* CALLOUT */
+.callout {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.callout-icon { font-size: 22px; flex-shrink: 0; }
+
+.callout-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--blue2);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.callout p {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+
+/* CERTS */
+.cert-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cert-badge {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  background: rgba(183,148,244,0.1);
+  color: var(--purple);
+  border: 1px solid rgba(183,148,244,0.25);
+  font-weight: 600;
+}
+
+/* DISCLAIMER */
+.disclaimer {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red-soft);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px;
+}
+
+.dis-header {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--red-soft);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.disclaimer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.disclaimer ul li {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+  padding-left: 18px;
+  position: relative;
+}
+
+.disclaimer ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--red-soft);
+}
+
+.dis-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--tertiary);
+  font-style: italic;
+}
+
+/* ANIMATIONS */
+.fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <img src="/images/cybergrind-logo.svg" alt="CyberGrind" style="width:300px; height:auto; margin:0 auto 24px; display:block;"/>
+  <h1>Built for <span>Defenders</span>.<br>Not Dashboards.</h1>
+  <p class="hero-sub">An independent threat intelligence platform focused on turning raw security data into clear, actionable insight — built by a practitioner, for practitioners.</p>
+</div>
+
+  <!-- PROBLEM -->
+  <div class="problem-block fade-in">
+    <div class="label">The Problem</div>
+    <p>There is too much data, and not enough clarity.</p>
+  </div>
+
+  <!-- MISSION -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">Mission</span>
+      <div class="line"></div>
+    </div>
+    <div class="mission-grid">
+      <div class="mission-card"><div class="icon">📉</div>Reduce noise in threat intelligence feeds</div>
+      <div class="mission-card"><div class="icon">🔍</div>Provide context, not just data points</div>
+      <div class="mission-card"><div class="icon">🧮</div>Deliver explainable and defensible risk scoring</div>
+      <div class="mission-card"><div class="icon">⚡</div>Help defenders make faster, better decisions</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">How It Works</span>
+      <div class="line"></div>
+    </div>
+    <div class="sources-grid">
+      <div class="source-card">
+        <div class="source-label">Internal Telemetry</div>
+        <p>Honeypots, logs, and security events from live infrastructure</p>
+      </div>
+      <div class="source-card">
+        <div class="source-label">Public TI Feeds</div>
+        <p>Aggregated open-source threat intelligence from curated sources</p>
+      </div>
+      <div class="source-card">
+        <div class="source-label">Behavioral Analysis</div>
+        <p>Scanning patterns, brute force activity, and bot fingerprinting</p>
+      </div>
+      <div class="source-card">
+        <div class="source-label">Infrastructure Enrichment</div>
+        <p>ASN, geolocation, hosting patterns, and network context</p>
+      </div>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step"><span class="pipe-badge blue">Correlate</span><span class="pipe-arrow">→</span></div>
+      <div class="pipe-step"><span class="pipe-badge cyan">Enrich</span><span class="pipe-arrow">→</span></div>
+      <div class="pipe-step"><span class="pipe-badge green">Score</span><span class="pipe-arrow">→</span></div>
+      <div class="pipe-step"><span class="pipe-badge amber">Explain</span></div>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHY -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">Philosophy</span>
+      <div class="line"></div>
+    </div>
+    <div class="philosophy-block">
+      <p>"Good threat intelligence should be explainable, reproducible, and useful within seconds."</p>
+      <div class="attr">// CyberGrind design principle</div>
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">Where CyberGrind Sits</span>
+      <div class="line"></div>
+    </div>
+    <div class="position-grid">
+      <div class="position-card">
+        <div class="pos-label bad">Too Simple</div>
+        <p>Just lists of IPs with little context or scoring rationale</p>
+      </div>
+      <div class="position-card highlight">
+        <div class="pos-label good">CyberGrind</div>
+        <p>Practical, transparent, analyst-friendly, continuously evolving</p>
+      </div>
+      <div class="position-card">
+        <div class="pos-label bad">Too Complex</div>
+        <p>Expensive, closed, and difficult to interpret or defend</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATOR -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">About the Creator</span>
+      <div class="line"></div>
+    </div>
+    <div class="creator-card">
+      <p>CyberGrind was built by an IT and cybersecurity leader with over a decade of hands-on experience — currently leading IT and security initiatives within a nonprofit organization.</p>
+      <div class="exp-grid">
+        <div class="exp-item">Security operations & incident response</div>
+        <div class="exp-item">Infrastructure & cloud security (Azure, M365)</div>
+        <div class="exp-item">Threat detection & vulnerability management</div>
+        <div class="exp-item">Multi-site environment design & hardening</div>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <span class="stack-cat">SIEM</span>
+          <span class="stack-tools">Splunk</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-cat">Endpoint & Identity</span>
+          <span class="stack-tools">Microsoft Defender · Intune · Entra ID</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-cat">Vulnerability Management</span>
+          <span class="stack-tools">Qualys</span>
+        </div>
+        <div class="stack-item">
+          <span class="stack-cat">Network Security</span>
+          <span class="stack-tools">Firewalls · Segmentation · Monitoring</span>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-icon">🛠</div>
+      <div>
+        <div class="callout-title">Built from real-world experience</div>
+        <p>CyberGrind is influenced by real-world security operations, not theoretical models. Every design decision reflects what defenders actually encounter — not how tools are marketed.</p>
+      </div>
+    </div>
+    <div class="cert-row" style="margin-top:14px;">
+      <span class="cert-badge">CISSP — In Progress</span>
+      <span class="cert-badge">Security+ — In Progress</span>
+      <span class="cert-badge">B.S. IT & Cybersecurity — In Progress</span>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="section fade-in">
+    <div class="section-header">
+      <span class="label">Responsible Use & Limitations</span>
+      <div class="line"></div>
+    </div>
+    <div class="disclaimer">
+      <div class="dis-header">⚠ Read Before Acting on Intelligence</div>
+      <ul>
+        <li>Not all indicators labeled "malicious" are inherently harmful in every context</li>
+        <li>Some IPs may belong to shared infrastructure, research scanners, or legitimate services</li>
+        <li>Data is continuously evolving and should be validated before taking action</li>
+      </ul>
+      <div class="dis-footer">CyberGrind should be used as a supporting intelligence tool, not a sole decision-maker.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

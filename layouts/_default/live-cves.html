@@ -1,0 +1,131 @@
+{{ define "main" }}
+<div class="live-cves">
+  <h1>Live CVE Feed</h1>
+  <p>Active vulnerabilities from CISA's Known Exploited Vulnerabilities catalog — pulled live from the CyberGrind API and updated every 24 hours.</p>
+
+  <div class="filter-bar">
+    <input type="text" id="vendor-filter" placeholder="Filter by vendor (e.g. Microsoft, Apple)..." />
+    <button onclick="applyFilter()">Filter</button>
+    <button onclick="clearFilter()">Clear</button>
+  </div>
+
+  <div id="cve-count" class="cve-count"></div>
+  <div id="cve-feed" class="cve-table-wrap">
+    <p class="loading">Loading CVEs...</p>
+  </div>
+</div>
+
+<style>
+  .live-cves { max-width: 960px; margin: 2rem auto; }
+  .filter-bar { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+  .filter-bar input {
+    flex: 1; padding: 0.6rem 1rem;
+    border: 1px solid #444; border-radius: 6px;
+    background: #1a1a1a; color: #fff; font-size: 0.95rem;
+  }
+  .filter-bar button {
+    padding: 0.6rem 1.2rem; background: #0070f3;
+    color: #fff; border: none; border-radius: 6px;
+    cursor: pointer; font-size: 0.95rem;
+  }
+  .filter-bar button:last-child { background: #222; border: 1px solid #444; }
+  .cve-count { color: #666; font-size: 0.85rem; margin-bottom: 1rem; }
+  .loading { color: #555; font-style: italic; }
+  .cve-table-wrap { overflow-x: auto; }
+  .cve-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .cve-table th {
+    text-align: left; padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid #333; color: #888;
+    font-weight: normal; text-transform: uppercase;
+    font-size: 0.75rem; letter-spacing: 0.05em;
+  }
+  .cve-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #1a1a1a; color: #ccc; vertical-align: top; }
+  .cve-table tr:hover td { background: #111; }
+  .cve-id { color: #0070f3; font-weight: bold; font-family: monospace; }
+  .due-date { color: #ff8800; }
+  .due-overdue { color: #ff4444; font-weight: bold; }
+  .desc { color: #888; font-size: 0.82rem; max-width: 400px; }
+  .api-note { margin-top: 1rem; font-size: 0.78rem; color: #444; font-style: italic; }
+  .api-error { color: #ff4444; }
+</style>
+
+<script>
+const API = "https://api.cybergrind.org";
+let allCVEs = [];
+
+async function loadCVEs(vendor = "") {
+  const el = document.getElementById("cve-feed");
+  const countEl = document.getElementById("cve-count");
+  el.innerHTML = '<p class="loading">Loading CVEs...</p>';
+
+  try {
+    const url = vendor
+      ? `${API}/api/cves?limit=100&vendor=${encodeURIComponent(vendor)}`
+      : `${API}/api/cves?limit=100`;
+    const res = await fetch(url);
+    const data = await res.json();
+    allCVEs = data.results;
+
+    countEl.textContent = `Showing ${allCVEs.length} vulnerabilities`;
+
+    if (!allCVEs.length) {
+      el.innerHTML = '<p class="api-error">No CVEs found.</p>';
+      return;
+    }
+
+    const today = new Date();
+    el.innerHTML = `
+      <table class="cve-table">
+        <thead>
+          <tr>
+            <th>CVE ID</th>
+            <th>Vendor</th>
+            <th>Product</th>
+            <th>Date Added</th>
+            <th>Due Date</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${allCVEs.map(cve => {
+            const due = new Date(cve.due_date);
+            const overdue = due < today;
+            return `
+              <tr>
+                <td><span class="cve-id">${cve.cve_id}</span></td>
+                <td>${cve.vendor || '—'}</td>
+                <td>${cve.product || '—'}</td>
+                <td>${cve.date_added || '—'}</td>
+                <td class="${overdue ? 'due-overdue' : 'due-date'}">${cve.due_date || '—'}${overdue ? ' ⚠' : ''}</td>
+                <td><span class="desc">${cve.short_description || '—'}</span></td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+      <p class="api-note">Live data via CyberGrind API · Source: CISA KEV · Updates every 24 hours</p>
+    `;
+  } catch(e) {
+    el.innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+    countEl.textContent = '';
+  }
+}
+
+function applyFilter() {
+  const vendor = document.getElementById("vendor-filter").value.trim();
+  loadCVEs(vendor);
+}
+
+function clearFilter() {
+  document.getElementById("vendor-filter").value = '';
+  loadCVEs();
+}
+
+document.addEventListener("DOMContentLoaded", () => loadCVEs());
+document.getElementById && document.addEventListener("DOMContentLoaded", function() {
+  document.querySelector(".filter-bar input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") applyFilter();
+  });
+});
+</script>
+{{ end }}

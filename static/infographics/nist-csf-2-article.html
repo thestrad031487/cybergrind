@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIST Cybersecurity Framework 2.0 — Deep Dive | CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0b1220;
+  --panel:  #111827;
+  --panel2: #162033;
+  --border: #1e2d45;
+  --blue:   #2e7de4;
+  --blue2:  #5ba3ff;
+  --gold:   #c8963e;
+  --gold2:  #e8b86d;
+  --teal:   #1aab8a;
+  --teal2:  #2dd4aa;
+  --text:   #e2e8f4;
+  --muted:  #7a8aa8;
+  --dim:    #3a4a62;
+  --rule:   #1e2d45;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:17px;scroll-behavior:smooth;}
+body{
+  background:var(--navy);
+  color:var(--text);
+  font-family:'Source Serif 4',Georgia,serif;
+  font-weight:300;
+  line-height:1.85;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(46,125,228,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(46,125,228,0.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0;
+}
+
+/* ── MASTHEAD ── */
+.masthead{
+  position:relative;z-index:1;
+  background:rgba(11,18,32,0.95);
+  border-bottom:1px solid var(--border);
+  padding:0.6rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.mast-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue2);}
+.mast-date{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dim);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  background:linear-gradient(160deg,#0d1828 0%,#0b1220 60%);
+  border-bottom:1px solid var(--border);
+  padding:5rem 2rem 4rem;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 50%,rgba(46,125,228,0.08),transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 80%,rgba(200,150,62,0.05),transparent 60%);
+  pointer-events:none;
+}
+.hero-inner{max-width:760px;margin:0 auto;position:relative;}
+.hero-kicker{
+  font-family:'Space Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--blue2);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:0.8rem;
+  opacity:0;animation:fadeUp 0.7s ease 0.1s forwards;
+}
+.hero-kicker::before{content:'';display:block;height:1px;width:40px;background:var(--blue2);opacity:0.5;}
+.hero h1{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;letter-spacing:-0.02em;
+  margin-bottom:1.2rem;
+  opacity:0;animation:fadeUp 0.7s ease 0.22s forwards;
+}
+.hero h1 em{font-style:normal;color:var(--blue2);}
+.hero-sub{
+  font-size:1rem;color:var(--muted);line-height:1.75;max-width:580px;
+  font-style:italic;
+  opacity:0;animation:fadeUp 0.7s ease 0.34s forwards;
+}
+.hero-meta{
+  margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:2rem;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 0.7s ease 0.46s forwards;
+}
+.hero-meta-item{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);}
+.hero-meta-item strong{display:block;color:var(--text);font-size:0.7rem;margin-bottom:0.15rem;}
+
+/* ── LAYOUT ── */
+.content{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 2rem 6rem;}
+
+/* ── TOC ── */
+.toc{
+  background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:0 6px 6px 0;padding:1.4rem 1.8rem;margin:3rem 0 2.5rem;
+}
+.toc-head{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.9rem;}
+.toc ol{padding-left:1.3rem;color:var(--muted);font-family:'Space Mono',monospace;font-size:0.72rem;line-height:2.2;}
+.toc a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.toc a:hover{color:var(--blue2);}
+
+/* ── HEADINGS ── */
+h2{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:1.6rem;color:var(--text);letter-spacing:-0.01em;
+  margin:3.5rem 0 0.8rem;padding-bottom:0.8rem;
+  border-bottom:1px solid var(--border);position:relative;
+}
+h2::after{
+  content:'';position:absolute;left:0;bottom:-1px;
+  width:50px;height:1px;background:var(--blue2);
+}
+h3{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:1.1rem;color:var(--blue2);
+  margin:2rem 0 0.6rem;letter-spacing:0.01em;
+}
+p{margin-bottom:1.2rem;}
+strong{color:var(--text);font-weight:600;}
+em{font-style:italic;color:var(--blue2);}
+
+/* ── CALLOUT ── */
+.callout{
+  background:var(--panel2);border:1px solid var(--border);
+  border-left:3px solid var(--blue);border-radius:0 6px 6px 0;
+  padding:1.2rem 1.5rem;margin:1.8rem 0;
+}
+.callout-label{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.5rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout.gold{border-left-color:var(--gold);}
+.callout.gold .callout-label{color:var(--gold2);}
+
+/* ── FUNCTION CARDS ── */
+.fn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin:1.5rem 0;}
+.fn-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-top:2px solid var(--blue);border-radius:6px;
+  padding:1rem;transition:border-color 0.2s,box-shadow 0.2s,transform 0.2s;
+}
+.fn-card:hover{border-top-color:var(--blue2);box-shadow:0 4px 20px rgba(46,125,228,0.12);transform:translateY(-2px);}
+.fn-card.govern{border-top-color:var(--gold);grid-column:1/-1;}
+.fn-card.govern:hover{border-top-color:var(--gold2);box-shadow:0 4px 20px rgba(200,150,62,0.12);}
+.fn-code{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:var(--blue2);margin-bottom:0.25rem;}
+.fn-card.govern .fn-code{color:var(--gold2);}
+.fn-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text);margin-bottom:0.35rem;}
+.fn-desc{font-size:0.72rem;color:var(--muted);line-height:1.55;margin:0;}
+
+/* ── TIER TABLE ── */
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin:1.5rem 0;}
+.tier-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  padding:0.9rem 0.8rem;text-align:center;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.tier-card:hover{border-color:var(--blue);transform:translateY(-2px);}
+.tier-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--blue2);line-height:1;}
+.tier-name{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--gold2);margin:0.3rem 0 0.4rem;text-transform:uppercase;}
+.tier-desc{font-size:0.65rem;color:var(--muted);line-height:1.5;}
+
+/* ── PROFILE BOX ── */
+.profile-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;}
+.profile-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:1.1rem 1.3rem;}
+.profile-head{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:0.4rem;}
+.profile-sub{font-size:0.7rem;color:var(--muted);line-height:1.55;}
+
+/* ── COMPARISON TABLE ── */
+.compare-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.78rem;}
+.compare-table th{
+  background:var(--panel2);font-family:'Space Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--blue2);padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);
+}
+.compare-table td{padding:0.65rem 1rem;border-bottom:1px solid rgba(30,45,69,0.6);color:var(--muted);vertical-align:top;}
+.compare-table tr:hover td{background:rgba(46,125,228,0.03);}
+.compare-table td:first-child{color:var(--text);font-family:'Space Mono',monospace;font-size:0.7rem;}
+
+/* ── BLOCKQUOTE ── */
+blockquote{
+  border-left:2px solid var(--gold);padding-left:1.3rem;
+  margin:1.8rem 0;color:var(--muted);font-style:italic;font-size:1rem;
+}
+
+/* ── HONEST NOTE ── */
+.honest{
+  background:rgba(200,150,62,0.06);border:1px solid rgba(200,150,62,0.2);
+  border-radius:6px;padding:1.1rem 1.3rem;margin:1.5rem 0;
+  font-size:0.78rem;color:var(--muted);
+}
+.honest strong{color:var(--gold2);}
+
+/* ── REFERENCES ── */
+.refs{border-top:1px solid var(--border);margin-top:3.5rem;padding-top:2rem;}
+.ref-list{list-style:none;padding:0;margin-top:1rem;}
+.ref-list li{
+  font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);
+  margin-bottom:0.8rem;padding-left:2rem;position:relative;line-height:1.6;
+}
+.ref-list li::before{content:attr(data-n);position:absolute;left:0;color:var(--blue2);}
+.ref-list a{color:var(--blue2);word-break:break-all;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;background:var(--panel);border-top:1px solid var(--border);
+  padding:2rem;text-align:center;
+  font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:var(--dim);
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:640px){
+  .fn-grid{grid-template-columns:1fr 1fr;}
+  .fn-card.govern{grid-column:1/-1;}
+  .tier-grid{grid-template-columns:1fr 1fr;}
+  .profile-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <span class="mast-label">CyberGrind · Orange Book</span>
+  <span class="mast-date">Published March 27, 2026</span>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Framework Deep Dive</div>
+    <h1>NIST Cybersecurity<br>Framework <em>2.0</em></h1>
+    <p class="hero-sub">What it is, why it was built, what changed in version 2.0, and how any organization — from a small nonprofit to a federal agency — can use it to manage cybersecurity risk.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Released</strong>February 26, 2024</div>
+      <div class="hero-meta-item"><strong>Published By</strong>NIST (Dept. of Commerce)</div>
+      <div class="hero-meta-item"><strong>Compliance</strong>Voluntary</div>
+      <div class="hero-meta-item"><strong>Scope</strong>All organizations, all sectors</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="toc">
+    <div class="toc-head">Contents</div>
+    <ol>
+      <li><a href="#what">What Is the NIST CSF?</a></li>
+      <li><a href="#origin">Why Was It Created?</a></li>
+      <li><a href="#v2">What Changed in Version 2.0?</a></li>
+      <li><a href="#functions">The Six Core Functions</a></li>
+      <li><a href="#tiers">Implementation Tiers</a></li>
+      <li><a href="#profiles">Organizational Profiles</a></li>
+      <li><a href="#who">Who Should Use It?</a></li>
+      <li><a href="#honest">Limitations &amp; Uncertainty</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </div>
+
+  <!-- WHAT IS IT -->
+  <h2 id="what">What Is the NIST CSF?</h2>
+  <p>The <strong>NIST Cybersecurity Framework (CSF)</strong> is a voluntary, outcome-based framework published by the National Institute of Standards and Technology — a non-regulatory agency of the U.S. Department of Commerce. It is designed to help organizations of all sizes and sectors understand, communicate, assess, and manage cybersecurity risk.</p>
+  <p>The key word here is <em>outcome-based</em>. The CSF does not tell you which firewall vendor to use, which SIEM to deploy, or which specific technical controls to implement. Instead, it describes the results you should be working toward — and maps those results to a wide variety of standards, guidelines, and practices that can help you get there. This makes it both technology-neutral and sector-neutral, which is a large part of why it has been adopted so broadly worldwide.</p>
+  <div class="callout">
+    <div class="callout-label">Core Purpose</div>
+    <p>The CSF is a taxonomy of high-level cybersecurity outcomes that can be used by any organization — regardless of size, sector, or technical maturity — to understand, assess, prioritize, and communicate cybersecurity risk. It is not a checklist. It is a framework for strategic thinking.</p>
+  </div>
+  <p>The CSF is organized around three components: the <strong>CSF Core</strong> (a hierarchy of functions, categories, and subcategories describing cybersecurity outcomes), <strong>Organizational Profiles</strong> (a mechanism for describing current and target cybersecurity posture), and <strong>Implementation Tiers</strong> (context for how an organization views and manages cybersecurity risk).</p>
+
+  <!-- WHY CREATED -->
+  <h2 id="origin">Why Was It Created?</h2>
+  <p>The original CSF (version 1.0) was created in direct response to <strong>Executive Order 13636</strong>, "Improving Critical Infrastructure Cybersecurity," signed by President Obama in February 2013. The order directed NIST to work with the private sector to develop a framework for reducing cyber risks to critical infrastructure — power grids, water systems, financial networks, telecommunications, and other sectors on which the nation's safety and economy depend.</p>
+  <p>At the time, there was no single, widely-adopted standard that organizations across these diverse sectors could use to assess and communicate their cybersecurity posture. Different industries operated with different standards, different vocabularies, and different levels of maturity. The CSF was intended to provide that common language and structural approach — while remaining flexible enough to be adopted voluntarily across vastly different organizational contexts.</p>
+  <p>NIST published <strong>CSF 1.0 in February 2014</strong>, just one year after the executive order. It was rapidly adopted by both public and private sector organizations well beyond the original critical infrastructure scope. <strong>CSF 1.1</strong> followed in April 2018 with refinements but no structural overhaul.</p>
+  <p>By 2022, NIST recognized that the cyber landscape had shifted significantly enough to warrant a substantive revision. The world had experienced accelerating cloud adoption, a dramatic expansion of remote work, the emergence of widespread ransomware campaigns, large-scale supply chain attacks (including SolarWinds and Kaseya), and increasing attention to AI and quantum computing as both tools and threat vectors. NIST opened a public comment and workshop process in early 2022, publishing <strong>CSF 2.0 on February 26, 2024</strong>.</p>
+
+  <!-- WHAT CHANGED -->
+  <h2 id="v2">What Changed in Version 2.0?</h2>
+
+  <h3>Expanded Scope</h3>
+  <p>Perhaps the most significant change is one that formalizes what had already been happening in practice: CSF 2.0 explicitly applies to <strong>organizations of all sizes and sectors</strong> — not just critical infrastructure. The original framework was scoped to critical infrastructure but was widely adopted beyond it anyway. Version 2.0 acknowledges this reality and designs for it intentionally, including dedicated Quick-Start Guides for small businesses, for organizations new to cybersecurity, and for those improving existing programs.</p>
+
+  <h3>The Govern Function</h3>
+  <p>The most structurally notable change is the addition of a sixth core function: <strong>Govern (GV)</strong>. In CSF 1.1, governance-related activities were embedded within subcategories and not given top-level prominence. Elevating Govern to a core function signals that cybersecurity governance — leadership accountability, strategy alignment, risk management policy, and supply chain oversight — must be treated as a foundational, first-class organizational priority rather than an administrative afterthought.</p>
+  <div class="callout gold">
+    <div class="callout-label">Why Govern Matters</div>
+    <p>The Govern function establishes, communicates, and monitors an organization's cybersecurity risk management strategy, expectations, and policies. Its placement at the center of the framework model reflects a fundamental insight: no amount of technical investment produces lasting security if leadership isn't aligned, accountable, and driving the strategy. Govern is the function that makes all other functions sustainable.</p>
+  </div>
+
+  <h3>Supply Chain Risk Management</h3>
+  <p>CSF 2.0 significantly expands guidance around supply chain risk management (SCRM). CSF 1.1 introduced supply chain risk as a category, but version 2.0 elevates and expands it — particularly within the Govern function — with more detailed subcategories covering roles, responsibilities, and specific practices for managing third-party and supplier cyber risk. This reflects the dramatic increase in supply chain-based attacks observed between 2018 and 2024.</p>
+
+  <h3>Organizational Profiles &amp; Community Profiles</h3>
+  <p>CSF 2.0 formalizes and expands the use of <strong>Organizational Profiles</strong> — structured descriptions of an organization's current and target cybersecurity posture. It also introduces <strong>Community Profiles</strong>, which are pre-built profile templates designed for specific sectors or use cases, allowing organizations within the same industry to benchmark against a shared baseline rather than starting from zero.</p>
+
+  <h3>Simplified Language &amp; Implementation Examples</h3>
+  <p>The framework uses clearer, more accessible language throughout. CSF 2.0 adds implementation examples for each subcategory — concrete illustrations of what achieving a given outcome might look like in practice, without being prescriptive about the specific method. This reduces the gap between the framework's abstract outcomes and the practitioner's real-world decisions.</p>
+
+  <table class="compare-table">
+    <thead>
+      <tr><th>Aspect</th><th>CSF 1.1 (2018)</th><th>CSF 2.0 (2024)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Scope</td><td>Critical infrastructure focus</td><td>All organizations, all sectors</td></tr>
+      <tr><td>Core Functions</td><td>5 (Identify, Protect, Detect, Respond, Recover)</td><td>6 (adds Govern)</td></tr>
+      <tr><td>Governance</td><td>Embedded in subcategories</td><td>Elevated to top-level function</td></tr>
+      <tr><td>Supply Chain</td><td>Single category (ID.SC)</td><td>Expanded throughout, especially in Govern</td></tr>
+      <tr><td>Profiles</td><td>Mentioned, not formalized</td><td>Formalized; Community Profiles added</td></tr>
+      <tr><td>Implementation Examples</td><td>Not included</td><td>Provided for each subcategory</td></tr>
+      <tr><td>Quick-Start Guides</td><td>Limited</td><td>Multiple audience-specific guides</td></tr>
+    </tbody>
+  </table>
+
+  <!-- THE SIX FUNCTIONS -->
+  <h2 id="functions">The Six Core Functions</h2>
+  <p>The CSF Core is organized into six Functions, each representing a high-level cybersecurity outcome. These functions are not sequential steps — they are concurrent, continuous activities. Every mature cybersecurity program operates across all six simultaneously.</p>
+
+  <div class="fn-grid">
+    <div class="fn-card govern">
+      <div class="fn-code">GV · GOVERN · NEW IN CSF 2.0</div>
+      <div class="fn-title">Govern</div>
+      <p class="fn-desc">Establishes, communicates, and monitors the organization's cybersecurity risk management strategy, expectations, and policies. Covers organizational context, risk management strategy, supply chain risk, roles and responsibilities, policy, and oversight. Acts as the foundation underpinning all five other functions — the mechanism by which cybersecurity becomes part of enterprise risk management rather than a siloed technical exercise.</p>
+    </div>
+    <div class="fn-card">
+      <div class="fn-code">ID · IDENTIFY</div>
+      <div class="fn-title">Identify</div>
+      <p class="fn-desc">Understand the current cybersecurity risk landscape. Covers asset management (data, hardware, software, systems, facilities, people, suppliers), risk assessment, and improvement planning. Knowing what you have and what threats exist is the prerequisite for everything else.</p>
+    </div>
+    <div class="fn-card">
+      <div class="fn-code">PR · PROTECT</div>
+      <div class="fn-title">Protect</div>
+      <p class="fn-desc">Implement safeguards to manage cybersecurity risk and prevent or reduce the likelihood and impact of cybersecurity events. Covers identity management, access control, awareness and training, data security, platform security, and technology infrastructure resilience.</p>
+    </div>
+    <div class="fn-card">
+      <div class="fn-code">DE · DETECT</div>
+      <div class="fn-title">Detect</div>
+      <p class="fn-desc">Find and analyze possible cybersecurity attacks and compromises in a timely manner. Covers continuous monitoring and adverse event analysis. Detection capability is what closes the gap between an attack occurring and your organization knowing about it.</p>
+    </div>
+    <div class="fn-card">
+      <div class="fn-code">RS · RESPOND</div>
+      <div class="fn-title">Respond</div>
+      <p class="fn-desc">Take action to contain and manage the effects of a detected cybersecurity incident. Covers incident management, analysis, mitigation, reporting, and communication — both internal and external (including regulators and the public where applicable).</p>
+    </div>
+    <div class="fn-card">
+      <div class="fn-code">RC · RECOVER</div>
+      <div class="fn-title">Recover</div>
+      <p class="fn-desc">Restore assets, operations, and services affected by a cybersecurity incident. Covers incident recovery planning, execution, and communications. A mature Recover function means the organization can return to normal — or better — without catastrophic, extended downtime.</p>
+    </div>
+  </div>
+
+  <p>Each Function is broken down into <strong>Categories</strong> (specific outcomes within the function) and <strong>Subcategories</strong> (granular outcome statements). CSF 2.0 contains 22 categories and 106 subcategories across the six functions.</p>
+
+  <!-- TIERS -->
+  <h2 id="tiers">Implementation Tiers</h2>
+  <p>The four Implementation Tiers describe how an organization views cybersecurity risk and the processes it has in place to manage it. They are <em>not</em> maturity levels to be climbed sequentially — they are descriptors that help an organization understand its current posture and determine whether that posture is appropriate given its risk appetite. A Tier 2 organization is not "failing" — it may be exactly where it needs to be given its size and context.</p>
+
+  <div class="tier-grid">
+    <div class="tier-card">
+      <div class="tier-num">1</div>
+      <div class="tier-name">Partial</div>
+      <div class="tier-desc">Risk management is ad hoc and reactive. Limited awareness of cybersecurity risk. Little to no integration with organizational risk management.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">2</div>
+      <div class="tier-name">Risk Informed</div>
+      <div class="tier-desc">Risk management practices are approved by leadership but not yet adopted organization-wide. Some awareness of supply chain risk.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">3</div>
+      <div class="tier-name">Repeatable</div>
+      <div class="tier-desc">Risk management practices are formally approved and expressed as policy. Consistent implementation across the organization. Supply chain risk is managed.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">4</div>
+      <div class="tier-name">Adaptive</div>
+      <div class="tier-desc">Organization adapts cybersecurity practices based on lessons learned and predictive indicators. Actively shares information with partners. Continuous improvement embedded in culture.</div>
+    </div>
+  </div>
+
+  <!-- PROFILES -->
+  <h2 id="profiles">Organizational Profiles</h2>
+  <p>An Organizational Profile is the CSF's mechanism for applying the framework to a specific organization's context. It documents the organization's cybersecurity outcomes — current state and target state — in terms of the CSF Core, informed by the organization's mission, risk appetite, threat environment, and legal/regulatory requirements.</p>
+
+  <div class="profile-row">
+    <div class="profile-card">
+      <div class="profile-head">Current Profile</div>
+      <div class="profile-sub">Documents the cybersecurity outcomes the organization is currently achieving. Essentially a snapshot of existing posture — honest, not aspirational. This is the baseline from which gaps are identified.</div>
+    </div>
+    <div class="profile-card">
+      <div class="profile-head">Target Profile</div>
+      <div class="profile-sub">Documents the outcomes the organization aims to achieve. Driven by business objectives, risk tolerance, and regulatory requirements. The gap between Current and Target Profile drives prioritization and resource allocation.</div>
+    </div>
+  </div>
+
+  <p>CSF 2.0 also introduces <strong>Community Profiles</strong> — profile templates developed for specific sectors, subsectors, or technology types. For example, a Community Profile might be developed for small healthcare providers, or for organizations deploying industrial control systems. Community Profiles allow organizations within the same domain to benchmark against a shared reference point rather than starting profile development from a blank page.</p>
+
+  <!-- WHO SHOULD USE IT -->
+  <h2 id="who">Who Should Use It?</h2>
+  <p>The CSF is genuinely useful for a wide range of organizations. Its strength is in providing structure for conversations that might otherwise be impossible — between technical teams and executive leadership, between procurement and security, between an organization and its regulators or auditors. It also maps to many other frameworks and standards, including NIST SP 800-53, ISO/IEC 27001, CIS Controls, and others, making it a useful translation layer across different compliance environments.</p>
+
+  <blockquote>"The CSF prompts its users to consider their cybersecurity posture in context and then adapt the CSF to their specific needs." — NIST CSF 2.0</blockquote>
+
+  <p>For <strong>small and mid-sized organizations</strong> new to structured cybersecurity: start with the CSF 2.0 Quick-Start Guide and use the framework as an assessment and prioritization tool. You don't need to achieve all subcategories — you need to understand your risks and make informed decisions about where to invest.</p>
+  <p>For <strong>larger organizations with existing programs</strong>: use Organizational Profiles to formally document current vs. target posture, and use the Govern function specifically to ensure leadership alignment with cybersecurity strategy.</p>
+  <p>For <strong>federal agencies and contractors</strong>: CSF 2.0 maps to SP 800-53 and can complement your RMF (Risk Management Framework) process. NIST provides official mapping documentation between the two.</p>
+
+  <!-- LIMITATIONS -->
+  <h2 id="honest">Limitations &amp; Uncertainty</h2>
+  <div class="honest">
+    <p><strong>Transparency note:</strong> The following represents genuine limitations or areas where I cannot confirm specifics — not acknowledged facts presented as uncertainty for rhetorical effect.</p>
+  </div>
+  <p><strong>Adoption statistics:</strong> Precise, current global adoption figures are not reliably available. Claims about what percentage of organizations use CSF typically originate from vendor surveys with limited methodological transparency. We have not cited specific adoption percentages.</p>
+  <p><strong>Compliance mapping precision:</strong> NIST provides mappings between CSF 2.0 and other frameworks (including SP 800-53), but these mappings are not one-to-one. The documentation itself notes that "mappings and crosswalks are not always one-to-one and relationship analysis can be subjective." Do not treat mapping tables as equivalence tables.</p>
+  <p><strong>Implementation complexity:</strong> The CSF is intentionally flexible, which means implementation difficulty varies enormously by organization. There is no single right way to implement it, and NIST does not prescribe one. What works for a large federal agency may be entirely inappropriate for a 50-person nonprofit.</p>
+  <p><strong>This is not compliance advice:</strong> Nothing in this article constitutes legal, regulatory, or compliance guidance. If your organization has specific FISMA, FedRAMP, HIPAA, or other regulatory obligations, consult qualified professionals and the primary NIST publications directly.</p>
+
+  <!-- REFERENCES -->
+  <div class="refs" id="refs">
+    <h2 style="margin-top:0;border:none;">References</h2>
+    <ol class="ref-list">
+      <li data-n="[1]"><strong>NIST. (2024).</strong> <em>The NIST Cybersecurity Framework (CSF) 2.0.</em> NIST CSWP 29. Published February 26, 2024. <a href="https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf" target="_blank">https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf</a></li>
+      <li data-n="[2]"><strong>NIST. (2024).</strong> <em>NIST CSF 2.0: Resource &amp; Overview Guide.</em> NIST SP 1299. <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1299.pdf" target="_blank">https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1299.pdf</a></li>
+      <li data-n="[3]"><strong>Arctic Wolf. (2025).</strong> <em>NIST CSF 2.0: Understanding and Implementing the Govern Function.</em> <a href="https://arcticwolf.com/resources/blog/nist-csf-2-0-understanding-and-implementing-the-govern-function/" target="_blank">https://arcticwolf.com/resources/blog/nist-csf-2-0-understanding-and-implementing-the-govern-function/</a></li>
+      <li data-n="[4]"><strong>IBM Think. (2025).</strong> <em>Unpacking the NIST Cybersecurity Framework 2.0.</em> <a href="https://www.ibm.com/think/insights/nist-cybersecurity-framework-2" target="_blank">https://www.ibm.com/think/insights/nist-cybersecurity-framework-2</a></li>
+      <li data-n="[5]"><strong>Drata. (2025).</strong> <em>Everything You Need to Know About NIST CSF 2.0.</em> <a href="https://drata.com/blog/nist-csf-2-guide" target="_blank">https://drata.com/blog/nist-csf-2-guide</a></li>
+      <li data-n="[6]"><strong>Contrast Security. (2025).</strong> <em>What is NIST Cybersecurity Framework (CSF) 2.0?</em> <a href="https://www.contrastsecurity.com/glossary/nist-csf" target="_blank">https://www.contrastsecurity.com/glossary/nist-csf</a></li>
+      <li data-n="[7]"><strong>CybelAngel. (2025).</strong> <em>NIST CSF 2.0: What Changed and How to Implement It.</em> <a href="https://cybelangel.com/blog/guide_nist_2/" target="_blank">https://cybelangel.com/blog/guide_nist_2/</a></li>
+      <li data-n="[8]"><strong>NRI Secure. (2025).</strong> <em>NIST CSF 2.0: What's New and Why It Matters.</em> <a href="https://www.nri-secure.com/blog/nist-csf-2" target="_blank">https://www.nri-secure.com/blog/nist-csf-2</a></li>
+    </ol>
+  </div>
+
+</div><!-- /content -->
+
+<footer>CyberGrind.org · Informational only — not legal or compliance advice · Sources accessed March 2026 · NIST publications are in the public domain</footer>
+
+</body>
+</html>

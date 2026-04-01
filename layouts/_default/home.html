@@ -1,0 +1,184 @@
+{{- define "main" }}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) }}
+{{- partial "index_profile.html" . }}
+{{- else }}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{- if and .IsHome site.Params.homeInfoParams }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+<!-- Threat Map Preview -->
+{{- if .IsHome }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<section style="margin: 32px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <div>
+      <h2 style="margin:0;font-size:18px;color:var(--primary)">🌐 Global Threat Map</h2>
+      <p style="margin:4px 0 0 0;font-size:13px;color:var(--secondary)">Live malicious IP activity by country</p>
+    </div>
+    <a href="/tools/threat-map/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View Full Map →</a>
+  </div>
+  <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+    <div id="home-threat-map" style="height:300px;width:100%;background:#0a0a0a;"></div>
+  </div>
+  <div id="home-map-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-total" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Malicious IPs</div>
+    </div>
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-countries" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Countries</div>
+    </div>
+    <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
+      <div id="hm-top" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
+      <div style="font-size:11px;color:var(--secondary);">Top Source</div>
+    </div>
+  </div>
+</section>
+<script>
+(function() {
+  const map = L.map('home-threat-map', {
+    center: [20, 0],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 3,
+    zoomControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+    attributionControl: false,
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+  }).addTo(map);
+
+  function getColor(count) {
+    if (count >= 50) return '#ff0000';
+    if (count >= 20) return '#ff6b00';
+    if (count >= 10) return '#ffaa00';
+    if (count >= 5)  return '#ffdd00';
+    return '#88cc00';
+  }
+
+// Set loading state
+  document.getElementById('hm-total').textContent = '...';
+  document.getElementById('hm-countries').textContent = '...';
+  document.getElementById('hm-top').textContent = '...';
+
+  fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
+    .then(r => {
+      if (!r.ok) throw new Error('Worker returned ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      data.points.forEach(p => {
+        const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
+        L.circleMarker([p.lat, p.lng], {
+          radius: r,
+          fillColor: getColor(p.count),
+          color: getColor(p.count),
+          weight: 1,
+          opacity: 0.9,
+          fillOpacity: 0.5,
+        }).addTo(map);
+      });
+      document.getElementById('hm-total').textContent = data.totalIPs.toLocaleString();
+      document.getElementById('hm-countries').textContent = data.points.length;
+      document.getElementById('hm-top').textContent = data.topCountries[0];
+    })
+    .catch(err => {
+      console.error('Threat map error:', err);
+      document.getElementById('hm-total').textContent = 'N/A';
+      document.getElementById('hm-countries').textContent = 'N/A';
+      document.getElementById('hm-top').textContent = 'Unavailable';
+    });
+})();
+</script>
+{{- end }}
+
+{{- if .IsHome }}
+<div id="post-list"></div>
+<div id="load-more-wrap" style="text-align:center;margin:24px 0;display:none;">
+  <button id="load-more-btn" style="padding:10px 28px;background:transparent;border:1px solid var(--primary);color:var(--primary);font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:0.05em;">
+    Load More
+  </button>
+</div>
+<script>
+(function() {
+  const BATCH = 5;
+  let allPosts = [];
+  let shown = 0;
+
+  function formatDate(isoString) {
+    if (!isoString) return '';
+    const d = new Date(isoString);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  function renderPost(post) {
+    const summary = stripHtml(post.summary || post.content || '').slice(0, 200);
+    const date = post.permalink.match(/(\d{4}-\d{2}-\d{2})/)?.[1] || '';
+    return `<article class="post-entry">
+      <header class="entry-header">
+        <h2 class="entry-hint-parent">${post.title}</h2>
+      </header>
+      <div class="entry-content"><p>${summary}${summary.length >= 200 ? '...' : ''}</p></div>
+      <footer class="entry-footer"><span>${formatDate(date)}</span></footer>
+      <a class="entry-link" aria-label="post link to ${post.title}" href="${post.permalink}"></a>
+    </article>`;
+  }
+
+  function showMore() {
+    const list = document.getElementById('post-list');
+    const batch = allPosts.slice(shown, shown + BATCH);
+    batch.forEach(post => {
+      list.insertAdjacentHTML('beforeend', renderPost(post));
+    });
+    shown += batch.length;
+    const btn = document.getElementById('load-more-wrap');
+    btn.style.display = shown < allPosts.length ? 'block' : 'none';
+  }
+
+  fetch('/index.json')
+    .then(r => r.json())
+    .then(data => {
+      allPosts = data.filter(p => p.permalink.includes('/blog/') && p.title && p.title !== '');
+      showMore();
+      document.getElementById('load-more-btn').addEventListener('click', showMore);
+    })
+    .catch(err => console.error('Failed to load posts:', err));
+})();
+</script>
+{{- end }}
+
+{{- end }}
+{{- end }}

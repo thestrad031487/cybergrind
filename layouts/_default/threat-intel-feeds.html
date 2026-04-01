@@ -1,0 +1,316 @@
+{{ define "main" }}
+<div class="threat-feeds">
+  <h1>Threat Intel Feeds</h1>
+  <p>Free OSINT and threat intelligence feeds for blue teamers and security practitioners.</p>
+
+  <div class="feed-section">
+    <h2>🔍 OSINT & Reconnaissance</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3><a href="https://www.shodan.io" target="_blank">Shodan</a></h3>
+        <p>Search engine for internet-connected devices. Identify exposed services, open ports, and vulnerable systems across the internet.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://viz.greynoise.io" target="_blank">GreyNoise</a></h3>
+        <p>Identifies IPs that are scanning the internet. Helps distinguish targeted attacks from background noise.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://censys.io" target="_blank">Censys</a></h3>
+        <p>Internet-wide scanning and attack surface management. Search for hosts, certificates, and exposed infrastructure.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://otx.alienvault.com" target="_blank">AlienVault OTX</a></h3>
+        <p>Open threat exchange with millions of IOCs contributed by the security community. Pulses cover malware, phishing, and more.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.virustotal.com" target="_blank">VirusTotal</a></h3>
+        <p>Analyze suspicious files, URLs, IPs, and domains. Aggregates results from 70+ antivirus engines and threat intel tools.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://urlscan.io" target="_blank">urlscan.io</a></h3>
+        <p>Scan and analyze websites. Shows DOM, network requests, and threat indicators for any URL.</p>
+        <span class="tag">Free</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-section">
+    <h2>🦠 Malware & IOCs</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3><a href="https://abuse.ch" target="_blank">abuse.ch</a></h3>
+        <p>Collection of free threat intel projects including MalwareBazaar, ThreatFox, URLhaus, and Feodo Tracker.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://bazaar.abuse.ch" target="_blank">MalwareBazaar</a></h3>
+        <p>Share and download malware samples. Searchable database of malware hashes, tags, and signatures.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://threatfox.abuse.ch" target="_blank">ThreatFox</a></h3>
+        <p>IOC sharing platform with indicators for malware families. Exportable in multiple formats for SIEM ingestion.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://urlhaus.abuse.ch" target="_blank">URLhaus</a></h3>
+        <p>Tracks URLs used for malware distribution. Real-time feed of active malware hosting sites.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.hybrid-analysis.com" target="_blank">Hybrid Analysis</a></h3>
+        <p>Free malware analysis service with behavioral reports. Submit files and URLs for dynamic sandbox analysis.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://any.run" target="_blank">ANY.RUN</a></h3>
+        <p>Interactive malware sandbox. Watch malware execute in real time and extract IOCs from behavioral analysis.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-section">
+    <h2>🔓 Vulnerability & CVE Feeds</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV</a></h3>
+        <p>CISA's Known Exploited Vulnerabilities catalog. Authoritative source for vulnerabilities actively exploited in the wild.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://nvd.nist.gov" target="_blank">NVD — NIST</a></h3>
+        <p>National Vulnerability Database. Comprehensive CVE details including CVSS scores, affected products, and remediation guidance.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.first.org/epss" target="_blank">EPSS — FIRST</a></h3>
+        <p>Exploit Prediction Scoring System. Probability-based scoring for likelihood of CVE exploitation in the next 30 days.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://msrc.microsoft.com/update-guide" target="_blank">Microsoft MSRC</a></h3>
+        <p>Microsoft Security Response Center update guide. Monthly Patch Tuesday advisories and security bulletins.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://security.alpinelinux.org" target="_blank">Emerging Threats</a></h3>
+        <p>Open source IDS/IPS rules for Snort and Suricata. Community-driven ruleset updated daily with new threat signatures.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.exploit-db.com" target="_blank">Exploit-DB</a></h3>
+        <p>Archive of public exploits and vulnerable software. Maintained by Offensive Security, searchable by CVE or platform.</p>
+        <span class="tag">Free</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-section">
+    <h2>🚫 IP Reputation & Blocklists</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3><a href="https://www.abuseipdb.com" target="_blank">AbuseIPDB</a></h3>
+        <p>Community-driven IP abuse reporting database. Check and report IPs involved in hacking, spam, and malicious activity.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://feodotracker.abuse.ch" target="_blank">Feodo Tracker</a></h3>
+        <p>Tracks botnet C2 servers for Emotet, Dridex, and TrickBot. Blocklist available for firewall and IDS integration.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://iplists.firehol.org" target="_blank">FireHOL IP Lists</a></h3>
+        <p>Aggregates hundreds of IP blocklists into unified feeds. Categorized by threat type and update frequency.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.spamhaus.org" target="_blank">Spamhaus</a></h3>
+        <p>Industry standard blocklists for spam, malware, and botnet IPs. DROP and EDROP lists widely used in enterprise firewalls.</p>
+        <span class="tag">Free Tier</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://cinsscore.com" target="_blank">CINS Score</a></h3>
+        <p>Collective Intelligence Network Security threat list. Automatically generated from honeypot and sensor data.</p>
+        <span class="tag">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://www.dan.me.uk/torlist" target="_blank">Tor Exit Nodes</a></h3>
+        <p>Live list of Tor exit node IP addresses. Useful for detecting anonymous traffic in your environment.</p>
+        <span class="tag">Free</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .threat-feeds { max-width: 900px; margin: 2rem auto; }
+  .feed-section { margin: 2.5rem 0; }
+  .feed-section h2 { border-bottom: 1px solid #333; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #0070f3; }
+  .card h3 { margin: 0 0 0.5rem 0; font-size: 1rem; }
+  .card h3 a { color: #0070f3; text-decoration: none; }
+  .card h3 a:hover { text-decoration: underline; }
+  .card p { color: #aaa; font-size: 0.875rem; margin: 0 0 0.75rem 0; line-height: 1.5; }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #888;
+  }
+</style>
+
+<div class="feed-section live-feed">
+  <h2>📡 Live Threat Intel — Powered by CyberGrind API</h2>
+
+  <div class="live-tabs">
+    <button class="tab-btn active" onclick="switchTab('news')">Security News</button>
+    <button class="tab-btn" onclick="switchTab('iocs')">Live IOCs</button>
+  </div>
+
+  <div id="tab-news" class="tab-content">
+    <p class="feed-meta">Latest security news from Krebs, Bleeping Computer, SANS ISC, CISA & The Hacker News.</p>
+    <div id="news-feed" class="live-list">
+      <p class="loading">Loading feed...</p>
+    </div>
+  </div>
+
+  <div id="tab-iocs" class="tab-content hidden">
+    <p class="feed-meta">Live malicious URLs from abuse.ch URLhaus — updated hourly.</p>
+    <div id="ioc-feed" class="live-table-wrap">
+      <p class="loading">Loading IOCs...</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .live-feed { margin-top: 3rem; }
+  .live-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tab-btn {
+    padding: 0.5rem 1.2rem; border-radius: 6px;
+    border: 1px solid #333; background: #111;
+    color: #aaa; cursor: pointer; font-size: 0.9rem;
+  }
+  .tab-btn.active { background: #0070f3; border-color: #0070f3; color: #fff; }
+  .tab-content { display: block; }
+  .tab-content.hidden { display: none; }
+  .feed-meta { color: #666; font-size: 0.85rem; margin-bottom: 1rem; }
+  .loading { color: #555; font-style: italic; }
+  .news-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .news-item a { color: #0070f3; text-decoration: none; font-size: 0.95rem; }
+  .news-item a:hover { text-decoration: underline; }
+  .news-meta { color: #555; font-size: 0.8rem; margin-top: 0.25rem; }
+  .live-table-wrap { overflow-x: auto; }
+  .ioc-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .ioc-table th {
+    text-align: left; padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #333; color: #888;
+    font-weight: normal; text-transform: uppercase;
+    font-size: 0.75rem; letter-spacing: 0.05em;
+  }
+  .ioc-table td { padding: 0.45rem 0.75rem; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+  .ioc-table tr:hover td { background: #111; }
+  .status-online { color: #ff4444; }
+  .status-offline { color: #555; }
+  .api-error { color: #ff4444; font-size: 0.875rem; }
+  .api-note {
+    margin-top: 1rem; font-size: 0.78rem; color: #444;
+    font-style: italic;
+  }
+</style>
+
+<script>
+const API = "https://api.cybergrind.org";
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+  event.target.classList.add('active');
+}
+
+async function loadNews() {
+  try {
+    const res = await fetch(API + "/api/news?limit=15");
+    const data = await res.json();
+    const el = document.getElementById("news-feed");
+    if (!data.results.length) {
+      el.innerHTML = '<p class="api-error">No news available.</p>';
+      return;
+    }
+    el.innerHTML = data.results.map(item => `
+      <div class="news-item">
+        <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+        <div class="news-meta">${item.source} · ${item.published ? new Date(item.published).toLocaleDateString() : ''}</div>
+      </div>
+    `).join('');
+    el.innerHTML += '<p class="api-note">Live feed via CyberGrind API · Updates every 2 hours</p>';
+  } catch(e) {
+    document.getElementById("news-feed").innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+  }
+}
+
+async function loadIOCs() {
+  try {
+    const res = await fetch(API + "/api/iocs?limit=20&status=online");
+    const data = await res.json();
+    const el = document.getElementById("ioc-feed");
+    if (!data.results.length) {
+      el.innerHTML = '<p class="api-error">No IOCs available.</p>';
+      return;
+    }
+    el.innerHTML = `
+      <table class="ioc-table">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Threat</th>
+            <th>Malware</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.results.map(ioc => `
+            <tr>
+              <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ioc.value}</td>
+              <td>${ioc.threat || '—'}</td>
+              <td>${ioc.malware || '—'}</td>
+              <td class="status-${ioc.status}">${ioc.status}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <p class="api-note">Live IOCs via abuse.ch URLhaus · Updates every hour</p>
+    `;
+  } catch(e) {
+    document.getElementById("ioc-feed").innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadNews();
+  loadIOCs();
+});
+</script>
+
+{{ end }}

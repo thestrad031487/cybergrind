@@ -1,0 +1,51 @@
+{{ define "main" }}
+<style>
+  .infographic-wrap { max-width: 960px; margin: 0 auto; padding: 20px 0; }
+  .back-link { font-size: 13px; color: var(--primary); margin-bottom: 16px; display: inline-block; }
+  .infographic-frame {
+    width: 100%;
+    border: none;
+    display: block;
+  }
+</style>
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">{{ .Description }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+</article>
+<div class="infographic-wrap">
+  {{ with .Params.back_link }}
+  <a class="back-link" href="{{ . }}">{{ $.Params.back_label | default "← Back to article" }}</a>
+  {{ end }}
+  {{ with .Params.infographic }}
+  <iframe
+    src="/infographics/{{ . }}"
+    class="infographic-frame"
+    id="infographic-frame"
+    title="{{ $.Title }}"
+  ></iframe>
+  {{ else }}
+  <p style="color:#999;">Infographic file not found.</p>
+  {{ end }}
+</div>
+<script>
+  const frame = document.getElementById('infographic-frame');
+  frame.addEventListener('load', function() {
+    try {
+      const height = frame.contentDocument.documentElement.scrollHeight;
+      frame.style.height = height + 'px';
+    } catch(e) {
+      frame.style.height = '800px';
+    }
+  });
+</script>
+{{ end }}

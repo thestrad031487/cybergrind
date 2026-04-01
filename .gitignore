@@ -3,3 +3,18 @@ __pycache__/
 *.pyc
 *.db
 .env
+
+# Hugo build output
+public/
+resources/_gen/
+
+# Hugo cache
+.hugo_build.lock
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Editor clutter
+.vscode/
+.idea/
