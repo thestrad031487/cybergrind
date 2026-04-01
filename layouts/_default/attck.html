@@ -1,0 +1,264 @@
+{{ define "main" }}
+
+<div class="attck-browser">
+  <h1>MITRE ATT&CK Browser</h1>
+  <p>Browse and search techniques from the MITRE ATT&CK framework — Enterprise and ICS matrices. Click any technique to expand details.</p>
+
+  <div class="attck-controls">
+    <div class="matrix-toggle">
+      <button class="toggle-btn active" id="btn-enterprise" onclick="switchMatrix('enterprise')">Enterprise</button>
+      <button class="toggle-btn" id="btn-ics" onclick="switchMatrix('ics')">ICS</button>
+    </div>
+    <div class="search-wrap">
+      <input type="text" id="attck-search" placeholder="Search by name or ID (e.g. T1059)..." />
+    </div>
+  </div>
+
+  <div id="attck-stats" class="attck-stats"></div>
+  <div id="attck-search-results" class="search-results hidden"></div>
+  <div id="attck-matrix" class="attck-matrix"></div>
+</div>
+
+<style>
+  .attck-browser { max-width: 1200px; margin: 2rem auto; }
+  .attck-controls { display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap; align-items: center; }
+  .matrix-toggle { display: flex; gap: 0.4rem; }
+  .toggle-btn {
+    padding: 0.5rem 1.2rem; border-radius: 6px;
+    border: 1px solid #333; background: #111;
+    color: #aaa; cursor: pointer; font-size: 0.9rem;
+  }
+  .toggle-btn.active { background: #0070f3; border-color: #0070f3; color: #fff; }
+  .search-wrap { flex: 1; min-width: 200px; }
+  .search-wrap input {
+    width: 100%; padding: 0.5rem 1rem;
+    border: 1px solid #333; border-radius: 6px;
+    background: #111; color: #fff; font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+  .attck-stats { color: #555; font-size: 0.85rem; margin-bottom: 1.5rem; }
+
+  .attck-matrix { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+  .tactic-col { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 8px; overflow: hidden; }
+  .tactic-header {
+    background: #0070f3; padding: 0.6rem 0.8rem;
+    font-size: 0.85rem; font-weight: 600; color: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .tactic-name { font-size: 0.82rem; }
+  .tactic-count { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 0.1rem 0.4rem; font-size: 0.75rem; }
+  .technique-list { padding: 0.4rem; max-height: 500px; overflow-y: auto; }
+  .technique-item {
+    padding: 0.4rem 0.5rem; border-radius: 4px;
+    cursor: pointer; margin-bottom: 0.2rem;
+    border: 1px solid transparent;
+    transition: background 0.1s;
+  }
+  .technique-item:hover { background: #111; border-color: #222; }
+  .technique-item.active { background: #0a1628; border-color: #0070f3; }
+  .technique-id { color: #0070f3; font-size: 0.72rem; font-family: monospace; }
+  .technique-name { color: #ccc; font-size: 0.8rem; line-height: 1.3; }
+  .technique-sub { color: #666; font-size: 0.72rem; }
+  .technique-detail {
+    background: #111; border: 1px solid #222;
+    border-radius: 4px; padding: 0.6rem;
+    margin-top: 0.2rem; display: none;
+  }
+  .technique-detail.open { display: block; }
+  .detail-desc { color: #aaa; font-size: 0.78rem; line-height: 1.5; margin-bottom: 0.5rem; }
+  .detail-platforms { color: #666; font-size: 0.72rem; margin-bottom: 0.4rem; }
+  .detail-link { color: #0070f3; font-size: 0.75rem; text-decoration: none; }
+  .detail-link:hover { text-decoration: underline; }
+
+  .search-results { margin-bottom: 1.5rem; }
+  .search-results.hidden { display: none; }
+  .search-result-item {
+    padding: 0.75rem 1rem; border: 1px solid #1a1a1a;
+    border-radius: 6px; margin-bottom: 0.5rem;
+    cursor: pointer; background: #0a0a0a;
+  }
+  .search-result-item:hover { border-color: #0070f3; background: #0a1628; }
+  .result-header { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.3rem; }
+  .result-id { color: #0070f3; font-family: monospace; font-size: 0.85rem; font-weight: 600; }
+  .result-name { color: #fff; font-size: 0.9rem; }
+  .result-tactics { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .result-tactic { background: #1a1a2a; border: 1px solid #333; border-radius: 3px; padding: 0.1rem 0.4rem; font-size: 0.72rem; color: #888; }
+  .result-desc { color: #666; font-size: 0.8rem; line-height: 1.4; margin-top: 0.4rem; }
+  .result-detail { display: none; background: #111; border-radius: 4px; padding: 0.6rem; margin-top: 0.5rem; }
+  .result-detail.open { display: block; }
+  .no-results { color: #555; font-style: italic; padding: 1rem 0; }
+</style>
+
+<script>
+const DATA = { enterprise: null, ics: null };
+
+async function loadData(matrix) {
+  if (DATA[matrix]) return DATA[matrix];
+  const res = await fetch(`/data/attck-${matrix}.json`);
+  DATA[matrix] = await res.json();
+  return DATA[matrix];
+}
+
+let currentMatrix = 'enterprise';
+let searchTimeout = null;
+
+async function switchMatrix(matrix) {
+  currentMatrix = matrix;
+  document.getElementById('btn-enterprise').classList.toggle('active', matrix === 'enterprise');
+  document.getElementById('btn-ics').classList.toggle('active', matrix === 'ics');
+  await loadData(matrix);
+  const query = document.getElementById('attck-search').value.trim();
+  if (query.length >= 2) {
+    doSearch(query);
+  } else {
+    document.getElementById('attck-search-results').classList.add('hidden');
+    renderMatrix();
+  }
+}
+
+function renderMatrix() {
+  const data = DATA[currentMatrix];
+  if (!data || !data.tactics) return;
+
+  const stats = document.getElementById('attck-stats');
+  stats.textContent = `${data.technique_count} techniques across ${data.tactic_count} tactics`;
+
+  const tacticOrder = {
+    'reconnaissance': 1, 'resource-development': 2, 'initial-access': 3,
+    'execution': 4, 'persistence': 5, 'privilege-escalation': 6,
+    'defense-evasion': 7, 'credential-access': 8, 'discovery': 9,
+    'lateral-movement': 10, 'collection': 11, 'command-and-control': 12,
+    'exfiltration': 13, 'impact': 14,
+    'inhibit-response-function': 1, 'impair-process-control': 2,
+  };
+
+  const sortedTactics = Object.values(data.tactics).sort((a, b) => {
+    return (tacticOrder[a.id] || 99) - (tacticOrder[b.id] || 99);
+  });
+
+  const matrix = document.getElementById('attck-matrix');
+  matrix.innerHTML = sortedTactics.map(tactic => {
+    const techniques = data.techniques.filter(t =>
+      t.tactics.includes(tactic.id) && !t.is_subtechnique
+    );
+    const subtechniques = data.techniques.filter(t =>
+      t.tactics.includes(tactic.id) && t.is_subtechnique
+    );
+
+    return `
+      <div class="tactic-col">
+        <div class="tactic-header">
+          <span class="tactic-name">${tactic.name}</span>
+          <span class="tactic-count">${techniques.length}</span>
+        </div>
+        <div class="technique-list">
+          ${techniques.map(t => `
+            <div class="technique-item" id="t-${t.id}" onclick="toggleTechnique('${t.id}')">
+              <div class="technique-id">${t.id}</div>
+              <div class="technique-name">${t.name}</div>
+              <div class="technique-detail" id="detail-${t.id}">
+                <div class="detail-desc">${t.description || 'No description available.'}</div>
+                ${t.platforms.length ? `<div class="detail-platforms">Platforms: ${t.platforms.join(', ')}</div>` : ''}
+                ${t.url ? `<a class="detail-link" href="${t.url}" target="_blank" rel="noopener">View on MITRE ATT&CK →</a>` : ''}
+              </div>
+              ${subtechniques.filter(s => s.id.startsWith(t.id + '.')).map(s => `
+                <div class="technique-item" style="margin-left:0.5rem;" onclick="event.stopPropagation(); toggleTechnique('${s.id}')">
+                  <div class="technique-id">${s.id}</div>
+                  <div class="technique-name technique-sub">${s.name}</div>
+                  <div class="technique-detail" id="detail-${s.id}">
+                    <div class="detail-desc">${s.description || 'No description available.'}</div>
+                    ${s.platforms.length ? `<div class="detail-platforms">Platforms: ${s.platforms.join(', ')}</div>` : ''}
+                    ${s.url ? `<a class="detail-link" href="${s.url}" target="_blank" rel="noopener">View on MITRE ATT&CK →</a>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleTechnique(id) {
+  const detail = document.getElementById(`detail-${id}`);
+  const item = document.getElementById(`t-${id}`) || detail.closest('.technique-item');
+  if (!detail) return;
+  const isOpen = detail.classList.contains('open');
+  detail.classList.toggle('open', !isOpen);
+  if (item) item.classList.toggle('active', !isOpen);
+}
+
+function doSearch(query) {
+  const data = DATA[currentMatrix];
+  if (!data) return;
+
+  const q = query.toLowerCase();
+  const matches = data.techniques.filter(t =>
+    t.id.toLowerCase().includes(q) ||
+    t.name.toLowerCase().includes(q) ||
+    t.description.toLowerCase().includes(q)
+  ).slice(0, 30);
+
+  const resultsEl = document.getElementById('attck-search-results');
+  const matrixEl = document.getElementById('attck-matrix');
+
+  if (!query || query.length < 2) {
+    resultsEl.classList.add('hidden');
+    matrixEl.style.display = '';
+    return;
+  }
+
+  matrixEl.style.display = 'none';
+  resultsEl.classList.remove('hidden');
+
+  if (!matches.length) {
+    resultsEl.innerHTML = '<p class="no-results">No techniques found matching your search.</p>';
+    return;
+  }
+
+  resultsEl.innerHTML = matches.map(t => `
+    <div class="search-result-item" onclick="toggleResultDetail('sr-${t.id}')">
+      <div class="result-header">
+        <span class="result-id">${t.id}</span>
+        <span class="result-name">${t.name}</span>
+      </div>
+      <div class="result-tactics">
+        ${t.tactics.map(tac => {
+          const tacData = data.tactics[tac];
+          return `<span class="result-tactic">${tacData ? tacData.name : tac}</span>`;
+        }).join('')}
+      </div>
+      <div class="result-desc">${t.description.substring(0, 200)}${t.description.length > 200 ? '...' : ''}</div>
+      <div class="result-detail" id="sr-${t.id}">
+        ${t.platforms.length ? `<div class="detail-platforms" style="margin-bottom:0.5rem;">Platforms: ${t.platforms.join(', ')}</div>` : ''}
+        ${t.detection ? `<div class="detail-desc"><strong style="color:#888;">Detection:</strong> ${t.detection}</div>` : ''}
+        ${t.url ? `<a class="detail-link" href="${t.url}" target="_blank" rel="noopener">View on MITRE ATT&CK →</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleResultDetail(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+  await loadData('enterprise');
+  renderMatrix();
+  document.getElementById('attck-search').addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    const q = this.value.trim();
+    searchTimeout = setTimeout(() => {
+      if (q.length >= 2) {
+        doSearch(q);
+      } else {
+        document.getElementById('attck-search-results').classList.add('hidden');
+        document.getElementById('attck-matrix').style.display = '';
+      }
+    }, 300);
+  });
+});
+</script>
+{{ end }}
