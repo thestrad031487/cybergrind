@@ -1,0 +1,19 @@
+services:
+  api:
+    image: python:3.12-slim
+    container_name: cybergrind-api
+    working_dir: /app
+    volumes:
+      - ./app:/app/app
+      - ./data:/data
+      - ./requirements.txt:/app/requirements.txt
+    command: >
+      sh -c "pip install -r requirements.txt --quiet &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_PATH=/data/cybergrind.db
+      - VT_API_KEY=0ccbb104cc264462a4ad861ad397b61a6f42469f66e0cb19123da8e9445bf99d
+      - BAZAAR_API_KEY=61dcba282f74ffd16fa9708d25956454eafc8b7ace7819ba
+    restart: unless-stopped

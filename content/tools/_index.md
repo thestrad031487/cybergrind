@@ -21,3 +21,5 @@ A collection of free tools and resources for blue teamers and security practitio
 | [Threat Intel Feeds](/tools/threat-intel-feeds/) | Free OSINT and threat intelligence feeds with live news and IOC data |
 | [Global Threat Map](/tools/threat-map/) | Real-time malicious IP activity plotted on a world map — AbuseIPDB and open source OSINT feeds |
 | [Blue Team Resources](/tools/blue-team/) | Curated tools and live CISA KEV feed for defenders |
+| [VT Hash Lookup](/tools/vt-lookup/) | Look up any file hash against 70+ AV engines via VirusTotal — with recent malware samples from MalwareBazaar |
+| [MITRE ATT&CK Browser](/tools/attck/) | Browse and search Enterprise and ICS techniques from the MITRE ATT&CK framework |
