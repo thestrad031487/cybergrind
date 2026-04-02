@@ -1,3 +1,9 @@
+/data/
+__pycache__/
+*.pyc
+*.db
+.env
+
 # Hugo build output
 public/
 resources/_gen/
@@ -11,4 +17,4 @@ Thumbs.db
 
 # Editor clutter
 .vscode/
-.idea/__pycache__/
+.idea/

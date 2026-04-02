@@ -1,0 +1,253 @@
+{{ define "main" }}
+<div class="vt-lookup">
+  <h1>VirusTotal Hash Lookup</h1>
+  <p>Check any file hash against VirusTotal's database of 70+ antivirus engines. Supports MD5, SHA1, and SHA256.</p>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="hash-input"
+      placeholder="Enter MD5, SHA1, or SHA256 hash..."
+      maxlength="64"
+    />
+    <button id="lookup-btn">Lookup</button>
+  </div>
+
+  <div id="result" class="result hidden"></div>
+
+  <div class="recent-section">
+    <h2>Recent Malware Samples</h2>
+    <p class="feed-meta">Latest samples from MalwareBazaar — updated every 6 hours.</p>
+    <div id="recent-hashes" class="recent-table-wrap">
+      <p class="loading">Loading recent samples...</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .vt-lookup { max-width: 900px; margin: 2rem auto; }
+  .search-box { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+  .search-box input {
+    flex: 1; padding: 0.6rem 1rem;
+    border: 1px solid #444; border-radius: 6px;
+    background: #1a1a1a; color: #fff; font-size: 0.95rem;
+    font-family: monospace;
+  }
+  .search-box button {
+    padding: 0.6rem 1.4rem; background: #0070f3;
+    color: #fff; border: none; border-radius: 6px;
+    cursor: pointer; font-size: 0.95rem; white-space: nowrap;
+  }
+  .search-box button:hover { background: #0060d3; }
+  .result { margin: 1.5rem 0; padding: 1.5rem; border-radius: 8px; background: #111; }
+  .result.hidden { display: none; }
+
+  .verdict-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .verdict-badge {
+    padding: 0.5rem 1.2rem; border-radius: 6px;
+    font-weight: bold; font-size: 1rem;
+  }
+  .verdict-malicious { background: #3a1a1a; color: #ff4444; border: 1px solid #ff4444; }
+  .verdict-clean { background: #1a3a1a; color: #44cc44; border: 1px solid #44cc44; }
+  .verdict-unknown { background: #1a1a1a; color: #888; border: 1px solid #333; }
+  .detection-ratio { font-size: 1.8rem; font-weight: bold; color: #ff4444; }
+  .detection-ratio.clean { color: #44cc44; }
+
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .meta-item { background: #0a0a0a; padding: 0.6rem 0.8rem; border-radius: 4px; }
+  .meta-label { color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .meta-value { color: #ccc; font-size: 0.9rem; font-family: monospace; margin-top: 0.2rem; }
+
+  .detections-section h3 { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+  .detections-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; max-height: 300px; overflow-y: auto; }
+  .detection-item { background: #1a0a0a; border: 1px solid #3a1a1a; border-radius: 4px; padding: 0.4rem 0.6rem; }
+  .engine-name { color: #888; font-size: 0.75rem; }
+  .engine-result { color: #ff6666; font-size: 0.8rem; font-family: monospace; }
+
+  .tags-row { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag-badge {
+    background: #1a1a2a; border: 1px solid #333; border-radius: 4px;
+    padding: 0.2rem 0.5rem; font-size: 0.75rem; color: #888;
+  }
+
+  .recent-section { margin-top: 3rem; }
+  .recent-section h2 { border-bottom: 1px solid #222; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+  .feed-meta { color: #666; font-size: 0.85rem; margin-bottom: 1rem; }
+  .loading { color: #555; font-style: italic; }
+  .recent-table-wrap { overflow-x: auto; }
+  .hash-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .hash-table th {
+    text-align: left; padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #333; color: #888;
+    font-weight: normal; text-transform: uppercase;
+    font-size: 0.75rem; letter-spacing: 0.05em;
+  }
+  .hash-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+  .hash-table tr:hover td { background: #111; cursor: pointer; }
+  .hash-mono { font-family: monospace; font-size: 0.78rem; color: #0070f3; }
+  .family-badge {
+    background: #1a1a2a; border: 1px solid #333; border-radius: 3px;
+    padding: 0.15rem 0.4rem; font-size: 0.75rem; color: #aaa;
+  }
+  .api-error { color: #ff4444; font-size: 0.875rem; }
+  .api-note { margin-top: 1rem; font-size: 0.78rem; color: #444; font-style: italic; }
+  .not-found { color: #888; }
+  .not-found p { margin: 0.5rem 0; }
+</style>
+
+<script>
+const API = "https://api.cybergrind.org";
+
+async function lookupHash() {
+  const hash = document.getElementById("hash-input").value.trim();
+  const resultDiv = document.getElementById("result");
+
+  if (!hash) return;
+
+  if (![32, 40, 64].includes(hash.length)) {
+    resultDiv.classList.remove("hidden");
+    resultDiv.innerHTML = '<p class="api-error">Invalid hash length — must be MD5 (32 chars), SHA1 (40 chars), or SHA256 (64 chars).</p>';
+    return;
+  }
+
+  resultDiv.classList.remove("hidden");
+  resultDiv.innerHTML = '<p style="color:#555;">Looking up ' + hash.substring(0, 16) + '...</p>';
+
+  try {
+    const res = await fetch(`${API}/api/vt/lookup/${hash}`);
+    const data = await res.json();
+
+    if (data.error) {
+      resultDiv.innerHTML = `<p class="api-error">${data.error}</p>`;
+      return;
+    }
+
+    if (!data.found) {
+      resultDiv.innerHTML = `
+        <div class="not-found">
+          <div class="verdict-badge verdict-unknown">? Not Found</div>
+          <p style="margin-top:1rem;color:#888;">This hash was not found in the VirusTotal database.</p>
+        </div>
+      `;
+      return;
+    }
+
+    const isMalicious = data.malicious > 0;
+    const ratio = `${data.malicious}/${data.total_engines}`;
+    const firstSeen = data.first_submission ? new Date(data.first_submission * 1000).toLocaleDateString() : "Unknown";
+    const lastAnalysis = data.last_analysis ? new Date(data.last_analysis * 1000).toLocaleDateString() : "Unknown";
+    const detectionEntries = Object.entries(data.detections || {});
+
+    resultDiv.innerHTML = `
+      <div class="verdict-bar">
+        <div class="verdict-badge ${isMalicious ? 'verdict-malicious' : 'verdict-clean'}">
+          ${isMalicious ? '✗ Malicious' : '✓ Clean'}
+        </div>
+        <div class="detection-ratio ${isMalicious ? '' : 'clean'}">${ratio}</div>
+        <div style="color:#666;font-size:0.9rem;">engines detected this file</div>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">File Name</div>
+          <div class="meta-value">${data.name || 'unknown'}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">File Type</div>
+          <div class="meta-value">${data.file_type || 'unknown'}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">File Size</div>
+          <div class="meta-value">${data.file_size ? (data.file_size / 1024).toFixed(1) + ' KB' : 'unknown'}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">First Submission</div>
+          <div class="meta-value">${firstSeen}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Last Analysis</div>
+          <div class="meta-value">${lastAnalysis}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Hash</div>
+          <div class="meta-value" style="font-size:0.72rem;word-break:break-all;">${hash}</div>
+        </div>
+      </div>
+
+      ${detectionEntries.length > 0 ? `
+        <div class="detections-section">
+          <h3>Detections (${detectionEntries.length})</h3>
+          <div class="detections-grid">
+            ${detectionEntries.map(([engine, result]) => `
+              <div class="detection-item">
+                <div class="engine-name">${engine}</div>
+                <div class="engine-result">${result}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${data.tags && data.tags.length > 0 ? `
+        <div class="tags-row">
+          ${data.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}
+        </div>
+      ` : ''}
+
+      <p class="api-note">Data via VirusTotal · <a href="https://www.virustotal.com/gui/file/${hash}" target="_blank" rel="noopener" style="color:#0070f3;">View full report on VirusTotal →</a></p>
+    `;
+  } catch(e) {
+    resultDiv.innerHTML = `<p class="api-error">Lookup failed — API may be offline.</p>`;
+  }
+}
+
+async function loadRecentHashes() {
+  try {
+    const res = await fetch(`${API}/api/hashes?limit=20`);
+    const data = await res.json();
+    const el = document.getElementById("recent-hashes");
+
+    if (!data.results.length) {
+      el.innerHTML = '<p class="api-error">No hashes available.</p>';
+      return;
+    }
+
+    el.innerHTML = `
+      <table class="hash-table">
+        <thead>
+          <tr>
+            <th>SHA256</th>
+            <th>File Name</th>
+            <th>Type</th>
+            <th>Family</th>
+            <th>First Seen</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.results.map(h => `
+            <tr onclick="document.getElementById('hash-input').value='${h.sha256}'; window.scrollTo(0,0);">
+              <td><span class="hash-mono">${h.sha256.substring(0, 20)}...</span></td>
+              <td>${h.file_name || '—'}</td>
+              <td>${h.file_type ? h.file_type.split('/')[1] || h.file_type : '—'}</td>
+              <td><span class="family-badge">${h.malware_family || 'unknown'}</span></td>
+              <td>${h.first_seen ? h.first_seen.split(' ')[0] : '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <p class="api-note">Click any row to load the hash into the lookup · Source: MalwareBazaar · Updates every 6 hours</p>
+    `;
+  } catch(e) {
+    document.getElementById("recent-hashes").innerHTML = '<p class="api-error">Feed unavailable — API may be offline.</p>';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("lookup-btn").addEventListener("click", lookupHash);
+  document.getElementById("hash-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") lookupHash();
+  });
+  loadRecentHashes();
+});
+</script>
+{{ end }}
