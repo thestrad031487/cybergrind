@@ -20,7 +20,6 @@
   --code-block-bg: rgb(46, 46, 51);
   --border: rgb(51, 51, 51);
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  /* CyberGrind accent colors — kept minimal */
   --gold: #c8963e;
   --gold2: #e8b86d;
   --blue2: #5ba3ff;
@@ -44,7 +43,6 @@ body {
   padding: 40px var(--gap) 80px;
 }
 
-/* Header */
 .page-header {
   margin-bottom: 32px;
   padding-bottom: 24px;
@@ -57,7 +55,6 @@ body {
   color: var(--gold);
   text-transform: uppercase;
   margin-bottom: 10px;
-  font-family: var(--font);
 }
 
 h1 {
@@ -74,7 +71,6 @@ h1 {
   line-height: 1.75;
 }
 
-/* Intro callout */
 .intro {
   background: var(--entry);
   border-left: 3px solid var(--gold);
@@ -88,7 +84,6 @@ h1 {
 
 .intro strong { color: var(--gold2); }
 
-/* TOC */
 .toc {
   background: var(--entry);
   border: 1px solid var(--border);
@@ -105,24 +100,12 @@ h1 {
   margin-bottom: 10px;
 }
 
-.toc ol {
-  padding-left: 18px;
-  font-size: 13px;
-}
-
+.toc ol { padding-left: 18px; font-size: 13px; }
 .toc li { margin-bottom: 5px; }
-
-.toc a {
-  color: var(--blue2);
-  text-decoration: none;
-}
-
+.toc a { color: var(--blue2); text-decoration: none; }
 .toc a:hover { text-decoration: underline; }
 
-/* Doc sections */
-.doc-section {
-  margin-bottom: 52px;
-}
+.doc-section { margin-bottom: 52px; }
 
 .section-heading {
   font-size: 11px;
@@ -135,18 +118,13 @@ h1 {
   border-bottom: 1px solid var(--border);
 }
 
-/* Source entries */
 .source-entry {
   margin-bottom: 28px;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--border);
 }
 
-.source-entry:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
+.source-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
 .source-title-row {
   display: flex;
@@ -157,11 +135,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-.source-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--primary);
-}
+.source-title { font-size: 15px; font-weight: 600; color: var(--primary); }
 
 .source-title a {
   color: var(--primary);
@@ -170,17 +144,9 @@ h1 {
   transition: color 0.15s, border-color 0.15s;
 }
 
-.source-title a:hover {
-  color: var(--blue2);
-  border-color: var(--blue2);
-}
+.source-title a:hover { color: var(--blue2); border-color: var(--blue2); }
 
-.source-badges {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-}
+.source-badges { display: flex; gap: 5px; flex-wrap: wrap; flex-shrink: 0; }
 
 .badge {
   font-size: 9px;
@@ -192,20 +158,14 @@ h1 {
   font-weight: 600;
 }
 
-.badge-live   { background: rgba(45,212,170,0.12); color: var(--teal2);   border: 1px solid rgba(45,212,170,0.25); }
-.badge-static { background: rgba(91,163,255,0.12); color: var(--blue2);   border: 1px solid rgba(91,163,255,0.25); }
+.badge-live   { background: rgba(45,212,170,0.12);  color: var(--teal2);    border: 1px solid rgba(45,212,170,0.25); }
+.badge-static { background: rgba(91,163,255,0.12);  color: var(--blue2);    border: 1px solid rgba(91,163,255,0.25); }
 .badge-gov    { background: rgba(240,128,128,0.10); color: var(--red-soft); border: 1px solid rgba(240,128,128,0.25); }
-.badge-public { background: rgba(155,156,157,0.12); color: var(--secondary); border: 1px solid rgba(155,156,157,0.25); }
-.badge-api    { background: rgba(200,150,62,0.12); color: var(--gold2);   border: 1px solid rgba(200,150,62,0.25); }
+.badge-public { background: rgba(155,156,157,0.12); color: var(--secondary);border: 1px solid rgba(155,156,157,0.25); }
+.badge-api    { background: rgba(200,150,62,0.12);  color: var(--gold2);    border: 1px solid rgba(200,150,62,0.25); }
 
-.source-body {
-  font-size: 14px;
-  color: var(--content);
-  line-height: 1.8;
-  margin-bottom: 14px;
-}
+.source-body { font-size: 14px; color: var(--content); line-height: 1.8; margin-bottom: 14px; }
 
-/* Meta table */
 .source-meta {
   display: flex;
   flex-wrap: wrap;
@@ -215,12 +175,7 @@ h1 {
   font-size: 12px;
 }
 
-.meta-row {
-  display: flex;
-  width: 50%;
-  border-bottom: 1px solid var(--border);
-}
-
+.meta-row { display: flex; width: 50%; border-bottom: 1px solid var(--border); }
 .meta-row:nth-child(even) { border-right: none; }
 .meta-row:nth-child(odd)  { border-right: 1px solid var(--border); }
 .meta-row:nth-last-child(-n+2) { border-bottom: none; }
@@ -245,19 +200,9 @@ h1 {
   min-width: 110px;
 }
 
-.meta-val {
-  padding: 7px 12px;
-  font-size: 12px;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-}
+.meta-val { padding: 7px 12px; font-size: 12px; color: var(--primary); display: flex; align-items: center; }
 
-/* Methodology */
-.method-list {
-  list-style: none;
-  padding: 0;
-}
+.method-list { list-style: none; padding: 0; }
 
 .method-list li {
   padding: 14px 0;
@@ -280,21 +225,13 @@ h1 {
   padding-top: 2px;
 }
 
-.method-def {
-  font-size: 14px;
-  color: var(--content);
-  line-height: 1.8;
-}
+.method-def { font-size: 14px; color: var(--content); line-height: 1.8; }
 
 @media (max-width: 520px) {
   .method-list li { grid-template-columns: 1fr; gap: 4px; }
 }
 
-/* Limitations */
-.limitations-list {
-  list-style: none;
-  padding: 0;
-}
+.limitations-list { list-style: none; padding: 0; }
 
 .limitations-list li {
   font-size: 14px;
@@ -306,15 +243,24 @@ h1 {
 }
 
 .limitations-list li:last-child { border-bottom: none; }
+.limitations-list li::before { content: '—'; position: absolute; left: 0; color: var(--secondary); }
 
-.limitations-list li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--secondary);
+.attribution-list { list-style: none; padding: 0; }
+
+.attribution-list li {
+  font-size: 14px;
+  color: var(--content);
+  padding: 10px 0 10px 20px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  line-height: 1.8;
 }
 
-/* Disclaimer */
+.attribution-list li:last-child { border-bottom: none; }
+.attribution-list li::before { content: '·'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+.attribution-list a { color: var(--blue2); text-decoration: none; }
+.attribution-list a:hover { text-decoration: underline; }
+
 .disclaimer {
   background: var(--entry);
   border: 1px solid var(--border);
@@ -327,7 +273,21 @@ h1 {
   margin-top: 20px;
 }
 
-/* Footer */
+.callout-info {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.callout-info strong { color: var(--teal2); }
+.callout-info code { font-size: 12px; background: var(--code-block-bg); padding: 1px 5px; border-radius: 3px; }
+
 footer {
   margin-top: 56px;
   padding-top: 20px;
@@ -359,13 +319,15 @@ footer {
     <ol>
       <li><a href="#live-threat-data">Live Threat Data</a></li>
       <li><a href="#vulnerability-data">Vulnerability Data</a></li>
+      <li><a href="#cti-pipeline">CTI Pipeline (api.cybergrind.org)</a></li>
       <li><a href="#reference-content">Reference &amp; Educational Content</a></li>
       <li><a href="#methodology">Methodology</a></li>
       <li><a href="#limitations">Known Limitations</a></li>
+      <li><a href="#attribution">Licensing &amp; Attribution</a></li>
     </ol>
   </div>
 
-  <!-- Live Threat Data -->
+  <!-- 1. Live Threat Data -->
   <div class="doc-section" id="live-threat-data">
     <div class="section-heading">1 — Live Threat Data</div>
 
@@ -466,7 +428,7 @@ footer {
     </div>
   </div>
 
-  <!-- Vulnerability Data -->
+  <!-- 2. Vulnerability Data -->
   <div class="doc-section" id="vulnerability-data">
     <div class="section-heading">2 — Vulnerability Data</div>
 
@@ -489,11 +451,155 @@ footer {
         <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">CVE Research, EPSS Scanner</div></div>
       </div>
     </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://nvd.nist.gov/developers/vulnerabilities" target="_blank" rel="noopener">NVD — NIST National Vulnerability Database</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-gov">U.S. Gov</span>
+          <span class="badge badge-public">Public Domain</span>
+        </div>
+      </div>
+      <div class="source-body">
+        The U.S. government repository of standards-based vulnerability management data. NVD enriches CVE records published by MITRE with CVSS scores, CWE classifications, CPE applicability statements, and remediation references. CyberGrind queries the NVD CVE API v2.0 through the EPSS Worker to provide full CVE detail in the CVE Research tool.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Continuous</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">Per worker config</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">REST API v2.0 (JSON)</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">CVE Research, EPSS Scanner</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://attack.mitre.org" target="_blank" rel="noopener">MITRE ATT&amp;CK®</a></div>
+        <div class="source-badges">
+          <span class="badge badge-static">Static Snapshot</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        The globally recognized knowledge base of adversary tactics, techniques, and procedures (TTPs) based on real-world observations. CyberGrind loads both the Enterprise and ICS ATT&amp;CK matrices from local STIX 2.1 JSON snapshots to power the ATT&amp;CK Browser tool. Snapshots are refreshed manually using <code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">scripts/fetch_attck.py</code> when MITRE publishes a new version; GitHub Actions automation is planned to handle this on build.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Update Freq.</div><div class="meta-val">Manual (on MITRE release)</div></div>
+        <div class="meta-row"><div class="meta-key">Format</div><div class="meta-val">STIX 2.1 JSON (local snapshot)</div></div>
+        <div class="meta-row"><div class="meta-key">Files</div><div class="meta-val">static/data/attck-enterprise.json, attck-ics.json</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">ATT&amp;CK Browser</div></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Reference & Educational Content -->
+  <!-- 3. CTI Pipeline -->
+  <div class="doc-section" id="cti-pipeline">
+    <div class="section-heading">3 — CTI Pipeline (api.cybergrind.org)</div>
+
+    <div class="callout-info">
+      <strong>About the pipeline:</strong> CyberGrind runs a self-hosted threat intelligence backend at <code>api.cybergrind.org</code>. Collectors are Python scripts running on a scheduled basis inside Docker, storing results in a local SQLite database served via FastAPI. The pipeline is exposed through a Cloudflare Tunnel. Current status is always available at <code>/api/health</code>.
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV — Pipeline Collector</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-gov">U.S. Gov</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A dedicated collector pulls the full CISA KEV catalog into the pipeline database on a 24-hour cycle, independently of the Cloudflare Worker used by the KEV Checker tool. This copy powers the Live CVEs tool, which provides filterable table views with overdue remediation highlighting.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Collector</div><div class="meta-val">app/collectors/cisa.py</div></div>
+        <div class="meta-row"><div class="meta-key">Schedule</div><div class="meta-val">Every 24 hours</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/cves</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Live CVEs tool</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://urlhaus.abuse.ch" target="_blank" rel="noopener">URLhaus — abuse.ch</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        URLhaus tracks malware distribution URLs reported by the security community. The collector fetches abuse.ch's public CSV export every hour and loads new IOC records into the pipeline database. Deduplication is applied before insert; inactive URLs are retained for historical reference.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Collector</div><div class="meta-val">app/collectors/abusech.py</div></div>
+        <div class="meta-row"><div class="meta-key">Schedule</div><div class="meta-val">Every 1 hour</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/iocs</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Intel Feeds (IOCs tab)</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title">RSS Security News Feeds</div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-public">Public</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A news collector aggregates RSS/Atom feeds from five security-focused publications every two hours: Krebs on Security, Bleeping Computer, The Hacker News, CISA Advisories, and SANS Internet Storm Center. Article bodies are not stored — only the title, link, source, publication date, and feed-provided summary excerpt. Deduplication is performed by URL hash.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Collector</div><div class="meta-val">app/collectors/news.py</div></div>
+        <div class="meta-row"><div class="meta-key">Schedule</div><div class="meta-val">Every 2 hours</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/news</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Intel Feeds (News tab)</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://bazaar.abuse.ch" target="_blank" rel="noopener">MalwareBazaar — abuse.ch</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-api">API Key</span>
+        </div>
+      </div>
+      <div class="source-body">
+        MalwareBazaar is abuse.ch's repository of malware samples contributed by the security community. The collector fetches recent sample metadata every six hours — SHA256, MD5, SHA1, filename, file type, tags, malware family signature, first seen date, and reporter. Binary files are not downloaded or stored; metadata only.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Collector</div><div class="meta-val">app/collectors/malwarebazaar.py</div></div>
+        <div class="meta-row"><div class="meta-key">Schedule</div><div class="meta-val">Every 6 hours</div></div>
+        <div class="meta-row"><div class="meta-key">Auth</div><div class="meta-val">Free API key (BAZAAR_API_KEY env var)</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/hashes</div></div>
+      </div>
+    </div>
+
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.virustotal.com" target="_blank" rel="noopener">VirusTotal</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">On-Demand</span>
+          <span class="badge badge-api">API Key</span>
+        </div>
+      </div>
+      <div class="source-body">
+        VirusTotal file reports are proxied on-demand through the pipeline API to protect the API key and enforce free-tier quota. When a user submits a hash in the VT Lookup tool, the request is forwarded to VirusTotal's v3 file report endpoint and the result is returned directly — no caching is currently applied, so each lookup consumes quota.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Trigger</div><div class="meta-val">User-initiated (per lookup)</div></div>
+        <div class="meta-row"><div class="meta-key">Rate Limit</div><div class="meta-val">500 lookups/day (free tier)</div></div>
+        <div class="meta-row"><div class="meta-key">Auth</div><div class="meta-val">VT_API_KEY env var (server-side only)</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/vt/lookup/{hash}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Reference & Educational Content -->
   <div class="doc-section" id="reference-content">
-    <div class="section-heading">3 — Reference &amp; Educational Content</div>
+    <div class="section-heading">4 — Reference &amp; Educational Content</div>
 
     <div class="source-entry">
       <div class="source-title-row">
@@ -535,9 +641,9 @@ footer {
     </div>
   </div>
 
-  <!-- Methodology -->
+  <!-- 5. Methodology -->
   <div class="doc-section" id="methodology">
-    <div class="section-heading">4 — Methodology</div>
+    <div class="section-heading">5 — Methodology</div>
     <ul class="method-list">
       <li>
         <div class="method-term">No Proprietary Scoring</div>
@@ -563,30 +669,56 @@ footer {
         <div class="method-term">Feed Aggregation</div>
         <div class="method-def">The OSINT Feeds threat map combines IPsum, Emerging Threats, and Feodo Tracker into a single enriched view. IPs appearing across multiple feeds are not deduplicated in the visual — each source contributes independently.</div>
       </li>
+      <li>
+        <div class="method-term">Pipeline Transparency</div>
+        <div class="method-def">The self-hosted CTI pipeline at api.cybergrind.org stores collected data in a local SQLite database. No personally identifiable information is collected or stored. All collector schedules, endpoints, and source attributions are documented here and in the public GitHub repository.</div>
+      </li>
     </ul>
   </div>
 
-  <!-- Limitations -->
+  <!-- 6. Known Limitations -->
   <div class="doc-section" id="limitations">
-    <div class="section-heading">5 — Known Limitations</div>
+    <div class="section-heading">6 — Known Limitations</div>
     <ul class="limitations-list">
       <li>CyberGrind is not a commercial threat intelligence platform. Data depth and breadth are limited by free and public API tiers.</li>
       <li>IP geolocation data is approximate. Country-level attribution is reliable; city-level is not. IPs can be misattributed due to VPNs, proxies, and Tor exit nodes.</li>
-      <li>AbuseIPDB scores reflect community reports and may include false positives. A high confidence score indicates reported abuse, not confirmed malicious activity.</li>
+      <li>AbuseIPDB scores reflect community reports and may include false positives. A high confidence score indicates reported abuse, not confirmed malicious activity. The AbuseIPDB tab on the Threat Map shows N/A when the daily quota is exhausted (resets midnight UTC).</li>
       <li>EPSS scores are probabilistic estimates, not certainties. A low EPSS score does not mean a vulnerability is safe to deprioritize.</li>
+      <li>NVD CVE enrichment (CVSS scoring) can lag publication by days to weeks. NIST experienced a significant enrichment backlog in 2024; some older CVEs may still show incomplete scoring data.</li>
+      <li>The MITRE ATT&amp;CK browser is driven by a static snapshot and may lag behind MITRE's latest release between manual refreshes.</li>
       <li>Daily news commentary is AI-generated and has not been independently fact-checked beyond the provided headlines. Treat it as a starting point, not a final word.</li>
       <li>Feed caching means displayed data may be up to several hours behind the source. For time-critical decisions, always verify directly with the originating source.</li>
+      <li>The CTI pipeline backend runs on a personal workstation. Brief outages may occur during maintenance windows or unexpected downtime. Current collector status is available at <code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">/api/health</code>.</li>
       <li>CyberGrind content is informational only and does not constitute legal, compliance, or professional security advice.</li>
     </ul>
 
     <div class="disclaimer">
-      This page was last reviewed March 2026. Sources and methodology are updated as the site evolves. If you identify an inaccuracy or have questions about data sourcing, the GitHub repository is publicly available.
+      This page was last reviewed April 2026. Sources and methodology are updated as the site evolves. If you identify an inaccuracy or have questions about data sourcing, the GitHub repository is publicly available.
+    </div>
+  </div>
+
+  <!-- 7. Licensing & Attribution -->
+  <div class="doc-section" id="attribution">
+    <div class="section-heading">7 — Licensing &amp; Attribution</div>
+    <ul class="attribution-list">
+      <li><strong>CISA KEV / NVD (NIST)</strong> — U.S. government public domain. No restrictions on use.</li>
+      <li><strong>MITRE ATT&amp;CK®</strong> — Used under the <a href="https://attack.mitre.org/resources/terms-of-use/" target="_blank" rel="noopener">ATT&amp;CK Terms of Use</a>. ATT&amp;CK® is a registered trademark of The MITRE Corporation.</li>
+      <li><strong>abuse.ch</strong> (URLhaus, MalwareBazaar, Feodo Tracker) — Free for non-commercial use with attribution. See <a href="https://abuse.ch/" target="_blank" rel="noopener">abuse.ch</a> for full terms.</li>
+      <li><strong>AbuseIPDB</strong> — Community-contributed data used under the <a href="https://www.abuseipdb.com/legal" target="_blank" rel="noopener">AbuseIPDB Terms of Service</a>. Attribution provided in tool UI.</li>
+      <li><strong>VirusTotal</strong> — Accessed under the <a href="https://support.virustotal.com/hc/en-us/articles/115002145529" target="_blank" rel="noopener">VirusTotal Terms of Service</a>. Data is not stored, redistributed, or commercialized.</li>
+      <li><strong>IPsum</strong> — <a href="https://github.com/stamparm/ipsum" target="_blank" rel="noopener">MIT License</a> (stamparm/ipsum).</li>
+      <li><strong>Emerging Threats</strong> — Open ruleset maintained by <a href="https://rules.emergingthreats.net/" target="_blank" rel="noopener">Proofpoint</a>. Free for non-commercial use.</li>
+      <li><strong>FIRST EPSS</strong> — Free to use with attribution. See <a href="https://www.first.org/epss/" target="_blank" rel="noopener">first.org/epss</a>.</li>
+      <li><strong>NewsAPI</strong> — Used under the <a href="https://newsapi.org/terms" target="_blank" rel="noopener">NewsAPI Terms</a> for development use.</li>
+    </ul>
+    <div class="disclaimer">
+      CyberGrind is a non-commercial personal portfolio and educational resource. No data collected through these sources is sold, redistributed, or used for purposes outside of site functionality and security education.
     </div>
   </div>
 
   <footer>
     <span>CyberGrind.org · Data Sources &amp; Methodology</span>
-    <span>Last reviewed March 2026</span>
+    <span>Last reviewed April 2026</span>
   </footer>
 
 </div>
