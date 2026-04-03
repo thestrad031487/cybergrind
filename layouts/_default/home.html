@@ -54,14 +54,11 @@
     </div>
   </div>
 </section>
-{{- end }}
 
-{{- if .IsHome }}
 <div id="post-list">
-  <!-- Loading skeleton -->
   <div id="post-skeleton">
     {{- range seq 5 }}
-    <article class="post-entry" style="opacity:0.4;">
+    <article class="post-entry" style="opacity:0.3;">
       <header class="entry-header"><h2 style="background:var(--entry);border-radius:4px;height:1.2em;width:60%;"> </h2></header>
       <div class="entry-content"><p style="background:var(--entry);border-radius:4px;height:3em;"> </p></div>
       <footer class="entry-footer"><span style="background:var(--entry);border-radius:4px;height:1em;width:30%;display:inline-block;"> </span></footer>
@@ -74,14 +71,8 @@
     Load More
   </button>
 </div>
-{{- end }}
 
-{{- end }}
-{{- end }}
-
-{{- if .IsHome }}
 <script>
-// Defer all heavy work until after page load
 window.addEventListener('load', function() {
 
   // --- Lazy load Leaflet then init map ---
@@ -210,4 +201,7 @@ window.addEventListener('load', function() {
 
 });
 </script>
+{{- end }}
+
+{{- end }}
 {{- end }}
