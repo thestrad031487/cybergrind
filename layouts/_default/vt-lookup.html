@@ -92,9 +92,9 @@
   }
   .api-error { color: #ff4444; font-size: 0.875rem; }
   .api-note { margin-top: 1rem; font-size: 0.78rem; color: #444; font-style: italic; }
-  .not-found { color: #888; text-align: left; font-size: 0.9rem !important; }
-  .not-found p { margin: 0.5rem 0; font-size: 0.9rem; }
-  .not-found .verdict-bar { margin-bottom: 1rem; }
+  .vt-not-found { color: #888; text-align: left; font-size: 0.9rem; }
+  .vt-not-found p { margin: 0.5rem 0; font-size: 0.9rem; }
+  .vt-not-found .verdict-bar { margin-bottom: 1rem; }
 </style>
 
 <script>
@@ -127,7 +127,7 @@ async function lookupHash() {
 
     if (!data.found) {
       resultDiv.innerHTML = `
-        <div class="not-found">
+        <div class="vt-not-found">
           <div class="verdict-bar">
             <span class="verdict-badge verdict-unknown">? Not Found</span>
           </div>
