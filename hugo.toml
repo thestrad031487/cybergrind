@@ -45,6 +45,7 @@ copyright = "2026 CyberGrind"
 [params.label]
   icon = "/images/cybergrind-logo.svg"
   iconHeight = 55
+  iconWidth = 300
   text = " "
 
 [params.footer]
