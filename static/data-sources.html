@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Sources & Methodology — CyberGrind</title>
+  <style>
+    :root {
+      --bg:        #1A1C1E;
+      --bg2:       #212426;
+      --bg3:       #272A2D;
+      --border:    #2e3235;
+      --orange:    #FF8C00;
+      --amber:     #FFAD33;
+      --steel:     #8E9297;
+      --text:      #d4d8dc;
+      --text-dim:  #6b7075;
+      --teal:      #2dd4bf;
+      --blue:      #60a5fa;
+      --red:       #f87171;
+      --green:     #4ade80;
+      --font-mono: 'Space Mono', 'Courier New', monospace;
+      --font-sans: 'Syne', system-ui, sans-serif;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Grid texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      margin-bottom: 56px;
+      border-left: 3px solid var(--orange);
+      padding-left: 20px;
+    }
+
+    .page-header .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--orange);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-sans);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .page-header h1 span { color: var(--orange); }
+
+    .page-header p {
+      color: var(--steel);
+      max-width: 620px;
+      font-size: 15px;
+    }
+
+    .page-header .meta {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .page-header .meta span { color: var(--amber); }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Category cards ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .cat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .cat-card.workers::before   { background: var(--orange); }
+    .cat-card.pipeline::before  { background: var(--teal); }
+    .cat-card.tools::before     { background: var(--blue); }
+    .cat-card.apis::before      { background: var(--amber); }
+
+    .cat-card:hover {
+      border-color: #3a3d42;
+      transform: translateY(-2px);
+    }
+
+    .cat-card .icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .cat-card h3 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .cat-card p {
+      font-size: 13px;
+      color: var(--steel);
+      line-height: 1.5;
+    }
+
+    .cat-card .count {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .cat-card.workers .count   { color: var(--orange); }
+    .cat-card.pipeline .count  { color: var(--teal); }
+    .cat-card.tools .count     { color: var(--blue); }
+    .cat-card.apis .count      { color: var(--amber); }
+
+    /* ── Source sections ── */
+    .source-section {
+      margin-bottom: 52px;
+    }
+
+    .source-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .source-block-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .source-block-header:hover { background: var(--bg3); }
+
+    .source-name {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .source-desc {
+      font-size: 13px;
+      color: var(--steel);
+      line-height: 1.5;
+    }
+
+    .source-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .tag.freq    { color: var(--teal);   border-color: #2dd4bf44; background: #2dd4bf0a; }
+    .tag.type    { color: var(--blue);   border-color: #60a5fa44; background: #60a5fa0a; }
+    .tag.auth    { color: var(--green);  border-color: #4ade8044; background: #4ade800a; }
+    .tag.noauth  { color: var(--steel);  border-color: #8E929744; background: #8E92970a; }
+    .tag.cache   { color: var(--amber);  border-color: #FFAD3344; background: #FFAD330a; }
+    .tag.limit   { color: var(--red);    border-color: #f8717144; background: #f871710a; }
+    .tag.orange  { color: var(--orange); border-color: #FF8C0044; background: #FF8C000a; }
+
+    .source-expand {
+      flex-shrink: 0;
+      color: var(--text-dim);
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.2s;
+    }
+
+    .source-block.open .source-expand { transform: rotate(180deg); }
+
+    .source-body {
+      display: none;
+      padding: 0 20px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .source-block.open .source-body { display: block; }
+
+    .source-body dl {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 6px 16px;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .source-body dt {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      padding-top: 1px;
+    }
+
+    .source-body dd { color: var(--steel); }
+    .source-body dd a { color: var(--orange); text-decoration: none; }
+    .source-body dd a:hover { text-decoration: underline; }
+
+    /* ── Methodology box ── */
+    .methodology {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: 6px;
+      padding: 28px 28px 24px;
+      margin-bottom: 52px;
+    }
+
+    .methodology h3 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .methodology-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .meth-item h4 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .meth-item p {
+      font-size: 13px;
+      color: var(--steel);
+      line-height: 1.6;
+    }
+
+    /* ── Full reference table ── */
+    .table-section { margin-bottom: 52px; }
+
+    .table-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .table-controls input {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 8px 12px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .table-controls input:focus { border-color: var(--orange); }
+    .table-controls input::placeholder { color: var(--text-dim); }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 7px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--steel);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: #FF8C000f;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: var(--bg3);
+    }
+
+    thead th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    thead th:hover { color: var(--orange); }
+    thead th.sorted { color: var(--orange); }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg3); }
+    tbody tr.hidden { display: none; }
+
+    td {
+      padding: 11px 16px;
+      color: var(--steel);
+      vertical-align: top;
+    }
+
+    td:first-child { color: var(--text); font-weight: 600; }
+
+    td a { color: var(--orange); text-decoration: none; }
+    td a:hover { text-decoration: underline; }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      border: 1px solid;
+    }
+
+    .badge.workers { color: var(--orange); border-color: #FF8C0044; background: #FF8C000a; }
+    .badge.pipeline { color: var(--teal); border-color: #2dd4bf44; background: #2dd4bf0a; }
+    .badge.tools { color: var(--blue); border-color: #60a5fa44; background: #60a5fa0a; }
+    .badge.apis { color: var(--amber); border-color: #FFAD3344; background: #FFAD330a; }
+
+    /* ── Licensing note ── */
+    .licensing {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px 24px 20px;
+      margin-bottom: 52px;
+    }
+
+    .licensing h3 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .licensing p {
+      font-size: 13px;
+      color: var(--steel);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .licensing p:last-child { margin-bottom: 0; }
+
+    .licensing a { color: var(--orange); text-decoration: none; }
+    .licensing a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .page-footer a { color: var(--orange); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .source-body dl { grid-template-columns: 1fr; }
+      .table-controls input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── Page Header ── -->
+  <header class="page-header">
+    <div class="eyebrow">&gt;_ cybergrind.org / data-sources</div>
+    <h1>Data Sources <span>&amp; Methodology</span></h1>
+    <p>Every feed, API, and dataset powering CyberGrind's tools, threat intelligence pipeline, and Orange Book content — documented with update cadences, caching behavior, and known limitations.</p>
+    <div class="meta">Last reviewed: <span>April 2026</span> &nbsp;·&nbsp; Sources tracked: <span>20</span></div>
+  </header>
+
+  <!-- ── Category Cards ── -->
+  <div class="section-label">Overview</div>
+  <div class="cards-grid">
+    <div class="cat-card workers">
+      <span class="icon">⚡</span>
+      <h3>Cloudflare Workers</h3>
+      <p>Proxy workers that cache external API responses and enforce rate-limit boundaries at the edge.</p>
+      <div class="count">6 workers active</div>
+    </div>
+    <div class="cat-card pipeline">
+      <span class="icon">🔄</span>
+      <h3>CTI Pipeline</h3>
+      <p>Self-hosted collectors running on a scheduled basis, feeding a local SQLite database via FastAPI.</p>
+      <div class="count">5 collectors · api.cybergrind.org</div>
+    </div>
+    <div class="cat-card tools">
+      <span class="icon">🛠️</span>
+      <h3>Tools &amp; Browsers</h3>
+      <p>Static datasets and direct API calls powering the MITRE ATT&CK browser, CVE research, and KEV checker.</p>
+      <div class="count">4 sources</div>
+    </div>
+    <div class="cat-card apis">
+      <span class="icon">🔑</span>
+      <h3>Third-party APIs</h3>
+      <p>External services accessed under free-tier licenses. Rate limits, attribution requirements, and quota resets documented below.</p>
+      <div class="count">5 services</div>
+    </div>
+  </div>
+
+  <!-- ── Cloudflare Workers ── -->
+  <div class="source-section">
+    <div class="section-label">Cloudflare Workers</div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">EPSS Worker — epss-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Proxies FIRST EPSS scores and NVD CVE detail for the CVE Research and EPSS Scanner tools.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag noauth">No client auth</span>
+            <span class="tag cache">Cached at edge</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd>FIRST EPSS API · NVD CVE API (NIST)</dd>
+          <dt>Tools</dt><dd>CVE Research, EPSS Scanner</dd>
+          <dt>Auth required</dt><dd>None (public feeds)</dd>
+          <dt>Caching</dt><dd>Edge cache — reduces upstream load; EPSS scores update daily from FIRST</dd>
+          <dt>Limitations</dt><dd>NVD API occasionally experiences downtime or rate-limiting. EPSS scores lag 24h behind FIRST publish cycle.</dd>
+          <dt>License</dt><dd>NVD data is U.S. government public domain. EPSS: <a href="https://www.first.org/epss/" target="_blank">first.org/epss</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">IP Reputation Worker — ip-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Proxies AbuseIPDB reputation lookups for the IP Reputation Check tool.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag auth">API key (server-side)</span>
+            <span class="tag limit">1,000 checks/day</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://www.abuseipdb.com/" target="_blank">AbuseIPDB</a></dd>
+          <dt>Tools</dt><dd>IP Reputation Check</dd>
+          <dt>Auth</dt><dd>API key held server-side in Worker — never exposed to client</dd>
+          <dt>Rate limit</dt><dd>1,000 lookups/day on the free tier. Quota resets at midnight UTC (7pm CT).</dd>
+          <dt>Limitations</dt><dd>Coverage depends on community reporting. Low-volume IPs may show no data. Free tier limits deep historical abuse reports.</dd>
+          <dt>License</dt><dd>Community-contributed data. Attribution: <a href="https://www.abuseipdb.com/" target="_blank">abuseipdb.com</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">CISA KEV Worker — kev-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Full CISA Known Exploited Vulnerabilities catalog lookup — search by CVE or vendor.</div>
+          <div class="source-meta">
+            <span class="tag type">JSON feed</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag cache">Cached at edge</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV Catalog (JSON)</a></dd>
+          <dt>Tools</dt><dd>CISA KEV Checker, Blue Team Resources feed</dd>
+          <dt>Auth required</dt><dd>None — public U.S. government feed</dd>
+          <dt>Update cadence</dt><dd>CISA updates the catalog as new exploited vulnerabilities are confirmed, typically several times per week</dd>
+          <dt>Caching</dt><dd>Edge cached to reduce CISA origin hits</dd>
+          <dt>License</dt><dd>U.S. government public domain</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">Recent KEV Worker — cisa-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Returns the 10 most recent additions to the CISA KEV catalog for homepage and dashboard widgets.</div>
+          <div class="source-meta">
+            <span class="tag type">JSON feed</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag cache">Cached at edge</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd>CISA KEV Catalog (same JSON as above, sliced to 10 most recent)</dd>
+          <dt>Tools</dt><dd>Blue Team Resources widget, Tools dashboard</dd>
+          <dt>Auth required</dt><dd>None</dd>
+          <dt>License</dt><dd>U.S. government public domain</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">Threat Map Worker — threatmap-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Serves the AbuseIPDB blacklist for the Global Threat Map visualization. 6-hour cache to stay within free-tier limits.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag auth">API key (server-side)</span>
+            <span class="tag cache">6hr cache</span>
+            <span class="tag limit">Quota dependent</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://www.abuseipdb.com/" target="_blank">AbuseIPDB Blacklist endpoint</a></dd>
+          <dt>Tools</dt><dd>Global Threat Map (AbuseIPDB tab)</dd>
+          <dt>Auth</dt><dd>API key held server-side</dd>
+          <dt>Cache</dt><dd>6 hours — the AbuseIPDB tab shows N/A when the quota is exhausted (resets midnight UTC)</dd>
+          <dt>Limitations</dt><dd>Blacklist reflects community-reported IPs only. Geographic accuracy depends on MaxMind GeoIP embedded in AbuseIPDB data.</dd>
+          <dt>License</dt><dd>Community-contributed. Attribution: <a href="https://www.abuseipdb.com/" target="_blank">abuseipdb.com</a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">OSINT Feeds Worker — osint-worker.wacker-jason.workers.dev</div>
+          <div class="source-desc">Aggregates IPsum, Emerging Threats, and Feodo Tracker blocklists for the Threat Map OSINT tab.</div>
+          <div class="source-meta">
+            <span class="tag type">Text/CSV feeds</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag cache">1hr cache</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd>IPsum · Emerging Threats (Proofpoint) · Feodo Tracker (abuse.ch)</dd>
+          <dt>Tools</dt><dd>Global Threat Map (OSINT tab), Threat Intel Feeds</dd>
+          <dt>Auth required</dt><dd>None — all public feeds</dd>
+          <dt>Cache</dt><dd>1 hour via Cloudflare edge</dd>
+          <dt>Limitations</dt><dd>IPsum aggregates multiple public blocklists daily — some IPs are false positives. Feodo Tracker focuses on botnet C2 infrastructure. Emerging Threats is maintained by Proofpoint and may lag behind emerging campaigns.</dd>
+          <dt>License</dt><dd>IPsum: <a href="https://github.com/stamparm/ipsum" target="_blank">MIT (stamparm/ipsum)</a> · Feodo Tracker: <a href="https://abuse.ch/" target="_blank">abuse.ch</a> (non-commercial free) · Emerging Threats: <a href="https://rules.emergingthreats.net/" target="_blank">Proofpoint</a></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTI Pipeline Sources ── -->
+  <div class="source-section">
+    <div class="section-label">CTI Pipeline — api.cybergrind.org</div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">CISA KEV Collector</div>
+          <div class="source-desc">Pulls the full CISA Known Exploited Vulnerabilities catalog into the local SQLite database on a 24-hour cycle.</div>
+          <div class="source-meta">
+            <span class="tag freq">Every 24h</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag orange">collectors/cisa.py</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json" target="_blank">CISA KEV JSON feed</a></dd>
+          <dt>Endpoint</dt><dd>/api/cves</dd>
+          <dt>Schedule</dt><dd>Every 24 hours</dd>
+          <dt>Auth</dt><dd>None required</dd>
+          <dt>Stored fields</dt><dd>CVE ID, vendor, product, vulnerability name, date added, due date, short description, CVSS score where available</dd>
+          <dt>Limitations</dt><dd>Does not backfill CVSS scores from NVD automatically — scores sourced only where bundled in the KEV feed</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">abuse.ch URLhaus Collector</div>
+          <div class="source-desc">Fetches malicious URL indicators from URLhaus and loads them into the IOC table every hour.</div>
+          <div class="source-meta">
+            <span class="tag freq">Every 1h</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag orange">collectors/abusech.py</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://urlhaus.abuse.ch/" target="_blank">URLhaus (abuse.ch)</a> — public CSV export</dd>
+          <dt>Endpoint</dt><dd>/api/iocs</dd>
+          <dt>Schedule</dt><dd>Every 1 hour</dd>
+          <dt>Auth</dt><dd>None — public export, no API key required</dd>
+          <dt>Limitations</dt><dd>URLhaus focuses on malware distribution URLs; not a general phishing feed. High-volume feed — deduplication logic applied before insert. Entries may be taken offline (status = inactive) but remain in database for historical reference.</dd>
+          <dt>License</dt><dd><a href="https://abuse.ch/" target="_blank">abuse.ch</a> — free for non-commercial use with attribution</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">RSS News Collector</div>
+          <div class="source-desc">Aggregates security news from Krebs on Security, Bleeping Computer, The Hacker News, CISA advisories, and SANS ISC into the pipeline's news table.</div>
+          <div class="source-meta">
+            <span class="tag freq">Every 2h</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag orange">collectors/news.py</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Sources</dt><dd>Krebs on Security · Bleeping Computer · The Hacker News · CISA Advisories RSS · SANS Internet Storm Center</dd>
+          <dt>Endpoint</dt><dd>/api/news</dd>
+          <dt>Schedule</dt><dd>Every 2 hours</dd>
+          <dt>Auth</dt><dd>None — standard RSS/Atom feeds</dd>
+          <dt>Stored fields</dt><dd>Title, link, source, published date, summary excerpt</dd>
+          <dt>Limitations</dt><dd>Article bodies are not stored — only feed-provided summaries. Some feeds truncate summaries aggressively. Deduplication is performed by URL hash.</dd>
+          <dt>Note</dt><dd>Separate from the daily CyberNews blog posts, which use NewsAPI + Ollama for editorial commentary</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">MalwareBazaar Collector</div>
+          <div class="source-desc">Fetches recent malware sample metadata (hashes, tags, filetype, upload date) from abuse.ch MalwareBazaar every 6 hours.</div>
+          <div class="source-meta">
+            <span class="tag freq">Every 6h</span>
+            <span class="tag auth">API key required</span>
+            <span class="tag orange">collectors/malwarebazaar.py</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://bazaar.abuse.ch/" target="_blank">MalwareBazaar (abuse.ch)</a></dd>
+          <dt>Endpoint</dt><dd>/api/hashes</dd>
+          <dt>Schedule</dt><dd>Every 6 hours</dd>
+          <dt>Auth</dt><dd>Free API key from <a href="https://auth.abuse.ch/" target="_blank">auth.abuse.ch</a> — stored as <code>BAZAAR_API_KEY</code> env var; required in <code>Auth-Key</code> header</dd>
+          <dt>Stored fields</dt><dd>SHA256, MD5, SHA1, filename, file type, tags, signature, first seen, reporter</dd>
+          <dt>Limitations</dt><dd>Sample metadata only — no binary files are downloaded or stored. Filetype coverage is broad but biased toward Windows PE, Office docs, and scripts.</dd>
+          <dt>License</dt><dd>abuse.ch — free for non-commercial use with attribution</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">VirusTotal Hash Proxy</div>
+          <div class="source-desc">On-demand VT file report lookups proxied through the pipeline API to protect the API key and enforce the free-tier quota.</div>
+          <div class="source-meta">
+            <span class="tag type">On-demand</span>
+            <span class="tag auth">API key (server-side)</span>
+            <span class="tag limit">500 lookups/day</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Upstream</dt><dd><a href="https://www.virustotal.com/gui/home/upload" target="_blank">VirusTotal v3 API</a></dd>
+          <dt>Endpoint</dt><dd>/api/vt/lookup/{hash}</dd>
+          <dt>Trigger</dt><dd>User-initiated lookup from the VT Hash Lookup tool</dd>
+          <dt>Auth</dt><dd>VT API key stored server-side as <code>VT_API_KEY</code> — never exposed client-side</dd>
+          <dt>Rate limit</dt><dd>500 lookups/day on the free tier. No results caching currently — each lookup is a live API call.</dd>
+          <dt>Limitations</dt><dd>Free tier restricts to file report lookups only. Private/intelligence endpoints are not available. Quota exhaustion returns an error message in the tool UI.</dd>
+          <dt>License</dt><dd><a href="https://support.virustotal.com/hc/en-us/articles/115002145529" target="_blank">VirusTotal Terms of Service</a></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tools & Browser Sources ── -->
+  <div class="source-section">
+    <div class="section-label">Tools &amp; Browser Sources</div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">MITRE ATT&CK</div>
+          <div class="source-desc">Enterprise and ICS ATT&CK matrices loaded from static JSON snapshots for the ATT&CK browser tool.</div>
+          <div class="source-meta">
+            <span class="tag type">Static JSON</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag cache">Build-time snapshot</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Source</dt><dd><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK (STIX 2.1 JSON)</a></dd>
+          <dt>Files</dt><dd>static/data/attck-enterprise.json · static/data/attck-ics.json</dd>
+          <dt>Refresh</dt><dd>Manual — run <code>scripts/fetch_attck.py</code> to pull the latest STIX bundle. GitHub Actions automation is planned.</dd>
+          <dt>Tools</dt><dd>ATT&CK Browser (/tools/attck/)</dd>
+          <dt>Limitations</dt><dd>Snapshot may lag behind MITRE releases between manual refreshes. Version displayed in the browser reflects the snapshot date.</dd>
+          <dt>License</dt><dd><a href="https://attack.mitre.org/resources/terms-of-use/" target="_blank">ATT&CK Terms of Use</a> — free for all uses with attribution</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">NVD — NIST National Vulnerability Database</div>
+          <div class="source-desc">CVE detail, CVSS scores, and vulnerability metadata via the NVD REST API v2.0.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag cache">Cached via EPSS Worker</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Source</dt><dd><a href="https://nvd.nist.gov/developers/vulnerabilities" target="_blank">NVD CVE API v2.0 (NIST)</a></dd>
+          <dt>Tools</dt><dd>CVE Research, EPSS Scanner</dd>
+          <dt>Auth</dt><dd>None required; an API key increases rate limits (not currently configured)</dd>
+          <dt>Limitations</dt><dd>NVD enrichment (CVSS scoring) sometimes lags CVE publication by days to weeks. NIST experienced a significant enrichment backlog in 2024 — some older CVEs may still show incomplete data.</dd>
+          <dt>License</dt><dd>U.S. government public domain</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">FIRST EPSS</div>
+          <div class="source-desc">Exploit Prediction Scoring System — probability scores predicting likelihood of exploitation within 30 days.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag noauth">No auth</span>
+            <span class="tag freq">Daily update</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Source</dt><dd><a href="https://www.first.org/epss/api" target="_blank">FIRST EPSS API</a></dd>
+          <dt>Tools</dt><dd>EPSS Scanner, CVE Research</dd>
+          <dt>Update cadence</dt><dd>Scores updated daily by FIRST. Worker caches values to reduce repeated calls.</dd>
+          <dt>Auth</dt><dd>None required</dd>
+          <dt>Limitations</dt><dd>EPSS is probabilistic — a low score does not mean a CVE is safe to ignore. Scores shift over time as exploitation evidence accumulates. Model is periodically retrained by FIRST.</dd>
+          <dt>License</dt><dd><a href="https://www.first.org/epss/" target="_blank">FIRST EPSS</a> — free to use with attribution</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-block-header" onclick="toggle(this)">
+        <div>
+          <div class="source-name">NewsAPI</div>
+          <div class="source-desc">Powers the daily CyberNews blog post generation pipeline via keyword-based headline retrieval.</div>
+          <div class="source-meta">
+            <span class="tag type">REST API</span>
+            <span class="tag auth">API key</span>
+            <span class="tag freq">Daily (11am CT)</span>
+          </div>
+        </div>
+        <span class="source-expand">▾</span>
+      </div>
+      <div class="source-body">
+        <dl>
+          <dt>Source</dt><dd><a href="https://newsapi.org/" target="_blank">NewsAPI.org</a></dd>
+          <dt>Used in</dt><dd>scripts/generate_news.py — daily CyberNews blog posts</dd>
+          <dt>Auth</dt><dd>API key stored in shell environment as <code>NEWS_API_KEY</code></dd>
+          <dt>Editorial layer</dt><dd>Headlines are passed to a local Ollama instance (Llama 3.2 3B) for the "From the Trenches" commentary section. The model is given a strict prompt with only the retrieved headlines to reduce hallucination risk.</dd>
+          <dt>Limitations</dt><dd>NewsAPI free tier restricts to 100 requests/day and articles up to 30 days old. Content is headline/description only — no full article text. Commentary is AI-generated and may occasionally mischaracterize a story.</dd>
+          <dt>License</dt><dd><a href="https://newsapi.org/terms" target="_blank">NewsAPI Terms</a> — free for development use</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Methodology ── -->
+  <div class="section-label">Methodology</div>
+  <div class="methodology">
+    <h3>How data flows through CyberGrind</h3>
+    <div class="methodology-grid">
+      <div class="meth-item">
+        <h4>Update Cadence</h4>
+        <p>Each source is collected on its own schedule — from hourly (URLhaus IOCs) to daily (CISA KEV, EPSS). Update frequencies are documented per-source above and reflected in the tool UI where relevant.</p>
+      </div>
+      <div class="meth-item">
+        <h4>Caching Strategy</h4>
+        <p>Cloudflare Workers cache upstream API responses at the edge to stay within free-tier rate limits and reduce latency. Cache TTLs range from 1 hour (OSINT feeds) to 6 hours (AbuseIPDB blacklist).</p>
+      </div>
+      <div class="meth-item">
+        <h4>Known Limitations</h4>
+        <p>All data is sourced from free tiers or public feeds. Coverage is not comprehensive. AbuseIPDB and VT quotas reset at midnight UTC. NVD enrichment can lag CVE publication by days to weeks.</p>
+      </div>
+      <div class="meth-item">
+        <h4>AI-Generated Content</h4>
+        <p>Daily CyberNews commentary is generated by a local Llama 3.2 (3B) model. It is editorial assistance only — always verify claims against the linked source headlines. The model operates offline; no data is sent to external AI services.</p>
+      </div>
+      <div class="meth-item">
+        <h4>Data Storage</h4>
+        <p>The CTI pipeline stores collected data in a local SQLite database on the Windows workstation hosting api.cybergrind.org. No personally identifiable information is stored. Data is for display and research purposes only.</p>
+      </div>
+      <div class="meth-item">
+        <h4>Infrastructure</h4>
+        <p>The site is hosted on Cloudflare Pages. The API backend runs in Docker on a Windows workstation exposed via Cloudflare Tunnel. Collector workers are scheduled Python scripts running inside Docker. The tunnel requires <code>--protocol http2</code> due to VPN constraints.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Full Reference Table ── -->
+  <div class="table-section">
+    <div class="section-label">Full Source Reference</div>
+    <div class="table-controls">
+      <input type="text" id="tableSearch" placeholder="filter sources..." oninput="filterTable()" />
+      <button class="filter-btn active" data-cat="all" onclick="filterCat(this, 'all')">All</button>
+      <button class="filter-btn" data-cat="workers" onclick="filterCat(this, 'workers')">Workers</button>
+      <button class="filter-btn" data-cat="pipeline" onclick="filterCat(this, 'pipeline')">Pipeline</button>
+      <button class="filter-btn" data-cat="tools" onclick="filterCat(this, 'tools')">Tools</button>
+      <button class="filter-btn" data-cat="apis" onclick="filterCat(this, 'apis')">APIs</button>
+    </div>
+    <div class="table-wrap">
+      <table id="sourceTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Source</th>
+            <th onclick="sortTable(1)">Category</th>
+            <th onclick="sortTable(2)">Type</th>
+            <th onclick="sortTable(3)">Update Freq</th>
+            <th onclick="sortTable(4)">Auth</th>
+            <th onclick="sortTable(5)">Used In</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-cat="workers">
+            <td><a href="https://www.first.org/epss/" target="_blank">FIRST EPSS</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>REST API</td>
+            <td>Daily</td>
+            <td>None</td>
+            <td>CVE Research, EPSS Scanner</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://nvd.nist.gov/" target="_blank">NVD (NIST)</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>REST API</td>
+            <td>Continuous</td>
+            <td>None</td>
+            <td>CVE Research, EPSS Scanner</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://www.abuseipdb.com/" target="_blank">AbuseIPDB</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>REST API</td>
+            <td>Live (cached 6h)</td>
+            <td>API key (server-side)</td>
+            <td>IP Reputation, Threat Map</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>JSON feed</td>
+            <td>Several times/week</td>
+            <td>None</td>
+            <td>KEV Checker, Blue Team</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://github.com/stamparm/ipsum" target="_blank">IPsum</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>Text blocklist</td>
+            <td>Daily (cached 1h)</td>
+            <td>None</td>
+            <td>Threat Map (OSINT)</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://rules.emergingthreats.net/" target="_blank">Emerging Threats</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>Text blocklist</td>
+            <td>Daily (cached 1h)</td>
+            <td>None</td>
+            <td>Threat Map (OSINT)</td>
+          </tr>
+          <tr data-cat="workers">
+            <td><a href="https://feodotracker.abuse.ch/" target="_blank">Feodo Tracker</a></td>
+            <td><span class="badge workers">Workers</span></td>
+            <td>CSV feed</td>
+            <td>Continuous (cached 1h)</td>
+            <td>None</td>
+            <td>Threat Map (OSINT), Threat Intel</td>
+          </tr>
+          <tr data-cat="pipeline">
+            <td><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV</a></td>
+            <td><span class="badge pipeline">Pipeline</span></td>
+            <td>JSON feed</td>
+            <td>Every 24h</td>
+            <td>None</td>
+            <td>Live CVEs tool</td>
+          </tr>
+          <tr data-cat="pipeline">
+            <td><a href="https://urlhaus.abuse.ch/" target="_blank">URLhaus (abuse.ch)</a></td>
+            <td><span class="badge pipeline">Pipeline</span></td>
+            <td>CSV export</td>
+            <td>Every 1h</td>
+            <td>None</td>
+            <td>Threat Intel Feeds (IOCs)</td>
+          </tr>
+          <tr data-cat="pipeline">
+            <td>RSS Feeds (Krebs, BleepingComputer, THN, CISA, SANS ISC)</td>
+            <td><span class="badge pipeline">Pipeline</span></td>
+            <td>RSS/Atom</td>
+            <td>Every 2h</td>
+            <td>None</td>
+            <td>Threat Intel Feeds (News)</td>
+          </tr>
+          <tr data-cat="pipeline">
+            <td><a href="https://bazaar.abuse.ch/" target="_blank">MalwareBazaar (abuse.ch)</a></td>
+            <td><span class="badge pipeline">Pipeline</span></td>
+            <td>REST API</td>
+            <td>Every 6h</td>
+            <td>API key</td>
+            <td>VT Lookup (samples)</td>
+          </tr>
+          <tr data-cat="pipeline">
+            <td><a href="https://www.virustotal.com/" target="_blank">VirusTotal</a></td>
+            <td><span class="badge pipeline">Pipeline</span></td>
+            <td>REST API (proxied)</td>
+            <td>On-demand</td>
+            <td>API key (server-side)</td>
+            <td>VT Hash Lookup</td>
+          </tr>
+          <tr data-cat="tools">
+            <td><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK Enterprise</a></td>
+            <td><span class="badge tools">Tools</span></td>
+            <td>Static JSON (STIX 2.1)</td>
+            <td>Manual refresh</td>
+            <td>None</td>
+            <td>ATT&CK Browser</td>
+          </tr>
+          <tr data-cat="tools">
+            <td><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK ICS</a></td>
+            <td><span class="badge tools">Tools</span></td>
+            <td>Static JSON (STIX 2.1)</td>
+            <td>Manual refresh</td>
+            <td>None</td>
+            <td>ATT&CK Browser</td>
+          </tr>
+          <tr data-cat="apis">
+            <td><a href="https://newsapi.org/" target="_blank">NewsAPI</a></td>
+            <td><span class="badge apis">APIs</span></td>
+            <td>REST API</td>
+            <td>Daily (11am CT)</td>
+            <td>API key</td>
+            <td>CyberNews blog pipeline</td>
+          </tr>
+          <tr data-cat="apis">
+            <td>Ollama / Llama 3.2 (local)</td>
+            <td><span class="badge apis">APIs</span></td>
+            <td>Local inference</td>
+            <td>On-demand</td>
+            <td>None (local)</td>
+            <td>CyberNews commentary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Licensing ── -->
+  <div class="section-label">Licensing &amp; Attribution</div>
+  <div class="licensing">
+    <h3>Third-party API &amp; Data Attribution</h3>
+    <p>CyberGrind uses a mix of U.S. government public domain data (CISA KEV, NVD), open-source community feeds (abuse.ch, IPsum, Emerging Threats), and commercial free-tier APIs (AbuseIPDB, VirusTotal, NewsAPI). Each source is used in accordance with its respective terms of service.</p>
+    <p><strong>abuse.ch</strong> (URLhaus, MalwareBazaar, Feodo Tracker) is used under their non-commercial free use policy. Attribution is provided in the tool UI. See <a href="https://abuse.ch/" target="_blank">abuse.ch</a> for licensing details.</p>
+    <p><strong>MITRE ATT&CK®</strong> is used under the <a href="https://attack.mitre.org/resources/terms-of-use/" target="_blank">ATT&CK Terms of Use</a>. ATT&CK® is a registered trademark of The MITRE Corporation.</p>
+    <p><strong>AbuseIPDB</strong> data is community-contributed and used under their <a href="https://www.abuseipdb.com/legal" target="_blank">Terms of Service</a>. Attribution is provided in the Threat Map UI.</p>
+    <p><strong>VirusTotal</strong> is accessed via their public API under the <a href="https://support.virustotal.com/hc/en-us/articles/115002145529" target="_blank">VirusTotal Terms</a>. CyberGrind does not store, redistribute, or commercialize VirusTotal data.</p>
+    <p>CyberGrind is a non-commercial personal portfolio and educational resource. No data collected through these sources is sold, redistributed, or used for purposes outside of site functionality and security education.</p>
+  </div>
+
+  <footer class="page-footer">
+    <span>cybergrind.org</span>
+    <a href="/tools/">Tools</a>
+    <a href="/orange-book/">Orange Book</a>
+    <a href="/about/">About</a>
+    <span style="margin-left:auto;">Last updated April 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(header) {
+    const block = header.closest('.source-block');
+    block.classList.toggle('open');
+  }
+
+  let currentCat = 'all';
+
+  function filterTable() {
+    const q = document.getElementById('tableSearch').value.toLowerCase();
+    document.querySelectorAll('#sourceTable tbody tr').forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const catMatch = currentCat === 'all' || row.dataset.cat === currentCat;
+      const textMatch = !q || text.includes(q);
+      row.classList.toggle('hidden', !(catMatch && textMatch));
+    });
+  }
+
+  function filterCat(btn, cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = cat;
+    filterTable();
+  }
+
+  let sortDir = {};
+  function sortTable(col) {
+    const tbody = document.querySelector('#sourceTable tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    sortDir[col] = !sortDir[col];
+    rows.sort((a, b) => {
+      const aText = a.cells[col]?.textContent.trim().toLowerCase() || '';
+      const bText = b.cells[col]?.textContent.trim().toLowerCase() || '';
+      return sortDir[col]
+        ? aText.localeCompare(bText)
+        : bText.localeCompare(aText);
+    });
+    rows.forEach(r => tbody.appendChild(r));
+    document.querySelectorAll('thead th').forEach((th, i) => th.classList.toggle('sorted', i === col));
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberGrind Architecture | CyberGrind</title>
+<style>
+:root {
+  --bg:        #1A1C1E;
+  --bg2:       #212426;
+  --bg3:       #272A2D;
+  --border:    #2e3235;
+  --orange:    #FF8C00;
+  --amber:     #FFAD33;
+  --steel:     #8E9297;
+  --text:      #d4d8dc;
+  --text-dim:  #55595e;
+  --teal:      #2dd4bf;
+  --blue:      #60a5fa;
+  --green:     #4ade80;
+  --purple:    #a78bfa;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-sans: 'Syne', system-ui, sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── Header ── */
+.page-header {
+  margin-bottom: 48px;
+  border-left: 3px solid var(--orange);
+  padding-left: 18px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--orange);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.page-header h1 {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(22px, 3.5vw, 36px);
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.page-header h1 span { color: var(--orange); }
+
+.page-header p {
+  font-size: 13px;
+  color: var(--steel);
+  max-width: 560px;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  letter-spacing: 0.08em;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Architecture diagram ── */
+.arch-diagram {
+  margin-bottom: 56px;
+}
+
+/* Row layout */
+.arch-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 0;
+  position: relative;
+}
+
+/* Connector arrows between rows */
+.arch-connector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  position: relative;
+}
+
+.arch-connector::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+  transform: translateX(-50%);
+}
+
+.arch-connector .arrow {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+/* Node base */
+.node {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  position: relative;
+  background: var(--bg2);
+  flex: 1;
+}
+
+.node-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.node-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.node-desc {
+  font-size: 12px;
+  color: var(--steel);
+  line-height: 1.5;
+}
+
+.node-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.ntag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  background: var(--bg3);
+}
+
+/* Color variants */
+.node.orange  { border-color: #FF8C0033; }
+.node.orange .node-label { color: var(--orange); }
+.node.orange::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--orange); border-radius: 5px 5px 0 0; }
+
+.node.teal    { border-color: #2dd4bf33; }
+.node.teal .node-label { color: var(--teal); }
+.node.teal::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--teal); border-radius: 5px 5px 0 0; }
+
+.node.blue    { border-color: #60a5fa33; }
+.node.blue .node-label { color: var(--blue); }
+.node.blue::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--blue); border-radius: 5px 5px 0 0; }
+
+.node.green   { border-color: #4ade8033; }
+.node.green .node-label { color: var(--green); }
+.node.green::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); border-radius: 5px 5px 0 0; }
+
+.node.purple  { border-color: #a78bfa33; }
+.node.purple .node-label { color: var(--purple); }
+.node.purple::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--purple); border-radius: 5px 5px 0 0; }
+
+.node.amber   { border-color: #FFAD3333; }
+.node.amber .node-label { color: var(--amber); }
+.node.amber::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); border-radius: 5px 5px 0 0; }
+
+/* Multi-node rows */
+.arch-row.multi {
+  gap: 12px;
+}
+
+/* Divider between nodes in a row */
+.node-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Flow sections ── */
+.flow-section {
+  margin-bottom: 48px;
+}
+
+.flow-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.flow-subtitle {
+  font-size: 13px;
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+
+/* ── Detail tables ── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.detail-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.detail-card-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-card dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px 12px;
+  font-size: 12px;
+}
+
+.detail-card dt {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding-top: 1px;
+  white-space: nowrap;
+}
+
+.detail-card dd { color: var(--steel); }
+
+/* ── Request flow ── */
+.req-flow {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 48px;
+  overflow-x: auto;
+}
+
+.req-flow-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.req-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  min-width: 560px;
+}
+
+.req-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.req-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: 12px;
+  color: var(--text-dim);
+  font-size: 16px;
+  z-index: 1;
+}
+
+.req-step-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin: 0 auto 8px;
+}
+
+.req-step-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text);
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.req-step-detail {
+  font-size: 11px;
+  color: var(--steel);
+  line-height: 1.4;
+}
+
+/* ── Footer ── */
+.page-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-footer a { color: var(--orange); text-decoration: none; }
+
+@media (max-width: 600px) {
+  .arch-row.multi { flex-direction: column; }
+  .node-divider { display: none; }
+  .req-steps { flex-direction: column; min-width: unset; gap: 16px; }
+  .req-step:not(:last-child)::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -14px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="eyebrow">&gt;_ cybergrind.org / orange-book</div>
+    <h1>CyberGrind <span>Architecture</span></h1>
+    <p>How the site is built — from static content to live threat intelligence. Every layer, every connection, every data flow.</p>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#FF8C00"></div>Content & Deploy</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div>Cloudflare Edge</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2dd4bf"></div>CTI Pipeline</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>External APIs & Feeds</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Automation</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFAD33"></div>Browser / Visitor</div>
+  </div>
+
+  <!-- ── Main Architecture Flow ── -->
+  <div class="section-label">Site Deploy Pipeline</div>
+
+  <div class="arch-diagram">
+
+    <!-- Row: Developer -->
+    <div class="arch-row">
+      <div class="node orange">
+        <div class="node-label">Developer</div>
+        <div class="node-title">Local Dev Machine</div>
+        <div class="node-desc">Hugo v0.158.0 extended · PaperMod theme (git submodule) · Content authored in Markdown · Local preview at localhost:1313</div>
+        <div class="node-tags">
+          <span class="ntag">hugo server</span>
+          <span class="ntag">zsh / fish / git bash</span>
+          <span class="ntag">macOS · CachyOS · Windows</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">git push → main</div></div>
+
+    <!-- Row: GitHub -->
+    <div class="arch-row">
+      <div class="node orange">
+        <div class="node-label">Version Control</div>
+        <div class="node-title">GitHub — thestrad031487/cybergrind</div>
+        <div class="node-desc">Single branch strategy. PaperMod as git submodule. Daily news bot auto-commits to main — always pull before pushing to avoid conflicts.</div>
+        <div class="node-tags">
+          <span class="ntag">main branch</span>
+          <span class="ntag">git submodule</span>
+          <span class="ntag">auto-commit (news bot)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">webhook on push</div></div>
+
+    <!-- Row: Cloudflare Pages -->
+    <div class="arch-row">
+      <div class="node blue">
+        <div class="node-label">Static Hosting</div>
+        <div class="node-title">Cloudflare Pages</div>
+        <div class="node-desc">Build command: <code style="font-size:11px;background:#1A1C1E;padding:1px 5px;border-radius:3px;">hugo --minify</code>. Output directory: <code style="font-size:11px;background:#1A1C1E;padding:1px 5px;border-radius:3px;">public/</code>. Deploys globally to Cloudflare CDN within ~90 seconds of a push. HTTP headers (CSP, HSTS, X-Frame-Options) served from <code style="font-size:11px;background:#1A1C1E;padding:1px 5px;border-radius:3px;">static/_headers</code>.</div>
+        <div class="node-tags">
+          <span class="ntag">auto-deploy</span>
+          <span class="ntag">global CDN</span>
+          <span class="ntag">static/_headers</span>
+          <span class="ntag">www → apex redirect</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">serves cybergrind.org</div></div>
+
+    <!-- Row: Visitor -->
+    <div class="arch-row">
+      <div class="node amber">
+        <div class="node-label">Visitor</div>
+        <div class="node-title">Browser</div>
+        <div class="node-desc">Static pages served instantly from CDN edge. Tool pages make JS fetch() calls to Cloudflare Workers and the CTI pipeline API at runtime — no page rebuild required for fresh data.</div>
+        <div class="node-tags">
+          <span class="ntag">cybergrind.org</span>
+          <span class="ntag">Fuse.js search</span>
+          <span class="ntag">live JS fetch</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Workers Layer ── -->
+  <div class="section-label">Cloudflare Workers — API Proxy Layer</div>
+
+  <div class="flow-section">
+    <div class="flow-subtitle">Workers sit between the browser and upstream APIs. They hold API keys in Cloudflare Secrets (never in code), cache responses at the edge, and enforce rate limit boundaries. Every Worker URL must be added to <code style="font-size:12px;background:#212426;padding:1px 5px;border-radius:3px;">connect-src</code> in <code style="font-size:12px;background:#212426;padding:1px 5px;border-radius:3px;">static/_headers</code> or the browser will silently block requests.</div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="detail-card-title">EPSS Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>FIRST EPSS API + NVD CVE API</dd>
+          <dt>Cache</dt><dd>Per request</dd>
+          <dt>Used in</dt><dd>CVE Research, EPSS Scanner</dd>
+          <dt>Auth</dt><dd>None (public APIs)</dd>
+        </dl>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">IP Reputation Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>AbuseIPDB</dd>
+          <dt>Cache</dt><dd>None (live lookup)</dd>
+          <dt>Used in</dt><dd>IP Reputation Check</dd>
+          <dt>Auth</dt><dd>API key (Worker Secret)</dd>
+        </dl>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">KEV Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>CISA KEV Catalog</dd>
+          <dt>Cache</dt><dd>1 hour</dd>
+          <dt>Used in</dt><dd>KEV Checker, Blue Team</dd>
+          <dt>Auth</dt><dd>None (public feed)</dd>
+        </dl>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">Threat Map Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>AbuseIPDB Blacklist</dd>
+          <dt>Cache</dt><dd>6 hours</dd>
+          <dt>Used in</dt><dd>Global Threat Map</dd>
+          <dt>Auth</dt><dd>API key (Worker Secret)</dd>
+        </dl>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">OSINT Feeds Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>IPsum + Emerging Threats + Feodo Tracker</dd>
+          <dt>Cache</dt><dd>1 hour</dd>
+          <dt>Used in</dt><dd>Threat Map (OSINT tab)</dd>
+          <dt>Auth</dt><dd>None (public feeds)</dd>
+        </dl>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">Recent KEV Worker</div>
+        <dl>
+          <dt>Upstream</dt><dd>CISA KEV (10 most recent)</dd>
+          <dt>Cache</dt><dd>1 hour</dd>
+          <dt>Used in</dt><dd>Blue Team widget</dd>
+          <dt>Auth</dt><dd>None (public feed)</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTI Pipeline ── -->
+  <div class="section-label">Self-Hosted CTI Pipeline</div>
+
+  <div class="arch-diagram" style="margin-bottom:32px;">
+
+    <!-- Row: External Feeds -->
+    <div class="arch-row multi">
+      <div class="node green">
+        <div class="node-label">Feed</div>
+        <div class="node-title">CISA KEV</div>
+        <div class="node-desc">Public JSON. No auth required.</div>
+        <div class="node-tags"><span class="ntag">every 24h</span></div>
+      </div>
+      <div class="node green">
+        <div class="node-label">Feed</div>
+        <div class="node-title">URLhaus (abuse.ch)</div>
+        <div class="node-desc">Public CSV export. Malware distribution URLs.</div>
+        <div class="node-tags"><span class="ntag">every 1h</span></div>
+      </div>
+      <div class="node green">
+        <div class="node-label">Feed</div>
+        <div class="node-title">RSS Feeds</div>
+        <div class="node-desc">Krebs · BleepingComputer · THN · CISA · SANS ISC</div>
+        <div class="node-tags"><span class="ntag">every 2h</span></div>
+      </div>
+      <div class="node green">
+        <div class="node-label">Feed</div>
+        <div class="node-title">MalwareBazaar</div>
+        <div class="node-desc">Sample metadata. Free API key required.</div>
+        <div class="node-tags"><span class="ntag">every 6h</span></div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">Python collectors (APScheduler)</div></div>
+
+    <!-- Row: Docker -->
+    <div class="arch-row">
+      <div class="node teal">
+        <div class="node-label">Containerized Backend</div>
+        <div class="node-title">Docker Compose — Windows Workstation</div>
+        <div class="node-desc">FastAPI + uvicorn serves the REST API. APScheduler runs collectors on their respective schedules. SQLite database stored in a Docker volume (gitignored). CORS configured for cybergrind.org and localhost:1313.</div>
+        <div class="node-tags">
+          <span class="ntag">FastAPI</span>
+          <span class="ntag">SQLite</span>
+          <span class="ntag">APScheduler</span>
+          <span class="ntag">Docker Compose</span>
+          <span class="ntag">/api/health</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">outbound tunnel (no port forwarding)</div></div>
+
+    <!-- Row: Cloudflare Tunnel -->
+    <div class="arch-row">
+      <div class="node blue">
+        <div class="node-label">Cloudflare Tunnel</div>
+        <div class="node-title">cloudflared → api.cybergrind.org</div>
+        <div class="node-desc">Outbound connection from workstation to Cloudflare edge. No firewall ports opened. No public IP exposed. Runs as a Windows service (auto-starts on boot). Requires <code style="font-size:11px;background:#1A1C1E;padding:1px 5px;border-radius:3px;">--protocol http2</code> when behind a VPN that blocks UDP/QUIC.</div>
+        <div class="node-tags">
+          <span class="ntag">cloudflared</span>
+          <span class="ntag">Windows service</span>
+          <span class="ntag">http2 protocol</span>
+          <span class="ntag">HTTPS termination at edge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-connector"><div class="arrow">JS fetch() on page load</div></div>
+
+    <!-- Row: Frontend tools -->
+    <div class="arch-row multi">
+      <div class="node amber">
+        <div class="node-label">Tool</div>
+        <div class="node-title">Live CVEs</div>
+        <div class="node-desc">Filterable CISA KEV table. Overdue deadlines highlighted.</div>
+      </div>
+      <div class="node amber">
+        <div class="node-label">Tool</div>
+        <div class="node-title">Threat Intel Feeds</div>
+        <div class="node-desc">Tabbed view: security news + live IOCs.</div>
+      </div>
+      <div class="node amber">
+        <div class="node-label">Tool</div>
+        <div class="node-title">VT Hash Lookup</div>
+        <div class="node-desc">VirusTotal reports proxied via pipeline. MalwareBazaar samples.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── News Automation ── -->
+  <div class="section-label">Daily News Automation</div>
+
+  <div class="req-flow" style="margin-bottom:48px;">
+    <div class="req-flow-title">Pipeline — fires daily at 11am CT via cron</div>
+    <div class="req-steps">
+      <div class="req-step">
+        <div class="req-step-icon">📰</div>
+        <div class="req-step-name">NewsAPI</div>
+        <div class="req-step-detail">Fetch cybersecurity headlines</div>
+      </div>
+      <div class="req-step">
+        <div class="req-step-icon">🤖</div>
+        <div class="req-step-name">Ollama</div>
+        <div class="req-step-detail">Llama 3.2 (local) generates commentary from headlines only</div>
+      </div>
+      <div class="req-step">
+        <div class="req-step-icon">📝</div>
+        <div class="req-step-name">Hugo Post</div>
+        <div class="req-step-detail">Markdown file written with frontmatter</div>
+      </div>
+      <div class="req-step">
+        <div class="req-step-icon">🔀</div>
+        <div class="req-step-name">Git Push</div>
+        <div class="req-step-detail">Auto-commit + push to main</div>
+      </div>
+      <div class="req-step">
+        <div class="req-step-icon">🚀</div>
+        <div class="req-step-name">Deploy</div>
+        <div class="req-step-detail">Cloudflare Pages builds + deploys (~90s)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Design System ── -->
+  <div class="section-label">Design System</div>
+
+  <div class="detail-grid" style="margin-bottom:48px;">
+    <div class="detail-card">
+      <div class="detail-card-title">Color Palette</div>
+      <dl>
+        <dt>Cyber Orange</dt><dd style="color:#FF8C00;">#FF8C00 — primary accent</dd>
+        <dt>Amber Glow</dt><dd style="color:#FFAD33;">#FFAD33 — secondary highlight</dd>
+        <dt>Deep Charcoal</dt><dd>#1A1C1E — page background</dd>
+        <dt>Steel Gray</dt><dd style="color:#8E9297;">#8E9297 — body text</dd>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <div class="detail-card-title">Typography</div>
+      <dl>
+        <dt>Display</dt><dd>Syne — geometric, authoritative</dd>
+        <dt>Monospace</dt><dd>Space Mono — terminal aesthetic</dd>
+        <dt>System</dt><dd>-apple-system stack for body text in tool pages</dd>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <div class="detail-card-title">Hugo Config</div>
+      <dl>
+        <dt>Theme</dt><dd>PaperMod (git submodule)</dd>
+        <dt>env</dt><dd>production — enables OG/Schema tags</dd>
+        <dt>Search</dt><dd>Fuse.js (JSON index output)</dd>
+        <dt>Raw HTML</dt><dd>goldmark unsafe = true</dd>
+      </dl>
+    </div>
+    <div class="detail-card">
+      <div class="detail-card-title">Infographic System</div>
+      <dl>
+        <dt>HTML files</dt><dd>static/infographics/</dd>
+        <dt>Hugo stubs</dt><dd>content/orange-book/ with layout: infographic</dd>
+        <dt>Rendering</dt><dd>iframe (auto-height via scrollHeight)</dd>
+        <dt>Styling</dt><dd>Self-contained, PaperMod CSS vars matched</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Read More -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:48px;">
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Full Article</div>
+    <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px;">How We Built CyberGrind</div>
+    <div style="font-size:13px;color:var(--steel);margin-bottom:10px;">Mid-level technical walkthrough covering every layer of this architecture — design decisions, code snippets, and gotchas learned in production.</div>
+    <a href="/orange-book/building-a-homelab-soc/" style="font-family:var(--font-mono);font-size:11px;color:var(--orange);text-decoration:none;letter-spacing:0.08em;">READ THE ARTICLE →</a>
+  </div>
+
+  <footer class="page-footer">
+    <span>cybergrind.org</span>
+    <a href="/orange-book/">← Orange Book</a>
+    <span style="margin-left:auto;">Last updated April 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
