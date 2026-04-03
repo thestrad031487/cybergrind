@@ -1,0 +1,210 @@
+{{- define "main" }}
+
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{/* Search + filters */}}
+<div class="section-search" style="margin-bottom:24px;">
+  <input
+    type="text"
+    id="ctf-search"
+    placeholder="Search write-ups..."
+    autocomplete="off"
+    style="width:100%;padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:10px;"
+  >
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:11px;color:var(--secondary);text-transform:uppercase;letter-spacing:0.1em;margin-right:2px;">Difficulty:</span>
+      <button class="ctf-filter active" data-type="difficulty" data-val="all">All</button>
+      <button class="ctf-filter" data-type="difficulty" data-val="easy">Easy</button>
+      <button class="ctf-filter" data-type="difficulty" data-val="medium">Medium</button>
+      <button class="ctf-filter" data-type="difficulty" data-val="hard">Hard</button>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-left:auto;">
+      <span style="font-size:11px;color:var(--secondary);text-transform:uppercase;letter-spacing:0.1em;margin-right:2px;">Category:</span>
+      <button class="ctf-filter active" data-type="category" data-val="all">All</button>
+      <button class="ctf-filter" data-type="category" data-val="web">Web</button>
+      <button class="ctf-filter" data-type="category" data-val="privesc">PrivEsc</button>
+      <button class="ctf-filter" data-type="category" data-val="forensics">Forensics</button>
+      <button class="ctf-filter" data-type="category" data-val="crypto">Crypto</button>
+      <button class="ctf-filter" data-type="category" data-val="reversing">Reversing</button>
+      <button class="ctf-filter" data-type="category" data-val="network">Network</button>
+    </div>
+  </div>
+  <div id="ctf-count" style="font-size:13px;color:var(--secondary);"></div>
+</div>
+
+<style>
+.ctf-filter {
+  font-size: 11px;
+  font-family: inherit;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--entry);
+  color: var(--secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ctf-filter:hover { border-color: var(--secondary); color: var(--primary); }
+.ctf-filter.active { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.08); }
+
+.ctf-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.ctf-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.ctf-badge.easy     { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+.ctf-badge.medium   { color: #fbbf24; border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+.ctf-badge.hard     { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+.ctf-badge.platform { color: var(--secondary); border-color: var(--border); }
+.ctf-badge.category { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+</style>
+
+{{- $pages := union .RegularPages .Sections }}
+{{- $paginator := .Paginate $pages }}
+
+<div id="ctf-list">
+{{- range $paginator.Pages }}
+<article
+  class="post-entry"
+  data-title="{{ .Title | lower }}"
+  data-summary="{{ .Summary | plainify | lower }}"
+  data-tags="{{ range .Params.tags }}{{ . | lower }} {{ end }}"
+  data-difficulty="{{ .Params.difficulty | lower }}"
+  data-category="{{ .Params.category | lower }}"
+  data-platform="{{ .Params.platform | lower }}"
+>
+  <header class="entry-header">
+    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+  </header>
+  <div class="ctf-meta">
+    {{- if .Params.platform }}
+    <span class="ctf-badge platform">{{ .Params.platform }}</span>
+    {{- end }}
+    {{- if .Params.difficulty }}
+    <span class="ctf-badge {{ .Params.difficulty | lower }}">{{ .Params.difficulty }}</span>
+    {{- end }}
+    {{- if .Params.category }}
+    <span class="ctf-badge category">{{ .Params.category }}</span>
+    {{- end }}
+  </div>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ if .Description }}{{ .Description }}{{ else }}{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}{{ end }}</p>
+  </div>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+</div>
+
+<div id="ctf-empty" style="display:none;padding:24px 0;color:var(--secondary);font-size:14px;">
+  No write-ups found matching those filters.
+</div>
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer" id="ctf-pagination">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+<script>
+(function() {
+  const searchInput = document.getElementById('ctf-search');
+  const list        = document.getElementById('ctf-list');
+  const empty       = document.getElementById('ctf-empty');
+  const countEl     = document.getElementById('ctf-count');
+  const pagination  = document.getElementById('ctf-pagination');
+  const articles    = Array.from(list.querySelectorAll('article'));
+
+  let activeDifficulty = 'all';
+  let activeCategory   = 'all';
+
+  function updateCount(visible) {
+    countEl.textContent = visible === articles.length
+      ? `${articles.length} write-up${articles.length !== 1 ? 's' : ''}`
+      : `${visible} of ${articles.length} write-ups`;
+  }
+
+  function filter() {
+    const query = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    articles.forEach(article => {
+      const title      = article.dataset.title      || '';
+      const summary    = article.dataset.summary    || '';
+      const tags       = article.dataset.tags       || '';
+      const difficulty = article.dataset.difficulty || '';
+      const category   = article.dataset.category   || '';
+
+      const textMatch = !query || title.includes(query) || summary.includes(query) || tags.includes(query);
+      const diffMatch = activeDifficulty === 'all' || difficulty === activeDifficulty;
+      const catMatch  = activeCategory   === 'all' || category.includes(activeCategory);
+
+      const show = textMatch && diffMatch && catMatch;
+      article.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    empty.style.display = visible === 0 ? 'block' : 'none';
+    if (pagination) pagination.style.display = (query || activeDifficulty !== 'all' || activeCategory !== 'all') ? 'none' : '';
+    updateCount(visible);
+  }
+
+  // Filter buttons
+  document.querySelectorAll('.ctf-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      const val  = btn.dataset.val;
+
+      document.querySelectorAll(`.ctf-filter[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (type === 'difficulty') activeDifficulty = val;
+      if (type === 'category')   activeCategory   = val;
+
+      filter();
+    });
+  });
+
+  searchInput.addEventListener('input', filter);
+  updateCount(articles.length);
+})();
+</script>
+
+{{- end }}
