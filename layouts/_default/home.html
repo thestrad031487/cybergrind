@@ -75,7 +75,7 @@
 <script>
 window.addEventListener('load', function() {
 
-  // --- Lazy load Leaflet then init map ---
+  // --- Load Leaflet only when map scrolls into view ---
   function loadLeaflet(cb) {
     if (window.L) { cb(); return; }
     const link = document.createElement('link');
@@ -88,23 +88,29 @@ window.addEventListener('load', function() {
     document.head.appendChild(script);
   }
 
-  loadLeaflet(function() {
-    const map = L.map('home-threat-map', {
-      center: [20, 0],
-      zoom: 2,
-      minZoom: 2,
-      maxZoom: 3,
-      zoomControl: false,
-      dragging: false,
-      scrollWheelZoom: false,
-      doubleClickZoom: false,
-      touchZoom: false,
-      attributionControl: false,
-    });
+  function initMap() {
+    const mapEl = document.getElementById('home-threat-map');
+    if (!mapEl || mapEl.dataset.initialized) return;
+    mapEl.dataset.initialized = 'true';
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-    }).addTo(map);
+    loadLeaflet(function() {
+      const map = L.map('home-threat-map', {
+        center: [20, 0],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 3,
+        zoomControl: false,
+        dragging: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        touchZoom: false,
+        attributionControl: false,
+      });
+
+      // Standard (non-@2x) tiles to reduce image payload
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+        subdomains: 'abcd',
+      }).addTo(map);
 
     function getColor(count) {
       if (count >= 50) return '#ff0000';
@@ -145,7 +151,22 @@ window.addEventListener('load', function() {
         document.getElementById('hm-countries').textContent = 'N/A';
         document.getElementById('hm-top').textContent = 'Unavailable';
       });
-  });
+    });
+  }
+
+  // Only load map when it scrolls into view
+  const mapSection = document.getElementById('home-threat-map');
+  if (mapSection) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          initMap();
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(mapSection);
+  }
 
   // --- Defer post list fetch ---
   const BATCH = 5;
