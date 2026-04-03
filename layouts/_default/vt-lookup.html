@@ -114,6 +114,7 @@ async function lookupHash() {
 
   resultDiv.classList.remove("hidden");
   resultDiv.innerHTML = '<p style="color:#555;">Looking up ' + hash.substring(0, 16) + '...</p>';
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   try {
     const res = await fetch(`${API}/api/vt/lookup/${hash}`);
