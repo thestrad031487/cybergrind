@@ -92,6 +92,10 @@ Daily threat intel, interactive tools, and an expanding library of security educ
     url = "/about/"
     weight = 5
   [[menu.main]]
+    name = "Certifications"
+    url = "/certifications/"
+    weight = 5
+  [[menu.main]]
     name = "Data Sources"
     url = "/data-sources/"
     weight = 6
