@@ -44,6 +44,7 @@
 
   .verdict-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .verdict-badge {
+    display: inline-block;
     padding: 0.5rem 1.2rem; border-radius: 6px;
     font-weight: bold; font-size: 1rem;
   }
@@ -93,6 +94,7 @@
   .api-note { margin-top: 1rem; font-size: 0.78rem; color: #444; font-style: italic; }
   .not-found { color: #888; }
   .not-found p { margin: 0.5rem 0; }
+  .not-found .verdict-bar { margin-bottom: 1rem; }
 </style>
 
 <script>
@@ -126,7 +128,7 @@ async function lookupHash() {
       resultDiv.innerHTML = `
         <div class="not-found">
           <div class="verdict-bar">
-            <div class="verdict-badge verdict-unknown">? Not Found</div>
+            <span class="verdict-badge verdict-unknown">? Not Found</span>
           </div>
           <p style="color:#888;">This hash was not found in the VirusTotal database.</p>
           <p class="api-note">Try searching directly on <a href="https://www.virustotal.com/gui/file/${hash}" target="_blank" rel="noopener" style="color:#0070f3;">VirusTotal →</a></p>
