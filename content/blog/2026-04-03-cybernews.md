@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest news and trends, and there are two stories that caught my attention today.
+
+The first one is the revelation that over 14,000 F5 BIG-IP APM instances are still exposed to RCE attacks. This is a clear case of a known vulnerability being exploited by attackers, and it's alarming that so many instances remain unpatched. As someone who has worked on numerous high-profile breaches, I can attest that this kind of negligence can lead to catastrophic consequences. It's crucial for organizations to take immediate action to patch these vulnerabilities and ensure their systems are secure.
+
+The second story that caught my attention is the news that WhatsApp just caught an Italian spyware firm building a fake version of its app for iPhones. This is a chilling example of how attackers are becoming increasingly sophisticated in their tactics, using social engineering and deception to gain access to sensitive information. As a security professional, it's essential to stay vigilant and educate users about the dangers of such attacks.
+
+**🔧 Patch Priority:** F5 BIG-IP APM instances need immediate attention, as they remain vulnerable to RCE attacks and could be exploited by attackers at any moment.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
