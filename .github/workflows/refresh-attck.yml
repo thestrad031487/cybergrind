@@ -1,0 +1,44 @@
+name: Refresh ATT&CK Data
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'   # 1st of every month at 6am UTC
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
+
+jobs:
+  refresh-attck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true   # Required for PaperMod theme submodule
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Fetch ATT&CK data
+        run: python scripts/fetch_attck.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          git diff --quiet static/data/attck-enterprise.json static/data/attck-ics.json \
+            && echo "changed=false" >> $GITHUB_OUTPUT \
+            || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/data/attck-enterprise.json static/data/attck-ics.json
+          git commit -m "chore: refresh ATT&CK data ($(date -u '+%Y-%m-%d'))"
+          git push
+
+      - name: No changes detected
+        if: steps.diff.outputs.changed == 'false'
+        run: echo "ATT&CK data is already up to date — no commit needed."

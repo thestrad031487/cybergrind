@@ -7,8 +7,22 @@
   <meta name="twitter:image" content="{{ . | absURL }}">
   {{- end }}
 {{- end }}
-
 {{- /* Explicit og:type for homepage */}}
 {{- if .IsHome }}
 <meta property="og:type" content="website">
+{{- end }}
+
+{{- /* Google Analytics 4 */}}
+{{- if eq hugo.Environment "production" }}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XENP5DT1M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9XENP5DT1M');
+</script>
+
+{{- /* Cloudflare Web Analytics */}}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token": "d6bf07c029f14227953bec24d86567b9"}'></script>
 {{- end }}
