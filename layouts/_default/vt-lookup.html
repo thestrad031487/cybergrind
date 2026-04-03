@@ -125,8 +125,11 @@ async function lookupHash() {
     if (!data.found) {
       resultDiv.innerHTML = `
         <div class="not-found">
-          <div class="verdict-badge verdict-unknown">? Not Found</div>
-          <p style="margin-top:1rem;color:#888;">This hash was not found in the VirusTotal database.</p>
+          <div class="verdict-bar">
+            <div class="verdict-badge verdict-unknown">? Not Found</div>
+          </div>
+          <p style="color:#888;">This hash was not found in the VirusTotal database.</p>
+          <p class="api-note">Try searching directly on <a href="https://www.virustotal.com/gui/file/${hash}" target="_blank" rel="noopener" style="color:#0070f3;">VirusTotal →</a></p>
         </div>
       `;
       return;
