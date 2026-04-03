@@ -1,0 +1,150 @@
+{{ define "main" }}
+<div class="certs-page">
+  <h1>Certifications</h1>
+  <p class="certs-intro">Professional certifications and credentials in cybersecurity.</p>
+
+  <div class="certs-grid">
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">TryHackMe</span>
+          <span class="cert-date">January 20, 2026</span>
+        </div>
+        <h2 class="cert-title">Cyber Security 101</h2>
+      </div>
+      <p class="cert-description">Learn everything you need to embark on a career path in offensive or defensive cyber security.</p>
+      <ul class="cert-bullets">
+        <li>Explore computer networking and cryptography</li>
+        <li>Learn the basics of Linux, Windows, and AD</li>
+        <li>Explore the world of offensive cyber security</li>
+        <li>Discover the techniques of defensive security</li>
+      </ul>
+      <div class="cert-footer">
+        <a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-TTYHUDAJU5.pdf" target="_blank" rel="noopener" class="cert-btn">View Certificate →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .certs-page {
+    max-width: 900px;
+    margin: 2rem auto;
+  }
+
+  .certs-intro {
+    color: #888;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .cert-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .cert-card:hover {
+    border-color: #f97316;
+  }
+
+  .cert-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .cert-issuer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cert-issuer {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #f97316;
+    font-weight: 600;
+  }
+
+  .cert-date {
+    font-size: 0.75rem;
+    color: #555;
+    font-family: monospace;
+  }
+
+  .cert-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .cert-description {
+    font-size: 0.875rem;
+    color: #888;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .cert-bullets {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .cert-bullets li {
+    font-size: 0.825rem;
+    color: #aaa;
+    line-height: 1.4;
+  }
+
+  .cert-footer {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid #1e1e1e;
+  }
+
+  .cert-btn {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: transparent;
+    border: 1px solid #f97316;
+    border-radius: 6px;
+    color: #f97316;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .cert-btn:hover {
+    background: #f97316;
+    color: #000;
+  }
+
+  @media (max-width: 600px) {
+    .certs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{{ end }}
