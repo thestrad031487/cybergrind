@@ -28,8 +28,6 @@
 
 <!-- Threat Map Preview -->
 {{- if .IsHome }}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <section style="margin: 32px 0;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
     <div>
@@ -56,78 +54,109 @@
     </div>
   </div>
 </section>
-<script>
-(function() {
-  const map = L.map('home-threat-map', {
-    center: [20, 0],
-    zoom: 2,
-    minZoom: 2,
-    maxZoom: 3,
-    zoomControl: false,
-    dragging: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    touchZoom: false,
-    attributionControl: false,
-  });
-
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
-  }).addTo(map);
-
-  function getColor(count) {
-    if (count >= 50) return '#ff0000';
-    if (count >= 20) return '#ff6b00';
-    if (count >= 10) return '#ffaa00';
-    if (count >= 5)  return '#ffdd00';
-    return '#88cc00';
-  }
-
-// Set loading state
-  document.getElementById('hm-total').textContent = '...';
-  document.getElementById('hm-countries').textContent = '...';
-  document.getElementById('hm-top').textContent = '...';
-
-  fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
-    .then(r => {
-      if (!r.ok) throw new Error('Worker returned ' + r.status);
-      return r.json();
-    })
-    .then(data => {
-      data.points.forEach(p => {
-        const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
-        L.circleMarker([p.lat, p.lng], {
-          radius: r,
-          fillColor: getColor(p.count),
-          color: getColor(p.count),
-          weight: 1,
-          opacity: 0.9,
-          fillOpacity: 0.5,
-        }).addTo(map);
-      });
-      document.getElementById('hm-total').textContent = data.totalIPs.toLocaleString();
-      document.getElementById('hm-countries').textContent = data.points.length;
-      document.getElementById('hm-top').textContent = data.topCountries[0];
-    })
-    .catch(err => {
-      console.error('Threat map error:', err);
-      document.getElementById('hm-total').textContent = 'N/A';
-      document.getElementById('hm-countries').textContent = 'N/A';
-      document.getElementById('hm-top').textContent = 'Unavailable';
-    });
-})();
-</script>
 {{- end }}
 
 {{- if .IsHome }}
-<div id="post-list"></div>
+<div id="post-list">
+  <!-- Loading skeleton -->
+  <div id="post-skeleton">
+    {{- range seq 5 }}
+    <article class="post-entry" style="opacity:0.4;">
+      <header class="entry-header"><h2 style="background:var(--entry);border-radius:4px;height:1.2em;width:60%;"> </h2></header>
+      <div class="entry-content"><p style="background:var(--entry);border-radius:4px;height:3em;"> </p></div>
+      <footer class="entry-footer"><span style="background:var(--entry);border-radius:4px;height:1em;width:30%;display:inline-block;"> </span></footer>
+    </article>
+    {{- end }}
+  </div>
+</div>
 <div id="load-more-wrap" style="text-align:center;margin:24px 0;display:none;">
   <button id="load-more-btn" style="padding:10px 28px;background:transparent;border:1px solid var(--primary);color:var(--primary);font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:0.05em;">
     Load More
   </button>
 </div>
+{{- end }}
+
+{{- end }}
+{{- end }}
+
+{{- if .IsHome }}
 <script>
-(function() {
+// Defer all heavy work until after page load
+window.addEventListener('load', function() {
+
+  // --- Lazy load Leaflet then init map ---
+  function loadLeaflet(cb) {
+    if (window.L) { cb(); return; }
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = cb;
+    document.head.appendChild(script);
+  }
+
+  loadLeaflet(function() {
+    const map = L.map('home-threat-map', {
+      center: [20, 0],
+      zoom: 2,
+      minZoom: 2,
+      maxZoom: 3,
+      zoomControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: false,
+      attributionControl: false,
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+    }).addTo(map);
+
+    function getColor(count) {
+      if (count >= 50) return '#ff0000';
+      if (count >= 20) return '#ff6b00';
+      if (count >= 10) return '#ffaa00';
+      if (count >= 5)  return '#ffdd00';
+      return '#88cc00';
+    }
+
+    document.getElementById('hm-total').textContent = '...';
+    document.getElementById('hm-countries').textContent = '...';
+    document.getElementById('hm-top').textContent = '...';
+
+    fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
+      .then(r => {
+        if (!r.ok) throw new Error('Worker returned ' + r.status);
+        return r.json();
+      })
+      .then(data => {
+        data.points.forEach(p => {
+          const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
+          L.circleMarker([p.lat, p.lng], {
+            radius: r,
+            fillColor: getColor(p.count),
+            color: getColor(p.count),
+            weight: 1,
+            opacity: 0.9,
+            fillOpacity: 0.5,
+          }).addTo(map);
+        });
+        document.getElementById('hm-total').textContent = data.totalIPs.toLocaleString();
+        document.getElementById('hm-countries').textContent = data.points.length;
+        document.getElementById('hm-top').textContent = data.topCountries[0];
+      })
+      .catch(err => {
+        console.error('Threat map error:', err);
+        document.getElementById('hm-total').textContent = 'N/A';
+        document.getElementById('hm-countries').textContent = 'N/A';
+        document.getElementById('hm-top').textContent = 'Unavailable';
+      });
+  });
+
+  // --- Defer post list fetch ---
   const BATCH = 5;
   let allPosts = [];
   let shown = 0;
@@ -164,21 +193,21 @@
       list.insertAdjacentHTML('beforeend', renderPost(post));
     });
     shown += batch.length;
-    const btn = document.getElementById('load-more-wrap');
-    btn.style.display = shown < allPosts.length ? 'block' : 'none';
+    const wrap = document.getElementById('load-more-wrap');
+    wrap.style.display = shown < allPosts.length ? 'block' : 'none';
   }
 
   fetch('/index.json')
     .then(r => r.json())
     .then(data => {
+      const skeleton = document.getElementById('post-skeleton');
+      if (skeleton) skeleton.remove();
       allPosts = data.filter(p => p.permalink.includes('/blog/') && p.title && p.title !== '');
       showMore();
       document.getElementById('load-more-btn').addEventListener('click', showMore);
     })
     .catch(err => console.error('Failed to load posts:', err));
-})();
-</script>
-{{- end }}
 
-{{- end }}
+});
+</script>
 {{- end }}
