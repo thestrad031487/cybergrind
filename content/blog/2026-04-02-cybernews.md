@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a surge in attacks targeting Canadian enterprises that's nearly 80% higher year over year. This is a clear indication that our threat landscape is becoming increasingly sophisticated and relentless. It's imperative that organizations take proactive measures to fortify their defenses against these types of cyberattacks.
+
+Another story that caught my attention is the Axios software tool breach, which used by millions, has been compromised in a hack. This highlights the importance of keeping software up-to-date and using reputable tools. A single vulnerability can have catastrophic consequences, especially when used by such a large number of users.
+
+The recent Citrix NetScaler flaw, which received an official patch warning from CISA, is another critical issue that needs immediate attention. As a practitioner, I've seen firsthand the devastating impact of unpatched vulnerabilities on organizations. It's essential to prioritize patching and keep up with the latest security advisories to prevent such incidents.
+
+**🔧 Patch Priority:** Citrix NetScaler CVE-2022-1018, as it affects millions of users worldwide and can be exploited by attackers to gain unauthorized access.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
