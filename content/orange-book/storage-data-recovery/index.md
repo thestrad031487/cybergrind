@@ -6,5 +6,6 @@ infographic: "storage-data-recovery.html"
 back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Logical vs physical failure, 4-tier escalation path with costs, forensic imaging, and the 3-2-1 backup rule visualized."
+categories: ["Storage"]
 tags: ["storage", "data recovery", "backup", "forensics"]
 ---

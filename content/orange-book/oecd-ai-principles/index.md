@@ -1,6 +1,7 @@
 ---
 title: "OECD AI Principles: The Framework Behind the Frameworks"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book", "oecd"]
 description: "The five core OECD AI Principles, their G20 endorsement, downstream influence on global AI policy, and the 2023–2024 generative AI updates."
 ---

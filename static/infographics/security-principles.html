@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure by Design: The Principles Every Practitioner Should Know | CyberGrind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1A1C1E;
+    --entry: #22252A;
+    --card: #2A2D33;
+    --border: #3A3D44;
+    --orange: #FF8C00;
+    --orange-light: #FFAD33;
+    --text: #E4E6EB;
+    --muted: #8E9297;
+    --code-bg: #0D0F11;
+    --success: #4CAF7D;
+    --warning: #F4A62A;
+    --danger: #E55353;
+    --info: #5B9CF6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    padding: 0;
+  }
+
+  .hero {
+    background: var(--entry);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+
+  .hero .tag {
+    display: inline-block;
+    background: var(--orange);
+    color: #0D0F11;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    color: #fff;
+    line-height: 1.2;
+    max-width: 780px;
+    margin: 0 auto 1rem;
+  }
+
+  .hero h1 span { color: var(--orange); }
+
+  .hero .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 620px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .meta span { display: flex; align-items: center; gap: 5px; }
+
+  .content-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 2.75rem 0 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--orange);
+  }
+
+  h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--orange-light);
+    margin: 1.75rem 0 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  p { margin-bottom: 1rem; color: var(--text); }
+
+  .lead {
+    font-size: 1.05rem;
+    color: var(--text);
+    background: var(--entry);
+    border-left: 4px solid var(--orange);
+    padding: 1.1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.75rem;
+    line-height: 1.8;
+  }
+
+  .triad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .triad-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .triad-card .letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .triad-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .triad-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .dad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .dad-card {
+    background: var(--card);
+    border: 1px solid #5a2a2a;
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .dad-card .letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--danger);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .dad-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f08080;
+    margin-bottom: 0.5rem;
+  }
+
+  .dad-card p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+  .model-block {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.25rem 0;
+  }
+
+  .model-block .model-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .model-block h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .rule-list { list-style: none; padding: 0; margin: 0.75rem 0; }
+  .rule-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+  .rule-list li:last-child { border-bottom: none; }
+
+  .rule-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--orange);
+    color: #0D0F11;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .rule-badge.red { background: var(--danger); color: #fff; }
+  .rule-badge.blue { background: var(--info); color: #0D0F11; }
+
+  .limitation-note {
+    background: #2A2010;
+    border-left: 3px solid var(--warning);
+    padding: 0.75rem 1rem;
+    border-radius: 0 5px 5px 0;
+    font-size: 0.88rem;
+    color: #c9a55a;
+    margin-top: 0.75rem;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .principle-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .principle-card .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+  .info-box {
+    background: #0e1e30;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .info-box .info-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--info);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .info-box p { color: #9bb8d8; font-size: 0.92rem; margin: 0; }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .trust-grid { grid-template-columns: 1fr; }
+  }
+
+  .trust-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .trust-card h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 0.75rem;
+  }
+
+  .trust-card p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+  .vtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .vtable th {
+    background: var(--card);
+    color: var(--orange);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--orange);
+  }
+
+  .vtable td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .vtable tr:last-child td { border-bottom: none; }
+  .vtable tr:hover td { background: var(--entry); }
+
+  .vtable .term {
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  .scenario-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .scenario-box .scenario-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .scenario-box p { color: #ccc; font-size: 0.9rem; margin: 0; }
+
+  .hexad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+
+  .hexad-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem;
+    text-align: center;
+  }
+
+  .hexad-item .hnum {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .hexad-item .hname {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .hexad-item.extra .hname { color: var(--orange-light); }
+
+  .refs {
+    background: var(--entry);
+    border-top: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .refs h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin: 0 0 1rem;
+    padding-left: 0;
+    border-left: none;
+    font-weight: 700;
+  }
+
+  .refs ol {
+    padding-left: 1.25rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .refs ol li { margin-bottom: 0.6rem; }
+  .refs ol a { color: var(--info); text-decoration: none; }
+  .refs ol a:hover { text-decoration: underline; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .callout {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .callout strong { color: var(--orange-light); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem; }
+    .content-wrap { padding: 2rem 1.25rem 3rem; }
+    h2 { font-size: 1.2rem; }
+    .triad-grid, .dad-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">Orange Book &bull; Security Foundations</div>
+  <h1>Secure by Design: <span>The Principles Every Practitioner Should Know</span></h1>
+  <p class="subtitle">From the CIA Triad and formal security models to Zero Trust and ISO/IEC 19249 — a practitioner's guide to foundational security thinking.</p>
+  <div class="meta">
+    <span>&#x1F5D3; April 2026</span>
+    <span>&#x23F1; ~15 min read</span>
+    <span>&#x1F3F7; Security Foundations</span>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="lead">
+    Security has become a buzzword. Every product claims to be secure. But knowing what security actually <em>means</em> — and being able to reason about it against a real adversary — is where practitioners separate themselves from the noise.
+  </div>
+
+  <p>Before any principle, model, or control makes sense, you have to ask a foundational question: <strong>who are you protecting against?</strong> The threat model shapes everything. Defending against a curious teenager is a very different problem than defending against a nation-state actor targeting proprietary designs worth millions. Applying the same controls to both scenarios is at best wasteful and at worst dangerously naive.</p>
+
+  <p>One more ground truth before we begin: <strong>perfect security does not exist.</strong> No system is 100% secure. The goal is to raise the cost and complexity of an attack until it exceeds what your adversary is willing or able to spend. With that framing, let's build the foundation.</p>
+
+  <hr class="divider">
+
+  <h2>The CIA Triad: Security's Core Objectives</h2>
+
+  <p>When evaluating whether any system is "secure," you need a framework for what security actually means. The industry-standard lens is the <strong>CIA Triad</strong> — three properties that together define the security posture of a system.</p>
+
+  <div class="triad-grid">
+    <div class="triad-card">
+      <span class="letter">C</span>
+      <h4>Confidentiality</h4>
+      <p>Only intended recipients can access the data. Unauthorized disclosure is a failure of confidentiality.</p>
+    </div>
+    <div class="triad-card">
+      <span class="letter">I</span>
+      <h4>Integrity</h4>
+      <p>Data cannot be altered without detection. If alteration occurs, we can identify it. Unauthorized modification is a failure of integrity.</p>
+    </div>
+    <div class="triad-card">
+      <span class="letter">A</span>
+      <h4>Availability</h4>
+      <p>Systems and services are accessible when needed. Disruption of legitimate access is a failure of availability.</p>
+    </div>
+  </div>
+
+  <p>These three properties exist in tension. Pushing confidentiality and integrity to extremes often restricts availability. Maximizing availability can erode confidentiality and integrity. Good security design finds the right balance for the context — and the emphasis doesn't have to be equal. A university's public announcement needs strong integrity but almost no confidentiality.</p>
+
+  <div class="scenario-box">
+    <div class="scenario-label">&#x1F6D2; Example — Online Shopping</div>
+    <p><strong>Confidentiality:</strong> Your credit card number goes only to the payment processor. A breach disclosing it violates confidentiality. &nbsp;&bull;&nbsp; <strong>Integrity:</strong> If an attacker can alter your shipping address, the system's integrity is compromised. &nbsp;&bull;&nbsp; <strong>Availability:</strong> If the store's checkout is unavailable during purchase, availability has failed — and you'll shop elsewhere.</p>
+  </div>
+
+  <div class="scenario-box">
+    <div class="scenario-label">&#x1F3E5; Example — Patient Records</div>
+    <p><strong>Confidentiality:</strong> Healthcare providers are legally required to protect medical records. Unauthorized disclosure is a compliance failure and a legal liability. &nbsp;&bull;&nbsp; <strong>Integrity:</strong> Altered medical records can lead to wrong treatment — a potentially life-threatening outcome. &nbsp;&bull;&nbsp; <strong>Availability:</strong> A paperless clinic with an unavailable EHR system cannot deliver care effectively.</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2>Beyond CIA: Authenticity, Nonrepudiation, and the Parkerian Hexad</h2>
+
+  <p>Two additional properties extend the CIA Triad into territory the original three don't fully cover:</p>
+
+  <p><strong>Authenticity</strong> — The assurance that a document, file, or message is genuinely from its claimed source. Not a forgery or counterfeit.</p>
+
+  <p><strong>Nonrepudiation</strong> — The property that prevents the original source from later denying they were the source. Critical for commerce, banking, healthcare, and any system where accountability matters. If a purchase order arrives for 1,000 vehicles, you need to know it's authentic <em>and</em> that the sender cannot later claim they never placed it.</p>
+
+  <p>In 1998, security consultant Donn Parker proposed extending CIA into a more complete framework: the <strong>Parkerian Hexad</strong> — six elements covering the full security surface.</p>
+
+  <div class="hexad-grid">
+    <div class="hexad-item"><span class="hnum">01</span><span class="hname">Availability</span></div>
+    <div class="hexad-item"><span class="hnum">02</span><span class="hname">Integrity</span></div>
+    <div class="hexad-item"><span class="hnum">03</span><span class="hname">Confidentiality</span></div>
+    <div class="hexad-item"><span class="hnum">04</span><span class="hname">Authenticity</span></div>
+    <div class="hexad-item extra"><span class="hnum">05</span><span class="hname">Utility</span></div>
+    <div class="hexad-item extra"><span class="hnum">06</span><span class="hname">Possession</span></div>
+  </div>
+
+  <p>The two additions that CIA misses:</p>
+
+  <p><strong>Utility</strong> — Information in a form you cannot use has no utility. A laptop with encrypted storage and a lost decryption key is <em>available</em> in a physical sense, but the data is useless. Utility captures whether information is actually accessible in a meaningful form.</p>
+
+  <p><strong>Possession</strong> — Control of the physical or logical medium holding the information. Ransomware attacks are a textbook loss of possession: your data still exists on your drives, but you no longer control it.</p>
+
+  <hr class="divider">
+
+  <h2>The DAD Triad: How Attacks Target the CIA</h2>
+
+  <p>Every meaningful attack on a system targets one or more elements of the CIA Triad. The inverse framework — the <strong>DAD Triad</strong> — maps these attacks directly.</p>
+
+  <div class="dad-grid">
+    <div class="dad-card">
+      <span class="letter">D</span>
+      <h4>Disclosure</h4>
+      <p>Attack on Confidentiality. Stealing and publishing medical records. Dumping credentials. Exfiltrating PII.</p>
+    </div>
+    <div class="dad-card">
+      <span class="letter">A</span>
+      <h4>Alteration</h4>
+      <p>Attack on Integrity. Modifying patient records. Tampering with financial transactions. Changing configuration files.</p>
+    </div>
+    <div class="dad-card">
+      <span class="letter">D</span>
+      <h4>Destruction / Denial</h4>
+      <p>Attack on Availability. Ransomware making systems unreachable. DDoS attacks. Deleting databases.</p>
+    </div>
+  </div>
+
+  <p>Understanding DAD helps practitioners think like attackers: what is the adversary actually trying to accomplish? That framing drives more effective control selection.</p>
+
+  <hr class="divider">
+
+  <h2>Security Models: Formalizing the Rules</h2>
+
+  <p>Principles tell us <em>what</em> we want to achieve. Security models provide formal structures — mathematical rules — for <em>how</em> to achieve them. Three foundational models every security practitioner should know:</p>
+
+  <div class="model-block">
+    <div class="model-name">Confidentiality Model</div>
+    <h4>Bell-LaPadula Model (1973)</h4>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem;">Developed by David Elliott Bell and Leonard J. LaPadula at the MITRE Corporation under contract to the U.S. Air Force, with guidance from Roger R. Schell, to formalize the Department of Defense's multilevel security policy. The model was published in 1973 and became the foundational reference for mandatory access control in government and military systems.</p>
+    <ul class="rule-list">
+      <li><span class="rule-badge">Simple Security</span><span>No Read Up — a subject at a lower security clearance cannot read data at a higher classification level. Prevents upward information leakage.</span></li>
+      <li><span class="rule-badge">Star (*) Property</span><span>No Write Down — a subject at a higher clearance cannot write data to a lower classification level. Prevents downward disclosure.</span></li>
+      <li><span class="rule-badge">Discretionary</span><span>An access matrix governs additional read/write permissions, applied in conjunction with the first two rules.</span></li>
+    </ul>
+    <p style="font-size:0.88rem;color:var(--muted);margin-top:0.75rem;">The model is summarized as <strong style="color:var(--text)">"write up, read down."</strong> You can share information upward to higher-clearance subjects; you can receive information from lower-clearance subjects. Think Top Secret researchers — they can write to TS files but cannot create public files. They can read Secret documents but not Top Secret if not cleared.</p>
+    <div class="limitation-note">&#x26A0; Limitation: Bell-LaPadula was not designed to handle file sharing and focuses solely on confidentiality — it does not address integrity or availability.</div>
+  </div>
+
+  <div class="model-block">
+    <div class="model-name">Integrity Model</div>
+    <h4>Biba Integrity Model</h4>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem;">Where Bell-LaPadula protects confidentiality, Biba is the integrity counterpart. Its rules are intentionally the inverse.</p>
+    <ul class="rule-list">
+      <li><span class="rule-badge red">Simple Integrity</span><span>No Read Down — a higher-integrity subject should not read from a lower-integrity source. Prevents contamination of trusted processes by untrusted input.</span></li>
+      <li><span class="rule-badge red">Star (*) Integrity</span><span>No Write Up — a lower-integrity subject should not write to a higher-integrity object. Prevents corruption of trusted data by untrusted subjects.</span></li>
+    </ul>
+    <p style="font-size:0.88rem;color:var(--muted);margin-top:0.75rem;">The Biba summary: <strong style="color:var(--text)">"read up, write down."</strong> The opposite of Bell-LaPadula — by design, since they serve opposite goals.</p>
+    <div class="limitation-note">&#x26A0; Limitation: Biba does not handle internal threats. An authorized high-integrity user acting maliciously is outside its scope.</div>
+  </div>
+
+  <div class="model-block">
+    <div class="model-name">Integrity Model (Commercial)</div>
+    <h4>Clark-Wilson Model</h4>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem;">Designed for commercial environments, Clark-Wilson enforces integrity through well-formed transactions and separation of duties rather than simple access labels.</p>
+    <ul class="rule-list">
+      <li><span class="rule-badge blue">CDI</span><span>Constrained Data Item — the data whose integrity we protect. Only reachable through controlled transformation procedures.</span></li>
+      <li><span class="rule-badge blue">UDI</span><span>Unconstrained Data Item — user input and system input, which must be validated before entering the controlled space.</span></li>
+      <li><span class="rule-badge blue">TP</span><span>Transformation Procedures — the only authorized operations (read, write) allowed on CDIs. They must maintain CDI integrity.</span></li>
+      <li><span class="rule-badge blue">IVP</span><span>Integrity Verification Procedures — checks that confirm CDIs remain in a valid state.</span></li>
+    </ul>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--muted);">Other notable models worth exploring independently: Brewer-Nash (Chinese Wall), Goguen-Meseguer, Sutherland, Graham-Denning, and Harrison-Ruzzo-Ullman.</p>
+
+  <hr class="divider">
+
+  <h2>Defence in Depth: Multi-Level Security</h2>
+
+  <p>No single control stops every attacker. Defence in Depth — also called Multi-Level Security — is the principle of stacking multiple independent security layers so that failure at any one layer doesn't mean total compromise.</p>
+
+  <p>The analogy is simple: a locked drawer inside a locked room inside a locked apartment inside a gated building. Each layer slows the attacker, increases their risk of detection, and forces them to spend more resources. The combination protects far more than any single lock.</p>
+
+  <p>In practice: network segmentation, endpoint controls, identity verification, application-layer filtering, logging and detection, and physical access controls all working together — not as backup for each other, but as independent barriers.</p>
+
+  <hr class="divider">
+
+  <h2>ISO/IEC 19249: International Security Architecture Principles</h2>
+
+  <p>The International Organization for Standardization (ISO) and the International Electrotechnical Commission (IEC) jointly published <strong>ISO/IEC TS 19249:2017</strong> — a catalogue of architectural and design principles for building secure products, systems, and applications. The standard was confirmed again in 2024, meaning it remains current guidance.</p>
+
+  <div class="info-box">
+    <div class="info-label">&#x2139; About the Standard</div>
+    <p>ISO/IEC TS 19249:2017 provides a catalogue of architectural and design principles that can be used in the development of secure products, systems, and applications, together with guidance on how to use those principles effectively. It does not establish requirements for evaluation or certification — it is a design guidance document.</p>
+  </div>
+
+  <h3>Five Architectural Principles</h3>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="num">01</div>
+      <h4>Domain Separation</h4>
+      <p>Related components are grouped into domains with shared security attributes. Domains communicate only over controlled, well-defined channels. Example: x86 ring levels — kernel at ring 0, user applications at ring 3.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">02</div>
+      <h4>Layering</h4>
+      <p>Systems are structured in abstract levels. Security policies can be imposed and validated at each layer independently. The OSI network model is the canonical example. Directly relates to Defence in Depth.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">03</div>
+      <h4>Encapsulation</h4>
+      <p>Low-level implementations are hidden behind controlled interfaces (APIs). Prevents direct manipulation of internal data. Like OOP's private fields — you call increment(), you don't access the variable directly.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">04</div>
+      <h4>Redundancy</h4>
+      <p>Supports both availability and integrity. Dual power supplies, RAID 5 arrays, geographic failover. If a component fails — or is tampered with — the system continues functioning and can detect the discrepancy.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">05</div>
+      <h4>Virtualization</h4>
+      <p>Sharing hardware across multiple isolated operating systems. Provides sandboxing, improved security boundaries, and the ability to safely detonate and observe malicious code in isolated environments.</p>
+    </div>
+  </div>
+
+  <h3>Five Design Principles</h3>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="num">01</div>
+      <h4>Least Privilege</h4>
+      <p>Grant only the minimum permissions necessary to complete a task — nothing more. A user needing read access gets read only. Limits blast radius when credentials are compromised.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">02</div>
+      <h4>Attack Surface Minimization</h4>
+      <p>Every unnecessary service, port, or feature is a potential attack vector. Harden by disabling anything you don't need. A smaller surface means fewer opportunities for exploitation.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">03</div>
+      <h4>Centralized Parameter Validation</h4>
+      <p>All user and system input should flow through a single, centralized validation library. Prevents injection attacks, DoS from malformed input, and remote code execution from inconsistent validation across the codebase.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">04</div>
+      <h4>Centralized Security Services</h4>
+      <p>Centralize authentication, authorization, and auditing rather than implementing them independently across subsystems. Reduces inconsistency and simplifies policy enforcement — though single-points-of-failure must be mitigated.</p>
+    </div>
+    <div class="principle-card">
+      <div class="num">05</div>
+      <h4>Prepare for Error Handling</h4>
+      <p>Design systems to fail safe. A crashed firewall should block all traffic, not allow all traffic. Error messages should never leak internal state or sensitive data. Plan for the unexpected — it will happen.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h2>Trust Models: Trust but Verify vs. Zero Trust</h2>
+
+  <p>Trust is unavoidable at scale — but how you extend it defines your security posture. Two contrasting principles frame the modern debate.</p>
+
+  <div class="trust-grid">
+    <div class="trust-card">
+      <h4>Trust but Verify</h4>
+      <p>Trust is extended to entities — users, systems, devices — but continuously monitored. Verification happens through logging, anomaly detection, and automated controls like IDS/IPS and proxies. The phrase originates from a Russian proverb; it gained currency in security circles through its use in Cold War arms negotiation framing. In practice, verifying everything manually isn't feasible — automation carries the load.</p>
+    </div>
+    <div class="trust-card">
+      <h4>Zero Trust</h4>
+      <p>Treats trust itself as a vulnerability. The framework — coined by John Kindervag at Forrester Research in 2010 — operates on "never trust, always verify." No user or device is implicitly trusted based on network location or ownership. Every access request requires authentication and authorization. Microsegmentation is a key implementation pattern: network segments can be as small as a single host, requiring verification to cross any boundary. Particularly effective at containing insider threats and limiting lateral movement.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Historical note:</strong> The Zero Trust model was formally introduced by John Kindervag in his 2010 Forrester Research report <em>"No More Chewy Centers: Introducing the Zero Trust Model of Information Security."</em> The concept was later operationalized at scale by Google's BeyondCorp initiative, which began internally in 2009 and was published publicly in 2014. NIST formalized Zero Trust Architecture guidance in SP 800-207. In 2021, Kindervag co-authored the U.S. President's NSTAC Zero Trust report.
+  </div>
+
+  <p>Zero Trust doesn't require discarding existing controls. It's an architectural philosophy applied incrementally. There is a practical ceiling — applying it too aggressively can impede business operations — but the principle should be stretched as far as feasible.</p>
+
+  <hr class="divider">
+
+  <h2>Vulnerability, Threat, and Risk: Getting the Terms Right</h2>
+
+  <p>These three terms are frequently conflated. They are distinct concepts and conflating them produces muddled risk conversations.</p>
+
+  <table class="vtable">
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th>Definition</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="term">Vulnerability</td>
+        <td>A weakness in a system, process, or control that could be exploited.</td>
+        <td>A showroom with standard plate glass windows. A database running an unpatched version with a known CVE.</td>
+      </tr>
+      <tr>
+        <td class="term">Threat</td>
+        <td>The potential danger associated with exploiting a vulnerability.</td>
+        <td>The glass windows can be broken. A proof-of-concept exploit for the CVE has been published publicly.</td>
+      </tr>
+      <tr>
+        <td class="term">Risk</td>
+        <td>The likelihood that a threat actor exploits the vulnerability, combined with the resulting business impact.</td>
+        <td>How likely is smash-and-grab at this location? What business damage would a successful database breach cause?</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="scenario-box">
+    <div class="scenario-label">&#x1F4CB; Scenario — Hospital Database</div>
+    <p>Your hospital uses a specific database system for all medical records. A security advisory reveals that system is vulnerable — and a working proof-of-concept exploit has been publicly released. The vulnerability is confirmed. The threat is real (working exploit exists). Now you must assess the <strong>risk</strong>: how likely is exploitation in your environment, and what is the impact if patient records are altered, disclosed, or made unavailable? That risk assessment drives your response — patching timeline, compensating controls, incident response readiness.</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2>The Shared Responsibility Model</h2>
+
+  <p>As organizations increasingly rely on cloud services, one additional principle becomes essential: <strong>the Shared Responsibility Model</strong>. Security in the cloud is not the cloud provider's problem alone — it is explicitly divided between provider and customer based on the service model.</p>
+
+  <p>An <strong>IaaS</strong> customer controls the operating system, applications, and data — and is responsible for securing all of it. A <strong>SaaS</strong> customer has no access to the underlying infrastructure, so their responsibilities are narrower — but they still own identity management, data classification, and access control configurations. Neither party can simply assume the other is handling it. Both must know where their responsibility begins and ends.</p>
+
+  <div class="callout">
+    <strong>Practitioner takeaway:</strong> Before deploying any cloud workload, map the shared responsibility boundary explicitly. Document what you own, what the provider owns, and where the handoff occurs. Gaps at that boundary are where breaches happen.
+  </div>
+
+</div>
+
+<div class="refs">
+  <h2>References &amp; Sources</h2>
+  <ol>
+    <li>Bell, D. E., &amp; LaPadula, L. J. (1973). <em>Secure Computer Systems: Mathematical Foundations.</em> MITRE Corporation, MTR-2547, Vol. I. [Original foundational publication, as cited in Wikipedia Bell-LaPadula article and Grokipedia.] <a href="https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model" target="_blank">en.wikipedia.org/wiki/Bell-LaPadula_model</a></li>
+    <li>Bell, D. E. (2005). <em>Looking Back at the Bell-LaPadula Model.</em> 21st Annual Computer Security Applications Conference (ACSAC), Tucson, AZ. <a href="https://www.acsac.org/2005/papers/Bell.pdf" target="_blank">acsac.org/2005/papers/Bell.pdf</a></li>
+    <li>Wikipedia. <em>David Elliott Bell.</em> Notes Bell's induction into the Cyber Security Hall of Fame (2013) and his role at MITRE. <a href="https://en.wikipedia.org/wiki/David_Elliott_Bell" target="_blank">en.wikipedia.org/wiki/David_Elliott_Bell</a></li>
+    <li>ISO. (2017, confirmed 2024). <em>ISO/IEC TS 19249:2017 — Information technology — Security techniques — Catalogue of architectural and design principles for secure products, systems and applications.</em> <a href="https://www.iso.org/standard/64140.html" target="_blank">iso.org/standard/64140.html</a></li>
+    <li>Kindervag, J. (2010). <em>No More Chewy Centers: Introducing the Zero Trust Model of Information Security.</em> Forrester Research. Discussed and cited at: <a href="https://www.isc2.org/Insights/2025/10/15-Years-of-Zero-Trust" target="_blank">ISC2 — 15 Years of Zero Trust</a></li>
+    <li>Google Cloud. (2014+). <em>BeyondCorp — Google's Zero Trust Implementation.</em> <a href="https://cloud.google.com/learn/what-is-zero-trust" target="_blank">cloud.google.com/learn/what-is-zero-trust</a></li>
+    <li>NIST. (2020). <em>SP 800-207: Zero Trust Architecture.</em> National Institute of Standards and Technology. Referenced via: <a href="https://www.nist.gov/blogs/taking-measure/zero-trust-cybersecurity-never-trust-always-verify" target="_blank">nist.gov/blogs/taking-measure/zero-trust-cybersecurity-never-trust-always-verify</a></li>
+    <li>EBSCO Research Starters. <em>Zero Trust Security Model.</em> Covers Kindervag's 2010 introduction and early adoption by Google and Akamai. <a href="https://www.ebsco.com/research-starters/computer-science/zero-trust-security-model" target="_blank">ebsco.com/research-starters/computer-science/zero-trust-security-model</a></li>
+    <li>Illumio Blog. (2023). <em>John Kindervag Shares Zero Trust's Origin Story.</em> <a href="https://www.illumio.com/blog/john-kindervag-shares-zero-trusts-origin-story" target="_blank">illumio.com/blog/john-kindervag-shares-zero-trusts-origin-story</a></li>
+    <li>TechTarget. (2022). <em>History and Evolution of Zero Trust Security.</em> <a href="https://www.techtarget.com/whatis/feature/History-and-evolution-of-zero-trust-security" target="_blank">techtarget.com — Zero Trust History</a></li>
+    <li>The source material for this post was provided by the CyberGrind editorial team as foundational training content. External citations were added to support specific historical claims (Bell-LaPadula origin, ISO/IEC 19249 scope, Zero Trust origin and development). All unverifiable claims were flagged for exclusion rather than assumed.</li>
+  </ol>
+</div>
+
+</body>
+</html>

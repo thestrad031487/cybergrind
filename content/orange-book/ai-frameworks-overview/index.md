@@ -1,6 +1,7 @@
 ---
 title: "AI Governance Frameworks & Risk: A Complete Landscape"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book"]
 description: "A comprehensive overview of major AI governance frameworks, the MIT AI Risk Repository's 7 risk domains, and how they compare across the regulatory landscape."
 ---

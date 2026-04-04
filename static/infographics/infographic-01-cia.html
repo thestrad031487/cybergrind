@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIA Triad — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1A1C1E;
+    --entry: #22252A;
+    --card: #2A2D33;
+    --border: #3A3D44;
+    --orange: #FF8C00;
+    --orange-light: #FFAD33;
+    --text: #E4E6EB;
+    --muted: #8E9297;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    font-family: 'Syne', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem 3rem;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.15s; }
+  .d3 { animation-delay: 0.25s; }
+  .d4 { animation-delay: 0.35s; }
+  .d5 { animation-delay: 0.45s; }
+  .d6 { animation-delay: 0.55s; }
+  .d7 { animation-delay: 0.65s; }
+
+  .header { text-align: center; margin-bottom: 2.5rem; }
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0D0F11;
+    background: var(--orange);
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-bottom: 0.9rem;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  h1 span { color: var(--orange); }
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .triad-wrap {
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .triad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  @media(max-width:640px) {
+    .triad-grid { grid-template-columns: 1fr; }
+  }
+
+  .triad-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .triad-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--orange);
+  }
+  .triad-card.integrity::before { background: #5B9CF6; }
+  .triad-card.availability::before { background: #4CAF7D; }
+
+  .big-letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .triad-card.integrity .big-letter { color: #5B9CF6; }
+  .triad-card.availability .big-letter { color: #4CAF7D; }
+
+  .triad-card h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+  .triad-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .triad-card .goal {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    background: rgba(255,140,0,0.1);
+    border: 1px solid rgba(255,140,0,0.25);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .triad-card.integrity .goal {
+    color: #5B9CF6;
+    background: rgba(91,156,246,0.1);
+    border-color: rgba(91,156,246,0.25);
+  }
+  .triad-card.availability .goal {
+    color: #4CAF7D;
+    background: rgba(76,175,125,0.1);
+    border-color: rgba(76,175,125,0.25);
+  }
+
+  .balance-box {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 2rem;
+  }
+  .balance-box p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .balance-box strong { color: var(--orange-light); }
+
+  .examples-section { max-width: 900px; margin: 0 auto; }
+  .examples-section h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .example-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media(max-width:600px) { .example-tabs { grid-template-columns: 1fr; } }
+
+  .example-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .example-card .ex-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    margin-bottom: 0.75rem;
+  }
+  .ex-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .ex-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    height: fit-content;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .ex-badge.c { background: rgba(255,140,0,0.15); color: var(--orange); border: 1px solid rgba(255,140,0,0.3); }
+  .ex-badge.i { background: rgba(91,156,246,0.15); color: #5B9CF6; border: 1px solid rgba(91,156,246,0.3); }
+  .ex-badge.a { background: rgba(76,175,125,0.15); color: #4CAF7D; border: 1px solid rgba(76,175,125,0.3); }
+  .ex-row span { color: var(--muted); }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .footer-note span { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 01 / 09</div>
+  <h1>The <span>CIA Triad</span></h1>
+  <p class="subtitle">Three properties that define what it means for a system to be secure — and the balance every practitioner must strike between them.</p>
+</div>
+
+<div class="triad-wrap">
+  <div class="triad-grid">
+    <div class="triad-card fade d2">
+      <div class="big-letter">C</div>
+      <h2>Confidentiality</h2>
+      <p>Only intended persons or recipients can access the data. Unauthorized disclosure is a failure of confidentiality.</p>
+      <div class="goal">Prevent Unauthorized Access</div>
+    </div>
+    <div class="triad-card integrity fade d3">
+      <div class="big-letter">I</div>
+      <h2>Integrity</h2>
+      <p>Data cannot be altered without detection. If alteration occurs, we can identify it occurred and what changed.</p>
+      <div class="goal">Prevent Unauthorized Modification</div>
+    </div>
+    <div class="triad-card availability fade d4">
+      <div class="big-letter">A</div>
+      <h2>Availability</h2>
+      <p>Systems and services are accessible when needed by authorized users. Disruption of access is a failure.</p>
+      <div class="goal">Prevent Disruption of Access</div>
+    </div>
+  </div>
+</div>
+
+<div class="balance-box fade d5">
+  <p><strong>The Tension:</strong> Pushing confidentiality and integrity to extremes restricts availability. Maximizing availability can erode confidentiality and integrity. Security design requires finding the right balance for the context — and the emphasis does not need to be equal. A public university announcement needs strong integrity but minimal confidentiality.</p>
+</div>
+
+<div class="examples-section fade d6">
+  <h3>Real-World Applications</h3>
+  <div class="example-tabs">
+    <div class="example-card">
+      <div class="ex-title">&#x1F6D2; Online Shopping</div>
+      <div class="ex-row">
+        <span class="ex-badge c">C</span>
+        <span>Credit card number disclosed only to the payment processor. A breach exposes this data to untrusted parties.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge i">I</span>
+        <span>If an attacker alters your shipping address, your order goes to the wrong recipient.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">A</span>
+        <span>If checkout is unavailable during your purchase, the transaction fails and you shop elsewhere.</span>
+      </div>
+    </div>
+    <div class="example-card">
+      <div class="ex-title">&#x1F3E5; Patient Records</div>
+      <div class="ex-row">
+        <span class="ex-badge c">C</span>
+        <span>Healthcare providers are legally required to protect medical records. Illegal disclosure triggers legal liability.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge i">I</span>
+        <span>Altered records can lead to wrong treatment being administered — a life-threatening integrity failure.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">A</span>
+        <span>A paperless clinic with an unavailable EHR system cannot effectively deliver or document patient care.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note fade d7">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

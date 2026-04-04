@@ -1,8 +1,8 @@
 ---
 title: "From Punch Cards to Exascale: A History of Computers and Supercomputers"
 date: 2026-03-25T09:00:00-05:00
+categories: ["Hardware"]
 tags: ["history", "supercomputers", "hardware"]
-categories: ["Orange Book"]
 draft: false
 ---
 

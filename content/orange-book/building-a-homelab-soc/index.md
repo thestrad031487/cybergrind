@@ -1,6 +1,7 @@
 ---
 title: "How We Built CyberGrind"
 date: 2026-04-02T08:00:00-05:00
+categories: ["Architecture"]
 tags: ["project", "hugo", "cloudflare", "docker", "python", "homelab", "devops"]
 description: "A full walkthrough of how CyberGrind was designed and built — from Hugo and GitHub to Cloudflare Pages, Workers, a self-hosted CTI pipeline, and a daily news automation system."
 draft: false

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO/IEC 19249 — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1C1E;--entry:#22252A;--card:#2A2D33;--border:#3A3D44;--orange:#FF8C00;--orange-light:#FFAD33;--text:#E4E6EB;--muted:#8E9297;--blue:#5B9CF6;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Syne',sans-serif;color:var(--text);padding:2.5rem 1.5rem 3rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  .fade{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.2s}.d4{animation-delay:.3s}.d5{animation-delay:.4s}.d6{animation-delay:.5s}.d7{animation-delay:.6s}.d8{animation-delay:.7s}
+
+  .header{text-align:center;margin-bottom:2rem;}
+  .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0D0F11;background:var(--orange);padding:3px 10px;border-radius:3px;margin-bottom:.9rem;}
+  h1{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  h1 span{color:var(--orange);}
+  .subtitle{font-size:.88rem;color:var(--muted);max-width:580px;margin:0 auto;}
+
+  .wrap{max-width:900px;margin:0 auto;}
+
+  .iso-context{
+    background:var(--entry);border:1px solid var(--border);border-radius:10px;
+    padding:1.1rem 1.5rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  }
+  .iso-badge{
+    font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;
+    background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.3);
+    color:var(--orange);padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;
+  }
+  .iso-context p{font-size:.85rem;color:var(--muted);line-height:1.55;flex:1;min-width:200px;}
+  .iso-context strong{color:var(--text);}
+
+  .section-head{
+    font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--orange);
+    display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;
+  }
+  .section-head::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  .principles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-bottom:1.75rem;}
+  .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem;}
+
+  .p-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1.25rem;}
+  .p-card .p-num{
+    font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;
+    color:var(--orange);line-height:1;margin-bottom:.4rem;
+  }
+  .p-card.design .p-num{color:var(--blue);}
+  .p-card h4{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+  .p-card p{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:.6rem;}
+  .p-card .p-ex{
+    font-family:'Space Mono',monospace;font-size:.72rem;
+    background:var(--entry);border:1px solid var(--border);
+    border-radius:4px;padding:.4rem .6rem;color:var(--muted);
+    display:block;line-height:1.4;
+  }
+  .p-card .p-ex em{color:var(--orange-light);font-style:normal;}
+  .p-card.design .p-ex em{color:var(--blue);}
+
+  .mapping-row{
+    background:var(--entry);border:1px solid var(--border);border-radius:8px;
+    padding:1rem 1.5rem;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  }
+  .map-label{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);white-space:nowrap;}
+  .map-tags{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .map-tag{
+    font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;
+    padding:3px 8px;border-radius:3px;
+  }
+  .mt-arch{background:rgba(255,140,0,.12);color:var(--orange);border:1px solid rgba(255,140,0,.25);}
+  .mt-design{background:rgba(91,156,246,.12);color:var(--blue);border:1px solid rgba(91,156,246,.25);}
+
+  .footer-note{text-align:center;margin-top:2rem;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+  .footer-note span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 06 / 09</div>
+  <h1><span>ISO/IEC 19249</span> — Architectural &amp; Design Principles</h1>
+  <p class="subtitle">The international standard for building secure products, systems, and applications. Five architectural principles. Five design principles. Confirmed current in 2024.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="iso-context fade d2">
+    <div class="iso-badge">ISO/IEC TS 19249:2017</div>
+    <p>Published jointly by ISO and IEC, this technical specification provides a <strong>catalogue of architectural and design principles</strong> for building secure products and systems. It does not impose certification requirements — it is a design guidance framework used alongside ISO/IEC 15408 (Common Criteria).</p>
+  </div>
+
+  <div class="section-head fade d3">Five Architectural Principles</div>
+
+  <div class="principles-grid fade d4">
+    <div class="p-card">
+      <div class="p-num">01</div>
+      <h4>Domain Separation</h4>
+      <p>Related components are grouped into domains with shared security attributes. Domains communicate only over controlled, well-defined channels.</p>
+      <span class="p-ex">Example: <em>x86 ring levels</em> — kernel at ring 0 (most privileged), user apps at ring 3 (least privileged).</span>
+    </div>
+    <div class="p-card">
+      <div class="p-num">02</div>
+      <h4>Layering</h4>
+      <p>Systems are structured in abstract levels. Security policies can be imposed and validated independently at each layer.</p>
+      <span class="p-ex">Example: <em>OSI Network Model</em> — 7 layers, each providing services to the layer above and enforcing its own controls.</span>
+    </div>
+    <div class="p-card">
+      <div class="p-num">03</div>
+      <h4>Encapsulation</h4>
+      <p>Low-level implementations are hidden behind controlled interfaces. Prevents direct manipulation of internal data or state.</p>
+      <span class="p-ex">Example: <em>API design</em> — call <code>increment()</code> rather than directly modifying the <code>seconds</code> variable.</span>
+    </div>
+    <div class="p-card">
+      <div class="p-num">04</div>
+      <h4>Redundancy</h4>
+      <p>Supports both availability and integrity. If a component fails or is tampered with, the system continues and can detect the discrepancy.</p>
+      <span class="p-ex">Example: <em>RAID 5</em> — one drive fails, data remains available via parity; tampering on one disk is detectable.</span>
+    </div>
+    <div class="p-card">
+      <div class="p-num">05</div>
+      <h4>Virtualization</h4>
+      <p>Sharing hardware across multiple isolated operating systems. Provides sandboxing, improved security boundaries, and safe malware detonation environments.</p>
+      <span class="p-ex">Example: <em>Cloud sandboxes</em> — malicious code detonated and observed in an isolated VM without affecting host systems.</span>
+    </div>
+  </div>
+
+  <div class="section-head fade d5">Five Design Principles</div>
+
+  <div class="design-grid fade d6">
+    <div class="p-card design">
+      <div class="p-num">01</div>
+      <h4>Least Privilege</h4>
+      <p>Grant only the minimum permissions required to complete a task — nothing more. Limits blast radius when credentials are compromised.</p>
+      <span class="p-ex">If a user only needs to <em>read</em> a document — grant read only. No write, no execute.</span>
+    </div>
+    <div class="p-card design">
+      <div class="p-num">02</div>
+      <h4>Attack Surface Minimization</h4>
+      <p>Every unnecessary service, port, or feature is a potential attack vector. Disable or remove anything not required.</p>
+      <span class="p-ex">Hardening a Linux system: <em>disable unused services</em>, close open ports, remove unnecessary packages.</span>
+    </div>
+    <div class="p-card design">
+      <div class="p-num">03</div>
+      <h4>Centralized Parameter Validation</h4>
+      <p>All user and system input flows through a single validation library. Prevents injection attacks, DoS from malformed input, and RCE.</p>
+      <span class="p-ex">One validation module for all inputs — not inconsistent checks <em>scattered</em> across every handler.</span>
+    </div>
+    <div class="p-card design">
+      <div class="p-num">04</div>
+      <h4>Centralized Security Services</h4>
+      <p>Centralize authentication, authorization, and auditing. Reduces policy inconsistency across subsystems.</p>
+      <span class="p-ex">Centralized <em>auth server</em> for the whole org — with availability controls to prevent it becoming a single point of failure.</span>
+    </div>
+    <div class="p-card design">
+      <div class="p-num">05</div>
+      <h4>Prepare for Error &amp; Exception Handling</h4>
+      <p>Design systems to fail safe. Error messages must not leak internal state. Plan for unexpected failures — they will happen.</p>
+      <span class="p-ex">If a firewall crashes: <em>block all traffic</em> — not allow all traffic. Fail closed, not open.</span>
+    </div>
+  </div>
+
+  <div class="mapping-row fade d7">
+    <span class="map-label">Principle types:</span>
+    <div class="map-tags">
+      <span class="map-tag mt-arch">Architectural</span>
+      <span class="map-tag mt-arch">Domain Separation</span>
+      <span class="map-tag mt-arch">Layering</span>
+      <span class="map-tag mt-arch">Encapsulation</span>
+      <span class="map-tag mt-arch">Redundancy</span>
+      <span class="map-tag mt-arch">Virtualization</span>
+      <span class="map-tag mt-design">Design</span>
+      <span class="map-tag mt-design">Least Privilege</span>
+      <span class="map-tag mt-design">Attack Surface Min.</span>
+      <span class="map-tag mt-design">Param Validation</span>
+      <span class="map-tag mt-design">Security Services</span>
+      <span class="map-tag mt-design">Error Handling</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note fade d8">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

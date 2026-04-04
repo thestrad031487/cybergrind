@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shared Responsibility Model — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1C1E;--entry:#22252A;--card:#2A2D33;--border:#3A3D44;--orange:#FF8C00;--orange-light:#FFAD33;--text:#E4E6EB;--muted:#8E9297;--blue:#5B9CF6;--green:#4CAF7D;--purple:#A78BFA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Syne',sans-serif;color:var(--text);padding:2.5rem 1.5rem 3rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  .fade{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.22s}.d4{animation-delay:.32s}.d5{animation-delay:.42s}.d6{animation-delay:.52s}.d7{animation-delay:.62s}.d8{animation-delay:.72s}
+
+  .header{text-align:center;margin-bottom:2.5rem;}
+  .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0D0F11;background:var(--orange);padding:3px 10px;border-radius:3px;margin-bottom:.9rem;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  h1 span{color:var(--orange);}
+  .subtitle{font-size:.9rem;color:var(--muted);max-width:560px;margin:0 auto;}
+
+  .wrap{max-width:900px;margin:0 auto;}
+
+  .intro{background:var(--entry);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.5rem;margin-bottom:1.75rem;}
+  .intro p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .intro strong{color:var(--text);}
+
+  .model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem;}
+  @media(max-width:640px){.model-grid{grid-template-columns:1fr;}}
+
+  .model-col{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+
+  .col-head{padding:1rem 1.25rem;border-bottom:1px solid var(--border);}
+  .col-head.iaas{background:rgba(255,140,0,.06);border-bottom-color:rgba(255,140,0,.2);}
+  .col-head.paas{background:rgba(91,156,246,.06);border-bottom-color:rgba(91,156,246,.2);}
+  .col-head.saas{background:rgba(76,175,125,.06);border-bottom-color:rgba(76,175,125,.2);}
+
+  .model-name{font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;}
+  .model-name.orange{color:var(--orange);}
+  .model-name.blue{color:var(--blue);}
+  .model-name.green{color:var(--green);}
+  .model-full{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem;}
+  .model-eg{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);}
+
+  .col-body{padding:.75rem 1.25rem 1.25rem;}
+
+  .resp-section{margin-bottom:.75rem;}
+  .rs-label{
+    font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;
+    display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem;
+  }
+  .rs-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .dot-cust{background:var(--orange);}
+  .dot-prov{background:var(--blue);}
+  .rs-label span{color:var(--muted);}
+
+  .layer-item{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.8rem;
+  }
+  .layer-item:last-child{border-bottom:none;}
+  .li-name{color:var(--muted);flex:1;}
+  .li-owner{
+    font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;
+    text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap;
+  }
+  .own-cust{background:rgba(255,140,0,.12);color:var(--orange);border:1px solid rgba(255,140,0,.25);}
+  .own-prov{background:rgba(91,156,246,.12);color:var(--blue);border:1px solid rgba(91,156,246,.25);}
+  .own-shared{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.25);}
+
+  .legend{display:flex;gap:1.25rem;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:1.5rem;padding:.85rem 1.25rem;background:var(--entry);border:1px solid var(--border);border-radius:8px;}
+  .leg-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted);}
+  .leg-pill{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:3px;}
+
+  .callout{background:var(--entry);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin-bottom:1.5rem;}
+  .callout p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .callout strong{color:var(--orange-light);}
+
+  .gap-warning{
+    background:#1E1510;border:1px solid rgba(229,83,83,.3);
+    border-radius:10px;padding:1.1rem 1.5rem;
+    display:flex;align-items:flex-start;gap:.85rem;
+  }
+  .gw-icon{font-size:1.3rem;flex-shrink:0;}
+  .gap-warning p{font-size:.85rem;color:#9a6a6a;line-height:1.65;}
+  .gap-warning strong{color:#e08080;}
+
+  .footer-note{text-align:center;margin-top:2rem;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+  .footer-note span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 09 / 09</div>
+  <h1>The <span>Shared Responsibility Model</span></h1>
+  <p class="subtitle">In cloud environments, security is not the provider's problem alone. Responsibility is explicitly divided — and the gap between the two parties is where most breaches happen.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="intro fade d2">
+    <p>As organizations move workloads to cloud services, a fundamental question arises: <strong>who is responsible for securing what?</strong> The Shared Responsibility Model provides the answer — it explicitly divides security obligations between the cloud provider and the customer based on the service model in use. Neither party can assume the other has it covered.</p>
+  </div>
+
+  <div class="legend fade d3">
+    <div class="leg-item"><span class="leg-pill own-cust">Customer</span> Customer's responsibility to secure</div>
+    <div class="leg-item"><span class="leg-pill own-prov">Provider</span> Cloud provider's responsibility</div>
+    <div class="leg-item"><span class="leg-pill own-shared">Shared</span> Shared — both parties contribute</div>
+  </div>
+
+  <div class="model-grid fade d4">
+
+    <div class="model-col">
+      <div class="col-head iaas">
+        <div class="model-name orange">IaaS</div>
+        <div class="model-full">Infrastructure as a Service</div>
+        <div class="model-eg">e.g. AWS EC2, Azure VMs, GCP Compute</div>
+      </div>
+      <div class="col-body">
+        <div class="layer-item"><span class="li-name">Data &amp; Classification</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Applications</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Runtime &amp; Middleware</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Operating System</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Identity &amp; Access</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Network Config</span><span class="li-owner own-shared">Shared</span></div>
+        <div class="layer-item"><span class="li-name">Physical Servers</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Data Center &amp; Network</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Physical Security</span><span class="li-owner own-prov">Provider</span></div>
+      </div>
+    </div>
+
+    <div class="model-col">
+      <div class="col-head paas">
+        <div class="model-name blue">PaaS</div>
+        <div class="model-full">Platform as a Service</div>
+        <div class="model-eg">e.g. Azure App Service, Google App Engine</div>
+      </div>
+      <div class="col-body">
+        <div class="layer-item"><span class="li-name">Data &amp; Classification</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Applications</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Identity &amp; Access</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Runtime &amp; Middleware</span><span class="li-owner own-shared">Shared</span></div>
+        <div class="layer-item"><span class="li-name">Operating System</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Network Config</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Physical Servers</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Data Center &amp; Network</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Physical Security</span><span class="li-owner own-prov">Provider</span></div>
+      </div>
+    </div>
+
+    <div class="model-col">
+      <div class="col-head saas">
+        <div class="model-name green">SaaS</div>
+        <div class="model-full">Software as a Service</div>
+        <div class="model-eg">e.g. Microsoft 365, Salesforce, Google Workspace</div>
+      </div>
+      <div class="col-body">
+        <div class="layer-item"><span class="li-name">Data &amp; Classification</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Identity &amp; Access</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Endpoint Devices</span><span class="li-owner own-cust">Customer</span></div>
+        <div class="layer-item"><span class="li-name">Applications</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Runtime &amp; Middleware</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Operating System</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Network Config</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Physical Servers</span><span class="li-owner own-prov">Provider</span></div>
+        <div class="layer-item"><span class="li-name">Physical Security</span><span class="li-owner own-prov">Provider</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout fade d5">
+    <p><strong>Key pattern:</strong> As you move from IaaS → PaaS → SaaS, the provider takes on more responsibility — and the customer's surface area shrinks. But customers never escape full responsibility for their <strong>data classification, identity management, and endpoint security</strong> regardless of service model.</p>
+  </div>
+
+  <div class="gap-warning fade d6">
+    <div class="gw-icon">&#x26A0;</div>
+    <p><strong>The gap is where breaches happen.</strong> Most cloud security incidents are not provider failures — they are customer misconfigurations, identity failures, or assumptions that the provider was covering something the customer actually owns. Before deploying any cloud workload, explicitly document where the handoff occurs. Gaps at that boundary are where attackers find their way in.</p>
+  </div>
+
+</div>
+
+<div class="footer-note fade d7" style="margin-top:2rem">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

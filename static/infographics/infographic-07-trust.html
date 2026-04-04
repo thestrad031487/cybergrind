@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Models — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1C1E;--entry:#22252A;--card:#2A2D33;--border:#3A3D44;--orange:#FF8C00;--orange-light:#FFAD33;--text:#E4E6EB;--muted:#8E9297;--red:#E55353;--blue:#5B9CF6;--purple:#A78BFA;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Syne',sans-serif;color:var(--text);padding:2.5rem 1.5rem 3rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  .fade{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}.d6{animation-delay:.55s}.d7{animation-delay:.65s}.d8{animation-delay:.75s}
+
+  .header{text-align:center;margin-bottom:2.5rem;}
+  .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0D0F11;background:var(--orange);padding:3px 10px;border-radius:3px;margin-bottom:.9rem;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  h1 span{color:var(--orange);}
+  .subtitle{font-size:.9rem;color:var(--muted);max-width:540px;margin:0 auto;}
+
+  .wrap{max-width:900px;margin:0 auto;}
+
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
+  @media(max-width:620px){.compare-grid{grid-template-columns:1fr;}}
+
+  .model-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .model-card.tbv .card-top{background:rgba(255,140,0,.06);border-bottom:1px solid rgba(255,140,0,.2);padding:1.25rem 1.5rem;}
+  .model-card.zt .card-top{background:rgba(229,83,83,.06);border-bottom:1px solid rgba(229,83,83,.2);padding:1.25rem 1.5rem;}
+
+  .model-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;}
+  .model-label.orange{color:var(--orange);}
+  .model-label.red{color:var(--red);}
+  .card-top h2{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.3rem;}
+  .card-top .motto{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--muted);}
+  .model-card.tbv .motto{color:var(--orange-light);}
+  .model-card.zt .motto{color:#f08080;}
+
+  .card-body{padding:1.25rem 1.5rem;}
+  .card-body p{font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:.85rem;}
+  .card-body strong{color:var(--text);}
+
+  .attr-list{list-style:none;padding:0;margin:0;}
+  .attr-list li{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.82rem;}
+  .attr-list li:last-child{border-bottom:none;}
+  .attr-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .dot-orange{background:var(--orange);}
+  .dot-red{background:var(--red);}
+  .attr-list span{color:var(--muted);line-height:1.5;}
+  .attr-list span strong{color:var(--text);}
+
+  .origin-bar{
+    background:var(--entry);border:1px solid var(--border);border-radius:10px;
+    padding:1.1rem 1.5rem;margin-bottom:1.5rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  }
+  @media(max-width:560px){.origin-bar{grid-template-columns:1fr;}}
+  .origin-item .o-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:.3rem;}
+  .origin-item p{font-size:.82rem;color:var(--text);line-height:1.5;}
+  .origin-item span{color:var(--orange);}
+
+  .microseg{
+    background:var(--entry);border:1px solid var(--border);border-radius:10px;
+    padding:1.25rem 1.5rem;margin-bottom:1.5rem;
+  }
+  .microseg .ms-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.75rem;}
+  .ms-diagram{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:.75rem;}
+  .ms-seg{
+    background:var(--card);border:1px solid var(--border);border-radius:6px;
+    padding:.6rem .9rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;
+    color:var(--muted);
+  }
+  .ms-arrow{color:var(--red);font-size:.9rem;font-family:'Space Mono',monospace;}
+  .ms-auth{
+    font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.08em;
+    color:var(--red);background:rgba(229,83,83,.1);
+    border:1px solid rgba(229,83,83,.25);padding:1px 5px;border-radius:3px;
+    display:block;margin-top:.25rem;
+  }
+  .microseg p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+  .microseg strong{color:var(--text);}
+
+  .callout{
+    background:var(--entry);border-left:3px solid var(--orange);
+    border-radius:0 8px 8px 0;padding:1rem 1.25rem;
+  }
+  .callout p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .callout strong{color:var(--orange-light);}
+
+  .footer-note{text-align:center;margin-top:2rem;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+  .footer-note span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 07 / 09</div>
+  <h1>Trust Models: <span>Trust but Verify vs. Zero Trust</span></h1>
+  <p class="subtitle">Two contrasting philosophies for how organizations extend — or refuse to extend — trust to users, devices, and systems.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="compare-grid fade d2">
+    <div class="model-card tbv">
+      <div class="card-top">
+        <div class="model-label orange">Traditional Model</div>
+        <h2>Trust but Verify</h2>
+        <div class="motto">"Extend trust, then monitor it"</div>
+      </div>
+      <div class="card-body">
+        <p>Trust is extended to known entities — users, systems, devices — but their behavior is <strong>continuously monitored</strong> through logging, anomaly detection, and automated controls.</p>
+        <ul class="attr-list">
+          <li><span class="attr-dot dot-orange"></span><span><strong>Logging &amp; auditing</strong> provide the verification layer — security teams review logs to confirm normal behavior.</span></li>
+          <li><span class="attr-dot dot-orange"></span><span>Automation is essential: <strong>IDS/IPS, proxies, and SIEM platforms</strong> handle what humans cannot review manually at scale.</span></li>
+          <li><span class="attr-dot dot-orange"></span><span>Verification is real, but <strong>not exhaustive</strong> — reviewing every user action isn't feasible without automation.</span></li>
+          <li><span class="attr-dot dot-orange"></span><span>Works reasonably well against <strong>external threats</strong>; less effective against insider threats where trust is already granted.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="model-card zt">
+      <div class="card-top">
+        <div class="model-label red">Modern Model</div>
+        <h2>Zero Trust</h2>
+        <div class="motto">"Never trust, always verify"</div>
+      </div>
+      <div class="card-body">
+        <p>Treats <strong>trust itself as a vulnerability</strong>. No user, device, or system is implicitly trusted based on network location, ownership, or prior authentication.</p>
+        <ul class="attr-list">
+          <li><span class="attr-dot dot-red"></span><span>Every access request requires <strong>explicit authentication and authorization</strong> — regardless of where it originates.</span></li>
+          <li><span class="attr-dot dot-red"></span><span>Being inside the corporate network grants <strong>no inherent trust</strong>. Lateral movement is aggressively restricted.</span></li>
+          <li><span class="attr-dot dot-red"></span><span>Particularly effective against <strong>insider threats</strong> and credential compromise — trust is never assumed, always earned.</span></li>
+          <li><span class="attr-dot dot-red"></span><span>If a breach occurs, <strong>blast radius is contained</strong> — attackers cannot freely move through a trusted internal network.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="origin-bar fade d3">
+    <div class="origin-item">
+      <span class="o-label">Zero Trust Origin</span>
+      <p>Coined by <span>John Kindervag</span> at Forrester Research in his 2010 report <em>"No More Chewy Centers: Introducing the Zero Trust Model of Information Security."</em></p>
+    </div>
+    <div class="origin-item">
+      <span class="o-label">NIST &amp; Government Adoption</span>
+      <p>NIST published <span>SP 800-207: Zero Trust Architecture</span> as formal guidance. In 2021, Kindervag co-authored the U.S. President's NSTAC Zero Trust report, cementing it as federal security doctrine.</p>
+    </div>
+  </div>
+
+  <div class="microseg fade d4">
+    <div class="ms-label">&#x1F4CC; Key Implementation — Microsegmentation</div>
+    <div class="ms-diagram">
+      <div class="ms-seg">Host A<span class="ms-auth">verify</span></div>
+      <div class="ms-arrow">&#x2192;</div>
+      <div class="ms-seg">ACL Check<span class="ms-auth">enforce</span></div>
+      <div class="ms-arrow">&#x2192;</div>
+      <div class="ms-seg">Host B<span class="ms-auth">verify</span></div>
+      <div class="ms-arrow">&#x2192;</div>
+      <div class="ms-seg">ACL Check<span class="ms-auth">enforce</span></div>
+      <div class="ms-arrow">&#x2192;</div>
+      <div class="ms-seg">Resource<span class="ms-auth">grant/deny</span></div>
+    </div>
+    <p>In a Zero Trust architecture, network segments can be <strong>as small as a single host</strong>. Every crossing between segments requires authentication, ACL checks, and policy enforcement. There is no free lateral movement — every hop is a checkpoint.</p>
+  </div>
+
+  <div class="callout fade d5">
+    <p><strong>Practitioner note:</strong> Zero Trust is an architectural philosophy, not a product you buy. It is applied incrementally — you don't rip out your existing controls and start fresh. There is a practical ceiling: applying Zero Trust too aggressively can impede business operations. But the principle should be stretched as far as operationally feasible.</p>
+  </div>
+
+</div>
+
+<div class="footer-note fade d6" style="margin-top:2rem">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 ---
 title: "MIT AI Risk Repository: Mapping 1,700+ AI Risks"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book"]
 description: "A deep dive into the MIT AI Risk Repository — its Causal and Domain taxonomies, who it's built for, and its acknowledged limitations."
 ---
