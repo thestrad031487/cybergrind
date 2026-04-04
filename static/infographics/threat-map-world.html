@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Threat Map</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0f1a;
+    font-family: monospace;
+    color: #8899aa;
+    overflow-x: hidden;
+  }
+
+  #map-wrap {
+    position: relative;
+    width: 100%;
+    background: #0a0f1a;
+  }
+
+  svg#world {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .country {
+    fill: #112233;
+    stroke: #1e3a50;
+    stroke-width: 0.4;
+    transition: fill 0.2s;
+  }
+
+  .country:hover {
+    fill: #1a3a55;
+    cursor: pointer;
+  }
+
+  .graticule {
+    fill: none;
+    stroke: #1a2a3a;
+    stroke-width: 0.3;
+    opacity: 0.5;
+  }
+
+  .sphere {
+    fill: #060d16;
+  }
+
+  .pulse-ring {
+    fill: none;
+    stroke-width: 0.8;
+    opacity: 0;
+    animation: ring 2.5s ease-out infinite;
+  }
+
+  .pulse-dot {
+    opacity: 0.85;
+    animation: dot-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes ring {
+    0%   { r: 0; opacity: 0.6; }
+    100% { r: 14; opacity: 0; }
+  }
+
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+  }
+
+  /* Stagger animations per dot */
+  .p0  { animation-delay: 0s; }    .p0r  { animation-delay: 0s; }
+  .p1  { animation-delay: 0.3s; }  .p1r  { animation-delay: 0.3s; }
+  .p2  { animation-delay: 0.6s; }  .p2r  { animation-delay: 0.6s; }
+  .p3  { animation-delay: 0.9s; }  .p3r  { animation-delay: 0.9s; }
+  .p4  { animation-delay: 1.2s; }  .p4r  { animation-delay: 1.2s; }
+  .p5  { animation-delay: 1.5s; }  .p5r  { animation-delay: 1.5s; }
+  .p6  { animation-delay: 1.8s; }  .p6r  { animation-delay: 1.8s; }
+  .p7  { animation-delay: 2.1s; }  .p7r  { animation-delay: 2.1s; }
+  .p8  { animation-delay: 0.15s; } .p8r  { animation-delay: 0.15s; }
+  .p9  { animation-delay: 0.45s; } .p9r  { animation-delay: 0.45s; }
+
+  /* Scan line */
+  .scan-line {
+    fill: none;
+    stroke: #f97316;
+    stroke-width: 1.5;
+    opacity: 0;
+    animation: scan 6s linear infinite;
+  }
+
+  @keyframes scan {
+    0%   { opacity: 0; transform: translateX(-10px); }
+    5%   { opacity: 0.18; }
+    95%  { opacity: 0.18; }
+    100% { opacity: 0; transform: translateX(960px); }
+  }
+
+  /* Tooltip */
+  #tooltip {
+    position: absolute;
+    background: #0d1a2a;
+    border: 1px solid #f97316;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #ccd6e0;
+    pointer-events: none;
+    display: none;
+    z-index: 10;
+    white-space: nowrap;
+  }
+
+  #tooltip .tt-country { font-size: 13px; color: #f97316; margin-bottom: 4px; }
+  #tooltip .tt-count   { color: #ff6b6b; }
+
+  /* Stats bar */
+  #stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 10px 0 4px 0;
+  }
+
+  .stat-box {
+    background: #0d1a2a;
+    border: 1px solid #1e3a50;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff6b6b;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: #556677;
+    margin-top: 2px;
+  }
+
+  /* Legend */
+  #legend {
+    display: flex;
+    gap: 16px;
+    padding: 8px 0 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #8899aa;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  #status {
+    font-size: 11px;
+    color: #445566;
+    padding-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div id="map-wrap">
+  <svg id="world" viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="sphere-clip">
+        <path id="sphere-path"/>
+      </clipPath>
+    </defs>
+    <path class="sphere" id="sphere-bg"/>
+    <path class="graticule" id="graticule-path"/>
+    <g id="countries"></g>
+    <line class="scan-line" x1="0" y1="0" x2="0" y2="500"/>
+    <g id="dots"></g>
+  </svg>
+  <div id="tooltip">
+    <div class="tt-country" id="tt-country"></div>
+    <div>Malicious IPs: <span class="tt-count" id="tt-count"></span></div>
+    <div>Avg Confidence: <span id="tt-score"></span>%</div>
+  </div>
+</div>
+
+<div id="stats">
+  <div class="stat-box">
+    <div class="stat-val" id="s-total">500</div>
+    <div class="stat-lbl">Malicious IPs</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val" id="s-countries">38</div>
+    <div class="stat-lbl">Countries</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val" id="s-top">US</div>
+    <div class="stat-lbl">Top Source</div>
+  </div>
+</div>
+
+<div id="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#ff0000;"></div>Critical (50+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff6b00;"></div>High (20+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffaa00;"></div>Medium (10+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffdd00;"></div>Low (5+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#88cc00;"></div>Minimal (&lt;5)</div>
+</div>
+
+<div id="status">Loading threat data...</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+(async function() {
+  const WORKER = 'https://cybergrind-threatmap-worker.wacker-jason.workers.dev';
+  const TOPO   = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+
+  const width = 960, height = 500;
+
+  const projection = d3.geoNaturalEarth1()
+    .scale(153)
+    .translate([width / 2, height / 2]);
+
+  const path = d3.geoPath().projection(projection);
+
+  // Draw base map
+  try {
+    const world = await d3.json(TOPO);
+    const countries = topojson.feature(world, world.objects.countries);
+    const graticule = d3.geoGraticule()();
+    const sphere = { type: 'Sphere' };
+
+    document.getElementById('sphere-bg').setAttribute('d', path(sphere));
+    document.getElementById('sphere-path').setAttribute('d', path(sphere));
+    document.getElementById('graticule-path').setAttribute('d', path(graticule));
+
+    const g = d3.select('#countries');
+    g.selectAll('path')
+      .data(countries.features)
+      .enter()
+      .append('path')
+      .attr('class', 'country')
+      .attr('d', path);
+
+  } catch (e) {
+    document.getElementById('status').textContent = 'Map load error: ' + e.message;
+  }
+
+  // Helper: color by count
+  function getColor(count) {
+    if (count >= 50) return '#ff0000';
+    if (count >= 20) return '#ff6b00';
+    if (count >= 10) return '#ffaa00';
+    if (count >= 5)  return '#ffdd00';
+    return '#88cc00';
+  }
+
+  // Helper: radius by count
+  function getRadius(count) {
+    return Math.max(3, Math.min(14, 3 + Math.sqrt(count) * 1.4));
+  }
+
+  // Draw threat dots
+  try {
+    const data = await fetch(WORKER).then(r => {
+      if (!r.ok) throw new Error('Worker ' + r.status);
+      return r.json();
+    });
+
+    const dotsG = d3.select('#dots');
+    const tooltip = document.getElementById('tooltip');
+    const mapWrap = document.getElementById('map-wrap');
+
+    data.points.forEach((p, i) => {
+      const [x, y] = projection([p.lng, p.lat]);
+      if (!x || !y) return;
+
+      const color  = getColor(p.count);
+      const r      = getRadius(p.count);
+      const cls    = 'p' + (i % 10);
+      const clsR   = 'p' + (i % 10) + 'r';
+
+      // Pulse ring
+      const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      ring.setAttribute('cx', x);
+      ring.setAttribute('cy', y);
+      ring.setAttribute('r', r);
+      ring.setAttribute('stroke', color);
+      ring.setAttribute('class', 'pulse-ring ' + clsR);
+      document.getElementById('dots').appendChild(ring);
+
+      // Dot
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', x);
+      dot.setAttribute('cy', y);
+      dot.setAttribute('r', r);
+      dot.setAttribute('fill', color);
+      dot.setAttribute('class', 'pulse-dot ' + cls);
+      dot.style.cursor = 'pointer';
+
+      // Tooltip
+      dot.addEventListener('mousemove', (e) => {
+        const rect = mapWrap.getBoundingClientRect();
+        tooltip.style.display = 'block';
+        tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
+        tooltip.style.top  = (e.clientY - rect.top  - 10) + 'px';
+        document.getElementById('tt-country').textContent = p.country;
+        document.getElementById('tt-count').textContent   = p.count;
+        document.getElementById('tt-score').textContent   = p.avgScore;
+      });
+      dot.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+
+      document.getElementById('dots').appendChild(dot);
+    });
+
+    // Stats
+    document.getElementById('s-total').textContent     = data.totalIPs.toLocaleString();
+    document.getElementById('s-countries').textContent  = data.points.length;
+    document.getElementById('s-top').textContent        = data.topCountries[0];
+
+    const updated = new Date(data.generatedAt);
+    document.getElementById('status').textContent =
+      'Data via AbuseIPDB · cached 6hr · last updated ' +
+      updated.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+
+  } catch (e) {
+    document.getElementById('s-total').textContent     = 'N/A';
+    document.getElementById('s-countries').textContent  = 'N/A';
+    document.getElementById('s-top').textContent        = 'N/A';
+    document.getElementById('status').textContent = 'Threat data unavailable — ' + e.message;
+  }
+})();
+</script>
+</body>
+</html>
