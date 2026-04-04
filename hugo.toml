@@ -92,7 +92,7 @@ Daily threat intel, interactive tools, and an expanding library of security educ
     name = "About"
     url = "/about/"
     weight = 5
-  [[menus.main]]
+  [[menu.main]]
     name = "Resume"
     url = "/resume/"
     weight = 6
