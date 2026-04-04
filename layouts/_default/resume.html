@@ -1,4 +1,4 @@
 {{- define "main" }}
-{{- $content := readFile "/resume-page.html" }}
+{{- $content := readFile "static/resume-page.html" }}
 {{ $content | safeHTML }}
 {{- end }}
