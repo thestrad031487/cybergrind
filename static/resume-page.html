@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jason Wacker — Resume</title>
+<style>
+  :root {
+    --cg-orange: #f97316;
+    --bg: #0a0f1a;
+    --bg2: #0d1a2a;
+    --border: #1e3a50;
+    --text: #ccd6e0;
+    --muted: #556677;
+    --accent: #f97316;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 48px 24px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .resume-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .resume-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .resume-header .title {
+    font-size: 15px;
+    color: var(--accent);
+    margin: 4px 0 16px 0;
+    font-weight: 500;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .contact-row a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .contact-row a:hover {
+    color: var(--accent);
+  }
+
+  .contact-row span::before {
+    content: '›';
+    color: var(--accent);
+    margin-right: 6px;
+  }
+
+  /* Download button */
+  .dl-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 18px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 13px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+
+  .dl-btn:hover {
+    background: rgba(249,115,22,0.1);
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 18px;
+  }
+
+  /* Summary */
+  .summary p {
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  /* Experience */
+  .job {
+    margin-bottom: 24px;
+  }
+
+  .job:last-child {
+    margin-bottom: 0;
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .job-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .job-dates {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .job-employer {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .job ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .job ul li {
+    font-size: 14px;
+    color: var(--text);
+    padding: 3px 0 3px 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .job ul li::before {
+    content: '›';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .skill-group {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .skill-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .skill-group ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .skill-group ul li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 2px 0;
+  }
+
+  /* Certifications */
+  .cert-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .cert-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    border-left: 2px solid var(--accent);
+    line-height: 1.4;
+  }
+
+  .cert-list li.in-progress {
+    border-left-color: #ffaa00;
+    color: #ffaa00;
+  }
+
+  .cert-year {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Education */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu-item:last-child {
+    border-bottom: none;
+  }
+
+  .edu-degree {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .edu-school {
+    font-size: 13px;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+
+  .edu-dates {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Projects */
+  .project-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .project-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .project-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .project-link {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .project-link:hover {
+    text-decoration: underline;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--muted);
+  }
+
+  /* Homelab */
+  .homelab-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .homelab-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    border-left: 2px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .cert-list, .homelab-list { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .job-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="resume-header">
+  <h1>Jason Wacker</h1>
+  <div class="title">IT &amp; Cybersecurity Professional</div>
+  <div class="contact-row">
+    <span>Park Ridge, IL</span>
+    <span><a href="mailto:wacker.jason@gmail.com">wacker.jason@gmail.com</a></span>
+    <span>+1-224-616-7487</span>
+    <span><a href="https://linkedin.com/in/jasonrwacker" target="_blank">linkedin.com/in/jasonrwacker</a></span>
+    <span><a href="https://tryhackme.com/p/wacker.jason" target="_blank">tryhackme.com/p/wacker.jason</a></span>
+    <span><a href="https://cybergrind.org" target="_blank">cybergrind.org</a></span>
+  </div>
+  <a class="dl-btn" href="/resume/jason-wacker-resume.pdf" download>⬇ Download PDF</a>
+</div>
+
+<!-- Summary -->
+<section class="summary">
+  <div class="section-title">Summary</div>
+  <p>Dedicated IT and cybersecurity professional with 12+ years of experience delivering robust infrastructure, network solutions, and security programs. Proven expertise in Microsoft 365, Azure, endpoint management, NIST frameworks, and risk management. Active practitioner in threat modeling, security awareness, and GRC — with hands-on homelab experience and an ongoing personal cybersecurity platform at cybergrind.org. Member of TryHackMe, Hack The Box, IEEE, and SimplyCyber.</p>
+</section>
+
+<!-- Work Experience -->
+<section>
+  <div class="section-title">Experience</div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title">Senior IT Manager of Infrastructure &amp; Cybersecurity</div>
+      <div class="job-dates">July 2021 – Present</div>
+    </div>
+    <div class="job-employer">PAWS Chicago — Chicago, IL</div>
+    <ul>
+      <li>Serve as network/systems administrator managing Azure cloud infrastructure and endpoint compliance via Microsoft Intune.</li>
+      <li>Plan, deploy, and secure network assets including firewalls and VPNs, ensuring CIA triad compliance.</li>
+      <li>Developed and executed Business Continuity Plans, disaster recovery strategies, and security testing programs.</li>
+      <li>Managed IT budgeting and procurement, achieving a 10% reduction in operational costs.</li>
+      <li>Conducted NIST SP 800-53 control audits including interviews, document review, and system testing.</li>
+      <li>Semi-quantitatively analyzed cybersecurity risk using NIST SP 800-30 methodology.</li>
+      <li>Executed threat modeling exercises to identify higher-likelihood threat events for risk modeling.</li>
+      <li>Developed Information Security policy for access and authentication management aligned to business objectives.</li>
+      <li>Created targeted cybersecurity awareness content for emerging threats, improving end-user cyber hygiene.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title">Advanced Repair Agent</div>
+      <div class="job-dates">February 2013 – Present</div>
+    </div>
+    <div class="job-employer">Best Buy Geek Squad — Arlington Heights, IL</div>
+    <ul>
+      <li>Diagnosed and resolved hardware/software issues for Windows and macOS systems, maintaining 95%+ customer satisfaction.</li>
+      <li>Conducted end-user training sessions improving technical proficiency and operational efficiency.</li>
+      <li>Developed streamlined repair workflows reducing repair time by 15% and improving customer retention.</li>
+      <li>Assisted with IT use policy development and adherence to security best practices.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title">Systems Technician</div>
+      <div class="job-dates">May 2013 – July 2021</div>
+    </div>
+    <div class="job-employer">Lyons Township High School — La Grange, IL</div>
+    <ul>
+      <li>Maintained LAN/WAN environment supporting 5,000+ endpoints at 95%+ uptime.</li>
+      <li>Managed device inventory and lifecycle replacement schedules for seamless hardware upgrades.</li>
+      <li>Authored network documentation and self-service guides, reducing helpdesk tickets by 20%.</li>
+      <li>Created and deployed Windows 10 workstation images company-wide with driver and application integration.</li>
+      <li>Patched security vulnerabilities and deployed updates using WSUS across Windows workstations.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Skills -->
+<section>
+  <div class="section-title">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Networking</div>
+      <ul>
+        <li>Cisco, HP Aruba</li>
+        <li>LAN/WAN, VPN, Firewalls</li>
+        <li>3CX VoIP</li>
+        <li>Hyper-V, Proxmox</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Security &amp; GRC</div>
+      <ul>
+        <li>NIST CSF, SP 800-53, SP 800-30</li>
+        <li>Threat Modeling</li>
+        <li>Risk Management</li>
+        <li>Disaster Recovery</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Platforms &amp; Tools</div>
+      <ul>
+        <li>Microsoft 365, Azure, Intune</li>
+        <li>Active Directory, PowerShell</li>
+        <li>Salesforce, ZenDesk</li>
+        <li>Mosyle, Apple Business Manager</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Development</div>
+      <ul>
+        <li>Hugo (Static Sites)</li>
+        <li>Python, Bash</li>
+        <li>Docker, Cloudflare Workers</li>
+        <li>Git, GitHub Actions</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Security Tools</div>
+      <ul>
+        <li>Wazuh SIEM</li>
+        <li>Sophos</li>
+        <li>OSINT frameworks</li>
+        <li>CTF / Penetration Testing</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Soft Skills</div>
+      <ul>
+        <li>Stakeholder Engagement</li>
+        <li>IT Budgeting &amp; Procurement</li>
+        <li>End-User Training</li>
+        <li>Cross-departmental Collaboration</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section>
+  <div class="section-title">Certifications</div>
+  <ul class="cert-list">
+    <li class="in-progress">CISSP <span class="cert-year">In Progress</span></li>
+    <li>CompTIA Network+ <span class="cert-year">Current</span></li>
+    <li>TryHackMe — Cyber Security 101 <span class="cert-year">2024</span></li>
+    <li>Implementing the NIST Risk Management Framework <span class="cert-year">2024</span></li>
+    <li>IT &amp; Cybersecurity Risk Management Essential Training <span class="cert-year">2024</span></li>
+    <li>SOC 2 Compliance Essential Training <span class="cert-year">2024</span></li>
+    <li>Threat Modeling: Denial of Service &amp; Expansion of Authority <span class="cert-year">2024</span></li>
+    <li>Threat Modeling: Tampering in Depth <span class="cert-year">2024</span></li>
+    <li>Managed Detection and Response (MDR) Fundamentals <span class="cert-year">2024</span></li>
+    <li>Mitigating Cybersecurity Vulnerabilities <span class="cert-year">2024</span></li>
+    <li>Complete Guide to IAM for Network Engineers <span class="cert-year">2024</span></li>
+    <li>Microsoft 365: Administration <span class="cert-year">2024</span></li>
+    <li>Cybersecurity Foundations <span class="cert-year">2024</span></li>
+    <li>Introduction to IT Asset Management (ITAM) <span class="cert-year">2024</span></li>
+  </ul>
+</section>
+
+<!-- Education -->
+<section>
+  <div class="section-title">Education</div>
+
+  <div class="edu-item">
+    <div>
+      <div class="edu-degree">B.S. in Information Technology, Cybersecurity</div>
+      <div class="edu-school">Strayer University</div>
+    </div>
+    <div class="edu-dates">2025 – 2027</div>
+  </div>
+
+  <div class="edu-item">
+    <div>
+      <div class="edu-degree">Bachelor in Information Technology</div>
+      <div class="edu-school">University of Phoenix</div>
+    </div>
+    <div class="edu-dates">2009 – 2012</div>
+  </div>
+
+  <div class="edu-item">
+    <div>
+      <div class="edu-degree">Bachelor in Networking Telecommunications</div>
+      <div class="edu-school">DeVry University</div>
+    </div>
+    <div class="edu-dates">2005 – 2007</div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section>
+  <div class="section-title">Projects</div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div class="project-name">CyberGrind</div>
+      <a class="project-link" href="https://cybergrind.org" target="_blank">cybergrind.org ↗</a>
+    </div>
+    <div class="project-desc">Personal cybersecurity platform built with Hugo and deployed on Cloudflare Pages. Features a self-hosted threat intelligence pipeline, live global threat map powered by AbuseIPDB, AI governance framework series, CTF write-ups, and automated daily cybersecurity news with Ollama commentary. Includes a suite of Cloudflare Workers integrating CISA KEV, EPSS, NVD, and OSINT feeds.</div>
+    <div class="project-tags">
+      <span class="tag">Hugo</span>
+      <span class="tag">Cloudflare Workers</span>
+      <span class="tag">Python</span>
+      <span class="tag">Docker</span>
+      <span class="tag">D3.js</span>
+      <span class="tag">AbuseIPDB</span>
+      <span class="tag">OSINT</span>
+      <span class="tag">Threat Intel</span>
+    </div>
+  </div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div class="project-name">Homelab</div>
+    </div>
+    <div class="project-desc">Self-built lab environment for hands-on security research and skill development.</div>
+    <ul class="homelab-list" style="margin-top:10px;">
+      <li>Active Directory structure (local)</li>
+      <li>Storage Area Network (Windows)</li>
+      <li>Plex &amp; Jellyfin media servers</li>
+      <li>Wazuh SIEM on Ubuntu Server</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Volunteering -->
+<section>
+  <div class="section-title">Volunteering</div>
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title">Dog Walker</div>
+      <div class="job-dates">September 2016 – Present</div>
+    </div>
+    <div class="job-employer">PAWS Chicago</div>
+  </div>
+</section>
+
+</body>
+</html>
