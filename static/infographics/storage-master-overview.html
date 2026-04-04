@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Storage – Master Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--theme);
+    color: var(--primary);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .header .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1.1;
+  }
+  .header h1 span { color: var(--accent); }
+  .header .subtitle {
+    font-size: 12px;
+    color: var(--secondary);
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin: 16px auto 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    animation: fadeUp 0.5s ease both;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card.orange::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .card.green::before  { background: linear-gradient(90deg, var(--green), #6dcfa0); }
+  .card.blue::before   { background: linear-gradient(90deg, var(--blue), #7ab8e8); }
+  .card.purple::before { background: linear-gradient(90deg, var(--purple), #c4a0e8); }
+  .card.red::before    { background: linear-gradient(90deg, var(--red), #f08080); }
+
+  .card-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    opacity: 0.06;
+    position: absolute;
+    top: 10px; right: 16px;
+    line-height: 1;
+  }
+  .card-icon { font-size: 24px; margin-bottom: 10px; }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .card-desc {
+    font-size: 11px;
+    color: var(--secondary);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--secondary);
+    background: var(--theme);
+  }
+  .tag.accent { border-color: var(--accent); color: var(--accent); }
+  .tag.green  { border-color: var(--green);  color: var(--green);  }
+  .tag.blue   { border-color: var(--blue);   color: var(--blue);   }
+  .tag.purple { border-color: var(--purple); color: var(--purple); }
+  .tag.red    { border-color: var(--red);    color: var(--red);    }
+
+  .stat-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .stat { flex: 1; }
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-lbl { font-size: 10px; color: var(--secondary); margin-top: 2px; }
+
+  .footer {
+    text-align: center;
+    margin-top: 36px;
+    font-size: 10px;
+    color: var(--secondary);
+    letter-spacing: 1px;
+  }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.10s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.20s; }
+  .card:nth-child(5) { animation-delay: 0.25s; }
+  .card:nth-child(6) { animation-delay: 0.30s; }
+  .card:nth-child(7) { animation-delay: 0.35s; }
+  .card:nth-child(8) { animation-delay: 0.40s; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book</div>
+  <h1>Computer <span>Storage</span></h1>
+  <h1>Complete Reference Guide</h1>
+  <p class="subtitle">8 sections · history · types · file systems · RAID · emerging tech · troubleshooting · recovery</p>
+  <div class="divider"></div>
+</div>
+
+<div class="grid">
+
+  <div class="card orange">
+    <div class="card-num">01</div>
+    <div class="card-icon">📼</div>
+    <div class="card-title">Storage Facts &amp; History</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">1956</div><div class="stat-lbl">First HDD (IBM)</div></div>
+      <div class="stat"><div class="stat-val">3.75MB</div><div class="stat-lbl">Original capacity</div></div>
+      <div class="stat"><div class="stat-val">36TB</div><div class="stat-lbl">Largest HDD (2025)</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag accent">IBM 305 RAMAC</span>
+      <span class="tag">51 years to 1TB</span>
+      <span class="tag">$0.02/GB today</span>
+    </div>
+  </div>
+
+  <div class="card green">
+    <div class="card-num">02</div>
+    <div class="card-icon">💾</div>
+    <div class="card-title">Types of Storage Media</div>
+    <div class="card-desc">HDD, SSD, Optical, Flash — each with distinct trade-offs in speed, cost, durability, and capacity.</div>
+    <div class="tag-row">
+      <span class="tag green">HDD</span>
+      <span class="tag green">SSD / NVMe</span>
+      <span class="tag">Optical</span>
+      <span class="tag">Flash / USB</span>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-num">03</div>
+    <div class="card-icon">🗂️</div>
+    <div class="card-title">File Systems</div>
+    <div class="card-desc">NTFS, FAT32, APFS, ext4, BtrFS — the structures that organize data on every storage device.</div>
+    <div class="tag-row">
+      <span class="tag blue">NTFS</span>
+      <span class="tag blue">ext4</span>
+      <span class="tag">FAT32 / exFAT</span>
+      <span class="tag">APFS</span>
+      <span class="tag">BtrFS</span>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <div class="card-num">04</div>
+    <div class="card-icon">🔲</div>
+    <div class="card-title">Drive Partitioning</div>
+    <div class="card-desc">MBR vs GPT, volumes, formatting, and defragmentation — managing the logical structure of physical disks.</div>
+    <div class="tag-row">
+      <span class="tag purple">MBR</span>
+      <span class="tag purple">GPT</span>
+      <span class="tag">Formatting</span>
+      <span class="tag">Defrag</span>
+    </div>
+  </div>
+
+  <div class="card orange">
+    <div class="card-num">05</div>
+    <div class="card-icon">⚙️</div>
+    <div class="card-title">RAID</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">RAID 0</div><div class="stat-lbl">Speed, no redundancy</div></div>
+      <div class="stat"><div class="stat-val">RAID 1</div><div class="stat-lbl">Mirror, safe</div></div>
+      <div class="stat"><div class="stat-val">RAID 5/6</div><div class="stat-lbl">Parity balanced</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag accent">Striping</span>
+      <span class="tag accent">Mirroring</span>
+      <span class="tag accent">Parity</span>
+      <span class="tag">RAID 10</span>
+    </div>
+  </div>
+
+  <div class="card green">
+    <div class="card-num">06</div>
+    <div class="card-icon">🔬</div>
+    <div class="card-title">Emerging Technologies</div>
+    <div class="card-desc">HAMR pushes HDD density beyond current limits. 3D NAND stacks flash vertically. DNA storage offers 215 PB/gram.</div>
+    <div class="tag-row">
+      <span class="tag green">HAMR</span>
+      <span class="tag green">3D NAND</span>
+      <span class="tag green">DNA Storage</span>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-num">07</div>
+    <div class="card-icon">🔧</div>
+    <div class="card-title">Troubleshooting Hard Drives</div>
+    <div class="card-desc">Full disk errors, S.M.A.R.T. warnings, clicking sounds, cable checks, and when to call a technician.</div>
+    <div class="tag-row">
+      <span class="tag red">S.M.A.R.T.</span>
+      <span class="tag red">Click of Death</span>
+      <span class="tag">Disk Cleanup</span>
+      <span class="tag">Cable Check</span>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-num">08</div>
+    <div class="card-icon">🛟</div>
+    <div class="card-title">Data Recovery</div>
+    <div class="card-desc">Logical vs physical failure, software tools, cleanroom services, and the 3-2-1 backup rule.</div>
+    <div class="tag-row">
+      <span class="tag blue">Logical Recovery</span>
+      <span class="tag blue">Cleanroom</span>
+      <span class="tag">3-2-1 Rule</span>
+      <span class="tag">Recuva / R-Studio</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>cybergrind.org</span> // Orange Book // Storage Reference // All sections covered above
+</div>
+
+</body>
+</html>

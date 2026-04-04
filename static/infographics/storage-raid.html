@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAID Levels Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+    --yellow: #d4b24a;
+    --teal: #4cb5b5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 38px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  .warning-bar {
+    max-width: 1000px; margin: 0 auto 28px;
+    background: rgba(224,92,92,0.1); border: 1px solid var(--red);
+    border-radius: 4px; padding: 10px 16px;
+    font-size: 11px; color: var(--red);
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+    max-width: 1000px; margin-left: auto; margin-right: auto;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* RAID cards */
+  .raid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 14px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .raid-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+  .raid-header {
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .raid-level { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+  .raid-name { font-size: 11px; color: var(--secondary); margin-top: 1px; }
+  .raid-badge {
+    font-size: 9px; padding: 3px 8px; border-radius: 2px;
+    font-family: 'Space Mono', monospace; font-weight: 700; letter-spacing: 1px;
+  }
+  .raid-body { padding: 14px 16px; }
+
+  /* Disk visual diagrams */
+  .disk-diagram { display: flex; gap: 4px; margin-bottom: 14px; align-items: flex-start; }
+  .disk {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 2px; flex: 1;
+  }
+  .disk-label { font-size: 9px; color: var(--secondary); margin-bottom: 2px; }
+  .disk-block {
+    width: 100%; height: 18px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: var(--theme);
+    font-family: 'Space Mono', monospace;
+  }
+  .empty { background: var(--border); opacity: 0.3; }
+
+  /* RAID 0 colors */
+  .s0 { background: #5b9bd5; }
+  .s1 { background: #4caf82; }
+  .s2 { background: #a47fd4; }
+  .s3 { background: var(--accent); }
+  .s4 { background: var(--teal); }
+
+  /* RAID 1 */
+  .m0 { background: #5b9bd5; }
+  .m1 { background: #4caf82; }
+  .m2 { background: var(--accent); }
+
+  /* Parity */
+  .p { background: #e05c5c; color: #fff !important; }
+  .p2 { background: #d4b24a; color: #1a1c1e !important; }
+
+  .raid-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+  .spec {
+    background: var(--theme); border: 1px solid var(--border);
+    border-radius: 3px; padding: 7px 10px;
+  }
+  .spec-k { font-size: 9px; color: var(--secondary); margin-bottom: 2px; }
+  .spec-v { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; }
+
+  .pros-cons { margin-top: 12px; font-size: 10px; line-height: 1.8; }
+  .pro { color: var(--green); }
+  .pro::before { content: '+ '; }
+  .con { color: var(--red); }
+  .con::before { content: '− '; }
+  .use { color: var(--blue); }
+  .use::before { content: '→ '; }
+
+  /* Comparison table */
+  .compare-wrap { max-width: 1000px; margin: 0 auto; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 620px; }
+  th {
+    background: var(--entry); border: 1px solid var(--border);
+    padding: 10px 12px; text-align: center;
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+    color: var(--secondary); letter-spacing: 1px; text-transform: uppercase;
+  }
+  th:first-child { text-align: left; }
+  td { border: 1px solid var(--border); padding: 9px 12px; text-align: center; color: var(--secondary); vertical-align: middle; font-size: 11px; }
+  td:first-child { text-align: left; color: var(--primary); font-weight: 700; font-family: 'Syne', sans-serif; }
+  tr:hover td { background: rgba(255,140,0,0.04); }
+  .good { color: var(--green); }
+  .mid  { color: var(--accent2); }
+  .poor { color: var(--red); }
+  .star { color: var(--accent); font-size: 13px; }
+
+  /* Technique explainer */
+  .technique-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .tech-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px; padding: 16px;
+    text-align: center; animation: fadeUp 0.4s ease both;
+  }
+  .tech-icon { font-size: 28px; margin-bottom: 8px; }
+  .tech-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+  .tech-desc { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .raid-card:nth-child(1) { animation-delay: 0.05s; }
+  .raid-card:nth-child(2) { animation-delay: 0.10s; }
+  .raid-card:nth-child(3) { animation-delay: 0.15s; }
+  .raid-card:nth-child(4) { animation-delay: 0.20s; }
+  .raid-card:nth-child(5) { animation-delay: 0.25s; }
+
+  @media (max-width: 640px) {
+    .technique-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 05</div>
+  <h1>RAID — <span>Redundant Array</span></h1>
+  <h1><span>of Independent Disks</span></h1>
+  <p class="subtitle">Striping · Mirroring · Parity — trade-offs in performance, capacity, and fault tolerance</p>
+  <div class="divider"></div>
+</div>
+
+<div class="warning-bar">
+  ⚠ <strong>RAID IS NOT A BACKUP.</strong> It does not protect against accidental deletion, ransomware, or physical disasters. Always maintain separate, independent backups.
+</div>
+
+<!-- Building blocks -->
+<div class="section-label">// The Three Techniques</div>
+<div class="technique-row">
+  <div class="tech-card" style="border-top:3px solid var(--blue); animation-delay:0.05s">
+    <div class="tech-icon">⚡</div>
+    <div class="tech-name" style="color:var(--blue)">Striping</div>
+    <div class="tech-desc">Data is split into chunks and distributed across multiple drives. All drives read/write simultaneously — maximum throughput, zero redundancy.</div>
+  </div>
+  <div class="tech-card" style="border-top:3px solid var(--green); animation-delay:0.10s">
+    <div class="tech-icon">🪞</div>
+    <div class="tech-name" style="color:var(--green)">Mirroring</div>
+    <div class="tech-desc">Identical data is written to two or more drives simultaneously. If one fails, an exact copy remains. Simple and reliable.</div>
+  </div>
+  <div class="tech-card" style="border-top:3px solid var(--red); animation-delay:0.15s">
+    <div class="tech-icon">🧮</div>
+    <div class="tech-name" style="color:var(--red)">Parity</div>
+    <div class="tech-desc">Mathematical checksums of data blocks are stored across drives. If a drive fails, parity data allows the missing blocks to be reconstructed.</div>
+  </div>
+</div>
+
+<!-- RAID level cards -->
+<div class="section-label">// RAID Levels</div>
+<div class="raid-grid">
+
+  <!-- RAID 0 -->
+  <div class="raid-card" style="border-top:3px solid var(--blue)">
+    <div class="raid-header">
+      <div>
+        <div class="raid-level" style="color:var(--blue)">RAID 0</div>
+        <div class="raid-name">Striping — Performance Only</div>
+      </div>
+      <div class="raid-badge" style="background:rgba(224,92,92,0.15);border:1px solid var(--red);color:var(--red)">NO REDUNDANCY</div>
+    </div>
+    <div class="raid-body">
+      <div class="disk-diagram">
+        <div class="disk">
+          <div class="disk-label">Disk 1</div>
+          <div class="disk-block s0">A1</div>
+          <div class="disk-block s2">A3</div>
+          <div class="disk-block s0">A5</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 2</div>
+          <div class="disk-block s1">A2</div>
+          <div class="disk-block s3">A4</div>
+          <div class="disk-block s1">A6</div>
+        </div>
+      </div>
+      <div class="raid-specs">
+        <div class="spec"><div class="spec-k">Min Drives</div><div class="spec-v" style="color:var(--blue)">2</div></div>
+        <div class="spec"><div class="spec-k">Usable Space</div><div class="spec-v" style="color:var(--green)">100%</div></div>
+        <div class="spec"><div class="spec-k">Drives Lost</div><div class="spec-v" style="color:var(--red)">0</div></div>
+        <div class="spec"><div class="spec-k">Read Speed</div><div class="spec-v" style="color:var(--green)">★★★★★</div></div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Maximum read/write throughput</div>
+        <div class="pro">Full capacity — no overhead</div>
+        <div class="con">One drive failure = total data loss</div>
+        <div class="use">Video editing scratch disks, caching</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAID 1 -->
+  <div class="raid-card" style="border-top:3px solid var(--green)">
+    <div class="raid-header">
+      <div>
+        <div class="raid-level" style="color:var(--green)">RAID 1</div>
+        <div class="raid-name">Mirroring — Pure Redundancy</div>
+      </div>
+      <div class="raid-badge" style="background:rgba(76,175,130,0.15);border:1px solid var(--green);color:var(--green)">SAFE</div>
+    </div>
+    <div class="raid-body">
+      <div class="disk-diagram">
+        <div class="disk">
+          <div class="disk-label">Disk 1 (Primary)</div>
+          <div class="disk-block m0">A</div>
+          <div class="disk-block m1">B</div>
+          <div class="disk-block m2">C</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 2 (Mirror)</div>
+          <div class="disk-block m0">A</div>
+          <div class="disk-block m1">B</div>
+          <div class="disk-block m2">C</div>
+        </div>
+      </div>
+      <div class="raid-specs">
+        <div class="spec"><div class="spec-k">Min Drives</div><div class="spec-v" style="color:var(--green)">2</div></div>
+        <div class="spec"><div class="spec-k">Usable Space</div><div class="spec-v" style="color:var(--accent2)">50%</div></div>
+        <div class="spec"><div class="spec-k">Drives Lost</div><div class="spec-v" style="color:var(--green)">1</div></div>
+        <div class="spec"><div class="spec-k">Read Speed</div><div class="spec-v" style="color:var(--accent2)">★★★☆☆</div></div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Simple; survives 1 drive failure</div>
+        <div class="pro">Fast read (can read from either disk)</div>
+        <div class="con">50% of storage lost to mirroring</div>
+        <div class="use">OS drives, small business file servers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAID 5 -->
+  <div class="raid-card" style="border-top:3px solid var(--accent)">
+    <div class="raid-header">
+      <div>
+        <div class="raid-level" style="color:var(--accent)">RAID 5</div>
+        <div class="raid-name">Distributed Parity — Balanced</div>
+      </div>
+      <div class="raid-badge" style="background:rgba(255,140,0,0.15);border:1px solid var(--accent);color:var(--accent)">BALANCED</div>
+    </div>
+    <div class="raid-body">
+      <div class="disk-diagram">
+        <div class="disk">
+          <div class="disk-label">Disk 1</div>
+          <div class="disk-block s0">A1</div>
+          <div class="disk-block s1">B1</div>
+          <div class="disk-block p">P</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 2</div>
+          <div class="disk-block s2">A2</div>
+          <div class="disk-block p">P</div>
+          <div class="disk-block s3">C1</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 3</div>
+          <div class="disk-block p">P</div>
+          <div class="disk-block s4">B2</div>
+          <div class="disk-block s0">C2</div>
+        </div>
+      </div>
+      <div class="raid-specs">
+        <div class="spec"><div class="spec-k">Min Drives</div><div class="spec-v" style="color:var(--accent)">3</div></div>
+        <div class="spec"><div class="spec-k">Usable Space</div><div class="spec-v" style="color:var(--green)">(N−1)/N</div></div>
+        <div class="spec"><div class="spec-k">Drives Lost</div><div class="spec-v" style="color:var(--accent2)">1</div></div>
+        <div class="spec"><div class="spec-k">Write Speed</div><div class="spec-v" style="color:var(--accent2)">★★★☆☆</div></div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Good capacity efficiency</div>
+        <div class="pro">Strong read performance</div>
+        <div class="con">Parity slows writes; 1 drive tolerance only</div>
+        <div class="use">General NAS, file servers, SMB storage</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAID 6 -->
+  <div class="raid-card" style="border-top:3px solid var(--red)">
+    <div class="raid-header">
+      <div>
+        <div class="raid-level" style="color:var(--red)">RAID 6</div>
+        <div class="raid-name">Dual Parity — Enhanced Safety</div>
+      </div>
+      <div class="raid-badge" style="background:rgba(224,92,92,0.15);border:1px solid var(--red);color:var(--red)">HIGH FAULT TOL.</div>
+    </div>
+    <div class="raid-body">
+      <div class="disk-diagram">
+        <div class="disk">
+          <div class="disk-label">Disk 1</div>
+          <div class="disk-block s0">A1</div>
+          <div class="disk-block p">P1</div>
+          <div class="disk-block p2">P2</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 2</div>
+          <div class="disk-block p">P1</div>
+          <div class="disk-block s1">B1</div>
+          <div class="disk-block p2">P2</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 3</div>
+          <div class="disk-block p2">P2</div>
+          <div class="disk-block s2">A2</div>
+          <div class="disk-block s3">B2</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 4</div>
+          <div class="disk-block s4">A3</div>
+          <div class="disk-block p2">P2</div>
+          <div class="disk-block p">P1</div>
+        </div>
+      </div>
+      <div class="raid-specs">
+        <div class="spec"><div class="spec-k">Min Drives</div><div class="spec-v" style="color:var(--red)">4</div></div>
+        <div class="spec"><div class="spec-k">Usable Space</div><div class="spec-v" style="color:var(--accent2)">(N−2)/N</div></div>
+        <div class="spec"><div class="spec-k">Drives Lost</div><div class="spec-v" style="color:var(--green)">2</div></div>
+        <div class="spec"><div class="spec-k">Write Speed</div><div class="spec-v" style="color:var(--red)">★★☆☆☆</div></div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Survives 2 simultaneous drive failures</div>
+        <div class="pro">Critical for large arrays with long rebuild times</div>
+        <div class="con">Lowest write speed; needs 4+ drives</div>
+        <div class="use">Large NAS, enterprise arrays, EMC/IBM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAID 10 -->
+  <div class="raid-card" style="border-top:3px solid var(--purple)">
+    <div class="raid-header">
+      <div>
+        <div class="raid-level" style="color:var(--purple)">RAID 10</div>
+        <div class="raid-name">Mirrored Stripes — Best of Both</div>
+      </div>
+      <div class="raid-badge" style="background:rgba(164,127,212,0.15);border:1px solid var(--purple);color:var(--purple)">RECOMMENDED</div>
+    </div>
+    <div class="raid-body">
+      <div class="disk-diagram">
+        <div class="disk">
+          <div class="disk-label">Disk 1</div>
+          <div class="disk-block s0">A1</div>
+          <div class="disk-block s1">A3</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 2 (mirror)</div>
+          <div class="disk-block s0">A1</div>
+          <div class="disk-block s1">A3</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 3</div>
+          <div class="disk-block s2">A2</div>
+          <div class="disk-block s3">A4</div>
+        </div>
+        <div class="disk">
+          <div class="disk-label">Disk 4 (mirror)</div>
+          <div class="disk-block s2">A2</div>
+          <div class="disk-block s3">A4</div>
+        </div>
+      </div>
+      <div class="raid-specs">
+        <div class="spec"><div class="spec-k">Min Drives</div><div class="spec-v" style="color:var(--purple)">4</div></div>
+        <div class="spec"><div class="spec-k">Usable Space</div><div class="spec-v" style="color:var(--accent2)">50%</div></div>
+        <div class="spec"><div class="spec-k">Drives Lost</div><div class="spec-v" style="color:var(--green)">Multiple*</div></div>
+        <div class="spec"><div class="spec-k">Read/Write</div><div class="spec-v" style="color:var(--green)">★★★★★</div></div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Fastest performance with redundancy</div>
+        <div class="pro">Fast rebuild — mirror copy, no parity calc</div>
+        <div class="con">50% capacity overhead (expensive)</div>
+        <div class="use">Databases, VMs, mission-critical servers</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Summary table -->
+<div class="section-label">// Quick Reference</div>
+<div class="compare-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Technique</th>
+        <th>Min Drives</th>
+        <th>Usable Space</th>
+        <th>Drives Tolerated</th>
+        <th>Speed</th>
+        <th>Best Use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>RAID 0</td>
+        <td>Striping</td>
+        <td>2</td>
+        <td class="good">100%</td>
+        <td class="poor">0</td>
+        <td class="good">Fastest</td>
+        <td>Non-critical high-speed work</td>
+      </tr>
+      <tr>
+        <td>RAID 1</td>
+        <td>Mirroring</td>
+        <td>2</td>
+        <td class="poor">50%</td>
+        <td class="good">1</td>
+        <td class="mid">Good reads</td>
+        <td>OS drives, simple redundancy</td>
+      </tr>
+      <tr>
+        <td>RAID 5</td>
+        <td>Stripe + Parity</td>
+        <td>3</td>
+        <td class="good">(N−1)/N</td>
+        <td class="mid">1</td>
+        <td class="mid">Good reads</td>
+        <td>NAS, SMB file servers</td>
+      </tr>
+      <tr>
+        <td>RAID 6</td>
+        <td>Stripe + Dual Parity</td>
+        <td>4</td>
+        <td class="mid">(N−2)/N</td>
+        <td class="good">2</td>
+        <td class="poor">Slower writes</td>
+        <td>Large arrays, enterprise</td>
+      </tr>
+      <tr>
+        <td>RAID 10</td>
+        <td>Mirror + Stripe</td>
+        <td>4</td>
+        <td class="poor">50%</td>
+        <td class="good">Multiple*</td>
+        <td class="good">Very fast</td>
+        <td>Databases, VMs, critical apps</td>
+      </tr>
+      <tr>
+        <td>RAID 50</td>
+        <td>RAID 5 + Stripe</td>
+        <td>6</td>
+        <td class="mid">Varies</td>
+        <td class="good">1 per group</td>
+        <td class="good">Fast</td>
+        <td>High-reliability high-perf</td>
+      </tr>
+      <tr>
+        <td>RAID 60</td>
+        <td>RAID 6 + Stripe</td>
+        <td>8</td>
+        <td class="mid">Varies</td>
+        <td class="good">2 per group</td>
+        <td class="mid">Good</td>
+        <td>Large enterprise storage</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:10px;color:var(--secondary);margin-top:8px;">* RAID 10 tolerates multiple failures as long as no two failed drives are in the same mirrored pair.</p>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // RAID Reference</div>
+</body>
+</html>

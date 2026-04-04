@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Systems & Partitioning</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+    --yellow: #d4b24a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 36px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+    max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Feature cards */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .feat {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .feat-icon { font-size: 20px; margin-bottom: 8px; }
+  .feat-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+  .feat-desc { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+  .feat-note { font-size: 10px; color: var(--accent2); margin-top: 6px; font-style: italic; }
+
+  /* FS OS table */
+  .os-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .os-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+  .os-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .os-icon { font-size: 18px; }
+  .os-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
+  .os-body { padding: 12px 14px; }
+  .fs-item { margin-bottom: 8px; }
+  .fs-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); }
+  .fs-status {
+    display: inline-block; font-size: 9px; padding: 1px 6px;
+    border-radius: 2px; margin-left: 6px; vertical-align: middle;
+  }
+  .fs-status.current { background: rgba(76,175,130,0.15); border: 1px solid var(--green); color: var(--green); }
+  .fs-status.legacy  { background: rgba(212,178,74,0.12);  border: 1px solid var(--yellow); color: var(--yellow); }
+  .fs-status.future  { background: rgba(90,155,213,0.12);  border: 1px solid var(--blue); color: var(--blue); }
+  .fs-desc { font-size: 10px; color: var(--secondary); line-height: 1.6; margin-top: 2px; }
+
+  /* FS features matrix */
+  .matrix-wrap { max-width: 1100px; margin: 0 auto; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 550px; }
+  th {
+    background: var(--entry); border: 1px solid var(--border);
+    padding: 9px 12px; text-align: center;
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+    color: var(--secondary); letter-spacing: 1px; text-transform: uppercase;
+  }
+  th:first-child { text-align: left; }
+  td { border: 1px solid var(--border); padding: 8px 12px; text-align: center; color: var(--secondary); }
+  td:first-child { text-align: left; color: var(--primary); font-weight: 700; font-family: 'Syne', sans-serif; font-size: 12px; }
+  tr:hover td { background: rgba(255,140,0,0.04); }
+  .yes { color: var(--green); font-size: 14px; }
+  .no  { color: var(--red);   font-size: 14px; }
+  .partial { color: var(--yellow); font-size: 12px; }
+
+  /* Partition diagram */
+  .part-wrap {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .part-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px; padding: 18px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .part-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+  .part-sub { font-size: 10px; color: var(--secondary); margin-bottom: 14px; }
+  .disk-visual { border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+  .disk-row { display: flex; height: 36px; }
+  .disk-seg {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-family: 'Space Mono', monospace;
+    border-right: 1px solid var(--theme); color: var(--theme);
+    font-weight: 700; overflow: hidden;
+  }
+  .disk-seg:last-child { border-right: none; }
+  .mbr-boot { background: var(--accent); flex: 0 0 8%; }
+  .mbr-p1   { background: #5b9bd5; flex: 0 0 28%; }
+  .mbr-p2   { background: #4caf82; flex: 0 0 36%; }
+  .mbr-p3   { background: #a47fd4; flex: 0 0 20%; }
+  .mbr-p4   { background: #9a9a9a; flex: 0 0 8%; }
+  .gpt-prot { background: var(--accent); flex: 0 0 5%; }
+  .gpt-hdr  { background: var(--accent2); flex: 0 0 5%; }
+  .gpt-p1   { background: #5b9bd5; flex: 0 0 25%; }
+  .gpt-p2   { background: #4caf82; flex: 0 0 35%; }
+  .gpt-p3   { background: #a47fd4; flex: 0 0 20%; }
+  .gpt-more { background: #d4b24a; flex: 0 0 10%; font-size: 9px; }
+  .gpt-bak  { background: #3a3c42; flex: 0 0 5%; font-size: 9px; color: var(--secondary); }
+  .disk-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--secondary); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .part-spec { margin-top: 12px; }
+  .spec-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 10px; }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { color: var(--secondary); }
+  .spec-val { color: var(--primary); font-weight: 700; }
+
+  /* File path demo */
+  .filepath-demo {
+    max-width: 1100px; margin: 0 auto;
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px; padding: 18px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .path-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .path-row { margin-bottom: 10px; }
+  .path-display {
+    font-family: 'Space Mono', monospace; font-size: 13px;
+    background: var(--theme); border: 1px solid var(--border);
+    border-radius: 3px; padding: 8px 12px; display: inline-block;
+    margin-bottom: 4px; word-break: break-all;
+  }
+  .path-win .drive { color: var(--accent2); }
+  .path-win .sep { color: var(--secondary); }
+  .path-win .dir { color: var(--blue); }
+  .path-win .file { color: var(--green); }
+  .path-linux .root { color: var(--accent); }
+  .path-linux .dir { color: var(--blue); }
+  .path-linux .file { color: var(--green); }
+  .path-note { font-size: 10px; color: var(--secondary); }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 600px) {
+    .part-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Sections 03 + 04</div>
+  <h1>File Systems <span>&amp;</span> Partitioning</h1>
+  <p class="subtitle">How operating systems organize, store, and access data on disk</p>
+  <div class="divider"></div>
+</div>
+
+<!-- FS Features -->
+<div class="section-label">// File System Features</div>
+<div class="feature-grid">
+  <div class="feat" style="animation-delay:0.05s">
+    <div class="feat-icon">🗜️</div>
+    <div class="feat-name">Compression</div>
+    <div class="feat-desc">Re-encodes data to consume less space. Fifty consecutive zeros can be stored as "50×0" rather than fifty individual bits.</div>
+    <div class="feat-note">Transparent to the user in most implementations</div>
+  </div>
+  <div class="feat" style="animation-delay:0.10s">
+    <div class="feat-icon">🔐</div>
+    <div class="feat-name">Encryption</div>
+    <div class="feat-desc">Converts file data so it cannot be read without the correct decryption key. Protects sensitive files from unauthorized access.</div>
+    <div class="feat-note">NTFS uses EFS; APFS has native full-volume encryption</div>
+  </div>
+  <div class="feat" style="animation-delay:0.15s">
+    <div class="feat-icon">🔑</div>
+    <div class="feat-name">Permissions</div>
+    <div class="feat-desc">Controls which users can read, write, move, or delete each file. Managed via an Access Control List (ACL).</div>
+    <div class="feat-note">Critical for multi-user and server environments</div>
+  </div>
+  <div class="feat" style="animation-delay:0.20s">
+    <div class="feat-icon">📓</div>
+    <div class="feat-name">Journaling</div>
+    <div class="feat-desc">Logs every file change before writing to disk. Allows the system to recover to a consistent state after a crash or power failure.</div>
+    <div class="feat-note">Used by NTFS, ext3/4, HFS+, APFS</div>
+  </div>
+  <div class="feat" style="animation-delay:0.25s">
+    <div class="feat-icon">📏</div>
+    <div class="feat-name">Size Limits</div>
+    <div class="feat-desc">FAT32 caps individual files at 4 GB. NTFS supports up to 16 exabytes per file — enough for virtually any foreseeable use case.</div>
+    <div class="feat-note">Modern FS limits are effectively non-limiting</div>
+  </div>
+  <div class="feat" style="animation-delay:0.30s">
+    <div class="feat-icon">🌐</div>
+    <div class="feat-name">File Sharing</div>
+    <div class="feat-desc">Allows users to share folders with others on the same network (P2P). Microsoft Workgroups are one implementation of this.</div>
+    <div class="feat-note">Cloud sharing preferred for persistent availability</div>
+  </div>
+</div>
+
+<!-- OS-specific file systems -->
+<div class="section-label" style="margin-top:32px">// File Systems by Operating System</div>
+<div class="os-grid">
+  <div class="os-card" style="animation-delay:0.05s; border-top: 3px solid var(--blue)">
+    <div class="os-header"><div class="os-icon">🪟</div><div class="os-name" style="color:var(--blue)">Windows</div></div>
+    <div class="os-body">
+      <div class="fs-item">
+        <div class="fs-name">NTFS <span class="fs-status current">Current</span></div>
+        <div class="fs-desc">Supports journaling, encryption (EFS), ACLs, and 16 EB max file size. Default for all modern Windows installs.</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-name">FAT32 <span class="fs-status legacy">Legacy</span></div>
+        <div class="fs-desc">Max 4 GB file size. Still used for USB drives and SD cards due to broad cross-platform compatibility.</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-name">exFAT <span class="fs-status current">Current</span></div>
+        <div class="fs-desc">FAT32 successor for removable media. Removes the 4 GB file size limit while keeping cross-platform support.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-card" style="animation-delay:0.10s; border-top: 3px solid var(--purple)">
+    <div class="os-header"><div class="os-icon">🍎</div><div class="os-name" style="color:var(--purple)">macOS</div></div>
+    <div class="os-body">
+      <div class="fs-item">
+        <div class="fs-name">APFS <span class="fs-status current">Current</span></div>
+        <div class="fs-desc">Default since macOS 10.13 (High Sierra). Optimized for SSDs with native encryption, snapshots, and cloneable files.</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-name">HFS+ <span class="fs-status legacy">Legacy</span></div>
+        <div class="fs-desc">Hierarchical File System Plus. Used in older Macs. Still supported for compatibility with older Time Machine backups.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-card" style="animation-delay:0.15s; border-top: 3px solid var(--green)">
+    <div class="os-header"><div class="os-icon">🐧</div><div class="os-name" style="color:var(--green)">Linux</div></div>
+    <div class="os-body">
+      <div class="fs-item">
+        <div class="fs-name">ext4 <span class="fs-status current">Current</span></div>
+        <div class="fs-desc">Standard for most distros. Delayed allocation, reduced fragmentation, and larger volume/file support over ext3.</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-name">ext3 <span class="fs-status legacy">Legacy</span></div>
+        <div class="fs-desc">Introduced journaling to the ext family. Still supported; largely replaced by ext4.</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-name">BtrFS <span class="fs-status future">Emerging</span></div>
+        <div class="fs-desc">The future of Linux filesystems. Transparent compression, drive pooling, online defrag, and live snapshots.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature matrix -->
+<div class="section-label" style="margin-top:32px">// Feature Support Matrix</div>
+<div class="matrix-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>File System</th>
+        <th>Journaling</th>
+        <th>Encryption</th>
+        <th>Permissions</th>
+        <th>Compression</th>
+        <th>Max File Size</th>
+        <th>OS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>NTFS</td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td>16 EB</td>
+        <td>Windows</td>
+      </tr>
+      <tr>
+        <td>FAT32</td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td>4 GB</td>
+        <td>Universal</td>
+      </tr>
+      <tr>
+        <td>exFAT</td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td><span class="no">✗</span></td>
+        <td>16 EB</td>
+        <td>Universal</td>
+      </tr>
+      <tr>
+        <td>APFS</td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="partial">~</span></td>
+        <td>8 EB</td>
+        <td>macOS / iOS</td>
+      </tr>
+      <tr>
+        <td>ext4</td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="partial">~</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="no">✗</span></td>
+        <td>16 TB</td>
+        <td>Linux</td>
+      </tr>
+      <tr>
+        <td>BtrFS</td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td><span class="yes">✓</span></td>
+        <td>16 EB</td>
+        <td>Linux</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:10px;color:var(--secondary);margin-top:8px;">~ = partial or via external tools &nbsp;|&nbsp; ✓ = native support &nbsp;|&nbsp; ✗ = not supported</p>
+</div>
+
+<!-- Partitioning -->
+<div class="section-label" style="margin-top:32px">// Partition Styles: MBR vs GPT</div>
+<div class="part-wrap">
+  <div class="part-card" style="animation-delay:0.05s; border-top:3px solid var(--yellow)">
+    <div class="part-title" style="color:var(--yellow)">MBR — Master Boot Record</div>
+    <div class="part-sub">Legacy scheme · stored in sector 0</div>
+    <div class="disk-visual">
+      <div class="disk-row">
+        <div class="disk-seg mbr-boot">MBR</div>
+        <div class="disk-seg mbr-p1">Primary 1</div>
+        <div class="disk-seg mbr-p2">Primary 2</div>
+        <div class="disk-seg mbr-p3">Primary 3</div>
+        <div class="disk-seg mbr-p4">P4</div>
+      </div>
+    </div>
+    <div class="disk-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--accent)"></div> Boot sector</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div> Primary partition</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--secondary)"></div> Extended</div>
+    </div>
+    <div class="part-spec">
+      <div class="spec-row"><span class="spec-key">Max partitions</span><span class="spec-val">4 primary</span></div>
+      <div class="spec-row"><span class="spec-key">Max disk size</span><span class="spec-val">2 TB</span></div>
+      <div class="spec-row"><span class="spec-key">Boot mode</span><span class="spec-val">BIOS / Legacy</span></div>
+      <div class="spec-row"><span class="spec-key">Redundancy</span><span class="spec-val">None</span></div>
+      <div class="spec-row"><span class="spec-key">Usage (2023)</span><span class="spec-val">~43% of drives</span></div>
+    </div>
+  </div>
+
+  <div class="part-card" style="animation-delay:0.10s; border-top:3px solid var(--green)">
+    <div class="part-title" style="color:var(--green)">GPT — GUID Partition Table</div>
+    <div class="part-sub">Modern scheme · UEFI required</div>
+    <div class="disk-visual">
+      <div class="disk-row">
+        <div class="disk-seg gpt-prot">Prot</div>
+        <div class="disk-seg gpt-hdr">HDR</div>
+        <div class="disk-seg gpt-p1">Part 1</div>
+        <div class="disk-seg gpt-p2">Part 2</div>
+        <div class="disk-seg gpt-p3">Part 3</div>
+        <div class="disk-seg gpt-more">… 128</div>
+        <div class="disk-seg gpt-bak">Bak</div>
+      </div>
+    </div>
+    <div class="disk-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--accent)"></div> Protective MBR</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div> Partition</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--secondary)"></div> Backup header</div>
+    </div>
+    <div class="part-spec">
+      <div class="spec-row"><span class="spec-key">Max partitions</span><span class="spec-val">128 (Windows)</span></div>
+      <div class="spec-row"><span class="spec-key">Max disk size</span><span class="spec-val">Virtually unlimited</span></div>
+      <div class="spec-row"><span class="spec-key">Boot mode</span><span class="spec-val">UEFI</span></div>
+      <div class="spec-row"><span class="spec-key">Redundancy</span><span class="spec-val">Backup header at end of disk</span></div>
+      <div class="spec-row"><span class="spec-key">Usage (2023)</span><span class="spec-val">~57% of drives</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- File path demo -->
+<div class="section-label" style="margin-top:32px">// Understanding File Paths</div>
+<div class="filepath-demo">
+  <div class="path-title">Hierarchical File System — Path Examples</div>
+  <div class="path-row">
+    <div class="path-display path-win">
+      <span class="drive">C:</span><span class="sep">\</span><span class="dir">Users</span><span class="sep">\</span><span class="dir">Documents</span><span class="sep">\</span><span class="file">photo.jpg</span>
+    </div>
+    <div class="path-note">Windows path — drive letter → folders → file. Backslash (\) separates levels.</div>
+  </div>
+  <div class="path-row" style="margin-top:10px">
+    <div class="path-display path-linux">
+      <span class="root">/</span><span class="dir">home</span><span class="sep">/</span><span class="dir">logan</span><span class="sep">/</span><span class="dir">documents</span><span class="sep">/</span><span class="file">photo.jpg</span>
+    </div>
+    <div class="path-note">Linux / macOS path — root (/) is the top-level directory. Forward slash (/) separates levels.</div>
+  </div>
+  <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;">
+    <div style="background:var(--theme);border:1px solid var(--border);border-radius:3px;padding:8px 12px;font-size:10px;color:var(--secondary);">
+      <span style="color:var(--accent2)">Root Directory</span> — top-level, contains all subdirectories
+    </div>
+    <div style="background:var(--theme);border:1px solid var(--border);border-radius:3px;padding:8px 12px;font-size:10px;color:var(--secondary);">
+      <span style="color:var(--blue)">Subdirectory</span> — folders that group related files
+    </div>
+    <div style="background:var(--theme);border:1px solid var(--border);border-radius:3px;padding:8px 12px;font-size:10px;color:var(--secondary);">
+      <span style="color:var(--green)">File + Extension</span> — determines type and application association
+    </div>
+  </div>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // File Systems &amp; Partitioning</div>
+</body>
+</html>

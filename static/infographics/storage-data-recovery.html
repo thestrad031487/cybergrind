@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Recovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+    --yellow: #d4b24a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 36px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+    max-width: 1000px; margin-left: auto; margin-right: auto;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Failure types */
+  .failure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .fail-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 18px; animation: fadeUp 0.4s ease both;
+  }
+  .fail-icon { font-size: 24px; margin-bottom: 8px; }
+  .fail-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; margin-bottom: 5px; }
+  .fail-desc { font-size: 10px; color: var(--secondary); line-height: 1.7; margin-bottom: 8px; }
+  .fail-examples { font-size: 10px; color: var(--secondary); }
+  .fail-examples span { color: var(--accent2); }
+  .badge { display: inline-block; font-size: 9px; padding: 2px 7px; border-radius: 2px; margin-top: 8px; }
+
+  /* Escalation tiers */
+  .tier-wrap {
+    max-width: 1000px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .tier {
+    display: grid; grid-template-columns: 120px 1fr;
+    gap: 0; animation: fadeUp 0.4s ease both;
+    position: relative;
+  }
+  .tier:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 59px; bottom: -20px;
+    width: 2px; height: 20px;
+    background: var(--border);
+    z-index: 1;
+  }
+  .tier + .tier { margin-top: 20px; }
+
+  .tier-num {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 16px;
+  }
+  .tier-circle {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .tier-connector { width: 2px; flex: 1; margin-top: 6px; min-height: 20px; }
+
+  .tier-content {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 18px; margin-left: 12px;
+  }
+  .tier-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+  .tier-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; }
+  .tier-cost { font-size: 10px; padding: 2px 8px; border-radius: 2px; }
+  .tier-desc { font-size: 11px; color: var(--secondary); line-height: 1.7; margin-bottom: 10px; }
+  .tier-tools { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tool-tag { font-size: 9px; padding: 2px 7px; border-radius: 2px; border: 1px solid var(--border); color: var(--secondary); }
+
+  /* Precautions */
+  .precautions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .pre-card {
+    background: var(--entry); border: 1px solid var(--border); border-left: 3px solid var(--red);
+    border-radius: 4px; padding: 12px 14px; animation: fadeUp 0.4s ease both;
+  }
+  .pre-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--red); margin-bottom: 4px; }
+  .pre-body { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+
+  /* 321 rule */
+  .rule-wrap {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .rule-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px;
+    padding: 18px; text-align: center; animation: fadeUp 0.4s ease both;
+    position: relative; overflow: hidden;
+  }
+  .rule-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .rule-card:nth-child(1)::before { background: var(--accent); }
+  .rule-card:nth-child(2)::before { background: var(--blue); }
+  .rule-card:nth-child(3)::before { background: var(--green); }
+  .rule-num {
+    font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .rule-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .rule-desc { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 640px) {
+    .rule-wrap { grid-template-columns: 1fr; }
+    .tier { grid-template-columns: 1fr; }
+    .tier-num { flex-direction: row; padding-top: 0; margin-bottom: 8px; gap: 10px; }
+    .tier-connector { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 08</div>
+  <h1>Data <span>Recovery</span></h1>
+  <p class="subtitle">Failure types · escalation tiers · precautions · software tools · professional services · 3-2-1 rule</p>
+  <div class="divider"></div>
+</div>
+
+<!-- Failure types -->
+<div class="section-label">// Types of Data Loss</div>
+<div class="failure-grid">
+  <div class="fail-card" style="border-top:3px solid var(--blue); animation-delay:0.05s">
+    <div class="fail-icon">💻</div>
+    <div class="fail-title" style="color:var(--blue)">Logical Failure</div>
+    <div class="fail-desc">The physical drive is intact but the file system, partition table, or directory structures are damaged or missing. Software tools have a good recovery chance.</div>
+    <div class="fail-examples"><span>Examples:</span> Accidental format, corrupted filesystem, improper disconnection, malware damage, deleted partition</div>
+    <div class="badge" style="background:rgba(76,175,130,0.15);border:1px solid var(--green);color:var(--green)">Software recoverable (often)</div>
+  </div>
+  <div class="fail-card" style="border-top:3px solid var(--red); animation-delay:0.10s">
+    <div class="fail-icon">⚙️</div>
+    <div class="fail-title" style="color:var(--red)">Physical / Mechanical Failure</div>
+    <div class="fail-desc">The drive's hardware is damaged — read/write heads, platters, spindle motor, or PCB. Cannot be recovered with software alone. Requires professional cleanroom work.</div>
+    <div class="fail-examples"><span>Examples:</span> Click of death, head crash, motor failure, flood/fire damage, burned PCB</div>
+    <div class="badge" style="background:rgba(224,92,92,0.15);border:1px solid var(--red);color:var(--red)">Requires professional service</div>
+  </div>
+  <div class="fail-card" style="border-top:3px solid var(--yellow); animation-delay:0.15s">
+    <div class="fail-icon">🗑️</div>
+    <div class="fail-title" style="color:var(--yellow)">Accidental Deletion / Overwrite</div>
+    <div class="fail-desc">Files deleted or overwritten by the user. When deleted, the OS marks space as available but doesn't erase the data immediately — it persists until overwritten.</div>
+    <div class="fail-examples"><span>Key rule:</span> Stop writing to the drive immediately. Every new write risks permanently overwriting recoverable data.</div>
+    <div class="badge" style="background:rgba(212,178,74,0.15);border:1px solid var(--yellow);color:var(--yellow)">Recoverable if not overwritten</div>
+  </div>
+</div>
+
+<!-- Key principle -->
+<div style="max-width:1000px;margin:16px auto 0;background:rgba(255,140,0,0.08);border:1px solid var(--accent);border-radius:4px;padding:12px 16px;font-size:11px;color:var(--accent2);display:flex;gap:10px;align-items:center">
+  ⚡ <strong>Critical:</strong> When you notice data loss — <strong>stop using the affected drive immediately.</strong> The OS may overwrite recoverable data with new writes at any moment.
+</div>
+
+<!-- Escalation tiers -->
+<div class="section-label">// Recovery Escalation Path</div>
+<div class="tier-wrap">
+
+  <div class="tier" style="animation-delay:0.05s">
+    <div class="tier-num">
+      <div class="tier-circle" style="background:linear-gradient(135deg,var(--green),#6dcfa0);color:var(--theme)">1</div>
+    </div>
+    <div class="tier-content" style="border-left:3px solid var(--green)">
+      <div class="tier-header">
+        <div class="tier-title" style="color:var(--green)">Check the Obvious First</div>
+        <div class="tier-cost" style="background:rgba(76,175,130,0.15);border:1px solid var(--green);color:var(--green)">FREE</div>
+      </div>
+      <div class="tier-desc">Check the Recycle Bin. Check if the file was moved or renamed. Use file history or cloud version history (OneDrive, Google Drive). Look for automatic backups (Windows File History, Time Machine). Confirm the correct drive/volume is being browsed.</div>
+      <div class="tier-tools">
+        <span class="tool-tag">Recycle Bin</span>
+        <span class="tool-tag">File History</span>
+        <span class="tool-tag">Time Machine</span>
+        <span class="tool-tag">OneDrive</span>
+        <span class="tool-tag">Cloud Backup</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" style="animation-delay:0.10s">
+    <div class="tier-num">
+      <div class="tier-circle" style="background:linear-gradient(135deg,var(--blue),#7ab8e8);color:var(--theme)">2</div>
+    </div>
+    <div class="tier-content" style="border-left:3px solid var(--blue)">
+      <div class="tier-header">
+        <div class="tier-title" style="color:var(--blue)">Software Recovery Tools</div>
+        <div class="tier-cost" style="background:rgba(91,155,213,0.15);border:1px solid var(--blue);color:var(--blue)">FREE – ~$100</div>
+      </div>
+      <div class="tier-desc">For logical failures and accidental deletion where the drive is not physically damaged. Install recovery software on a <em>different</em> drive — never on the affected drive. Work from a disk image when possible to avoid altering the original. Tools scan unallocated space for file signatures and residual structures.</div>
+      <div class="tier-tools">
+        <span class="tool-tag">Recuva (free)</span>
+        <span class="tool-tag">Disk Drill</span>
+        <span class="tool-tag">R-Studio (pro)</span>
+        <span class="tool-tag">TestDisk (partitions)</span>
+        <span class="tool-tag">PhotoRec</span>
+        <span class="tool-tag">Autopsy</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" style="animation-delay:0.15s">
+    <div class="tier-num">
+      <div class="tier-circle" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--theme)">3</div>
+    </div>
+    <div class="tier-content" style="border-left:3px solid var(--accent)">
+      <div class="tier-header">
+        <div class="tier-title" style="color:var(--accent)">Forensic Imaging</div>
+        <div class="tier-cost" style="background:rgba(255,140,0,0.15);border:1px solid var(--accent);color:var(--accent)">TIME INVESTMENT</div>
+      </div>
+      <div class="tier-desc">Create a complete sector-by-sector clone of the failing drive before attempting any recovery. This preserves the original state, allowing multiple recovery attempts against the image without risking further data loss. Essential practice for any serious recovery scenario.</div>
+      <div class="tier-tools">
+        <span class="tool-tag">dd (Linux)</span>
+        <span class="tool-tag">ddrescue</span>
+        <span class="tool-tag">Clonezilla</span>
+        <span class="tool-tag">R-Studio imaging</span>
+        <span class="tool-tag">Disk Drill imaging</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" style="animation-delay:0.20s">
+    <div class="tier-num">
+      <div class="tier-circle" style="background:linear-gradient(135deg,var(--red),#f08080);color:#fff">4</div>
+    </div>
+    <div class="tier-content" style="border-left:3px solid var(--red)">
+      <div class="tier-header">
+        <div class="tier-title" style="color:var(--red)">Professional Data Recovery Service</div>
+        <div class="tier-cost" style="background:rgba(224,92,92,0.15);border:1px solid var(--red);color:var(--red)">$300 – $3,000+</div>
+      </div>
+      <div class="tier-desc">Required for physical and mechanical failures. Professional labs operate ISO Class 4/5 cleanrooms (formerly Class 10/100) — any contamination introduced during repair permanently damages the platters. Labs maintain donor drive libraries (100,000+ drives) to source exact replacement heads and components. Engineers forensically image each drive before reconstruction, then logically rebuild the file structure.</div>
+      <div class="tier-tools">
+        <span class="tool-tag">ISO Cleanroom</span>
+        <span class="tool-tag">Head Swaps</span>
+        <span class="tool-tag">Donor Library</span>
+        <span class="tool-tag">RAID Reconstruction</span>
+        <span class="tool-tag">PCB Repair</span>
+        <span class="tool-tag">Secure Data Recovery</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Precautions -->
+<div class="section-label">// Critical Precautions</div>
+<div class="precautions-grid">
+  <div class="pre-card" style="animation-delay:0.05s">
+    <div class="pre-title">🚫 Don't Install Recovery Software on the Affected Drive</div>
+    <div class="pre-body">Installing any software to the failing drive can overwrite the deleted file's disk space before you recover it. Always use a second drive for tools.</div>
+  </div>
+  <div class="pre-card" style="animation-delay:0.08s">
+    <div class="pre-title">🚫 Don't Open a Drive Outside a Cleanroom</div>
+    <div class="pre-body">Read/write heads float 3–6 nanometers above platters. An average dust particle (30,000 nm) will crash the head and permanently damage the platter surface.</div>
+  </div>
+  <div class="pre-card" style="animation-delay:0.11s">
+    <div class="pre-title">🚫 Don't Keep Writing to a Failing Drive</div>
+    <div class="pre-body">Every write operation on the affected drive risks permanently overwriting the data you're trying to recover. Stop all writes the moment you detect data loss.</div>
+  </div>
+  <div class="pre-card" style="animation-delay:0.14s">
+    <div class="pre-title">✅ Work from Disk Images</div>
+    <div class="pre-body">Create a sector-by-sector image with ddrescue or similar before attempting recovery. Run all recovery attempts against the image to protect the original drive state.</div>
+  </div>
+</div>
+
+<!-- 3-2-1 rule -->
+<div class="section-label">// The Best Recovery Is Prevention: 3-2-1 Rule</div>
+<div class="rule-wrap">
+  <div class="rule-card" style="animation-delay:0.05s">
+    <div class="rule-num" style="color:var(--accent)">3</div>
+    <div class="rule-label">Copies of Your Data</div>
+    <div class="rule-desc">The original plus two backup copies. If one is lost or corrupted, you still have two others. Redundancy is not paranoia — it's standard practice.</div>
+  </div>
+  <div class="rule-card" style="animation-delay:0.10s">
+    <div class="rule-num" style="color:var(--blue)">2</div>
+    <div class="rule-label">Different Storage Types</div>
+    <div class="rule-desc">Store backups on at least two physically different types of media — e.g., internal SSD + external HDD, or local drive + cloud. A failure mode that affects one type is unlikely to affect the other.</div>
+  </div>
+  <div class="rule-card" style="animation-delay:0.15s">
+    <div class="rule-num" style="color:var(--green)">1</div>
+    <div class="rule-label">Copy Stored Offsite</div>
+    <div class="rule-desc">At least one backup should be offsite — in the cloud, at another location, or with a backup service. Protects against fire, flood, theft, or any physical event that destroys all on-site hardware.</div>
+  </div>
+</div>
+
+<div style="max-width:1000px;margin:16px auto 0;background:rgba(76,175,130,0.08);border:1px solid var(--green);border-radius:4px;padding:12px 16px;font-size:10px;color:var(--secondary);line-height:1.7">
+  <span style="color:var(--green);font-weight:700">Remember:</span> Test your backups periodically. A backup you've never restored from is a backup you can't trust. Set a recurring reminder to verify your restore process actually works.
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // Data Recovery</div>
+</body>
+</html>
