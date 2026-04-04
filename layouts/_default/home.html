@@ -36,21 +36,26 @@
     </div>
     <a href="/tools/threat-map/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View Full Map →</a>
   </div>
-  <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-    <div id="home-threat-map" style="height:300px;width:100%;background:#0a0a0a;"></div>
-  </div>
-  <div id="home-map-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
+  <a href="/tools/threat-map/" style="display:block;border:1px solid var(--border);border-radius:8px;overflow:hidden;text-decoration:none;">
+    <img src="/images/threat-map-placeholder.svg"
+         alt="Global threat map preview — click to view live map"
+         width="680" height="300"
+         style="display:block;width:100%;height:auto;"
+         loading="lazy"
+         decoding="async">
+  </a>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div id="hm-total" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
-      <div style="font-size:11px;color:var(--secondary);">Malicious IPs</div>
+      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">240+</div>
+      <div style="font-size:11px;color:var(--secondary);">Countries Tracked</div>
     </div>
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div id="hm-countries" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
-      <div style="font-size:11px;color:var(--secondary);">Countries</div>
+      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">6hr</div>
+      <div style="font-size:11px;color:var(--secondary);">Cache Refresh</div>
     </div>
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div id="hm-top" style="font-size:20px;font-weight:700;color:#ff6b6b;">—</div>
-      <div style="font-size:11px;color:var(--secondary);">Top Source</div>
+      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">AbuseIPDB</div>
+      <div style="font-size:11px;color:var(--secondary);">Data Source</div>
     </div>
   </div>
 </section>
@@ -75,100 +80,6 @@
 <script>
 window.addEventListener('load', function() {
 
-  // --- Load Leaflet only when map scrolls into view ---
-  function loadLeaflet(cb) {
-    if (window.L) { cb(); return; }
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-    document.head.appendChild(link);
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.onload = cb;
-    document.head.appendChild(script);
-  }
-
-  function initMap() {
-    const mapEl = document.getElementById('home-threat-map');
-    if (!mapEl || mapEl.dataset.initialized) return;
-    mapEl.dataset.initialized = 'true';
-
-    loadLeaflet(function() {
-      const map = L.map('home-threat-map', {
-        center: [20, 0],
-        zoom: 2,
-        minZoom: 2,
-        maxZoom: 3,
-        zoomControl: false,
-        dragging: false,
-        scrollWheelZoom: false,
-        doubleClickZoom: false,
-        touchZoom: false,
-        attributionControl: false,
-      });
-
-      // Standard (non-@2x) tiles to reduce image payload
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-        subdomains: 'abcd',
-      }).addTo(map);
-
-    function getColor(count) {
-      if (count >= 50) return '#ff0000';
-      if (count >= 20) return '#ff6b00';
-      if (count >= 10) return '#ffaa00';
-      if (count >= 5)  return '#ffdd00';
-      return '#88cc00';
-    }
-
-    document.getElementById('hm-total').textContent = '...';
-    document.getElementById('hm-countries').textContent = '...';
-    document.getElementById('hm-top').textContent = '...';
-
-    fetch('https://cybergrind-threatmap-worker.wacker-jason.workers.dev')
-      .then(r => {
-        if (!r.ok) throw new Error('Worker returned ' + r.status);
-        return r.json();
-      })
-      .then(data => {
-        data.points.forEach(p => {
-          const r = Math.max(4, Math.min(18, Math.round(p.count / 8)));
-          L.circleMarker([p.lat, p.lng], {
-            radius: r,
-            fillColor: getColor(p.count),
-            color: getColor(p.count),
-            weight: 1,
-            opacity: 0.9,
-            fillOpacity: 0.5,
-          }).addTo(map);
-        });
-        document.getElementById('hm-total').textContent = data.totalIPs.toLocaleString();
-        document.getElementById('hm-countries').textContent = data.points.length;
-        document.getElementById('hm-top').textContent = data.topCountries[0];
-      })
-      .catch(err => {
-        console.error('Threat map error:', err);
-        document.getElementById('hm-total').textContent = 'N/A';
-        document.getElementById('hm-countries').textContent = 'N/A';
-        document.getElementById('hm-top').textContent = 'Unavailable';
-      });
-    });
-  }
-
-  // Only load map when it scrolls into view
-  const mapSection = document.getElementById('home-threat-map');
-  if (mapSection) {
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          initMap();
-          observer.disconnect();
-        }
-      });
-    }, { rootMargin: '200px' });
-    observer.observe(mapSection);
-  }
-
-  // --- Defer post list fetch ---
   const BATCH = 5;
   let allPosts = [];
   let shown = 0;
