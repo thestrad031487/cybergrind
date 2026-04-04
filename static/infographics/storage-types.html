@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Types of Storage Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 36px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  /* Media type cards */
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto 32px;
+  }
+  .media-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+  .media-header {
+    padding: 16px 18px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .media-icon { font-size: 28px; }
+  .media-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
+  .media-sub { font-size: 10px; color: var(--secondary); margin-top: 2px; }
+  .media-body { padding: 14px 18px; }
+
+  .metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    gap: 8px;
+  }
+  .metric-label { font-size: 10px; color: var(--secondary); width: 80px; flex-shrink: 0; }
+  .metric-bar { flex: 1; height: 6px; background: var(--theme); border-radius: 3px; overflow: hidden; }
+  .metric-fill { height: 100%; border-radius: 3px; }
+  .metric-val { font-size: 10px; width: 70px; text-align: right; }
+
+  .media-card.hdd .media-header { border-top: 3px solid var(--accent); }
+  .media-card.ssd .media-header { border-top: 3px solid var(--green); }
+  .media-card.opt .media-header { border-top: 3px solid var(--blue); }
+  .media-card.flash .media-header { border-top: 3px solid var(--purple); }
+  .media-card.ext .media-header { border-top: 3px solid var(--accent2); }
+
+  .media-card.hdd .metric-fill { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .media-card.ssd .metric-fill { background: linear-gradient(90deg, var(--green), #6dcfa0); }
+  .media-card.opt .metric-fill { background: linear-gradient(90deg, var(--blue), #7ab8e8); }
+  .media-card.flash .metric-fill { background: linear-gradient(90deg, var(--purple), #c4a0e8); }
+  .media-card.ext .metric-fill { background: linear-gradient(90deg, var(--accent2), #ffd080); }
+
+  .pros-cons {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .pro { color: var(--green); }
+  .pro::before { content: '+ '; }
+  .con { color: var(--red); }
+  .con::before { content: '− '; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .tag { font-size: 9px; padding: 2px 7px; border-radius: 2px; border: 1px solid var(--border); color: var(--secondary); }
+
+  /* Comparison table */
+  .compare-wrap { max-width: 900px; margin: 0 auto 24px; overflow-x: auto; }
+  .compare-title {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--primary);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .compare-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .compare-title span { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 600px; }
+  th {
+    background: var(--entry); border: 1px solid var(--border);
+    padding: 10px 12px; text-align: left;
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    color: var(--secondary); letter-spacing: 1px; text-transform: uppercase;
+  }
+  td { border: 1px solid var(--border); padding: 9px 12px; color: var(--secondary); vertical-align: middle; }
+  tr:hover td { background: rgba(255,140,0,0.04); }
+  td:first-child { color: var(--primary); font-weight: 700; font-family: 'Syne', sans-serif; }
+  .good { color: var(--green); }
+  .mid  { color: var(--accent2); }
+  .poor { color: var(--red); }
+
+  .footer { text-align: center; margin-top: 28px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .media-card:nth-child(1) { animation-delay: 0.05s; }
+  .media-card:nth-child(2) { animation-delay: 0.10s; }
+  .media-card:nth-child(3) { animation-delay: 0.15s; }
+  .media-card:nth-child(4) { animation-delay: 0.20s; }
+  .media-card:nth-child(5) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 02</div>
+  <h1>Types of <span>Storage Media</span></h1>
+  <p class="subtitle">HDD · SSD · Optical · Flash · External — trade-offs in speed, cost, durability &amp; capacity</p>
+  <div class="divider"></div>
+</div>
+
+<div class="media-grid">
+
+  <!-- HDD -->
+  <div class="media-card hdd">
+    <div class="media-header">
+      <div class="media-icon">🖴</div>
+      <div>
+        <div class="media-name" style="color:var(--accent)">Hard Disk Drive</div>
+        <div class="media-sub">Magnetic platters · Spinning media · 3.5" / 2.5"</div>
+      </div>
+    </div>
+    <div class="media-body">
+      <div class="metric-row">
+        <div class="metric-label">Speed</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:35%"></div></div>
+        <div class="metric-val" style="color:var(--accent)">100–200 MB/s</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Capacity</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:90%"></div></div>
+        <div class="metric-val" style="color:var(--accent)">Up to 36 TB</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Durability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:40%"></div></div>
+        <div class="metric-val" style="color:var(--accent)">Moderate</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Cost/GB</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:95%"></div></div>
+        <div class="metric-val" style="color:var(--accent)">Lowest</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Cheapest cost per GB</div>
+        <div class="pro">Very high max capacity</div>
+        <div class="con">Moving parts — shock risk</div>
+        <div class="con">Slow vs SSD; generates heat</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">5,400 RPM</span><span class="tag">7,200 RPM</span><span class="tag">SATA</span><span class="tag">NAS / Archival</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SSD -->
+  <div class="media-card ssd">
+    <div class="media-header">
+      <div class="media-icon">⚡</div>
+      <div>
+        <div class="media-name" style="color:var(--green)">Solid State Drive</div>
+        <div class="media-sub">NAND Flash · No moving parts · SATA / M.2 / NVMe</div>
+      </div>
+    </div>
+    <div class="media-body">
+      <div class="metric-row">
+        <div class="metric-label">Speed</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:95%"></div></div>
+        <div class="metric-val" style="color:var(--green)">500–7,000 MB/s</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Capacity</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:70%"></div></div>
+        <div class="metric-val" style="color:var(--green)">Up to 8 TB (consumer)</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Durability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:90%"></div></div>
+        <div class="metric-val" style="color:var(--green)">High</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Cost/GB</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:55%"></div></div>
+        <div class="metric-val" style="color:var(--green)">Moderate</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">25–100× faster than HDD</div>
+        <div class="pro">Silent, shock-resistant, power-efficient</div>
+        <div class="con">Higher cost per GB than HDD</div>
+        <div class="con">Finite write cycles (TBW rating)</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">SLC / TLC / QLC</span><span class="tag">NVMe PCIe</span><span class="tag">3D NAND</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optical -->
+  <div class="media-card opt">
+    <div class="media-header">
+      <div class="media-icon">💿</div>
+      <div>
+        <div class="media-name" style="color:var(--blue)">Optical Drive</div>
+        <div class="media-sub">Laser-based · CD / DVD / Blu-ray</div>
+      </div>
+    </div>
+    <div class="media-body">
+      <div class="metric-row">
+        <div class="metric-label">Speed</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:12%"></div></div>
+        <div class="metric-val" style="color:var(--blue)">~50 MB/s</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Capacity</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:18%"></div></div>
+        <div class="metric-val" style="color:var(--blue)">700MB – 100GB</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Durability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:55%"></div></div>
+        <div class="metric-val" style="color:var(--blue)">Good (archival)</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Cost/GB</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:30%"></div></div>
+        <div class="metric-val" style="color:var(--blue)">Low (media cost)</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Long-term archival lifespan</div>
+        <div class="pro">Read-only discs are tamper-resistant</div>
+        <div class="con">Very slow; low capacity</div>
+        <div class="con">Drives largely absent from modern systems</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">CD: 700 MB</span><span class="tag">DVD: 4.7 GB</span><span class="tag">BD: 25–100 GB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flash -->
+  <div class="media-card flash">
+    <div class="media-header">
+      <div class="media-icon">🔌</div>
+      <div>
+        <div class="media-name" style="color:var(--purple)">Flash Storage</div>
+        <div class="media-sub">USB drives · SD / microSD cards · Portable NAND</div>
+      </div>
+    </div>
+    <div class="media-body">
+      <div class="metric-row">
+        <div class="metric-label">Speed</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:30%"></div></div>
+        <div class="metric-val" style="color:var(--purple)">25–400 MB/s</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Capacity</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:30%"></div></div>
+        <div class="metric-val" style="color:var(--purple)">Up to 1 TB+</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Durability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:75%"></div></div>
+        <div class="metric-val" style="color:var(--purple)">Good</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Portability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:100%"></div></div>
+        <div class="metric-val" style="color:var(--purple)">Excellent</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Ultra-portable; non-volatile</div>
+        <div class="pro">No external power required</div>
+        <div class="con">Speed varies widely by USB standard</div>
+        <div class="con">Easy to lose; limited write cycles</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">USB-A / USB-C</span><span class="tag">SD Card</span><span class="tag">microSD</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- External HDD -->
+  <div class="media-card ext">
+    <div class="media-header">
+      <div class="media-icon">📦</div>
+      <div>
+        <div class="media-name" style="color:var(--accent2)">External Drive</div>
+        <div class="media-sub">HDD or SSD in an enclosure · USB / Thunderbolt</div>
+      </div>
+    </div>
+    <div class="media-body">
+      <div class="metric-row">
+        <div class="metric-label">Speed</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:45%"></div></div>
+        <div class="metric-val" style="color:var(--accent2)">USB 3.x limited</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Capacity</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:85%"></div></div>
+        <div class="metric-val" style="color:var(--accent2)">Up to 20 TB+</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Portability</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:80%"></div></div>
+        <div class="metric-val" style="color:var(--accent2)">Good</div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-label">Cost/GB</div>
+        <div class="metric-bar"><div class="metric-fill" style="width:88%"></div></div>
+        <div class="metric-val" style="color:var(--accent2)">Low</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pro">Plug-and-play; great for backups</div>
+        <div class="pro">Large capacities at low cost</div>
+        <div class="con">Interface speed caps throughput</div>
+        <div class="con">HDD variants fragile if moved while spinning</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">USB 3.0/3.2</span><span class="tag">Thunderbolt</span><span class="tag">Backup / NAS</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Comparison table -->
+<div class="compare-wrap">
+  <div class="compare-title"><span>//</span> At-a-Glance Comparison</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Speed</th>
+        <th>Max Capacity</th>
+        <th>Shock Resistance</th>
+        <th>Cost / GB</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>HDD</td>
+        <td class="poor">Slow</td>
+        <td class="good">36 TB (consumer)</td>
+        <td class="poor">Low</td>
+        <td class="good">Cheapest</td>
+        <td>Bulk storage, NAS, archival</td>
+      </tr>
+      <tr>
+        <td>SSD (SATA)</td>
+        <td class="mid">Fast</td>
+        <td class="mid">4 TB (consumer)</td>
+        <td class="good">High</td>
+        <td class="mid">Moderate</td>
+        <td>OS drive, everyday use</td>
+      </tr>
+      <tr>
+        <td>SSD (NVMe)</td>
+        <td class="good">Very Fast</td>
+        <td class="mid">4–8 TB</td>
+        <td class="good">High</td>
+        <td class="mid">Moderate–High</td>
+        <td>Primary drive, performance builds</td>
+      </tr>
+      <tr>
+        <td>Optical</td>
+        <td class="poor">Very Slow</td>
+        <td class="poor">25–100 GB</td>
+        <td class="mid">Medium</td>
+        <td class="mid">Low (media)</td>
+        <td>Long-term archival, distribution</td>
+      </tr>
+      <tr>
+        <td>USB Flash</td>
+        <td class="mid">Varies</td>
+        <td class="poor">Up to 1 TB+</td>
+        <td class="good">High</td>
+        <td class="mid">Moderate</td>
+        <td>File transfer, portability</td>
+      </tr>
+      <tr>
+        <td>External HDD</td>
+        <td class="poor">Moderate</td>
+        <td class="good">Up to 20 TB+</td>
+        <td class="poor">Low (spinning)</td>
+        <td class="good">Low</td>
+        <td>Backup, overflow storage</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // Types of Storage Media</div>
+</body>
+</html>

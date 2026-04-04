@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Troubleshooting Hard Drives</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+    --yellow: #d4b24a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 36px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+    max-width: 1000px; margin-left: auto; margin-right: auto;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Warning signs */
+  .signs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .sign-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px;
+    padding: 14px 16px; animation: fadeUp 0.4s ease both;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .sign-icon { font-size: 22px; flex-shrink: 0; }
+  .sign-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .sign-desc { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+  .sign-card.critical { border-left: 3px solid var(--red); }
+  .sign-card.warning  { border-left: 3px solid var(--yellow); }
+  .sign-card.info     { border-left: 3px solid var(--blue); }
+
+  /* Decision flowchart */
+  .flow-wrap {
+    max-width: 1000px; margin: 0 auto;
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px; padding: 24px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .flow-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 20px; }
+  .flow-title span { color: var(--accent); }
+
+  .flow-start {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--theme); border-radius: 4px; padding: 10px 16px;
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800;
+    text-align: center; margin-bottom: 16px; max-width: 320px; margin-left: auto; margin-right: auto;
+  }
+  .flow-arrow { text-align: center; color: var(--secondary); font-size: 18px; margin: 6px 0; line-height: 1; }
+
+  .flow-decision {
+    background: rgba(212,178,74,0.1); border: 1px solid var(--yellow);
+    color: var(--yellow); border-radius: 4px; padding: 10px 16px;
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+    text-align: center; max-width: 400px; margin: 0 auto 6px;
+  }
+  .flow-branch {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin: 8px 0 16px;
+  }
+  .flow-yes {
+    background: rgba(76,175,130,0.1); border: 1px solid var(--green);
+    border-radius: 4px; padding: 10px 14px;
+  }
+  .flow-no {
+    background: rgba(224,92,92,0.1); border: 1px solid var(--red);
+    border-radius: 4px; padding: 10px 14px;
+  }
+  .branch-label { font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+  .branch-content { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+
+  .flow-action {
+    background: var(--theme); border: 1px solid var(--border);
+    border-radius: 4px; padding: 10px 14px;
+    font-size: 10px; color: var(--secondary); line-height: 1.7;
+  }
+  .flow-action strong { color: var(--primary); font-family: 'Syne', sans-serif; font-size: 11px; }
+
+  .flow-final-good {
+    background: rgba(76,175,130,0.15); border: 1px solid var(--green);
+    border-radius: 4px; padding: 12px 16px; text-align: center;
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--green);
+  }
+  .flow-final-bad {
+    background: rgba(224,92,92,0.15); border: 1px solid var(--red);
+    border-radius: 4px; padding: 12px 16px; text-align: center;
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--red);
+  }
+
+  /* Steps list */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .step-card {
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px;
+    padding: 14px 16px; animation: fadeUp 0.4s ease both; position: relative;
+  }
+  .step-num {
+    font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
+    color: var(--accent); opacity: 0.15; position: absolute; top: 8px; right: 12px;
+    line-height: 1;
+  }
+  .step-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .step-body { font-size: 10px; color: var(--secondary); line-height: 1.8; }
+  .step-note { font-size: 10px; margin-top: 6px; padding: 6px 8px; border-radius: 2px; }
+  .note-warn { background: rgba(212,178,74,0.1); border: 1px solid var(--yellow); color: var(--yellow); }
+  .note-info { background: rgba(91,155,213,0.1); border: 1px solid var(--blue); color: var(--blue); }
+  .note-danger { background: rgba(224,92,92,0.1); border: 1px solid var(--red); color: var(--red); }
+
+  /* Space management */
+  .space-tips {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;
+  }
+  .tip-card {
+    background: var(--entry); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    border-radius: 4px; padding: 12px 14px; animation: fadeUp 0.4s ease both;
+  }
+  .tip-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .tip-body { font-size: 10px; color: var(--secondary); line-height: 1.7; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 07</div>
+  <h1>Troubleshooting <span>Hard Drives</span></h1>
+  <p class="subtitle">Warning signs · decision flowchart · step-by-step resolution · when to call a technician</p>
+  <div class="divider"></div>
+</div>
+
+<!-- Warning Signs -->
+<div class="section-label">// Warning Signs</div>
+<div class="signs-grid">
+  <div class="sign-card critical" style="animation-delay:0.05s">
+    <div class="sign-icon">🔊</div>
+    <div>
+      <div class="sign-title">Clicking / Grinding</div>
+      <div class="sign-desc">The "click of death" — indicates mechanical failure of the read/write head. <strong style="color:var(--red)">Back up immediately. Imminent failure.</strong></div>
+    </div>
+  </div>
+  <div class="sign-card critical" style="animation-delay:0.08s">
+    <div class="sign-icon">💥</div>
+    <div>
+      <div class="sign-title">Frequent Crashes / BSOD</div>
+      <div class="sign-desc">Repeated system crashes or Blue Screens not explained by software may indicate hardware failure.</div>
+    </div>
+  </div>
+  <div class="sign-card warning" style="animation-delay:0.11s">
+    <div class="sign-icon">🐌</div>
+    <div>
+      <div class="sign-title">Slow Performance</div>
+      <div class="sign-desc">Drive running below 10% free space OR bad sectors cause noticeable slowdowns and stalls during file access.</div>
+    </div>
+  </div>
+  <div class="sign-card warning" style="animation-delay:0.14s">
+    <div class="sign-icon">❌</div>
+    <div>
+      <div class="sign-title">File Errors / Corruption</div>
+      <div class="sign-desc">Files suddenly unreadable, corrupted, or disappearing with no user action. Often a sign of failing sectors.</div>
+    </div>
+  </div>
+  <div class="sign-card warning" style="animation-delay:0.17s">
+    <div class="sign-icon">🚫</div>
+    <div>
+      <div class="sign-title">Drive Not Detected</div>
+      <div class="sign-desc">BIOS/UEFI fails to enumerate the drive at POST. Could be cable, power, or drive failure.</div>
+    </div>
+  </div>
+  <div class="sign-card info" style="animation-delay:0.20s">
+    <div class="sign-icon">📊</div>
+    <div>
+      <div class="sign-title">S.M.A.R.T. Warnings</div>
+      <div class="sign-desc">Self-Monitoring Analysis &amp; Reporting Technology flags. Useful early warning but not perfectly reliable. Use CrystalDiskInfo (Windows) to check.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Decision flowchart -->
+<div class="section-label">// Troubleshooting Decision Flowchart</div>
+<div class="flow-wrap">
+  <div class="flow-title">Is it a <span>space problem</span> or a <span>hardware problem</span>?</div>
+
+  <div class="flow-start">🖥️ You're experiencing storage issues</div>
+  <div class="flow-arrow">↓</div>
+  <div class="flow-decision">Are you hearing clicking, grinding, or scraping sounds?</div>
+  <div class="flow-branch">
+    <div class="flow-yes">
+      <div class="branch-label" style="color:var(--red)">YES — Stop immediately</div>
+      <div class="branch-content">Power off the system. Do not restart. Mechanical failure is likely. Every spin-up risks further damage and data loss.</div>
+    </div>
+    <div class="flow-no">
+      <div class="branch-label" style="color:var(--green)">NO — Continue</div>
+      <div class="branch-content">No obvious mechanical sounds. Proceed with software-level diagnostics.</div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓ (if NO)</div>
+  <div class="flow-decision">Is the drive below 10% free space?</div>
+  <div class="flow-branch">
+    <div class="flow-yes">
+      <div class="branch-label" style="color:var(--accent)">YES — Free up space</div>
+      <div class="branch-content">Delete unneeded files. Empty Recycle Bin. Uninstall unused programs. Run Disk Cleanup. Move large files to external storage or cloud.</div>
+    </div>
+    <div class="flow-no">
+      <div class="branch-label" style="color:var(--blue)">NO — Check deeper</div>
+      <div class="branch-content">Drive has space but still having issues. Run S.M.A.R.T. check. Check for bad sectors. Verify cables are seated.</div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+  <div class="flow-decision">Does S.M.A.R.T. report failures or bad sectors?</div>
+  <div class="flow-branch">
+    <div class="flow-yes">
+      <div class="branch-label" style="color:var(--red)">YES — Hardware issue</div>
+      <div class="branch-content">Check all cable connections (SATA data + power). If reseating cables doesn't resolve: contact a licensed technician. Begin backup immediately.</div>
+    </div>
+    <div class="flow-no">
+      <div class="branch-label" style="color:var(--green)">NO — Likely software</div>
+      <div class="branch-content">Run chkdsk (Windows) or fsck (Linux) to repair logical file system errors. Consider defragging HDD if heavily fragmented.</div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="flow-final-good">✓ Problem resolved — monitor drive health regularly</div>
+    <div class="flow-final-bad">⚠ Persistent issues — replace the drive and restore from backup</div>
+  </div>
+</div>
+
+<!-- Step by step for hardware failure -->
+<div class="section-label">// Hardware Failure Response — Step by Step</div>
+<div class="steps-grid">
+  <div class="step-card" style="animation-delay:0.05s; border-top:3px solid var(--red)">
+    <div class="step-num">1</div>
+    <div class="step-title">Listen</div>
+    <div class="step-body">Identify the sound. Clicking = head failure. Grinding = platter or bearing damage. Beeping = PCB or motor issue.</div>
+    <div class="step-note note-danger">Any mechanical sound = imminent failure. Don't ignore it.</div>
+  </div>
+  <div class="step-card" style="animation-delay:0.08s; border-top:3px solid var(--accent)">
+    <div class="step-num">2</div>
+    <div class="step-title">Stop Using It</div>
+    <div class="step-body">Power off immediately. A failing drive can overwrite data you haven't yet backed up. Keep it off until you're ready to recover.</div>
+    <div class="step-note note-warn">Do not run diagnostics tools on a mechanically failing drive.</div>
+  </div>
+  <div class="step-card" style="animation-delay:0.11s; border-top:3px solid var(--yellow)">
+    <div class="step-num">3</div>
+    <div class="step-title">Check Cables</div>
+    <div class="step-body">Wear anti-static wristband. Open case. Reseat the SATA data cable AND power connector. Inspect for damage or fraying.</div>
+    <div class="step-note note-info">Loose cables are a surprisingly common cause of drive detection failures.</div>
+  </div>
+  <div class="step-card" style="animation-delay:0.14s; border-top:3px solid var(--blue)">
+    <div class="step-num">4</div>
+    <div class="step-title">Call a Technician</div>
+    <div class="step-body">Share the sounds you heard and the troubleshooting steps taken. If physical repair is needed, it requires a cleanroom environment.</div>
+    <div class="step-note note-danger">Never open a hard drive outside a cleanroom. Dust on platters = permanent damage.</div>
+  </div>
+  <div class="step-card" style="animation-delay:0.17s; border-top:3px solid var(--purple)">
+    <div class="step-num">5</div>
+    <div class="step-title">Replace &amp; Restore</div>
+    <div class="step-body">Install new drive. Boot BIOS to confirm detection. Initialize (GPT), partition, format, restore from backup.</div>
+    <div class="step-note note-info">Test new drive: boot cleanly, run multiple programs, save files.</div>
+  </div>
+</div>
+
+<!-- Full disk management tips -->
+<div class="section-label">// Resolving Full Disk Errors</div>
+<div class="space-tips">
+  <div class="tip-card" style="animation-delay:0.05s">
+    <div class="tip-title">🗑️ Delete + Empty Bin</div>
+    <div class="tip-body">Files in the Recycle Bin still consume disk space until emptied. Prioritize: video &gt; audio &gt; images &gt; documents by space consumed.</div>
+  </div>
+  <div class="tip-card" style="animation-delay:0.08s">
+    <div class="tip-title">🔧 Uninstall Programs</div>
+    <div class="tip-body">Applications often consume far more space than their installer suggests. Use Add/Remove Programs and inspect sizes before removing.</div>
+  </div>
+  <div class="tip-card" style="animation-delay:0.11s">
+    <div class="tip-title">🧹 Disk Cleanup</div>
+    <div class="tip-body">Windows built-in tool (search "disk cleanup"). Identifies temp files, downloads, system logs, and Recycle Bin contents safe to delete.</div>
+  </div>
+  <div class="tip-card" style="animation-delay:0.14s">
+    <div class="tip-title">☁️ Move to Cloud/External</div>
+    <div class="tip-body">Move large files to an external drive or cloud service rather than deleting them. Safely eject external media before removing to prevent data loss.</div>
+  </div>
+  <div class="tip-card" style="animation-delay:0.17s">
+    <div class="tip-title">📐 Defragment (HDD only)</div>
+    <div class="tip-body">Fragmented files slow HDD performance. Schedule Windows Defrag regularly. <strong style="color:var(--red)">Never defrag an SSD</strong> — it causes unnecessary wear with no benefit.</div>
+  </div>
+  <div class="tip-card" style="animation-delay:0.20s">
+    <div class="tip-title">📏 Keep 10% Free</div>
+    <div class="tip-body">A good rule of thumb: maintain at least 10% of drive capacity free at all times to avoid performance degradation.</div>
+  </div>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // Troubleshooting Hard Drives</div>
+</body>
+</html>

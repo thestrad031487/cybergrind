@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emerging Storage Technologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+    --green: #4caf82;
+    --blue: #5b9bd5;
+    --purple: #a47fd4;
+    --red: #e05c5c;
+    --teal: #4cb5b5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--theme); color: var(--primary); font-family: 'Space Mono', monospace; padding: 32px 24px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 4vw, 36px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+    max-width: 1000px; margin-left: auto; margin-right: auto;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Three tech cards — full width stacked */
+  .tech-wrap { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+  .tech-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 640px) { .tech-card { grid-template-columns: 1fr; } }
+
+  .tech-left {
+    padding: 22px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .tech-right {
+    padding: 22px 24px;
+    background: var(--theme);
+  }
+  .tech-num {
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .tech-title {
+    font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+    line-height: 1.2; margin-bottom: 10px;
+  }
+  .tech-desc { font-size: 11px; color: var(--secondary); line-height: 1.8; margin-bottom: 14px; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .stat-box {
+    background: var(--theme); border: 1px solid var(--border); border-radius: 3px; padding: 10px 12px;
+  }
+  .stat-v { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; line-height: 1; }
+  .stat-l { font-size: 9px; color: var(--secondary); margin-top: 3px; line-height: 1.4; }
+
+  .diagram-title {
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--secondary);
+    margin-bottom: 12px;
+  }
+
+  /* HAMR diagram */
+  .hamr-diagram {
+    position: relative; height: 160px;
+    border: 1px solid var(--border); border-radius: 3px;
+    overflow: hidden; background: var(--entry);
+  }
+  .hamr-platter {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+    background: linear-gradient(90deg, #2a2c30, #3a3c42, #2a2c30);
+    border-top: 2px solid var(--border);
+  }
+  .hamr-zones {
+    position: absolute; bottom: 38px; left: 10px; right: 10px;
+    display: flex; gap: 3px; height: 12px;
+  }
+  .hamr-zone { flex: 1; border-radius: 1px; }
+  .hz-written  { background: var(--accent); }
+  .hz-heated   { background: #ff4500; animation: pulse 1.2s ease-in-out infinite; }
+  .hz-normal   { background: var(--border); }
+  .hamr-laser {
+    position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+    width: 2px; height: 60px;
+    background: linear-gradient(to bottom, transparent, #ff4500);
+  }
+  .hamr-head {
+    position: absolute; bottom: 145px; left: 50%; transform: translateX(-50%);
+    width: 40px; height: 18px;
+    background: var(--secondary); border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; color: var(--theme); font-weight: 700;
+  }
+  .hamr-label {
+    position: absolute; font-size: 9px; color: var(--secondary);
+  }
+
+  /* 3D NAND diagram */
+  .nand-diagram {
+    border: 1px solid var(--border); border-radius: 3px;
+    background: var(--entry); padding: 12px;
+  }
+  .nand-layers { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+  .nand-layer {
+    height: 20px; border-radius: 2px;
+    display: flex; align-items: center; padding: 0 10px;
+    font-size: 9px; font-weight: 700; color: var(--theme);
+  }
+  .nand-vs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .nand-col { text-align: center; }
+  .nand-col-title { font-size: 9px; color: var(--secondary); margin-bottom: 6px; }
+  .nand-2d { display: flex; gap: 2px; justify-content: center; }
+  .nand-cell-2d { width: 14px; height: 14px; border-radius: 1px; }
+  .nand-3d-stack { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+  .nand-cell-3d { width: 40px; height: 8px; border-radius: 1px; }
+
+  /* DNA diagram */
+  .dna-diagram {
+    border: 1px solid var(--border); border-radius: 3px;
+    background: var(--entry); padding: 12px; text-align: center;
+  }
+  .dna-helix { display: flex; justify-content: center; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+  .dna-base {
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--theme);
+  }
+  .dna-g { background: var(--green); }
+  .dna-a { background: var(--blue); }
+  .dna-t { background: var(--accent); }
+  .dna-c { background: var(--purple); }
+
+  .pro { color: var(--green); font-size: 10px; line-height: 1.8; }
+  .pro::before { content: '+ '; }
+  .con { color: var(--red); font-size: 10px; line-height: 1.8; }
+  .con::before { content: '− '; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .tag { font-size: 9px; padding: 2px 7px; border-radius: 2px; border: 1px solid var(--border); color: var(--secondary); }
+
+  /* Readiness timeline */
+  .readiness-wrap {
+    max-width: 1000px; margin: 0 auto;
+    background: var(--entry); border: 1px solid var(--border); border-radius: 4px; padding: 20px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .readiness-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 16px; }
+  .readiness-title span { color: var(--accent); }
+  .r-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .r-name { font-size: 11px; color: var(--primary); width: 130px; flex-shrink: 0; font-family: 'Syne', sans-serif; font-weight: 700; }
+  .r-track { flex: 1; height: 10px; background: var(--theme); border-radius: 5px; overflow: hidden; }
+  .r-fill { height: 100%; border-radius: 5px; }
+  .r-label { font-size: 10px; width: 130px; flex-shrink: 0; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; box-shadow: 0 0 6px #ff4500; }
+  }
+  .tech-card:nth-child(1) { animation-delay: 0.05s; }
+  .tech-card:nth-child(2) { animation-delay: 0.15s; }
+  .tech-card:nth-child(3) { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 06</div>
+  <h1>Emerging <span>Storage Technologies</span></h1>
+  <p class="subtitle">HAMR · 3D NAND · DNA Storage — what comes after today's drives</p>
+  <div class="divider"></div>
+</div>
+
+<div class="section-label">// The Three Frontiers</div>
+
+<div class="tech-wrap">
+
+  <!-- HAMR -->
+  <div class="tech-card" style="border-top:3px solid var(--accent)">
+    <div class="tech-left">
+      <div class="tech-num" style="color:var(--accent)">01 // HAMR</div>
+      <div class="tech-title">Heat-Assisted<br>Magnetic Recording</div>
+      <div class="tech-desc">Traditional HDDs face the superparamagnetic trilemma — as magnetic grains shrink, they become unstable. HAMR uses a nano-laser to heat a microscopic platter spot for nanoseconds before writing. The heated area temporarily becomes more receptive to magnetism, allowing data to be written on far smaller grain clusters than was previously possible.</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-v" style="color:var(--accent)">16 TB</div><div class="stat-l">First commercial HAMR drive (Seagate, 2019)</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--accent)">20 TB</div><div class="stat-l">HAMR drives available by 2021</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--accent)">50+ TB</div><div class="stat-l">Expected eventual HAMR capacity target</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--accent)">ns</div><div class="stat-l">Laser heats surface for nanoseconds per write</div></div>
+      </div>
+      <div class="pro">Extends HDD capacity well beyond current limits</div>
+      <div class="pro">Backward-compatible form factor with standard HDDs</div>
+      <div class="con">Higher manufacturing cost than conventional HDDs</div>
+      <div class="tag-row"><span class="tag">Seagate</span><span class="tag">Magnetic Recording</span><span class="tag">HDD Evolution</span><span class="tag">Shipping Now</span></div>
+    </div>
+    <div class="tech-right">
+      <div class="diagram-title">// How HAMR Works</div>
+      <div class="hamr-diagram">
+        <div class="hamr-head">R/W HEAD</div>
+        <div class="hamr-laser"></div>
+        <div class="hamr-zones">
+          <div class="hamr-zone hz-written"></div>
+          <div class="hamr-zone hz-written"></div>
+          <div class="hamr-zone hz-heated"></div>
+          <div class="hamr-zone hz-normal"></div>
+          <div class="hamr-zone hz-normal"></div>
+          <div class="hamr-zone hz-normal"></div>
+          <div class="hamr-zone hz-normal"></div>
+          <div class="hamr-zone hz-normal"></div>
+        </div>
+        <div class="hamr-platter"></div>
+        <div class="hamr-label" style="top:10px;left:10px;color:var(--accent)">🔴 Laser pulse</div>
+        <div class="hamr-label" style="bottom:54px;left:10px;font-size:8px">
+          <span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:1px;vertical-align:middle;margin-right:3px"></span>Written
+          <span style="display:inline-block;width:10px;height:10px;background:#ff4500;border-radius:1px;vertical-align:middle;margin:0 3px 0 8px"></span>Active zone
+          <span style="display:inline-block;width:10px;height:10px;background:var(--border);border-radius:1px;vertical-align:middle;margin:0 3px 0 8px"></span>Unwritten
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--secondary);margin-top:10px;line-height:1.7;">The laser heats a 30–50nm spot on the platter surface for ~1 nanosecond, lowering the coercivity of the recording medium and enabling writes on grain clusters too small for conventional heads.</p>
+    </div>
+  </div>
+
+  <!-- 3D NAND -->
+  <div class="tech-card" style="border-top:3px solid var(--green)">
+    <div class="tech-left">
+      <div class="tech-num" style="color:var(--green)">02 // 3D NAND</div>
+      <div class="tech-title">3D Flash Memory<br>(Vertical NAND)</div>
+      <div class="tech-desc">Traditional 2D (planar) NAND flash stores cells in a single horizontal layer. As manufacturers shrank cell sizes below ~15nm, reliability degraded and write endurance collapsed. 3D NAND solves this by stacking memory cell layers vertically — like floors in a building — rather than continuing to shrink horizontally. Modern consumer SSDs commonly use 100–200+ layer stacks.</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-v" style="color:var(--green)">100+</div><div class="stat-l">Layer stacks in current consumer SSDs</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--green)">1980s</div><div class="stat-l">2D NAND flash first developed</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--green)">↓ Cost</div><div class="stat-l">Lower cost per GB vs 2D at high capacity</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--green)">↑ Life</div><div class="stat-l">Larger cells = better write endurance</div></div>
+      </div>
+      <div class="pro">Much greater density than 2D NAND</div>
+      <div class="pro">Lower cost per GB; better endurance due to larger cell sizes</div>
+      <div class="con">Complex manufacturing; more layers = harder to cool</div>
+      <div class="tag-row"><span class="tag">Samsung</span><span class="tag">Micron</span><span class="tag">SK Hynix</span><span class="tag">SSD Core Technology</span></div>
+    </div>
+    <div class="tech-right">
+      <div class="diagram-title">// 2D vs 3D NAND</div>
+      <div class="nand-diagram">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <div style="font-size:10px;color:var(--secondary);margin-bottom:8px;text-align:center">2D (Planar) NAND</div>
+            <div style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-bottom:8px;">
+              <div style="width:100%;height:20px;background:#3a3c42;border-radius:2px;display:flex;align-items:center;padding:0 8px;font-size:9px;color:var(--secondary)">Single layer of cells</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center">
+              <div style="width:14px;height:14px;background:var(--border);border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:#444;border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:var(--border);border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:#444;border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:var(--border);border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:#444;border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:var(--border);border-radius:1px"></div>
+              <div style="width:14px;height:14px;background:#444;border-radius:1px"></div>
+            </div>
+            <p style="font-size:9px;color:var(--red);margin-top:8px;text-align:center">Shrinking cells → reliability ↓</p>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--secondary);margin-bottom:8px;text-align:center">3D (Vertical) NAND</div>
+            <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+              <div style="width:100%;height:12px;background:rgba(76,175,130,0.7);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--theme)">Layer 4</div>
+              <div style="width:100%;height:12px;background:rgba(76,175,130,0.55);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--theme)">Layer 3</div>
+              <div style="width:100%;height:12px;background:rgba(76,175,130,0.40);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--theme)">Layer 2</div>
+              <div style="width:100%;height:12px;background:rgba(76,175,130,0.25);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--secondary)">Layer 1</div>
+            </div>
+            <p style="font-size:9px;color:var(--green);margin-top:8px;text-align:center">Build up, not out → density ↑</p>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--secondary);line-height:1.7">
+          Cell types: <span style="color:var(--green)">SLC</span> (1 bit, most durable) → <span style="color:var(--accent2)">MLC</span> (2-bit) → <span style="color:var(--blue)">TLC</span> (3-bit, mainstream) → <span style="color:var(--secondary)">QLC</span> (4-bit, cheapest)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DNA Storage -->
+  <div class="tech-card" style="border-top:3px solid var(--purple)">
+    <div class="tech-left">
+      <div class="tech-num" style="color:var(--purple)">03 // DNA STORAGE</div>
+      <div class="tech-title">Synthesized DNA<br>Data Storage</div>
+      <div class="tech-desc">DNA stores genetic information using four nucleotide bases — G, A, T, and C. Scientists have demonstrated that binary data can be encoded into synthetic DNA strands using these four bases as an alphabet. DNA is extraordinarily dense and extremely durable under proper storage conditions (cool, dark, dry). Currently a research-stage technology with major practical barriers around encoding and decoding speed and cost.</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-v" style="color:var(--purple)">215 PB</div><div class="stat-l">Theoretical storage per gram of DNA</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--purple)">100K+ yrs</div><div class="stat-l">Potential archival lifespan (proper conditions)</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--purple)">4 bases</div><div class="stat-l">G, A, T, C used to encode binary data</div></div>
+        <div class="stat-box"><div class="stat-v" style="color:var(--red)">Cost ↑</div><div class="stat-l">Synthesis &amp; sequencing remain expensive</div></div>
+      </div>
+      <div class="pro">Extraordinary density — 215 PB per gram</div>
+      <div class="pro">Lasts hundreds of thousands of years if stored correctly</div>
+      <div class="con">Encoding and decoding are slow and very expensive</div>
+      <div class="con">No practical path to random access or consumer use yet</div>
+      <div class="tag-row"><span class="tag">Research Stage</span><span class="tag">Archival</span><span class="tag">NIST / Microsoft</span><span class="tag">Future Tech</span></div>
+    </div>
+    <div class="tech-right">
+      <div class="diagram-title">// DNA as Data Storage</div>
+      <div class="dna-diagram">
+        <div style="font-size:10px;color:var(--secondary);margin-bottom:10px;text-align:left">Four nucleotide bases → binary encoding:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="dna-base dna-g">G</div>
+            <div style="font-size:10px;color:var(--secondary)">Guanine → <span style="color:var(--primary)">00</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="dna-base dna-a">A</div>
+            <div style="font-size:10px;color:var(--secondary)">Adenine → <span style="color:var(--primary)">01</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="dna-base dna-t">T</div>
+            <div style="font-size:10px;color:var(--secondary)">Thymine → <span style="color:var(--primary)">10</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="dna-base dna-c">C</div>
+            <div style="font-size:10px;color:var(--secondary)">Cytosine → <span style="color:var(--primary)">11</span></div>
+          </div>
+        </div>
+        <div style="background:var(--entry);border:1px solid var(--border);border-radius:3px;padding:10px;font-size:10px;color:var(--secondary);line-height:1.7">
+          Example: binary <span style="color:var(--primary)">01001011</span><br>
+          → DNA: <span style="color:var(--blue)">A</span><span style="color:var(--green)">G</span><span style="color:var(--accent)">T</span><span style="color:var(--purple)">C</span><span style="color:var(--green)">G</span><span style="color:var(--accent)">T</span><span style="color:var(--blue)">A</span><span style="color:var(--purple)">C</span>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:rgba(164,127,212,0.08);border:1px solid rgba(164,127,212,0.3);border-radius:3px;">
+          <div style="font-size:10px;color:var(--purple);font-weight:700;margin-bottom:4px">Current TRL Status</div>
+          <div style="font-size:10px;color:var(--secondary);line-height:1.7">Proof-of-concept demonstrated. Microsoft, Twist Bioscience, and others are actively researching automated synthesis pipelines. Not commercially viable yet — encode/decode time currently measured in hours to days.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Technology readiness -->
+<div class="section-label">// Commercial Readiness</div>
+<div class="readiness-wrap">
+  <div class="readiness-title">Technology <span>Maturity</span></div>
+  <div class="r-row">
+    <div class="r-name">3D NAND</div>
+    <div class="r-track"><div class="r-fill" style="width:95%;background:linear-gradient(90deg,var(--green),#6dcfa0)"></div></div>
+    <div class="r-label" style="color:var(--green)">Shipping — mainstream</div>
+  </div>
+  <div class="r-row">
+    <div class="r-name">HAMR (HDD)</div>
+    <div class="r-track"><div class="r-fill" style="width:65%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+    <div class="r-label" style="color:var(--accent)">Early commercial</div>
+  </div>
+  <div class="r-row">
+    <div class="r-name">DNA Storage</div>
+    <div class="r-track"><div class="r-fill" style="width:12%;background:linear-gradient(90deg,var(--purple),#c4a0e8)"></div></div>
+    <div class="r-label" style="color:var(--purple)">Research / proof-of-concept</div>
+  </div>
+  <p style="font-size:10px;color:var(--secondary);margin-top:12px;">Maturity ratings based on commercial availability and deployment scale as of early 2025.</p>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // Emerging Storage Technologies</div>
+</body>
+</html>

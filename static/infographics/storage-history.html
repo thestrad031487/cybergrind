@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storage Facts & History</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --theme: #1a1c1e;
+    --entry: #24262b;
+    --primary: #e8e8e8;
+    --secondary: #9a9a9a;
+    --border: #3a3c42;
+    --accent: #FF8C00;
+    --accent2: #FFAD33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--theme);
+    color: var(--primary);
+    font-family: 'Space Mono', monospace;
+    padding: 32px 24px;
+  }
+  .header { text-align: center; margin-bottom: 40px; }
+  .label { font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(24px, 4vw, 38px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--secondary); margin-top: 8px; letter-spacing: 1px; }
+  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); margin: 14px auto 0; }
+
+  /* Key stats row */
+  .stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 40px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stat-box {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 20px;
+    text-align: center;
+    flex: 1;
+    min-width: 130px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .stat-box .val { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-box .lbl { font-size: 10px; color: var(--secondary); margin-top: 5px; line-height: 1.4; }
+
+  /* Timeline */
+  .timeline { max-width: 820px; margin: 0 auto; position: relative; padding-left: 0; }
+  .tl-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tl-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 0 16px;
+    margin-bottom: 10px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .tl-year {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    text-align: right;
+    padding-top: 12px;
+    padding-right: 16px;
+    border-right: 2px solid var(--border);
+    position: relative;
+  }
+  .tl-year::after {
+    content: '';
+    position: absolute;
+    right: -5px; top: 15px;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .tl-content {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--secondary);
+    line-height: 1.6;
+  }
+  .tl-content strong { color: var(--primary); font-family: 'Syne', sans-serif; font-size: 12px; }
+  .tl-content .cap {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* Cost chart */
+  .cost-section {
+    max-width: 820px;
+    margin: 32px auto 0;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px;
+  }
+  .cost-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 18px;
+  }
+  .cost-title span { color: var(--accent); }
+  .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .bar-year { font-size: 11px; color: var(--secondary); width: 38px; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 20px; background: var(--theme); border-radius: 2px; overflow: hidden; position: relative; }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+  .bar-val { font-size: 10px; color: var(--accent2); width: 100px; flex-shrink: 0; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 10px; color: var(--secondary); letter-spacing: 1px; }
+  .footer span { color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .tl-item:nth-child(1) { animation-delay: 0.05s; }
+  .tl-item:nth-child(2) { animation-delay: 0.08s; }
+  .tl-item:nth-child(3) { animation-delay: 0.11s; }
+  .tl-item:nth-child(4) { animation-delay: 0.14s; }
+  .tl-item:nth-child(5) { animation-delay: 0.17s; }
+  .tl-item:nth-child(6) { animation-delay: 0.20s; }
+  .tl-item:nth-child(7) { animation-delay: 0.23s; }
+  .tl-item:nth-child(8) { animation-delay: 0.26s; }
+  .tl-item:nth-child(9) { animation-delay: 0.29s; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">CyberGrind // Orange Book // Section 01</div>
+  <h1>Storage <span>Facts &amp; History</span></h1>
+  <p class="subtitle">From a refrigerator-sized 3.75 MB cabinet to a 36 TB desktop drive — 70 years of progress</p>
+  <div class="divider"></div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="val">1956</div><div class="lbl">First HDD shipped (IBM 350)</div></div>
+  <div class="stat-box"><div class="val">3.75MB</div><div class="lbl">Original capacity</div></div>
+  <div class="stat-box"><div class="val">51 yrs</div><div class="lbl">To reach 1 TB (2007)</div></div>
+  <div class="stat-box"><div class="val">36TB</div><div class="lbl">Largest consumer HDD (2025)</div></div>
+  <div class="stat-box"><div class="val">100TB</div><div class="lbl">Largest enterprise SSD</div></div>
+  <div class="stat-box"><div class="val">74%</div><div class="lbl">Users with SSD as primary drive</div></div>
+</div>
+
+<div class="timeline">
+
+  <div class="tl-section-label">The Mainframe Era</div>
+
+  <div class="tl-item">
+    <div class="tl-year">1956</div>
+    <div class="tl-content"><strong>IBM Model 350 Disk File</strong> — World's first HDD. 50 platters, 24-inch diameter, size of a refrigerator. <span class="cap">3.75 MB</span></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">1961</div>
+    <div class="tl-content"><strong>IBM 1301</strong> — Introduced self-flying read/write heads on air bearings, dramatically improving reliability.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">1973</div>
+    <div class="tl-content"><strong>IBM 3340 "Winchester"</strong> — Established sealed drive architecture still used in all HDDs today.</div>
+  </div>
+
+  <div class="tl-section-label">The PC Era</div>
+
+  <div class="tl-item">
+    <div class="tl-year">1980</div>
+    <div class="tl-content"><strong>Seagate ST-506</strong> — First 5.25-inch drive. Brought HDD into personal computers. <span class="cap">5 MB</span></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">1983</div>
+    <div class="tl-content"><strong>IBM PC XT</strong> — Shipped with a 10 MB internal HDD, making hard drives standard in personal computers.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">1992</div>
+    <div class="tl-content"><strong>Seagate Barracuda</strong> — First 7,200 RPM consumer hard drive. Set the performance standard for two decades.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">2002</div>
+    <div class="tl-content"><strong>First Serial ATA (SATA) drives</strong> — Replaced parallel ATA with a faster, thinner interface standard still in use today.</div>
+  </div>
+
+  <div class="tl-section-label">Capacity Milestones</div>
+
+  <div class="tl-item">
+    <div class="tl-year">2007</div>
+    <div class="tl-content"><strong>First 1 TB hard drive</strong> — Took 51 years from the 3.75 MB original. Just 2 years later, the first 2 TB drive arrived. <span class="cap">1 TB</span></div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">2013</div>
+    <div class="tl-content"><strong>First helium-filled HDD (HGST)</strong> — Helium reduces drag, enabling more platters and higher capacity in the same chassis.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">2019</div>
+    <div class="tl-content"><strong>First commercial HAMR drives (Seagate)</strong> — Heat-assisted recording breaks the density barrier. <span class="cap">16 TB</span></div>
+  </div>
+
+  <div class="tl-section-label">The SSD Revolution</div>
+
+  <div class="tl-item">
+    <div class="tl-year">~2005</div>
+    <div class="tl-content"><strong>Flash-based SSDs enter market</strong> — Samsung, SanDisk bring NAND SSDs as drop-in HDD replacements. Early cost: ~$50/MB.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">2010</div>
+    <div class="tl-content"><strong>HDD unit production peaks</strong> — From this point forward, SSD adoption steadily erodes HDD shipment volumes.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-year">2020+</div>
+    <div class="tl-content"><strong>SSDs reach price parity</strong> — Consumer SSDs become competitive with HDDs at common capacities. NVMe SSDs hit mainstream. SSD revenue exceeds HDD revenue.</div>
+  </div>
+
+</div>
+
+<div class="cost-section">
+  <div class="cost-title">Cost per Gigabyte — <span>Then vs Now</span></div>
+  <div class="bar-row">
+    <div class="bar-year">1981</div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+    <div class="bar-val">~$700,000 / GB</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-year">1990</div>
+    <div class="bar-track"><div class="bar-fill" style="width:72%"></div></div>
+    <div class="bar-val">~$10,000 / GB</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-year">2000</div>
+    <div class="bar-track"><div class="bar-fill" style="width:44%"></div></div>
+    <div class="bar-val">~$10 / GB</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-year">2010</div>
+    <div class="bar-track"><div class="bar-fill" style="width:16%"></div></div>
+    <div class="bar-val">~$0.08 / GB</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-year">2025</div>
+    <div class="bar-track"><div class="bar-fill" style="width:2%"></div></div>
+    <div class="bar-val">~$0.02 / GB</div>
+  </div>
+  <p style="font-size:10px;color:var(--secondary);margin-top:12px;">* HDD cost per GB. SSD cost has followed a similar curve with a ~10 year lag. Values are approximate based on historical market data.</p>
+</div>
+
+<div class="footer"><span>cybergrind.org</span> // Orange Book // Storage Facts &amp; History</div>
+</body>
+</html>
