@@ -1,6 +1,7 @@
 ---
 title: "NIST AI RMF: Govern, Map, Measure, Manage"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book", "nist"]
 description: "Breaking down NIST's AI Risk Management Framework — all four core functions, the 2024 Generative AI Profile update, and how it fits alongside the EU AI Act and ISO 42001."
 ---

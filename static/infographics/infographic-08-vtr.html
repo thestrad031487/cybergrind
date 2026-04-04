@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vulnerability, Threat &amp; Risk — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1C1E;--entry:#22252A;--card:#2A2D33;--border:#3A3D44;--orange:#FF8C00;--orange-light:#FFAD33;--text:#E4E6EB;--muted:#8E9297;--red:#E55353;--warn:#F4A62A;--blue:#5B9CF6;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Syne',sans-serif;color:var(--text);padding:2.5rem 1.5rem 3rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  .fade{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}.d6{animation-delay:.55s}.d7{animation-delay:.65s}
+
+  .header{text-align:center;margin-bottom:2.5rem;}
+  .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0D0F11;background:var(--orange);padding:3px 10px;border-radius:3px;margin-bottom:.9rem;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  h1 span{color:var(--orange);}
+  .subtitle{font-size:.9rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+  .wrap{max-width:900px;margin:0 auto;}
+
+  .chain{display:flex;align-items:stretch;gap:.75rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+  @media(max-width:640px){.chain{flex-direction:column;}}
+
+  .chain-item{flex:1;min-width:180px;}
+  .chain-arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1.3rem;font-family:'Space Mono',monospace;flex-shrink:0;padding:0 .25rem;}
+  @media(max-width:640px){.chain-arrow{transform:rotate(90deg);align-self:center;}}
+
+  .def-card{
+    background:var(--card);border-radius:10px;padding:1.5rem 1.25rem;
+    height:100%;display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+  }
+  .def-card.vuln{border:1px solid rgba(244,166,42,.35);}
+  .def-card.threat{border:1px solid rgba(229,83,83,.35);}
+  .def-card.risk{border:1px solid rgba(255,140,0,.35);}
+
+  .def-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+  .def-card.vuln::before{background:var(--warn);}
+  .def-card.threat::before{background:var(--red);}
+  .def-card.risk::before{background:var(--orange);}
+
+  .def-term{
+    font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;
+    margin-bottom:.5rem;display:block;
+  }
+  .term-warn{color:var(--warn);}
+  .term-red{color:var(--red);}
+  .term-orange{color:var(--orange);}
+
+  .def-word{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+  .def-text{font-size:.84rem;color:var(--muted);line-height:1.65;flex:1;margin-bottom:.75rem;}
+  .def-text strong{color:var(--text);}
+  .def-simple{
+    font-family:'Space Mono',monospace;font-size:.75rem;
+    background:var(--entry);border:1px solid var(--border);
+    border-radius:4px;padding:.5rem .7rem;color:var(--muted);line-height:1.4;
+  }
+  .def-simple em{font-style:normal;}
+  .def-card.vuln .def-simple em{color:var(--warn);}
+  .def-card.threat .def-simple em{color:var(--red);}
+  .def-card.risk .def-simple em{color:var(--orange);}
+
+  .section-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:1rem;}
+
+  .scenarios{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+  @media(max-width:600px){.scenarios{grid-template-columns:1fr;}}
+
+  .sc-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.25rem;}
+  .sc-card .sc-title{
+    font-family:'Space Mono',monospace;font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--orange);
+    margin-bottom:.85rem;
+  }
+  .sc-row{margin-bottom:.6rem;display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;line-height:1.5;}
+  .sc-badge{
+    font-family:'Space Mono',monospace;font-size:8px;font-weight:700;
+    text-transform:uppercase;padding:2px 5px;border-radius:2px;
+    white-space:nowrap;flex-shrink:0;margin-top:2px;
+  }
+  .sb-v{background:rgba(244,166,42,.15);color:var(--warn);border:1px solid rgba(244,166,42,.3);}
+  .sb-t{background:rgba(229,83,83,.15);color:var(--red);border:1px solid rgba(229,83,83,.3);}
+  .sb-r{background:rgba(255,140,0,.15);color:var(--orange);border:1px solid rgba(255,140,0,.3);}
+  .sc-row span{color:var(--muted);}
+  .sc-row strong{color:var(--text);}
+
+  .key-formula{
+    background:var(--entry);border:1px solid var(--border);border-radius:10px;
+    padding:1.25rem 1.5rem;margin-bottom:1.5rem;
+    display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;
+  }
+  .formula-term{text-align:center;}
+  .ft-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);display:block;margin-bottom:.2rem;}
+  .ft-val{font-size:1rem;font-weight:700;}
+  .ft-val.v{color:var(--warn);}
+  .ft-val.t{color:var(--red);}
+  .ft-val.r{color:var(--orange);}
+  .formula-op{font-family:'Space Mono',monospace;font-size:1.2rem;color:var(--muted);}
+
+  .callout{background:var(--entry);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:1rem 1.25rem;}
+  .callout p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .callout strong{color:var(--orange-light);}
+
+  .footer-note{text-align:center;margin-top:2rem;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+  .footer-note span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 08 / 09</div>
+  <h1>Vulnerability, <span>Threat, and Risk</span></h1>
+  <p class="subtitle">Three terms constantly conflated in security conversations. They are distinct concepts — and conflating them produces bad risk decisions.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="chain fade d2">
+    <div class="chain-item">
+      <div class="def-card vuln">
+        <span class="def-term term-warn">01 — Weakness</span>
+        <div class="def-word">Vulnerability</div>
+        <div class="def-text">A <strong>weakness</strong> in a system, process, or control. It exists independently of whether anyone exploits it. The presence of a vulnerability does not mean an attack will occur.</div>
+        <div class="def-simple"><em>"Standard plate glass windows"</em> — weak by nature of the material. A known CVE in software with no patch applied.</div>
+      </div>
+    </div>
+    <div class="chain-arrow">&#x2192;</div>
+    <div class="chain-item">
+      <div class="def-card threat">
+        <span class="def-term term-red">02 — Potential Danger</span>
+        <div class="def-word">Threat</div>
+        <div class="def-text">The <strong>potential danger</strong> associated with exploiting a vulnerability. A threat actor, a natural event, or an error that could take advantage of the weakness.</div>
+        <div class="def-simple"><em>"The glass can be broken"</em> — a smash-and-grab burglar. A public proof-of-concept exploit for the CVE has been released.</div>
+      </div>
+    </div>
+    <div class="chain-arrow">&#x2192;</div>
+    <div class="chain-item">
+      <div class="def-card risk">
+        <span class="def-term term-orange">03 — Business Impact</span>
+        <div class="def-word">Risk</div>
+        <div class="def-text">The <strong>likelihood</strong> that a threat actor exploits the vulnerability, combined with the <strong>business impact</strong> if they succeed. Risk drives the response decision.</div>
+        <div class="def-simple">How likely is a break-in at <em>this location?</em> What is the cost to the business if it happens? What do we do about it?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-formula fade d3">
+    <div class="formula-term">
+      <span class="ft-label">Weakness exists</span>
+      <span class="ft-val v">Vulnerability</span>
+    </div>
+    <div class="formula-op">+</div>
+    <div class="formula-term">
+      <span class="ft-label">Actor could exploit it</span>
+      <span class="ft-val t">Threat</span>
+    </div>
+    <div class="formula-op">&#x2192;</div>
+    <div class="formula-term">
+      <span class="ft-label">Likelihood × Impact</span>
+      <span class="ft-val r">Risk</span>
+    </div>
+  </div>
+
+  <div class="section-label fade d4">Real-World Scenarios</div>
+  <div class="scenarios fade d4">
+    <div class="sc-card">
+      <div class="sc-title">&#x1F3EA; Physical — Showroom</div>
+      <div class="sc-row">
+        <span class="sc-badge sb-v">VULN</span>
+        <span>Storefront built with <strong>standard plate glass</strong> doors and windows — inherently breakable.</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-badge sb-t">THREAT</span>
+        <span>A potential smash-and-grab burglar who could break the glass to access merchandise.</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-badge sb-r">RISK</span>
+        <span>How likely is smash-and-grab at this location? What merchandise value is exposed? Is this area high-crime?</span>
+      </div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-title">&#x1F3E5; Digital — Hospital Database</div>
+      <div class="sc-row">
+        <span class="sc-badge sb-v">VULN</span>
+        <span>Hospital EHR database running a version with a <strong>known unpatched CVE</strong> in the advisory feed.</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-badge sb-t">THREAT</span>
+        <span>A working proof-of-concept exploit for that CVE has been <strong>publicly released</strong>. The threat is real and active.</span>
+      </div>
+      <div class="sc-row">
+        <span class="sc-badge sb-r">RISK</span>
+        <span>How exposed is this system? What is the impact of patient records being altered, disclosed, or destroyed? What is the patching timeline?</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout fade d5">
+    <p><strong>Why this matters:</strong> A vulnerability with no credible threat actor carries different risk than the same vulnerability with a live exploit kit in the wild. And high-likelihood threats against low-impact assets may be lower priority than low-likelihood threats against critical systems. <strong>Risk = Likelihood × Impact</strong> — and risk drives the response, not the vulnerability alone.</p>
+  </div>
+
+</div>
+
+<div class="footer-note fade d6" style="margin-top:2rem">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

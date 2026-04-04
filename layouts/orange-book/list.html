@@ -1,5 +1,4 @@
 {{- define "main" }}
-
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1></h1>
@@ -7,7 +6,6 @@
   <div class="post-description">{{ .Description | markdownify }}</div>
   {{- end }}
 </header>
-
 {{- if .Content }}
 <div class="post-content">
   {{- if not (.Param "disableAnchoredHeadings") }}
@@ -16,32 +14,83 @@
 </div>
 {{- end }}
 
-{{/* Search bar */}}
+{{/* Search + Category filters */}}
 <div class="section-search" style="margin-bottom:24px;">
   <input
     type="text"
     id="ob-search"
     placeholder="Search the Orange Book..."
     autocomplete="off"
-    style="width:100%;padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;"
+    style="width:100%;padding:8px 14px;background:var(--entry);border:1px solid var(--border);color:var(--primary);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:10px;"
   >
-  <div id="ob-count" style="margin-top:8px;font-size:13px;color:var(--secondary);"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px;">
+    <span style="font-size:11px;color:var(--secondary);text-transform:uppercase;letter-spacing:0.1em;margin-right:2px;">Category:</span>
+    <button class="ob-filter active" data-val="all">All</button>
+    <button class="ob-filter" data-val="Fundamentals">Fundamentals</button>
+    <button class="ob-filter" data-val="Frameworks &amp; Standards">Frameworks &amp; Standards</button>
+    <button class="ob-filter" data-val="Architecture">Architecture</button>
+    <button class="ob-filter" data-val="Hardware">Hardware</button>
+    <button class="ob-filter" data-val="Storage">Storage</button>
+    <button class="ob-filter" data-val="Cryptography">Cryptography</button>
+    <button class="ob-filter" data-val="Digital Formats">Digital Formats</button>
+  </div>
+  <div id="ob-count" style="font-size:13px;color:var(--secondary);"></div>
 </div>
 
+<style>
+.ob-filter {
+  font-size: 11px;
+  font-family: inherit;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--entry);
+  color: var(--secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ob-filter:hover { border-color: var(--secondary); color: var(--primary); }
+.ob-filter.active { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.08); }
+
+.ob-cat-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid rgba(249,115,22,0.3);
+  color: #f97316;
+  background: rgba(249,115,22,0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-top: 6px;
+  display: inline-block;
+}
+</style>
+
 {{- $pages := union .RegularPages .Sections }}
-{{- $paginator := .Paginate $pages }}
+
 
 <div id="ob-list">
-{{- range $index, $page := $paginator.Pages }}
+{{- range $pages }}
 <article
   class="post-entry"
   data-title="{{ .Title | lower }}"
   data-summary="{{ .Summary | plainify | lower }}"
   data-tags="{{ range .Params.tags }}{{ . | lower }} {{ end }}"
+  data-category="{{ range .Params.categories }}{{ . }} {{ end }}"
 >
   <header class="entry-header">
     <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
   </header>
+  {{- if .Params.categories }}
+  <div>
+    {{- range .Params.categories }}
+    <span class="ob-cat-badge">{{ . }}</span>
+    {{- end }}
+  </div>
+  {{- end }}
   {{- if (ne (.Param "hideSummary") true) }}
   <div class="entry-content">
     <p>{{ if .Description }}{{ .Description }}{{ else }}{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}{{ end }}</p>
@@ -56,30 +105,19 @@
   No results found.
 </div>
 
-{{- if gt $paginator.TotalPages 1 }}
-<footer class="page-footer" id="ob-pagination">
-  <nav class="pagination">
-    {{- if $paginator.HasPrev }}
-    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
-    {{- end }}
-    {{- if $paginator.HasNext }}
-    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
-    {{- end }}
-  </nav>
-</footer>
-{{- end }}
-
 <script>
 (function() {
   const searchInput = document.getElementById('ob-search');
-  const list = document.getElementById('ob-list');
-  const empty = document.getElementById('ob-empty');
-  const count = document.getElementById('ob-count');
-  const pagination = document.getElementById('ob-pagination');
-  const articles = Array.from(list.querySelectorAll('article'));
+  const list        = document.getElementById('ob-list');
+  const empty       = document.getElementById('ob-empty');
+  const countEl     = document.getElementById('ob-count');
+  const pagination  = document.getElementById('ob-pagination');
+  const articles    = Array.from(list.querySelectorAll('article'));
+
+  let activeCategory = 'all';
 
   function updateCount(visible) {
-    count.textContent = visible === articles.length
+    countEl.textContent = visible === articles.length
       ? `${articles.length} articles`
       : `${visible} of ${articles.length} articles`;
   }
@@ -89,22 +127,35 @@
     let visible = 0;
 
     articles.forEach(article => {
-      const title = article.dataset.title || '';
-      const summary = article.dataset.summary || '';
-      const tags = article.dataset.tags || '';
-      const matches = !query || title.includes(query) || summary.includes(query) || tags.includes(query);
-      article.style.display = matches ? '' : 'none';
-      if (matches) visible++;
+      const title    = article.dataset.title    || '';
+      const summary  = article.dataset.summary  || '';
+      const tags     = article.dataset.tags     || '';
+      const category = article.dataset.category || '';
+
+      const textMatch = !query || title.includes(query) || summary.includes(query) || tags.includes(query);
+      const catMatch  = activeCategory === 'all' || category.includes(activeCategory);
+
+      const show = textMatch && catMatch;
+      article.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
 
     empty.style.display = visible === 0 ? 'block' : 'none';
-    if (pagination) pagination.style.display = query ? 'none' : '';
+    if (pagination) pagination.style.display = (query || activeCategory !== 'all') ? 'none' : '';
     updateCount(visible);
   }
+
+  document.querySelectorAll('.ob-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.ob-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.dataset.val;
+      filter();
+    });
+  });
 
   searchInput.addEventListener('input', filter);
   updateCount(articles.length);
 })();
 </script>
-
 {{- end }}

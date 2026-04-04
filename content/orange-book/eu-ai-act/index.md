@@ -1,6 +1,7 @@
 ---
 title: "EU AI Act: Risk Tiers, Penalties, and the Road to 2027"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book", "regulation", "eu"]
 description: "Full breakdown of the EU AI Act — four risk tiers, penalty structure up to €35M or 7% revenue, GPAI obligations, extraterritorial reach, and the complete enforcement timeline."
 ---

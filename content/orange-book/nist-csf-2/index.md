@@ -2,6 +2,7 @@
 title: "NIST Cybersecurity Framework 2.0 — Deep Dive"
 date: 2026-03-28
 description: "A practitioner-grade deep dive into CSF 2.0 — origin, the six core functions, implementation tiers, profiles, and who should use it."
+categories: ["Frameworks & Standards"]
 tags: ["NIST", "CSF", "frameworks", "risk management"]
 series: ["Orange Book"]
 infographic: "/infographics/nist-csf-2-infographic.html"

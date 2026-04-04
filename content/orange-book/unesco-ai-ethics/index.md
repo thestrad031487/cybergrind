@@ -1,6 +1,7 @@
 ---
 title: "UNESCO AI Ethics: 194 Nations, One Recommendation"
 date: 2026-03-31
+categories: ["Frameworks & Standards"]
 tags: ["ai", "frameworks", "governance", "risk", "orange-book", "unesco"]
 description: "How UNESCO's AI Ethics Recommendation differs from tech-focused frameworks — four core values, 11 policy action areas, and global reach across all 194 member states."
 ---

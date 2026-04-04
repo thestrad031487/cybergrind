@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Defence in Depth — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1A1C1E;--entry:#22252A;--card:#2A2D33;--border:#3A3D44;--orange:#FF8C00;--orange-light:#FFAD33;--text:#E4E6EB;--muted:#8E9297;--green:#4CAF7D;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Syne',sans-serif;color:var(--text);padding:2.5rem 1.5rem 3rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  .fade{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}.d6{animation-delay:.55s}.d7{animation-delay:.65s}.d8{animation-delay:.75s}
+
+  .header{text-align:center;margin-bottom:2.5rem;}
+  .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0D0F11;background:var(--orange);padding:3px 10px;border-radius:3px;margin-bottom:.9rem;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem;}
+  h1 span{color:var(--orange);}
+  .subtitle{font-size:.9rem;color:var(--muted);max-width:560px;margin:0 auto;}
+
+  .wrap{max-width:860px;margin:0 auto;}
+
+  .layers-diagram{position:relative;margin:0 auto 2rem;max-width:600px;}
+
+  .layer{
+    border-radius:10px;padding:1rem 1.5rem;margin-bottom:.6rem;
+    display:flex;align-items:center;gap:1rem;
+    border:1px solid var(--border);
+    position:relative;
+  }
+  .layer .l-num{
+    font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;
+    color:var(--orange);background:rgba(255,140,0,.12);
+    border:1px solid rgba(255,140,0,.25);
+    padding:3px 8px;border-radius:3px;flex-shrink:0;
+  }
+  .layer .l-name{font-weight:700;font-size:.95rem;color:#fff;flex:1;}
+  .layer .l-desc{font-size:.8rem;color:var(--muted);text-align:right;max-width:220px;}
+  @media(max-width:560px){.layer{flex-wrap:wrap;}.layer .l-desc{text-align:left;max-width:100%;}}
+
+  .layer-1{background:rgba(255,140,0,.06);border-color:rgba(255,140,0,.3);}
+  .layer-2{background:rgba(255,140,0,.05);margin-left:1rem;margin-right:1rem;}
+  .layer-3{background:rgba(255,140,0,.04);margin-left:2rem;margin-right:2rem;}
+  .layer-4{background:rgba(255,140,0,.03);margin-left:3rem;margin-right:3rem;}
+  .layer-5{background:rgba(76,175,125,.06);border-color:rgba(76,175,125,.3);margin-left:4rem;margin-right:4rem;}
+  .layer-5 .l-num{color:var(--green);background:rgba(76,175,125,.12);border-color:rgba(76,175,125,.25);}
+  .layer-5 .l-name{color:var(--green);}
+
+  @media(max-width:560px){
+    .layer-2,.layer-3,.layer-4,.layer-5{margin-left:0;margin-right:0;}
+  }
+
+  .arrow-down{text-align:center;font-size:.85rem;color:var(--muted);margin-bottom:.2rem;font-family:'Space Mono',monospace;font-size:11px;}
+
+  .principle-box{
+    background:var(--entry);border:1px solid var(--border);border-radius:10px;
+    padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1rem;
+  }
+  .principle-box .pb-icon{font-size:1.75rem;flex-shrink:0;margin-top:.1rem;}
+  .principle-box h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+  .principle-box p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .principle-box strong{color:var(--orange-light);}
+
+  .real-world{margin-bottom:1.5rem;}
+  .rw-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.85rem;}
+  .rw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;}
+  .rw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;}
+  .rw-card .rw-icon{font-size:1.3rem;margin-bottom:.5rem;display:block;}
+  .rw-card h4{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.35rem;}
+  .rw-card p{font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+  .key-insight{
+    background:var(--entry);border-left:3px solid var(--orange);
+    border-radius:0 8px 8px 0;padding:1rem 1.25rem;
+  }
+  .key-insight p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+  .key-insight strong{color:var(--orange-light);}
+
+  .footer-note{text-align:center;margin-top:2rem;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+  .footer-note span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 05 / 09</div>
+  <h1><span>Defence in Depth</span></h1>
+  <p class="subtitle">Also called Multi-Level Security — the principle of stacking independent security layers so that failure at any one layer does not mean total compromise.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="principle-box fade d2">
+    <div class="pb-icon">&#x1F3AF;</div>
+    <div>
+      <h3>The Core Principle</h3>
+      <p>No single control stops every attacker. Defence in Depth creates <strong>multiple independent barriers</strong> — each one the attacker must breach before reaching the target. Even if one layer fails, the remaining layers continue to protect. The combination is exponentially more effective than any single control alone.</p>
+    </div>
+  </div>
+
+  <div class="layers-diagram fade d3">
+    <div class="arrow-down">&#x2193; Attacker approaches from outside</div>
+    <br>
+    <div class="layer layer-1">
+      <span class="l-num">L1</span>
+      <span class="l-name">Perimeter Controls</span>
+      <span class="l-desc">Firewalls, IDS/IPS, gateway filtering</span>
+    </div>
+    <div class="layer layer-2">
+      <span class="l-num">L2</span>
+      <span class="l-name">Network Segmentation</span>
+      <span class="l-desc">VLANs, DMZ, microsegmentation</span>
+    </div>
+    <div class="layer layer-3">
+      <span class="l-num">L3</span>
+      <span class="l-name">Identity &amp; Access</span>
+      <span class="l-desc">MFA, least privilege, RBAC</span>
+    </div>
+    <div class="layer layer-4">
+      <span class="l-num">L4</span>
+      <span class="l-name">Endpoint &amp; Application</span>
+      <span class="l-desc">EDR, input validation, patching</span>
+    </div>
+    <div class="layer layer-5">
+      <span class="l-num">&#x2605;</span>
+      <span class="l-name">Protected Asset</span>
+      <span class="l-desc">Data, systems, services</span>
+    </div>
+  </div>
+
+  <div class="real-world fade d5">
+    <div class="rw-label">Analogy &mdash; Physical Layers of Protection</div>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <span class="rw-icon">&#x1F3D9;</span>
+        <h4>Building Gate</h4>
+        <p>First line of defence. Many threats stopped here before reaching the building.</p>
+      </div>
+      <div class="rw-card">
+        <span class="rw-icon">&#x1F6AA;</span>
+        <h4>Main Door Lock</h4>
+        <p>Those who bypass the gate still face a locked entrance requiring access credentials.</p>
+      </div>
+      <div class="rw-card">
+        <span class="rw-icon">&#x1F4F9;</span>
+        <h4>Security Cameras</h4>
+        <p>Detection and deterrence layer — even if physical controls fail, activity is recorded.</p>
+      </div>
+      <div class="rw-card">
+        <span class="rw-icon">&#x1F512;</span>
+        <h4>Locked Room</h4>
+        <p>Separate access control for high-value areas within the already-protected building.</p>
+      </div>
+      <div class="rw-card">
+        <span class="rw-icon">&#x1F5C4;</span>
+        <h4>Locked Drawer</h4>
+        <p>Final layer protecting the most sensitive assets — even from those inside the room.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-insight fade d6">
+    <p><strong>The Goal:</strong> No single layer is expected to be impenetrable. Each layer raises the cost, time, and skill required to reach the next one. The cumulative effect stops most attackers entirely — and slows, detects, or contains those who make it further. Defence in Depth is also directly tied to ISO/IEC 19249's <strong>Layering</strong> architectural principle.</p>
+  </div>
+
+</div>
+
+<div class="footer-note fade d7" style="margin-top:2rem">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>

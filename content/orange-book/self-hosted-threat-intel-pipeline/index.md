@@ -1,8 +1,7 @@
 ---
-title: "Building a Self-Hosted Threat Intelligence Pipeline"
-date: 2026-04-01
+title: "Self-Hosted Threat Intel Pipeline"
+categories: ["Architecture"]
 tags: ["threat intelligence", "homelab", "docker", "fastapi", "python", "blue team", "SOC"]
-categories: ["orange-book"]
 description: "How I built a personal CTI pipeline using free open source feeds, Python, FastAPI, Docker, and Cloudflare Tunnel — running on a Windows workstation and serving live data on CyberGrind."
 draft: false
 ---

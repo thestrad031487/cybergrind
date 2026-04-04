@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond CIA — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1A1C1E; --entry: #22252A; --card: #2A2D33; --border: #3A3D44;
+    --orange: #FF8C00; --orange-light: #FFAD33; --text: #E4E6EB; --muted: #8E9297;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Syne', sans-serif; color: var(--text); padding: 2.5rem 1.5rem 3rem; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+  .fade { opacity:0; animation: fadeUp 0.6s ease forwards; }
+  .d1{animation-delay:.05s} .d2{animation-delay:.15s} .d3{animation-delay:.25s}
+  .d4{animation-delay:.35s} .d5{animation-delay:.45s} .d6{animation-delay:.55s} .d7{animation-delay:.65s}
+
+  .header { text-align:center; margin-bottom:2.5rem; }
+  .tag { display:inline-block; font-family:'Space Mono',monospace; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#0D0F11; background:var(--orange); padding:3px 10px; border-radius:3px; margin-bottom:.9rem; }
+  h1 { font-size:clamp(1.6rem,4vw,2.2rem); font-weight:700; color:#fff; line-height:1.2; margin-bottom:.5rem; }
+  h1 span { color:var(--orange); }
+  .subtitle { font-size:.9rem; color:var(--muted); max-width:540px; margin:0 auto; }
+
+  .wrap { max-width:900px; margin:0 auto; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+  @media(max-width:620px){ .two-col { grid-template-columns:1fr; } }
+
+  .prop-card {
+    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.5rem;
+    position:relative; overflow:hidden;
+  }
+  .prop-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--orange); }
+  .prop-card.nonrep::before { background:#A78BFA; }
+
+  .prop-icon { font-size:2rem; margin-bottom:.75rem; }
+  .prop-card h2 { font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:.5rem; }
+  .prop-card p { font-size:.88rem; color:var(--muted); line-height:1.65; margin-bottom:.9rem; }
+  .prop-tag {
+    font-family:'Space Mono',monospace; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.1em;
+    color:var(--orange); background:rgba(255,140,0,.1); border:1px solid rgba(255,140,0,.25);
+    padding:3px 9px; border-radius:4px; display:inline-block;
+  }
+  .prop-tag.purple { color:#A78BFA; background:rgba(167,139,250,.1); border-color:rgba(167,139,250,.25); }
+
+  .scenario {
+    background:var(--entry); border:1px solid var(--border); border-radius:10px;
+    padding:1.25rem 1.5rem; margin-bottom:1.5rem;
+  }
+  .scenario .sc-label {
+    font-family:'Space Mono',monospace; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--orange); margin-bottom:.6rem;
+  }
+  .scenario p { font-size:.88rem; color:var(--muted); line-height:1.65; }
+  .scenario strong { color:var(--text); }
+
+  .hexad-section h3 {
+    font-family:'Space Mono',monospace; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.12em; color:var(--muted); margin-bottom:1rem;
+  }
+  .hexad-title { display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+  .hexad-title span { font-size:.9rem; color:var(--muted); }
+
+  .hexad-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.85rem; margin-bottom:1.5rem; }
+  @media(max-width:580px){ .hexad-grid { grid-template-columns:repeat(2,1fr); } }
+
+  .hexad-item {
+    background:var(--card); border:1px solid var(--border); border-radius:8px;
+    padding:1rem; text-align:center;
+  }
+  .hexad-item.new-item { border-color:rgba(255,140,0,.4); background:#2A2410; }
+  .h-num { font-family:'Space Mono',monospace; font-size:.7rem; color:var(--muted); display:block; margin-bottom:.35rem; }
+  .h-name { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; color:#fff; display:block; margin-bottom:.3rem; }
+  .hexad-item.new-item .h-name { color:var(--orange-light); }
+  .h-desc { font-size:.75rem; color:var(--muted); line-height:1.5; }
+
+  .new-label {
+    font-family:'Space Mono',monospace; font-size:9px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em;
+    color:var(--orange); background:rgba(255,140,0,.12);
+    border:1px solid rgba(255,140,0,.3); padding:2px 7px; border-radius:3px;
+    display:inline-block; margin-bottom:.4rem;
+  }
+
+  .callout {
+    background:var(--entry); border-left:3px solid var(--orange);
+    border-radius:0 8px 8px 0; padding:1rem 1.25rem; margin-bottom:1.5rem;
+  }
+  .callout p { font-size:.88rem; color:var(--muted); line-height:1.65; }
+  .callout strong { color:var(--orange-light); }
+
+  .footer-note { text-align:center; margin-top:2rem; font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
+  .footer-note span { color:var(--orange); }
+</style>
+</head>
+<body>
+
+<div class="header fade d1">
+  <div class="tag">Security Foundations &bull; 02 / 09</div>
+  <h1>Beyond the CIA Triad: <span>Authenticity, Nonrepudiation &amp; the Parkerian Hexad</span></h1>
+  <p class="subtitle">Two properties CIA doesn't capture, and Donn Parker's 1998 six-element framework that extends security coverage further.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="two-col fade d2">
+    <div class="prop-card">
+      <div class="prop-icon">&#x2705;</div>
+      <h2>Authenticity</h2>
+      <p>The assurance that a document, file, or message is genuinely from its claimed source — not a forgery, not a counterfeit. You can verify the origin.</p>
+      <div class="prop-tag">Verify the Source</div>
+    </div>
+    <div class="prop-card nonrep">
+      <div class="prop-icon">&#x1F512;</div>
+      <h2>Nonrepudiation</h2>
+      <p>Prevents the original sender from later denying they were the source. Once sent or signed, they cannot walk it back. Critical for commerce, banking, legal records, and healthcare.</p>
+      <div class="prop-tag purple">Cannot Deny It</div>
+    </div>
+  </div>
+
+  <div class="scenario fade d3">
+    <div class="sc-label">&#x1F697; Scenario — High-Value Order</div>
+    <p>A purchase order arrives for <strong>1,000 vehicles</strong>. You need to confirm the customer actually placed this order — that's <strong>authenticity</strong>. You also need to ensure they cannot later claim they never placed it — that's <strong>nonrepudiation</strong>. Without both, the business transaction cannot be conducted safely.</p>
+  </div>
+
+  <div class="hexad-section fade d4">
+    <h3>The Parkerian Hexad (1998 — Donn Parker)</h3>
+
+    <div class="callout">
+      <p>In 1998, security consultant <strong>Donn Parker</strong> proposed extending the CIA Triad into six elements — the Parkerian Hexad — to cover security properties that CIA alone leaves unaddressed. The four existing CIA properties are retained; two new ones are added.</p>
+    </div>
+
+    <div class="hexad-grid">
+      <div class="hexad-item">
+        <span class="h-num">01</span>
+        <span class="h-name">Confidentiality</span>
+        <span class="h-desc">Access limited to authorized recipients only.</span>
+      </div>
+      <div class="hexad-item">
+        <span class="h-num">02</span>
+        <span class="h-name">Integrity</span>
+        <span class="h-desc">Data unchanged; alterations detectable.</span>
+      </div>
+      <div class="hexad-item">
+        <span class="h-num">03</span>
+        <span class="h-name">Availability</span>
+        <span class="h-desc">Systems accessible when needed.</span>
+      </div>
+      <div class="hexad-item">
+        <span class="h-num">04</span>
+        <span class="h-name">Authenticity</span>
+        <span class="h-desc">Origin of data is verified and genuine.</span>
+      </div>
+      <div class="hexad-item new-item">
+        <span class="new-label">New</span>
+        <span class="h-num">05</span>
+        <span class="h-name">Utility</span>
+        <span class="h-desc">Information must be in a usable form. A laptop with encrypted storage and a lost key is available but has zero utility.</span>
+      </div>
+      <div class="hexad-item new-item">
+        <span class="new-label">New</span>
+        <span class="h-num">06</span>
+        <span class="h-name">Possession</span>
+        <span class="h-desc">You must control the medium holding the data. Ransomware achieves loss of possession without destruction.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col fade d5">
+    <div class="scenario" style="margin-bottom:0">
+      <div class="sc-label">&#x1F4BB; Utility Example</div>
+      <p>A user has their encrypted laptop physically in hand. The drives are intact. But the decryption key is lost. The data is <strong>available</strong> in a physical sense — but it is completely <strong>inaccessible</strong>. CIA sees this as fine. Utility captures the failure.</p>
+    </div>
+    <div class="scenario" style="margin-bottom:0">
+      <div class="sc-label">&#x1F4E6; Possession Example</div>
+      <p>Ransomware encrypts your files. Your data still exists on your drives — technically available. But you no longer control it. CIA's availability property misses this. <strong>Possession</strong> captures the loss of control even without physical theft.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note fade d6" style="margin-top:2rem">cybergrind.org &nbsp;&bull;&nbsp; <span>Orange Book</span> &nbsp;&bull;&nbsp; Security Foundations Series</div>
+
+</body>
+</html>
