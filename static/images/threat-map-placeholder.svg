@@ -1,0 +1,128 @@
+<svg width="100%" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <style>
+    .pulse { animation: pulse 2.5s ease-in-out infinite; }
+    .pulse2 { animation: pulse 2.5s ease-in-out infinite 0.6s; }
+    .pulse3 { animation: pulse 2.5s ease-in-out infinite 1.2s; }
+    .pulse4 { animation: pulse 2.5s ease-in-out infinite 1.8s; }
+    .pulse5 { animation: pulse 2.5s ease-in-out infinite 0.3s; }
+    .pulse6 { animation: pulse 2.5s ease-in-out infinite 2.1s; }
+    .scan { animation: scan 4s linear infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; r: 4; }
+      50% { opacity: 1; r: 7; }
+    }
+    @keyframes scan {
+      0% { opacity: 0; x: -10; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { opacity: 0; x: 680; }
+    }
+  </style>
+</defs>
+
+<rect width="680" height="300" fill="#0a0f1a" rx="8"/>
+
+<rect class="scan" y="0" width="3" height="300" fill="#f97316"/>
+
+<!-- Grid lines -->
+<g stroke="#1a2a3a" stroke-width="0.5" opacity="0.6">
+  <line x1="0" y1="75" x2="680" y2="75"/>
+  <line x1="0" y1="150" x2="680" y2="150"/>
+  <line x1="0" y1="225" x2="680" y2="225"/>
+  <line x1="170" y1="0" x2="170" y2="300"/>
+  <line x1="340" y1="0" x2="340" y2="300"/>
+  <line x1="510" y1="0" x2="510" y2="300"/>
+</g>
+
+<!-- Equator -->
+<line x1="0" y1="150" x2="680" y2="150" stroke="#1e3a4a" stroke-width="1" stroke-dasharray="4,4"/>
+
+<!-- North America -->
+<path d="M 85 70 L 100 65 L 130 60 L 155 65 L 160 80 L 155 95 L 145 105 L 135 115 L 125 125 L 115 135 L 105 130 L 95 120 L 88 108 L 80 95 L 78 82 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+<!-- Central America -->
+<path d="M 115 135 L 125 138 L 130 148 L 125 155 L 118 150 L 112 143 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- South America -->
+<path d="M 145 160 L 165 155 L 180 165 L 185 185 L 182 210 L 172 230 L 158 240 L 148 235 L 140 220 L 138 200 L 138 180 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Europe -->
+<path d="M 310 60 L 330 55 L 355 58 L 365 68 L 360 80 L 345 88 L 328 85 L 315 78 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+<!-- Scandinavia -->
+<path d="M 330 45 L 340 38 L 350 40 L 355 52 L 345 58 L 330 55 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Africa -->
+<path d="M 315 100 L 340 95 L 365 100 L 375 120 L 375 155 L 368 185 L 352 205 L 338 210 L 325 200 L 315 178 L 310 150 L 308 125 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Russia / Asia -->
+<path d="M 370 45 L 420 35 L 470 38 L 510 42 L 540 50 L 555 62 L 545 72 L 510 75 L 475 72 L 445 78 L 420 75 L 395 78 L 375 75 L 365 65 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Middle East -->
+<path d="M 370 88 L 395 85 L 410 90 L 415 105 L 405 115 L 388 118 L 372 112 L 365 100 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- South Asia -->
+<path d="M 435 95 L 465 90 L 485 98 L 488 118 L 478 132 L 460 138 L 442 130 L 432 115 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Southeast Asia / China -->
+<path d="M 490 70 L 540 65 L 570 72 L 575 90 L 558 100 L 530 105 L 505 100 L 488 90 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Australia -->
+<path d="M 540 185 L 575 180 L 600 190 L 605 215 L 595 232 L 572 238 L 548 230 L 535 212 L 532 195 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Japan -->
+<path d="M 575 78 L 582 74 L 590 80 L 585 90 L 577 88 Z" fill="#112233" stroke="#1e3a50" stroke-width="0.5"/>
+
+<!-- Threat pulse dots -->
+<!-- China -->
+<circle cx="535" cy="85" r="4" fill="#ff0000" class="pulse"/>
+<circle cx="535" cy="85" r="12" fill="none" stroke="#ff0000" stroke-width="0.8" opacity="0.3" class="pulse"/>
+
+<!-- Russia -->
+<circle cx="450" cy="52" r="4" fill="#ff6b00" class="pulse2"/>
+<circle cx="450" cy="52" r="12" fill="none" stroke="#ff6b00" stroke-width="0.8" opacity="0.3" class="pulse2"/>
+
+<!-- US East Coast -->
+<circle cx="138" cy="90" r="4" fill="#ffaa00" class="pulse3"/>
+<circle cx="138" cy="90" r="10" fill="none" stroke="#ffaa00" stroke-width="0.8" opacity="0.3" class="pulse3"/>
+
+<!-- Brazil -->
+<circle cx="163" cy="195" r="4" fill="#ff6b00" class="pulse4"/>
+<circle cx="163" cy="195" r="10" fill="none" stroke="#ff6b00" stroke-width="0.8" opacity="0.3" class="pulse4"/>
+
+<!-- Netherlands / Europe -->
+<circle cx="335" cy="68" r="4" fill="#ffdd00" class="pulse5"/>
+<circle cx="335" cy="68" r="10" fill="none" stroke="#ffdd00" stroke-width="0.8" opacity="0.3" class="pulse5"/>
+
+<!-- India -->
+<circle cx="462" cy="115" r="4" fill="#ff6b00" class="pulse6"/>
+<circle cx="462" cy="115" r="10" fill="none" stroke="#ff6b00" stroke-width="0.8" opacity="0.3" class="pulse6"/>
+
+<!-- Nigeria -->
+<circle cx="335" cy="148" r="3" fill="#ffdd00" class="pulse2"/>
+
+<!-- Korea -->
+<circle cx="568" cy="83" r="3" fill="#ffaa00" class="pulse3"/>
+
+<!-- Small ambient dots -->
+<circle cx="98" cy="98" r="2" fill="#88cc00" opacity="0.6"/>
+<circle cx="175" cy="170" r="2" fill="#ffdd00" opacity="0.5"/>
+<circle cx="395" cy="100" r="2" fill="#ff6b00" opacity="0.5"/>
+<circle cx="520" cy="98" r="2" fill="#ffaa00" opacity="0.5"/>
+<circle cx="355" cy="130" r="2" fill="#ff6b00" opacity="0.4"/>
+<circle cx="580" cy="198" r="2" fill="#ffdd00" opacity="0.4"/>
+
+<!-- Legend -->
+<rect x="30" y="248" width="10" height="10" rx="2" fill="#ff0000" opacity="0.85"/>
+<text x="46" y="258" font-family="monospace" font-size="11" fill="#8899aa">Critical (50+)</text>
+<rect x="140" y="248" width="10" height="10" rx="2" fill="#ff6b00" opacity="0.85"/>
+<text x="156" y="258" font-family="monospace" font-size="11" fill="#8899aa">High (20+)</text>
+<rect x="245" y="248" width="10" height="10" rx="2" fill="#ffaa00" opacity="0.85"/>
+<text x="261" y="258" font-family="monospace" font-size="11" fill="#8899aa">Medium (10+)</text>
+<rect x="368" y="248" width="10" height="10" rx="2" fill="#ffdd00" opacity="0.85"/>
+<text x="384" y="258" font-family="monospace" font-size="11" fill="#8899aa">Low (&lt;10)</text>
+
+<!-- CTA overlay -->
+<rect x="240" y="118" width="200" height="52" rx="6" fill="#0a0f1a" stroke="#f97316" stroke-width="1" opacity="0.95"/>
+<text x="340" y="140" font-family="monospace" font-size="12" fill="#f97316" text-anchor="middle">Live data on full map</text>
+<text x="340" y="158" font-family="monospace" font-size="11" fill="#556677" text-anchor="middle">AbuseIPDB · 6hr cache · 240+ countries</text>
+</svg>
