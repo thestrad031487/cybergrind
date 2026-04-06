@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest vulnerabilities and exploits that could impact my clients' systems. Two stories caught my attention this week due to their potential for widespread impact and ease of exploitation.
+
+The first story is about a Cisco IMC auth bypass vulnerability (CVE-2026-20093) that allows attackers to alter user passwords. This is a serious issue, as it means that an attacker could gain access to sensitive information by manipulating the authentication process. I've already seen this vulnerability being discussed in the industry, and I'm advising my clients to patch their Cisco IMC systems ASAP.
+
+The second story is about hackers exploiting CVE-2025-55182 to breach 766 Next.js hosts and steal credentials. This highlights the importance of keeping up-to-date with software updates and patches, as well as implementing robust security controls on hosting platforms. As a practitioner, I've seen firsthand how quickly vulnerabilities can be exploited when systems are not properly secured.
+
+**🔧 Patch Priority:** Cisco IMC due to its widespread use in enterprise environments and the potential for significant impact if left unpatched.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
