@@ -1,0 +1,670 @@
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg-panel: #141414;
+    --bg-card: #1a1a1a;
+    --bg-hover: #202020;
+    --border: #2a2a2a;
+    --border-active: #f97316;
+    --orange: #f97316;
+    --orange-dim: rgba(249,115,22,0.12);
+    --orange-glow: rgba(249,115,22,0.25);
+    --text: #f0ece4;
+    --text-muted: #888;
+    --text-dim: #555;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --blue: #60a5fa;
+    --mono: 'IBM Plex Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --sans: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(249,115,22,0.04) 39px,
+      rgba(249,115,22,0.04) 40px
+    );
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .header-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 0.35rem;
+    max-width: 560px;
+  }
+
+  /* ── Layout ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* ── Mode Tabs ── */
+  .mode-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .mode-tab {
+    flex: 1;
+    padding: 0.4rem 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--sans);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .mode-tab:last-child { border-right: none; }
+  .mode-tab:hover { background: var(--bg-hover); color: var(--text); }
+  .mode-tab.active {
+    background: var(--orange-dim);
+    color: var(--orange);
+    font-weight: 500;
+  }
+  .mode-tab .tab-icon { font-size: 14px; }
+
+  /* ── Panel ── */
+  .panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .panel-body { padding: 1.5rem; }
+
+  /* ── Text Input ── */
+  textarea {
+    width: 100%;
+    min-height: 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 1rem;
+    resize: vertical;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--orange); }
+  textarea::placeholder { color: var(--text-dim); }
+
+  /* ── Drop Zone ── */
+  .drop-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg-card);
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--orange);
+    background: var(--orange-dim);
+  }
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .drop-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    color: var(--text-muted);
+  }
+  .drop-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .drop-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .drop-preview {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .drop-preview img {
+    max-height: 180px;
+    max-width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    object-fit: contain;
+  }
+  .drop-preview .file-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--orange);
+  }
+
+  /* ── Submit Button ── */
+  .btn-analyze {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.65rem 1.5rem;
+    background: var(--orange);
+    color: #000;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 1rem;
+  }
+  .btn-analyze:hover { background: #fb923c; }
+  .btn-analyze:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-analyze .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: none;
+  }
+  .btn-analyze.loading .spinner { display: block; }
+  .btn-analyze.loading .btn-text { opacity: 0.7; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Results ── */
+  .results { display: none; }
+  .results.show { display: block; }
+
+  .verdict-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .score-circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0;
+    border: 2px solid;
+  }
+  .score-low    { border-color: var(--green); color: var(--green); background: rgba(34,197,94,0.1); }
+  .score-medium { border-color: var(--yellow); color: var(--yellow); background: rgba(234,179,8,0.1); }
+  .score-high   { border-color: var(--red); color: var(--red); background: rgba(239,68,68,0.1); }
+
+  .verdict-text {}
+  .verdict-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .verdict-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .confidence-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .conf-high   { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
+  .conf-moderate { color: var(--yellow); border-color: rgba(234,179,8,0.4); background: rgba(234,179,8,0.07); }
+  .conf-low    { color: var(--text-muted); border-color: var(--border); background: transparent; }
+
+  /* Score bar */
+  .score-track {
+    margin: 0 1.5rem 1.25rem;
+    height: 4px;
+    background: var(--bg-card);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Signals */
+  .signals-section { padding: 1.25rem 1.5rem; }
+  .signals-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .signal-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .signal-item:last-child { border-bottom: none; }
+  .signal-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .dot-critical, .dot-high { background: var(--red); }
+  .dot-medium { background: var(--yellow); }
+  .dot-low, .dot-info { background: var(--text-dim); }
+  .signal-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .signal-detail {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Stats grid */
+  .stats-section {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+    margin-top: 0.75rem;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--orange);
+    font-weight: 500;
+  }
+
+  /* Error */
+  .error-box {
+    display: none;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    color: var(--red);
+    font-size: 14px;
+    margin-top: 1rem;
+  }
+  .error-box.show { display: block; }
+
+  /* Disclaimer */
+  .disclaimer {
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  /* Mode panels visibility */
+  .mode-content { display: none; }
+  .mode-content.active { display: block; }
+
+  @media (max-width: 600px) {
+    .main { padding: 1rem; }
+    .page-header { padding: 1.5rem 1rem 1rem; }
+    .verdict-bar { gap: 0.75rem; }
+    .confidence-badge { margin-left: 0; }
+  }
+</style>
+
+
+<header class="page-header">
+  <div class="header-label">// CyberGrind Tools</div>
+  <h1>Deepfake Detector</h1>
+  <p class="header-sub">Heuristic analysis for AI-generated text and images. Uses metadata forensics, linguistic patterns, and error level analysis.</p>
+</header>
+
+<main class="main">
+
+  <!-- Mode selector -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="text" onclick="switchMode('text')">
+      <span class="tab-icon">T</span> Text Analysis
+    </button>
+    <button class="mode-tab" data-mode="image" onclick="switchMode('image')">
+      <span class="tab-icon">&#9633;</span> Image Analysis
+    </button>
+  </div>
+
+  <!-- Text mode -->
+  <div class="mode-content active" id="mode-text">
+    <div class="panel">
+      <div class="panel-body">
+        <textarea id="text-input" placeholder="Paste text here to analyze for AI-generation signals. Works best with 200+ words. Checks vocabulary diversity, sentence rhythm, transitional language patterns, and content word repetition..."></textarea>
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <button class="btn-analyze" id="text-btn" onclick="analyzeText()">
+            <div class="spinner"></div>
+            <span class="btn-text">Analyze Text</span>
+          </button>
+          <span id="text-char-count" style="font-family:var(--mono); font-size:12px; color:var(--text-dim);">0 words</span>
+        </div>
+      </div>
+    </div>
+    <div class="error-box" id="text-error"></div>
+    <div class="panel results" id="text-results">
+      <div class="verdict-bar" id="text-verdict-bar"></div>
+      <div class="score-track"><div class="score-fill" id="text-score-fill"></div></div>
+      <div class="signals-section" id="text-signals"></div>
+      <div class="stats-section" id="text-stats"></div>
+      <div class="disclaimer">Heuristic analysis only — not a definitive classifier. Accuracy improves with longer samples. False positives occur with highly technical or formal human writing.</div>
+    </div>
+  </div>
+
+  <!-- Image mode -->
+  <div class="mode-content" id="mode-image">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/tiff" onchange="handleFileSelect(this)">
+          <div id="drop-default">
+            <span class="drop-icon">&#9632;</span>
+            <div class="drop-title">Drop an image or click to upload</div>
+            <div class="drop-sub">JPEG, PNG, WebP, TIFF &mdash; max 15MB</div>
+          </div>
+          <div class="drop-preview" id="drop-preview">
+            <img id="preview-img" src="" alt="Preview">
+            <span class="file-name" id="preview-name"></span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+          <button class="btn-analyze" id="image-btn" onclick="analyzeImage()" disabled>
+            <div class="spinner"></div>
+            <span class="btn-text">Analyze Image</span>
+          </button>
+          <button onclick="resetImage()" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); font-family:var(--sans); font-size:13px; padding:0.6rem 1rem; border-radius:6px; cursor:pointer;">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="error-box" id="image-error"></div>
+    <div class="panel results" id="image-results">
+      <div class="verdict-bar" id="image-verdict-bar"></div>
+      <div class="score-track"><div class="score-fill" id="image-score-fill"></div></div>
+      <div class="signals-section" id="image-signals"></div>
+      <div class="stats-section" id="image-stats"></div>
+      <div class="disclaimer">Checks EXIF metadata, Error Level Analysis (ELA), color distribution, and resolution patterns. Cannot detect all AI-generated images &mdash; sophisticated generators leave minimal traces.</div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const API_BASE = 'https://api.cybergrind.org/api/deepfake';
+
+// ── Mode switch ──
+function switchMode(mode) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.querySelectorAll('.mode-content').forEach(p => p.classList.toggle('active', p.id === 'mode-' + mode));
+}
+
+// ── Word count ──
+const textInput = document.getElementById('text-input');
+const charCount = document.getElementById('text-char-count');
+textInput.addEventListener('input', () => {
+  const words = textInput.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+  charCount.textContent = words + ' word' + (words !== 1 ? 's' : '');
+  charCount.style.color = words >= 200 ? 'var(--green)' : words >= 50 ? 'var(--yellow)' : 'var(--text-dim)';
+});
+
+// ── Drop zone ──
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) loadImagePreview(file);
+});
+
+function handleFileSelect(input) {
+  const file = input.files[0];
+  if (file) loadImagePreview(file);
+}
+
+function loadImagePreview(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('preview-img').src = e.target.result;
+    document.getElementById('preview-name').textContent = file.name;
+    document.getElementById('drop-default').style.display = 'none';
+    document.getElementById('drop-preview').style.display = 'flex';
+    document.getElementById('image-btn').disabled = false;
+    document.getElementById('image-results').classList.remove('show');
+    document.getElementById('image-error').classList.remove('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetImage() {
+  document.getElementById('image-input').value = '';
+  document.getElementById('drop-default').style.display = 'block';
+  document.getElementById('drop-preview').style.display = 'none';
+  document.getElementById('image-btn').disabled = true;
+  document.getElementById('image-results').classList.remove('show');
+  document.getElementById('image-error').classList.remove('show');
+}
+
+// ── Render results ──
+function scoreClass(score) {
+  if (score >= 55) return 'score-high';
+  if (score >= 30) return 'score-medium';
+  return 'score-low';
+}
+function scoreColor(score) {
+  if (score >= 55) return 'var(--red)';
+  if (score >= 30) return 'var(--yellow)';
+  return 'var(--green)';
+}
+function confClass(conf) {
+  if (conf === 'high') return 'conf-high';
+  if (conf === 'moderate') return 'conf-moderate';
+  return 'conf-low';
+}
+
+function renderResults(prefix, data) {
+  const verdictBar = document.getElementById(prefix + '-verdict-bar');
+  const scoreFill = document.getElementById(prefix + '-score-fill');
+  const signalsEl = document.getElementById(prefix + '-signals');
+  const statsEl = document.getElementById(prefix + '-stats');
+  const resultsEl = document.getElementById(prefix + '-results');
+
+  verdictBar.innerHTML = `
+    <div class="score-circle ${scoreClass(data.score)}">${data.score}</div>
+    <div class="verdict-text">
+      <div class="verdict-label">${data.verdict}</div>
+      <div class="verdict-sub">AI likelihood score: ${data.score}/100</div>
+    </div>
+    <div class="confidence-badge ${confClass(data.confidence)}">${data.confidence} confidence</div>
+  `;
+
+  scoreFill.style.width = data.score + '%';
+  scoreFill.style.background = scoreColor(data.score);
+
+  const weightOrder = {critical: 0, high: 1, medium: 2, low: 3, info: 4};
+  const sorted = [...data.signals].sort((a,b) => (weightOrder[a.weight]||5) - (weightOrder[b.weight]||5));
+
+  signalsEl.innerHTML = `<div class="signals-title">Detection Signals (${data.signals.length})</div>` +
+    sorted.map(s => `
+      <div class="signal-item">
+        <div class="signal-dot dot-${s.weight}"></div>
+        <div>
+          <div class="signal-name">${s.signal}</div>
+          <div class="signal-detail">${s.detail}</div>
+        </div>
+      </div>
+    `).join('');
+
+  const stats = data.stats;
+  const entries = Object.entries(stats).filter(([k,v]) => v !== null && typeof v !== 'object');
+  statsEl.innerHTML = `<div class="signals-title">Raw Statistics</div><div class="stats-grid">` +
+    entries.map(([k,v]) => `
+      <div class="stat-card">
+        <div class="stat-label">${k.replace(/_/g,' ')}</div>
+        <div class="stat-value">${Array.isArray(v) ? v.length + ' fields' : v}</div>
+      </div>
+    `).join('') + `</div>`;
+
+  resultsEl.classList.add('show');
+  resultsEl.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}
+
+// ── Text analysis ──
+async function analyzeText() {
+  const text = textInput.value.trim();
+  if (!text || text.split(/\s+/).length < 10) {
+    showError('text', 'Please enter at least 50 characters of text.');
+    return;
+  }
+  const btn = document.getElementById('text-btn');
+  setLoading(btn, true);
+  document.getElementById('text-error').classList.remove('show');
+  document.getElementById('text-results').classList.remove('show');
+
+  try {
+    const fd = new FormData();
+    fd.append('text', text);
+    const res = await fetch(`${API_BASE}/analyze/text`, { method: 'POST', body: fd });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server error: ${res.status}`);
+    }
+    const data = await res.json();
+    renderResults('text', data);
+  } catch (e) {
+    showError('text', e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── Image analysis ──
+async function analyzeImage() {
+  const input = document.getElementById('image-input');
+  if (!input.files[0]) return;
+  const btn = document.getElementById('image-btn');
+  setLoading(btn, true);
+  document.getElementById('image-error').classList.remove('show');
+  document.getElementById('image-results').classList.remove('show');
+
+  try {
+    const fd = new FormData();
+    fd.append('file', input.files[0]);
+    const res = await fetch(`${API_BASE}/analyze/image`, { method: 'POST', body: fd });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server error: ${res.status}`);
+    }
+    const data = await res.json();
+    renderResults('image', data);
+  } catch (e) {
+    showError('image', e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+function setLoading(btn, state) {
+  btn.disabled = state;
+  btn.classList.toggle('loading', state);
+}
+
+function showError(prefix, msg) {
+  const el = document.getElementById(prefix + '-error');
+  el.textContent = 'Error: ' + msg;
+  el.classList.add('show');
+}
+</script>
