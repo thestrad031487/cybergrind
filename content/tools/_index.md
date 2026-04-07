@@ -22,4 +22,5 @@ A collection of free tools and resources for blue teamers and security practitio
 | [Global Threat Map](/tools/threat-map/) | Real-time malicious IP activity plotted on a world map — AbuseIPDB and open source OSINT feeds |
 | [Blue Team Resources](/tools/blue-team/) | Curated tools and live CISA KEV feed for defenders |
 | [VT Hash Lookup](/tools/vt-lookup/) | Look up any file hash against 70+ AV engines via VirusTotal — with recent malware samples from MalwareBazaar |
+| [Deepfake Detector](/tools/deepfake-detector/) | Heuristic analysis for AI-generated text and images — metadata forensics, linguistic patterns, and ELA |
 | [MITRE ATT&CK Browser](/tools/attck/) | Browse and search Enterprise and ICS techniques from the MITRE ATT&CK framework |
