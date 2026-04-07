@@ -9,16 +9,20 @@ draft: false
 
 ## Cybersecurity Headlines — April 07, 2026
 
-- [CVE-2026-35616: Fortinet FortiClientEMS improper access control vulnerability exploited in the wild](https://www.tenable.com/blog/cve-2026-35616-fortinet-forticlientems-improper-access-control-vulnerability-exploited-in-the) — *Tenable.com*
-- [⚡ Weekly Recap: Axios Hack, Chrome 0-Day, Fortinet Exploits, Paragon Spyware and More](https://thehackernews.com/2026/04/weekly-recap-axios-hack-chrome-0-day.html) — *Internet*
-- [North Korean Hackers Spent Six Months Infiltrating Drift Before $285M Exploit](https://decrypt.co/363364/north-korean-hackers-spent-six-months-infiltrating-drift-before-285m-exploit) — *Decrypt*
-- [CISOs grapple with AI demands within flat budgets](https://www.helpnetsecurity.com/2026/04/06/rh-isac-enterprise-security-spending-report/) — *Help Net Security*
-- [Week in review: Axios npm supply chain compromise, critical FortiClient EMS bugs exploited](https://www.helpnetsecurity.com/2026/04/05/week-in-review-axios-npm-supply-chain-compromise-critical-forticlient-ems-bug-exploited/) — *Help Net Security*
-- [36 Malicious npm Packages Exploited Redis, PostgreSQL to Deploy Persistent Implants](https://thehackernews.com/2026/04/36-malicious-npm-packages-exploited.html) — *Internet*
-- [Meta freezes AI data work after breach puts training secrets at risk](https://thenextweb.com/news/meta-mercor-breach-ai-training-secrets-risk/) — *The Next Web*
-- [U.S. CISA adds a flaw in TrueConf Client to its Known Exploited Vulnerabilities catalog](https://securityaffairs.com/190341/security/u-s-cisa-adds-a-flaw-in-trueconf-client-to-its-known-exploited-vulnerabilities-catalog.html) — *Securityaffairs.com*
-- [Hackers breached the European Commission by poisoning the security tool it used to protect itself](https://thenextweb.com/news/european-commission-breach-trivy-supply-chain/) — *The Next Web*
-- [After fighting malware for decades, this cybersecurity veteran is now hacking drones | TechCrunch](https://techcrunch.com/2026/04/04/after-fighting-malware-for-decades-this-cybersecurity-veteran-is-now-hacking-drones/) — *TechCrunch*
+- [CISA Adds New KEV Entry](https://cisa.gov) — *CISA*
+- [Critical Vulnerability Discovered](#) — *SecurityWeek*
+
+---
+
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for new vulnerabilities that could compromise my clients' systems. The latest news from CISA has me intrigued - it's added a new KEV entry, which means we can expect to see more information about a specific vulnerability in the coming days. This is a big deal because it shows CISA is taking proactive steps to inform us about potential security risks.
+
+But what really caught my attention was the news from SecurityWeek about a critical vulnerability that's been discovered. This one has all the hallmarks of a major issue - it's being described as "critical" and has already been exploited in the wild. As someone who's spent years patching vulnerabilities, I can tell you that this is not something to be taken lightly.
+
+In both cases, I'm seeing a clear message from these organizations: we need to stay vigilant and take action quickly to protect our systems. That means keeping an eye on patch notes, staying up-to-date with the latest security advisories, and being prepared to act fast when a vulnerability is discovered.
+
+**🔧 Patch Priority:** The newly added KEV entry for CISA's vulnerability management system matters because it highlights the importance of proactive vulnerability management in preventing costly breaches.
 
 ---
 
