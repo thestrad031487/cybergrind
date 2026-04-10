@@ -21,23 +21,15 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); font-size: 15px; line-height: 1.6; }
 
-  body {
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  /* ── Header ── */
   .page-header {
     border-bottom: 1px solid var(--border);
     padding: 1.5rem 0 1.5rem;
     position: relative;
     overflow: hidden;
   }
-  .page-header::before {
-    display: none;
-  }
+  .page-header::before { display: none; }
   .header-label {
     font-family: var(--mono);
     font-size: 11px;
@@ -46,20 +38,9 @@
     text-transform: uppercase;
     margin-bottom: 0.5rem;
   }
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-  .header-sub {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-top: 0.35rem;
-    max-width: 560px;
-  }
+  h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+  .header-sub { color: var(--text-muted); font-size: 14px; margin-top: 0.35rem; max-width: 560px; }
 
-  /* ── Layout ── */
   .cg-detector-main {
     max-width: 900px;
     margin: 0 auto;
@@ -68,10 +49,8 @@
     gap: 1.5rem;
   }
 
-  /* ── Mode Tabs ── */
   .mode-tabs {
     display: flex;
-    gap: 0;
     background: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -95,23 +74,11 @@
   }
   .mode-tab:last-child { border-right: none; }
   .mode-tab:hover { background: var(--bg-hover); color: var(--text); }
-  .mode-tab.active {
-    background: var(--orange-dim);
-    color: var(--orange);
-    font-weight: 500;
-  }
-  .mode-tab .tab-icon { font-size: 14px; }
+  .mode-tab.active { background: var(--orange-dim); color: var(--orange); font-weight: 500; }
 
-  /* ── Panel ── */
-  .panel {
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
+  .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
   .panel-body { padding: 1.5rem; }
 
-  /* ── Text Input ── */
   textarea {
     width: 100%;
     min-height: 280px;
@@ -130,7 +97,6 @@
   textarea:focus { border-color: var(--orange); }
   textarea::placeholder { color: var(--text-dim); }
 
-  /* ── Drop Zone ── */
   .drop-zone {
     border: 1.5px dashed var(--border);
     border-radius: 8px;
@@ -141,242 +107,99 @@
     background: var(--bg-card);
     position: relative;
   }
-  .drop-zone:hover, .drop-zone.drag-over {
-    border-color: var(--orange);
-    background: var(--orange-dim);
-  }
-  .drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-  .drop-icon {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-    display: block;
-    color: var(--text-muted);
-  }
-  .drop-title {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 0.25rem;
-  }
-  .drop-sub {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-  .drop-preview {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .drop-preview img {
-    max-height: 180px;
-    max-width: 100%;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    object-fit: contain;
-  }
-  .drop-preview .file-name {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--orange);
-  }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--orange); background: var(--orange-dim); }
+  .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .drop-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; color: var(--text-muted); }
+  .drop-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 0.25rem; }
+  .drop-sub { font-size: 13px; color: var(--text-muted); }
+  .file-name { font-family: var(--mono); font-size: 12px; color: var(--orange); }
 
-  /* ── Submit Button ── */
   .btn-analyze {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 0.65rem 1.5rem;
-    background: var(--orange);
-    color: #000;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-top: 1rem;
+    background: var(--orange); color: #000;
+    font-family: var(--sans); font-size: 14px; font-weight: 600;
+    border: none; border-radius: 6px; cursor: pointer;
+    transition: all 0.15s; margin-top: 1rem;
   }
   .btn-analyze:hover { background: #fb923c; }
   .btn-analyze:disabled { opacity: 0.4; cursor: not-allowed; }
   .btn-analyze .spinner {
     width: 14px; height: 14px;
-    border: 2px solid rgba(0,0,0,0.3);
-    border-top-color: #000;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    display: none;
+    border: 2px solid rgba(0,0,0,0.3); border-top-color: #000;
+    border-radius: 50%; animation: spin 0.6s linear infinite; display: none;
   }
   .btn-analyze.loading .spinner { display: block; }
   .btn-analyze.loading .btn-text { opacity: 0.7; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Results ── */
+  .btn-clear {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); font-family: var(--sans); font-size: 13px;
+    padding: 0.6rem 1rem; border-radius: 6px; cursor: pointer;
+  }
+
   .results { display: none; }
   .results.show { display: block; }
 
   .verdict-bar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    display: flex; align-items: center; gap: 1rem;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
   }
   .score-circle {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 18px;
-    font-weight: 600;
-    flex-shrink: 0;
-    border: 2px solid;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 18px; font-weight: 600;
+    flex-shrink: 0; border: 2px solid;
   }
   .score-low    { border-color: var(--green); color: var(--green); background: rgba(34,197,94,0.1); }
   .score-medium { border-color: var(--yellow); color: var(--yellow); background: rgba(234,179,8,0.1); }
   .score-high   { border-color: var(--red); color: var(--red); background: rgba(239,68,68,0.1); }
-
-  .verdict-text {}
-  .verdict-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .verdict-sub {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
+  .verdict-label { font-size: 18px; font-weight: 600; color: var(--text); }
+  .verdict-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
   .confidence-badge {
     margin-left: auto;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid;
   }
-  .conf-high   { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
+  .conf-high     { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
   .conf-moderate { color: var(--yellow); border-color: rgba(234,179,8,0.4); background: rgba(234,179,8,0.07); }
-  .conf-low    { color: var(--text-muted); border-color: var(--border); background: transparent; }
+  .conf-low      { color: var(--text-muted); border-color: var(--border); background: transparent; }
 
-  /* Score bar */
-  .score-track {
-    margin: 0 1.5rem 1.25rem;
-    height: 4px;
-    background: var(--bg-card);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .score-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  }
+  .score-track { margin: 0 1.5rem 1.25rem; height: 4px; background: var(--bg-card); border-radius: 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 2px; transition: width 0.6s cubic-bezier(0.23,1,0.32,1); }
 
-  /* Signals */
   .signals-section { padding: 1.25rem 1.5rem; }
   .signals-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;
   }
   .signal-item {
-    display: flex;
-    gap: 0.75rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
+    display: flex; gap: 0.75rem; padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
   }
   .signal-item:last-child { border-bottom: none; }
-  .signal-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    margin-top: 6px;
-    flex-shrink: 0;
-  }
-  .dot-critical, .dot-high { background: var(--red); }
-  .dot-medium { background: var(--yellow); }
-  .dot-low, .dot-info { background: var(--text-dim); }
-  .signal-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-  .signal-detail {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
+  .signal-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; background: var(--yellow); }
+  .signal-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .signal-detail { font-size: 13px; color: var(--text-muted); }
 
-  /* Stats grid */
-  .stats-section {
-    padding: 1.25rem 1.5rem;
-    border-top: 1px solid var(--border);
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 8px;
-    margin-top: 0.75rem;
-  }
-  .stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.6rem 0.75rem;
-  }
-  .stat-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .stat-value {
-    font-family: var(--mono);
-    font-size: 14px;
-    color: var(--orange);
-    font-weight: 500;
-  }
+  .stats-section { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 8px; margin-top: 0.75rem; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 0.75rem; }
+  .stat-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .stat-value { font-family: var(--mono); font-size: 14px; color: var(--orange); font-weight: 500; }
 
-  /* Error */
   .error-box {
-    display: none;
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.3);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    color: var(--red);
-    font-size: 14px;
-    margin-top: 1rem;
+    display: none; background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.3); border-radius: 6px;
+    padding: 1rem 1.25rem; color: var(--red); font-size: 14px; margin-top: 1rem;
   }
   .error-box.show { display: block; }
 
-  /* Disclaimer */
-  .disclaimer {
-    font-size: 12px;
-    color: var(--text-dim);
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border);
-    line-height: 1.5;
-  }
+  .disclaimer { font-size: 12px; color: var(--text-dim); padding: 1rem 1.5rem; border-top: 1px solid var(--border); line-height: 1.5; }
 
-  /* Mode panels visibility */
   .mode-content { display: none; }
   .mode-content.active { display: block; }
 
@@ -388,39 +211,39 @@
   }
 </style>
 
-
 <header class="page-header">
   <div class="header-label">// CyberGrind Tools</div>
   <h1>Deepfake Detector</h1>
-  <p class="header-sub">Heuristic analysis for AI-generated text, images, and audio. Uses metadata forensics, linguistic patterns, spectral analysis, and error level analysis.</p>
+  <p class="header-sub">Heuristic analysis for AI-generated text, images, audio, and video. Uses metadata forensics, linguistic patterns, spectral analysis, and frame-level inspection.</p>
 </header>
 
 <main class="cg-detector-main">
 
-  <!-- Mode selector -->
   <div class="mode-tabs">
     <button class="mode-tab active" data-mode="text" onclick="switchMode('text')">
-      <span class="tab-icon">T</span> Text Analysis
+      <span>T</span> Text
     </button>
     <button class="mode-tab" data-mode="image" onclick="switchMode('image')">
-      <span class="tab-icon">&#9633;</span> Image Analysis
+      <span>&#9633;</span> Image
     </button>
     <button class="mode-tab" data-mode="audio" onclick="switchMode('audio')">
-      <span class="tab-icon">&#9836;</span> Audio Analysis
+      <span>&#9836;</span> Audio
+    </button>
+    <button class="mode-tab" data-mode="video" onclick="switchMode('video')">
+      <span>&#9654;</span> Video
     </button>
   </div>
 
-  <!-- Text mode -->
+  <!-- Text -->
   <div class="mode-content active" id="mode-text">
     <div class="panel">
       <div class="panel-body">
         <textarea id="text-input" placeholder="Paste text here to analyze for AI-generation signals. Works best with 200+ words. Checks vocabulary diversity, sentence rhythm, transitional language patterns, and content word repetition..."></textarea>
-        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
           <button class="btn-analyze" id="text-btn" onclick="analyzeText()">
-            <div class="spinner"></div>
-            <span class="btn-text">Analyze Text</span>
+            <div class="spinner"></div><span class="btn-text">Analyze Text</span>
           </button>
-          <span id="text-char-count" style="font-family:var(--mono); font-size:12px; color:var(--text-dim);">0 words</span>
+          <span id="text-char-count" style="font-family:var(--mono);font-size:12px;color:var(--text-dim);">0 words</span>
         </div>
       </div>
     </div>
@@ -434,28 +257,27 @@
     </div>
   </div>
 
-  <!-- Image mode -->
+  <!-- Image -->
   <div class="mode-content" id="mode-image">
     <div class="panel">
       <div class="panel-body">
-        <div class="drop-zone" id="drop-zone">
-          <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/tiff" onchange="handleFileSelect(this)">
-          <div id="drop-default">
+        <div class="drop-zone" id="image-drop-zone">
+          <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/tiff" onchange="handleImageSelect(this)">
+          <div id="image-drop-default">
             <span class="drop-icon">&#9632;</span>
             <div class="drop-title">Drop an image or click to upload</div>
             <div class="drop-sub">JPEG, PNG, WebP, TIFF &mdash; max 15MB</div>
           </div>
-          <div class="drop-preview" id="drop-preview">
-            <img id="preview-img" src="" alt="Preview">
+          <div id="image-drop-preview" style="display:none;flex-direction:column;align-items:center;gap:0.75rem;">
+            <img id="preview-img" src="" alt="Preview" style="max-height:180px;max-width:100%;border-radius:6px;border:1px solid var(--border);object-fit:contain;">
             <span class="file-name" id="preview-name"></span>
           </div>
         </div>
-        <div style="display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
           <button class="btn-analyze" id="image-btn" onclick="analyzeImage()" disabled>
-            <div class="spinner"></div>
-            <span class="btn-text">Analyze Image</span>
+            <div class="spinner"></div><span class="btn-text">Analyze Image</span>
           </button>
-          <button onclick="resetImage()" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); font-family:var(--sans); font-size:13px; padding:0.6rem 1rem; border-radius:6px; cursor:pointer;">Clear</button>
+          <button class="btn-clear" onclick="resetImage()">Clear</button>
         </div>
       </div>
     </div>
@@ -469,7 +291,7 @@
     </div>
   </div>
 
-  <!-- Audio mode -->
+  <!-- Audio -->
   <div class="mode-content" id="mode-audio">
     <div class="panel">
       <div class="panel-body">
@@ -480,18 +302,17 @@
             <div class="drop-title">Drop an audio file or click to upload</div>
             <div class="drop-sub">MP3, WAV, OGG, FLAC, M4A, AAC &mdash; max 50MB</div>
           </div>
-          <div class="drop-preview" id="audio-drop-preview" style="display:none; flex-direction:column; align-items:center; gap:0.75rem;">
+          <div id="audio-drop-preview" style="display:none;flex-direction:column;align-items:center;gap:0.75rem;">
             <span style="font-size:2.5rem;">&#9836;</span>
             <span class="file-name" id="audio-preview-name"></span>
-            <audio id="audio-player" controls style="width:100%; max-width:400px; margin-top:0.5rem;"></audio>
+            <audio id="audio-player" controls style="width:100%;max-width:400px;margin-top:0.5rem;"></audio>
           </div>
         </div>
-        <div style="display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
           <button class="btn-analyze" id="audio-btn" onclick="analyzeAudio()" disabled>
-            <div class="spinner"></div>
-            <span class="btn-text">Analyze Audio</span>
+            <div class="spinner"></div><span class="btn-text">Analyze Audio</span>
           </button>
-          <button onclick="resetAudio()" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); font-family:var(--sans); font-size:13px; padding:0.6rem 1rem; border-radius:6px; cursor:pointer;">Clear</button>
+          <button class="btn-clear" onclick="resetAudio()">Clear</button>
         </div>
       </div>
     </div>
@@ -505,18 +326,51 @@
     </div>
   </div>
 
+  <!-- Video -->
+  <div class="mode-content" id="mode-video">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="drop-zone" id="video-drop-zone">
+          <input type="file" id="video-input" accept="video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,video/webm,video/x-m4v" onchange="handleVideoSelect(this)">
+          <div id="video-drop-default">
+            <span class="drop-icon">&#9654;</span>
+            <div class="drop-title">Drop a video file or click to upload</div>
+            <div class="drop-sub">MP4, MOV, AVI, MKV, WebM &mdash; max 100MB</div>
+          </div>
+          <div id="video-drop-preview" style="display:none;flex-direction:column;align-items:center;gap:0.75rem;">
+            <span class="file-name" id="video-preview-name"></span>
+            <video id="video-player" controls style="width:100%;max-width:480px;margin-top:0.5rem;border-radius:6px;border:1px solid var(--border);"></video>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+          <button class="btn-analyze" id="video-btn" onclick="analyzeVideo()" disabled>
+            <div class="spinner"></div><span class="btn-text">Analyze Video</span>
+          </button>
+          <button class="btn-clear" onclick="resetVideo()">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="error-box" id="video-error"></div>
+    <div class="panel results" id="video-results">
+      <div class="verdict-bar" id="video-verdict-bar"></div>
+      <div class="score-track"><div class="score-fill" id="video-score-fill"></div></div>
+      <div class="signals-section" id="video-signals"></div>
+      <div class="stats-section" id="video-stats"></div>
+      <div class="disclaimer">Analyzes first, middle, and last frames for saturation uniformity, noise floor, and color correlation. Also checks video metadata for AI generation signatures.</div>
+    </div>
+  </div>
+
 </main>
 
 <script>
 const API_BASE = 'https://api.cybergrind.org/api/deepfake';
 
-// ── Mode switch ──
 function switchMode(mode) {
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
   document.querySelectorAll('.mode-content').forEach(p => p.classList.toggle('active', p.id === 'mode-' + mode));
 }
 
-// ── Word count ──
+// Word count
 const textInput = document.getElementById('text-input');
 const charCount = document.getElementById('text-char-count');
 textInput.addEventListener('input', () => {
@@ -525,108 +379,87 @@ textInput.addEventListener('input', () => {
   charCount.style.color = words >= 200 ? 'var(--green)' : words >= 50 ? 'var(--yellow)' : 'var(--text-dim)';
 });
 
-// ── Image Drop zone ──
-const dropZone = document.getElementById('drop-zone');
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) loadImagePreview(file);
-});
-
-function handleFileSelect(input) {
-  const file = input.files[0];
-  if (file) loadImagePreview(file);
+// Drop zone helpers
+function setupDrop(zoneId, onFile) {
+  const zone = document.getElementById(zoneId);
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); if (e.dataTransfer.files[0]) onFile(e.dataTransfer.files[0]); });
 }
 
+// Image
+setupDrop('image-drop-zone', loadImagePreview);
+function handleImageSelect(input) { if (input.files[0]) loadImagePreview(input.files[0]); }
 function loadImagePreview(file) {
   const reader = new FileReader();
   reader.onload = e => {
     document.getElementById('preview-img').src = e.target.result;
     document.getElementById('preview-name').textContent = file.name;
-    document.getElementById('drop-default').style.display = 'none';
-    document.getElementById('drop-preview').style.display = 'flex';
+    document.getElementById('image-drop-default').style.display = 'none';
+    document.getElementById('image-drop-preview').style.display = 'flex';
     document.getElementById('image-btn').disabled = false;
-    document.getElementById('image-results').classList.remove('show');
-    document.getElementById('image-error').classList.remove('show');
+    clearResult('image');
   };
   reader.readAsDataURL(file);
 }
-
 function resetImage() {
   document.getElementById('image-input').value = '';
-  document.getElementById('drop-default').style.display = 'block';
-  document.getElementById('drop-preview').style.display = 'none';
+  document.getElementById('image-drop-default').style.display = 'block';
+  document.getElementById('image-drop-preview').style.display = 'none';
   document.getElementById('image-btn').disabled = true;
-  document.getElementById('image-results').classList.remove('show');
-  document.getElementById('image-error').classList.remove('show');
+  clearResult('image');
 }
 
-// ── Audio Drop zone ──
-const audioDropZone = document.getElementById('audio-drop-zone');
-audioDropZone.addEventListener('dragover', e => { e.preventDefault(); audioDropZone.classList.add('drag-over'); });
-audioDropZone.addEventListener('dragleave', () => audioDropZone.classList.remove('drag-over'));
-audioDropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  audioDropZone.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) loadAudioPreview(file);
-});
-
-function handleAudioSelect(input) {
-  const file = input.files[0];
-  if (file) loadAudioPreview(file);
-}
-
+// Audio
+setupDrop('audio-drop-zone', loadAudioPreview);
+function handleAudioSelect(input) { if (input.files[0]) loadAudioPreview(input.files[0]); }
 function loadAudioPreview(file) {
-  const url = URL.createObjectURL(file);
-  document.getElementById('audio-player').src = url;
+  document.getElementById('audio-player').src = URL.createObjectURL(file);
   document.getElementById('audio-preview-name').textContent = file.name;
   document.getElementById('audio-drop-default').style.display = 'none';
   document.getElementById('audio-drop-preview').style.display = 'flex';
   document.getElementById('audio-btn').disabled = false;
-  document.getElementById('audio-results').classList.remove('show');
-  document.getElementById('audio-error').classList.remove('show');
+  clearResult('audio');
 }
-
 function resetAudio() {
   document.getElementById('audio-input').value = '';
   document.getElementById('audio-drop-default').style.display = 'block';
   document.getElementById('audio-drop-preview').style.display = 'none';
   document.getElementById('audio-btn').disabled = true;
-  document.getElementById('audio-results').classList.remove('show');
-  document.getElementById('audio-error').classList.remove('show');
   document.getElementById('audio-player').src = '';
+  clearResult('audio');
 }
 
-// ── Render results ──
-function scoreClass(score) {
-  if (score >= 55) return 'score-high';
-  if (score >= 30) return 'score-medium';
-  return 'score-low';
+// Video
+setupDrop('video-drop-zone', loadVideoPreview);
+function handleVideoSelect(input) { if (input.files[0]) loadVideoPreview(input.files[0]); }
+function loadVideoPreview(file) {
+  document.getElementById('video-player').src = URL.createObjectURL(file);
+  document.getElementById('video-preview-name').textContent = file.name;
+  document.getElementById('video-drop-default').style.display = 'none';
+  document.getElementById('video-drop-preview').style.display = 'flex';
+  document.getElementById('video-btn').disabled = false;
+  clearResult('video');
 }
-function scoreColor(score) {
-  if (score >= 55) return 'var(--red)';
-  if (score >= 30) return 'var(--yellow)';
-  return 'var(--green)';
+function resetVideo() {
+  document.getElementById('video-input').value = '';
+  document.getElementById('video-drop-default').style.display = 'block';
+  document.getElementById('video-drop-preview').style.display = 'none';
+  document.getElementById('video-btn').disabled = true;
+  document.getElementById('video-player').src = '';
+  clearResult('video');
 }
-function confClass(conf) {
-  const c = (conf || '').toLowerCase();
-  if (c === 'high') return 'conf-high';
-  if (c === 'medium' || c === 'moderate') return 'conf-moderate';
-  return 'conf-low';
+
+// Render
+function scoreClass(s) { return s >= 55 ? 'score-high' : s >= 30 ? 'score-medium' : 'score-low'; }
+function scoreColor(s) { return s >= 55 ? 'var(--red)' : s >= 30 ? 'var(--yellow)' : 'var(--green)'; }
+function confClass(c) {
+  const v = (c||'').toLowerCase();
+  return v === 'high' ? 'conf-high' : (v === 'medium' || v === 'moderate') ? 'conf-moderate' : 'conf-low';
 }
 
 function renderResults(prefix, data) {
-  const verdictBar = document.getElementById(prefix + '-verdict-bar');
-  const scoreFill = document.getElementById(prefix + '-score-fill');
-  const signalsEl = document.getElementById(prefix + '-signals');
-  const statsEl = document.getElementById(prefix + '-stats');
-  const resultsEl = document.getElementById(prefix + '-results');
-
-  verdictBar.innerHTML = `
+  document.getElementById(prefix+'-verdict-bar').innerHTML = `
     <div class="score-circle ${scoreClass(data.score)}">${data.score}</div>
     <div class="verdict-text">
       <div class="verdict-label">${data.verdict}</div>
@@ -634,147 +467,102 @@ function renderResults(prefix, data) {
     </div>
     <div class="confidence-badge ${confClass(data.confidence)}">${data.confidence} confidence</div>
   `;
+  const fill = document.getElementById(prefix+'-score-fill');
+  fill.style.width = data.score + '%';
+  fill.style.background = scoreColor(data.score);
 
-  scoreFill.style.width = data.score + '%';
-  scoreFill.style.background = scoreColor(data.score);
-
-  // Signals — audio returns {signal, weight} objects; text/image return {signal, weight, detail}
   const signals = data.signals || [];
-  signalsEl.innerHTML = `<div class="signals-title">Detection Signals (${signals.length})</div>` +
+  document.getElementById(prefix+'-signals').innerHTML =
+    `<div class="signals-title">Detection Signals (${signals.length})</div>` +
     (signals.length === 0
-      ? '<div style="color:var(--text-muted); font-size:14px; padding:0.5rem 0;">No suspicious signals detected.</div>'
-      : signals.map(s => `
-        <div class="signal-item">
-          <div class="signal-dot dot-medium"></div>
-          <div>
-            <div class="signal-name">${s.signal}</div>
-            ${s.detail ? `<div class="signal-detail">${s.detail}</div>` : ''}
-          </div>
-        </div>
-      `).join(''));
+      ? '<div style="color:var(--text-muted);font-size:14px;padding:0.5rem 0;">No suspicious signals detected.</div>'
+      : signals.map(s => `<div class="signal-item"><div class="signal-dot"></div><div>
+          <div class="signal-name">${s.signal}</div>
+          ${s.detail ? `<div class="signal-detail">${s.detail}</div>` : ''}
+        </div></div>`).join(''));
 
-  // Stats — use metadata + spectral for audio, stats for text/image
   let statsHTML = '';
-  if (data.metadata) {
-    const entries = Object.entries(data.metadata).filter(([,v]) => v !== null && v !== undefined && v !== '');
-    statsHTML += entries.map(([k,v]) => `
-      <div class="stat-card">
-        <div class="stat-label">${k.replace(/_/g,' ')}</div>
-        <div class="stat-value">${v}</div>
-      </div>
-    `).join('');
-  }
-  if (data.spectral && !data.spectral.error) {
-    statsHTML += Object.entries(data.spectral).map(([k,v]) => `
-      <div class="stat-card">
-        <div class="stat-label">${k.replace(/_/g,' ')}</div>
-        <div class="stat-value">${v}</div>
-      </div>
-    `).join('');
-  }
-  if (data.stats) {
-    const entries = Object.entries(data.stats).filter(([,v]) => v !== null && typeof v !== 'object');
-    statsHTML += entries.map(([k,v]) => `
-      <div class="stat-card">
-        <div class="stat-label">${k.replace(/_/g,' ')}</div>
-        <div class="stat-value">${Array.isArray(v) ? v.length + ' fields' : v}</div>
-      </div>
-    `).join('');
-  }
+  const addStats = obj => {
+    if (!obj) return;
+    Object.entries(obj).forEach(([k,v]) => {
+      if (v === null || v === undefined || typeof v === 'object') return;
+      statsHTML += `<div class="stat-card"><div class="stat-label">${k.replace(/_/g,' ')}</div><div class="stat-value">${v}</div></div>`;
+    });
+  };
+  addStats(data.metadata);
+  addStats(data.spectral);
+  addStats(data.stats);
+  document.getElementById(prefix+'-stats').innerHTML = `<div class="signals-title">Raw Statistics</div><div class="stats-grid">${statsHTML}</div>`;
 
-  statsEl.innerHTML = `<div class="signals-title">Raw Statistics</div><div class="stats-grid">${statsHTML}</div>`;
-  resultsEl.classList.add('show');
-  resultsEl.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  const el = document.getElementById(prefix+'-results');
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-// ── Text analysis ──
+// API calls
 async function analyzeText() {
   const text = textInput.value.trim();
-  if (!text || text.split(/\s+/).length < 10) {
-    showError('text', 'Please enter at least 50 characters of text.');
-    return;
-  }
+  if (!text || text.split(/\s+/).length < 10) { showError('text','Please enter at least 50 characters.'); return; }
   const btn = document.getElementById('text-btn');
-  setLoading(btn, true);
-  document.getElementById('text-error').classList.remove('show');
-  document.getElementById('text-results').classList.remove('show');
-
+  setLoading(btn,true); clearResult('text');
   try {
-    const fd = new FormData();
-    fd.append('text', text);
-    const res = await fetch(`${API_BASE}/analyze/text`, { method: 'POST', body: fd });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Server error: ${res.status}`);
-    }
-    const data = await res.json();
-    renderResults('text', data);
-  } catch (e) {
-    showError('text', e.message);
-  } finally {
-    setLoading(btn, false);
-  }
+    const fd = new FormData(); fd.append('text', text);
+    const res = await fetch(`${API_BASE}/analyze/text`, {method:'POST', body:fd});
+    if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail||`Server error: ${res.status}`);
+    renderResults('text', await res.json());
+  } catch(e) { showError('text', e.message); }
+  finally { setLoading(btn,false); }
 }
 
-// ── Image analysis ──
 async function analyzeImage() {
   const input = document.getElementById('image-input');
   if (!input.files[0]) return;
   const btn = document.getElementById('image-btn');
-  setLoading(btn, true);
-  document.getElementById('image-error').classList.remove('show');
-  document.getElementById('image-results').classList.remove('show');
-
+  setLoading(btn,true); clearResult('image');
   try {
-    const fd = new FormData();
-    fd.append('file', input.files[0]);
-    const res = await fetch(`${API_BASE}/analyze/image`, { method: 'POST', body: fd });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Server error: ${res.status}`);
-    }
-    const data = await res.json();
-    renderResults('image', data);
-  } catch (e) {
-    showError('image', e.message);
-  } finally {
-    setLoading(btn, false);
-  }
+    const fd = new FormData(); fd.append('file', input.files[0]);
+    const res = await fetch(`${API_BASE}/analyze/image`, {method:'POST', body:fd});
+    if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail||`Server error: ${res.status}`);
+    renderResults('image', await res.json());
+  } catch(e) { showError('image', e.message); }
+  finally { setLoading(btn,false); }
 }
 
-// ── Audio analysis ──
 async function analyzeAudio() {
   const input = document.getElementById('audio-input');
   if (!input.files[0]) return;
   const btn = document.getElementById('audio-btn');
-  setLoading(btn, true);
-  document.getElementById('audio-error').classList.remove('show');
-  document.getElementById('audio-results').classList.remove('show');
-
+  setLoading(btn,true); clearResult('audio');
   try {
-    const fd = new FormData();
-    fd.append('file', input.files[0]);
-    const res = await fetch(`${API_BASE}/analyze/audio`, { method: 'POST', body: fd });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `Server error: ${res.status}`);
-    }
-    const data = await res.json();
-    renderResults('audio', data);
-  } catch (e) {
-    showError('audio', e.message);
-  } finally {
-    setLoading(btn, false);
-  }
+    const fd = new FormData(); fd.append('file', input.files[0]);
+    const res = await fetch(`${API_BASE}/analyze/audio`, {method:'POST', body:fd});
+    if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail||`Server error: ${res.status}`);
+    renderResults('audio', await res.json());
+  } catch(e) { showError('audio', e.message); }
+  finally { setLoading(btn,false); }
 }
 
-function setLoading(btn, state) {
-  btn.disabled = state;
-  btn.classList.toggle('loading', state);
+async function analyzeVideo() {
+  const input = document.getElementById('video-input');
+  if (!input.files[0]) return;
+  const btn = document.getElementById('video-btn');
+  setLoading(btn,true); clearResult('video');
+  try {
+    const fd = new FormData(); fd.append('file', input.files[0]);
+    const res = await fetch(`${API_BASE}/analyze/video`, {method:'POST', body:fd});
+    if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail||`Server error: ${res.status}`);
+    renderResults('video', await res.json());
+  } catch(e) { showError('video', e.message); }
+  finally { setLoading(btn,false); }
 }
 
+function setLoading(btn, state) { btn.disabled = state; btn.classList.toggle('loading', state); }
+function clearResult(prefix) {
+  document.getElementById(prefix+'-error').classList.remove('show');
+  document.getElementById(prefix+'-results').classList.remove('show');
+}
 function showError(prefix, msg) {
-  const el = document.getElementById(prefix + '-error');
+  const el = document.getElementById(prefix+'-error');
   el.textContent = 'Error: ' + msg;
   el.classList.add('show');
 }
