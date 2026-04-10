@@ -392,7 +392,7 @@
 <header class="page-header">
   <div class="header-label">// CyberGrind Tools</div>
   <h1>Deepfake Detector</h1>
-  <p class="header-sub">Heuristic analysis for AI-generated text and images. Uses metadata forensics, linguistic patterns, and error level analysis.</p>
+  <p class="header-sub">Heuristic analysis for AI-generated text, images, and audio. Uses metadata forensics, linguistic patterns, spectral analysis, and error level analysis.</p>
 </header>
 
 <main class="cg-detector-main">
@@ -404,6 +404,9 @@
     </button>
     <button class="mode-tab" data-mode="image" onclick="switchMode('image')">
       <span class="tab-icon">&#9633;</span> Image Analysis
+    </button>
+    <button class="mode-tab" data-mode="audio" onclick="switchMode('audio')">
+      <span class="tab-icon">&#9836;</span> Audio Analysis
     </button>
   </div>
 
@@ -466,6 +469,42 @@
     </div>
   </div>
 
+  <!-- Audio mode -->
+  <div class="mode-content" id="mode-audio">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="drop-zone" id="audio-drop-zone">
+          <input type="file" id="audio-input" accept="audio/mpeg,audio/wav,audio/ogg,audio/flac,audio/mp4,audio/aac,audio/x-m4a" onchange="handleAudioSelect(this)">
+          <div id="audio-drop-default">
+            <span class="drop-icon">&#9836;</span>
+            <div class="drop-title">Drop an audio file or click to upload</div>
+            <div class="drop-sub">MP3, WAV, OGG, FLAC, M4A, AAC &mdash; max 50MB</div>
+          </div>
+          <div class="drop-preview" id="audio-drop-preview" style="display:none; flex-direction:column; align-items:center; gap:0.75rem;">
+            <span style="font-size:2.5rem;">&#9836;</span>
+            <span class="file-name" id="audio-preview-name"></span>
+            <audio id="audio-player" controls style="width:100%; max-width:400px; margin-top:0.5rem;"></audio>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+          <button class="btn-analyze" id="audio-btn" onclick="analyzeAudio()" disabled>
+            <div class="spinner"></div>
+            <span class="btn-text">Analyze Audio</span>
+          </button>
+          <button onclick="resetAudio()" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); font-family:var(--sans); font-size:13px; padding:0.6rem 1rem; border-radius:6px; cursor:pointer;">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="error-box" id="audio-error"></div>
+    <div class="panel results" id="audio-results">
+      <div class="verdict-bar" id="audio-verdict-bar"></div>
+      <div class="score-track"><div class="score-fill" id="audio-score-fill"></div></div>
+      <div class="signals-section" id="audio-signals"></div>
+      <div class="stats-section" id="audio-stats"></div>
+      <div class="disclaimer">Checks codec metadata, sample rate patterns, spectral flatness, silence distribution, and high-frequency energy. TTS and AI voice cloning tools often produce characteristic acoustic signatures.</div>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -486,7 +525,7 @@ textInput.addEventListener('input', () => {
   charCount.style.color = words >= 200 ? 'var(--green)' : words >= 50 ? 'var(--yellow)' : 'var(--text-dim)';
 });
 
-// ── Drop zone ──
+// ── Image Drop zone ──
 const dropZone = document.getElementById('drop-zone');
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -525,6 +564,43 @@ function resetImage() {
   document.getElementById('image-error').classList.remove('show');
 }
 
+// ── Audio Drop zone ──
+const audioDropZone = document.getElementById('audio-drop-zone');
+audioDropZone.addEventListener('dragover', e => { e.preventDefault(); audioDropZone.classList.add('drag-over'); });
+audioDropZone.addEventListener('dragleave', () => audioDropZone.classList.remove('drag-over'));
+audioDropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  audioDropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) loadAudioPreview(file);
+});
+
+function handleAudioSelect(input) {
+  const file = input.files[0];
+  if (file) loadAudioPreview(file);
+}
+
+function loadAudioPreview(file) {
+  const url = URL.createObjectURL(file);
+  document.getElementById('audio-player').src = url;
+  document.getElementById('audio-preview-name').textContent = file.name;
+  document.getElementById('audio-drop-default').style.display = 'none';
+  document.getElementById('audio-drop-preview').style.display = 'flex';
+  document.getElementById('audio-btn').disabled = false;
+  document.getElementById('audio-results').classList.remove('show');
+  document.getElementById('audio-error').classList.remove('show');
+}
+
+function resetAudio() {
+  document.getElementById('audio-input').value = '';
+  document.getElementById('audio-drop-default').style.display = 'block';
+  document.getElementById('audio-drop-preview').style.display = 'none';
+  document.getElementById('audio-btn').disabled = true;
+  document.getElementById('audio-results').classList.remove('show');
+  document.getElementById('audio-error').classList.remove('show');
+  document.getElementById('audio-player').src = '';
+}
+
 // ── Render results ──
 function scoreClass(score) {
   if (score >= 55) return 'score-high';
@@ -537,8 +613,9 @@ function scoreColor(score) {
   return 'var(--green)';
 }
 function confClass(conf) {
-  if (conf === 'high') return 'conf-high';
-  if (conf === 'moderate') return 'conf-moderate';
+  const c = (conf || '').toLowerCase();
+  if (c === 'high') return 'conf-high';
+  if (c === 'medium' || c === 'moderate') return 'conf-moderate';
   return 'conf-low';
 }
 
@@ -561,30 +638,51 @@ function renderResults(prefix, data) {
   scoreFill.style.width = data.score + '%';
   scoreFill.style.background = scoreColor(data.score);
 
-  const weightOrder = {critical: 0, high: 1, medium: 2, low: 3, info: 4};
-  const sorted = [...data.signals].sort((a,b) => (weightOrder[a.weight]||5) - (weightOrder[b.weight]||5));
-
-  signalsEl.innerHTML = `<div class="signals-title">Detection Signals (${data.signals.length})</div>` +
-    sorted.map(s => `
-      <div class="signal-item">
-        <div class="signal-dot dot-${s.weight}"></div>
-        <div>
-          <div class="signal-name">${s.signal}</div>
-          <div class="signal-detail">${s.detail}</div>
+  // Signals — audio returns {signal, weight} objects; text/image return {signal, weight, detail}
+  const signals = data.signals || [];
+  signalsEl.innerHTML = `<div class="signals-title">Detection Signals (${signals.length})</div>` +
+    (signals.length === 0
+      ? '<div style="color:var(--text-muted); font-size:14px; padding:0.5rem 0;">No suspicious signals detected.</div>'
+      : signals.map(s => `
+        <div class="signal-item">
+          <div class="signal-dot dot-medium"></div>
+          <div>
+            <div class="signal-name">${s.signal}</div>
+            ${s.detail ? `<div class="signal-detail">${s.detail}</div>` : ''}
+          </div>
         </div>
+      `).join(''));
+
+  // Stats — use metadata + spectral for audio, stats for text/image
+  let statsHTML = '';
+  if (data.metadata) {
+    const entries = Object.entries(data.metadata).filter(([,v]) => v !== null && v !== undefined && v !== '');
+    statsHTML += entries.map(([k,v]) => `
+      <div class="stat-card">
+        <div class="stat-label">${k.replace(/_/g,' ')}</div>
+        <div class="stat-value">${v}</div>
       </div>
     `).join('');
-
-  const stats = data.stats;
-  const entries = Object.entries(stats).filter(([k,v]) => v !== null && typeof v !== 'object');
-  statsEl.innerHTML = `<div class="signals-title">Raw Statistics</div><div class="stats-grid">` +
-    entries.map(([k,v]) => `
+  }
+  if (data.spectral && !data.spectral.error) {
+    statsHTML += Object.entries(data.spectral).map(([k,v]) => `
+      <div class="stat-card">
+        <div class="stat-label">${k.replace(/_/g,' ')}</div>
+        <div class="stat-value">${v}</div>
+      </div>
+    `).join('');
+  }
+  if (data.stats) {
+    const entries = Object.entries(data.stats).filter(([,v]) => v !== null && typeof v !== 'object');
+    statsHTML += entries.map(([k,v]) => `
       <div class="stat-card">
         <div class="stat-label">${k.replace(/_/g,' ')}</div>
         <div class="stat-value">${Array.isArray(v) ? v.length + ' fields' : v}</div>
       </div>
-    `).join('') + `</div>`;
+    `).join('');
+  }
 
+  statsEl.innerHTML = `<div class="signals-title">Raw Statistics</div><div class="stats-grid">${statsHTML}</div>`;
   resultsEl.classList.add('show');
   resultsEl.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 }
@@ -639,6 +737,32 @@ async function analyzeImage() {
     renderResults('image', data);
   } catch (e) {
     showError('image', e.message);
+  } finally {
+    setLoading(btn, false);
+  }
+}
+
+// ── Audio analysis ──
+async function analyzeAudio() {
+  const input = document.getElementById('audio-input');
+  if (!input.files[0]) return;
+  const btn = document.getElementById('audio-btn');
+  setLoading(btn, true);
+  document.getElementById('audio-error').classList.remove('show');
+  document.getElementById('audio-results').classList.remove('show');
+
+  try {
+    const fd = new FormData();
+    fd.append('file', input.files[0]);
+    const res = await fetch(`${API_BASE}/analyze/audio`, { method: 'POST', body: fd });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server error: ${res.status}`);
+    }
+    const data = await res.json();
+    renderResults('audio', data);
+  } catch (e) {
+    showError('audio', e.message);
   } finally {
     setLoading(btn, false);
   }
