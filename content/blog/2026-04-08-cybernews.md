@@ -9,16 +9,28 @@ draft: false
 
 ## Cybersecurity Headlines — April 08, 2026
 
-- [GrafanaGhost Exploit Bypasses AI Guardrails for Silent Data Exfiltration](https://www.infosecurity-magazine.com/news/grafanaghost-silent-data/) — *Infosecurity Magazine*
-- [‘GrafanaGhost’ vulnerability allowed for silent data exfiltration through AI workflows](https://siliconangle.com/2026/04/07/grafanaghost-vulnerability-grafana-allowed-silent-data-exfiltration-ai-workflows/) — *SiliconANGLE News*
-- [Bitcoin quantum threat is real and closer than it looks, says Nobel physicist](https://www.coindesk.com/business/2026/04/07/bitcoin-quantum-threat-is-real-and-closer-than-it-looks-says-nobel-physicist) — *CoinDesk*
-- [Top 5 Corporate Governance Priorities for 2026](https://corpgov.law.harvard.edu/2026/04/07/top-5-corporate-governance-priorities-for-2026/) — *Harvard School of Engineering and Applied Sciences*
-- [GreenboneOS: March 2026 Threat Report: New Critical Risks Span the Enterprise Attack Surface](https://www.greenbone.net/en/blog/march-2026-threat-report-new-critical-risks-span-the-enterprise-attack-surface/) — *Greenbone.net*
-- [Trump’s New Cyber Strategy Is Catnip for Beijing](http://foreignpolicy.com/2026/04/07/trump-cyber-strategy-china-security/) — *Foreign Policy*
-- [The cybersecurity boom hiding a growing privacy skills shortage](https://www.techradar.com/pro/the-cybersecurity-boom-hiding-a-growing-privacy-skills-shortage) — *TechRadar*
-- [Fortinet Releases Emergency Patch After FortiClient EMS Bug Is Exploited](https://www.infosecurity-magazine.com/news/fortinet-emergency-patch-ems-bug/) — *Infosecurity Magazine*
-- [Cheap cloud was built for stability, but that world is changing](https://thenextweb.com/news/europe-cloud-costs-iran-war-energy-dependency/) — *The Next Web*
-- [Lowdown: RBI’s new advisory pushes for tighter data use, AI safeguards, vendor checks](https://www.medianama.com/2026/04/223-rbi-data-protection-cybersecurity-guidelines-advisory-2026/) — *MediaNama.com*
+- [Anthropic’s Glasswing initiative raises questions for US cyber operations](https://www.nextgov.com/cybersecurity/2026/04/anthropics-glasswing-initiative-raises-questions-us-cyber-operations/412721/) — *Nextgov*
+- [Banning New Foreign Routers Mistargets Products to Fix Real Problem](https://www.eff.org/deeplinks/2026/04/banning-new-foreign-routers-mistargets-products-fix-real-problem) — *EFF*
+- [CISA orders feds to patch exploited Ivanti EPMM flaw by Sunday](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-exploited-ivanti-epmm-flaw-by-sunday/) — *BleepingComputer*
+- [Why Anthropic's new AI model has some cybersecurity pros worried about its hacking abilities](https://www.businessinsider.com/claude-mythos-preview-anthropic-cybersecurity-reaction-glasswing-2026-4) — *Business Insider*
+- [Prioritizing security, privacy, and trust in the AI era | FY25 Purpose Report](https://blogs.cisco.com/our-corporate-purpose/prioritizing-security-privacy-and-trust-in-the-ai-era-fy25-purpose-report) — *Cisco.com*
+- [GreenboneOS: Patch Now! CVE-2026-35616 and CVE-2026-21643: Fortinet EMS Actively Exploited](https://www.greenbone.net/en/blog/patch-now-2026-35616-and-cve-2026-21643/) — *Greenbone.net*
+- [Bugcrowd and Carahsoft Partner to Bring FedRAMP-Authorized Proactive Security and Testing Solutions to the Public Sector](https://www.globenewswire.com/news-release/2026/04/08/3270247/0/en/Bugcrowd-and-Carahsoft-Partner-to-Bring-FedRAMP-Authorized-Proactive-Security-and-Testing-Solutions-to-the-Public-Sector.html) — *GlobeNewswire*
+- [Anthropic Launches Project Glasswing to Use AI to Find and Fix Critical Software Vulnerabilities](https://www.infosecurity-magazine.com/news/anthropic-launch-project-glasswing/) — *Infosecurity Magazine*
+- [Always-on AI Agents put everything hackers could ever want behind a single attack surface](https://www.techradar.com/pro/always-on-ai-agents-put-everything-hackers-could-ever-want-behind-a-single-attack-surface) — *TechRadar*
+- [Anthropic's Claude Mythos AI has discovered thousands of vulnerabilities in every OS and browser](https://www.tweaktown.com/news/110926/anthropics-claude-mythos-ai-has-discovered-thousands-of-vulnerabilities-in-every-os-and-browser/index.html) — *TweakTown*
+
+---
+
+## From the Trenches
+
+As a cybersecurity practitioner, I've been following the recent developments in the field, and there are two stories that caught my attention - Anthropic's Glasswing initiative and CISA's order to patch exploited Ivanti EPMM flaw. Anthropic's Glasswing is an AI-powered tool designed to find and fix critical software vulnerabilities. While the concept sounds promising, I'm concerned about the potential risks associated with relying on AI in cybersecurity. The fact that it has discovered thousands of vulnerabilities in every OS and browser raises questions about its accuracy and reliability.
+
+On a more pressing note, CISA's order to patch exploited Ivanti EPMM flaw is a clear indication that the US government takes cyber threats seriously. As a practitioner, I've seen firsthand how quickly vulnerabilities can be exploited, and it's essential that we take proactive measures to address them. The fact that this vulnerability was actively exploited highlights the importance of keeping software up-to-date.
+
+In light of these developments, I believe it's crucial for organizations to prioritize security, privacy, and trust in the AI era. This means being cautious when implementing new technologies and ensuring that they align with our cybersecurity goals. As we move forward, it's essential to strike a balance between innovation and security.
+
+**🔧 Patch Priority:** Ivanti EPMM due to its widespread use and potential for exploitation by threat actors.
 
 ---
 
