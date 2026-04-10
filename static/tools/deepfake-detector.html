@@ -431,9 +431,11 @@ function resetAudio() {
 }
 
 // Video
+let selectedVideoFile = null;
 setupDrop('video-drop-zone', loadVideoPreview);
-function handleVideoSelect(input) { if (input.files[0]) loadVideoPreview(input.files[0]); }
+function handleVideoSelect(input) { if (input.files[0]) { selectedVideoFile = input.files[0]; loadVideoPreview(input.files[0]); } }
 function loadVideoPreview(file) {
+  selectedVideoFile = file;
   document.getElementById('video-player').src = URL.createObjectURL(file);
   document.getElementById('video-preview-name').textContent = file.name;
   document.getElementById('video-drop-default').style.display = 'none';
@@ -442,6 +444,7 @@ function loadVideoPreview(file) {
   clearResult('video');
 }
 function resetVideo() {
+  selectedVideoFile = null;
   document.getElementById('video-input').value = '';
   document.getElementById('video-drop-default').style.display = 'block';
   document.getElementById('video-drop-preview').style.display = 'none';
@@ -543,12 +546,11 @@ async function analyzeAudio() {
 }
 
 async function analyzeVideo() {
-  const input = document.getElementById('video-input');
-  if (!input.files[0]) return;
+  if (!selectedVideoFile) { showError('video', 'No file selected.'); return; }
   const btn = document.getElementById('video-btn');
   setLoading(btn,true); clearResult('video');
   try {
-    const fd = new FormData(); fd.append('file', input.files[0]);
+    const fd = new FormData(); fd.append('file', selectedVideoFile);
     const res = await fetch(`${API_BASE}/analyze/video`, {method:'POST', body:fd});
     if (!res.ok) throw new Error((await res.json().catch(()=>({}))).detail||`Server error: ${res.status}`);
     renderResults('video', await res.json());
