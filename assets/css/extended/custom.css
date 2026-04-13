@@ -68,3 +68,56 @@ blockquote {
   max-width: 100% !important;
   padding: 0 !important;
 }
+/* Dropdown nav */
+.dropdown { position: relative; }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--theme);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 0;
+    min-width: 160px;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+}
+.dropdown-menu li a {
+    display: block;
+    padding: 8px 16px;
+    white-space: nowrap;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 14px;
+}
+.dropdown-menu li a:hover { background: var(--code-bg); }
+.dropdown:hover .dropdown-menu { display: block; }
+
+/* Fix dropdown overflow clipping */
+#menu {
+    overflow: visible !important;
+}
+.dropdown {
+    position: relative;
+    overflow: visible !important;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--theme);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 0;
+    min-width: 160px;
+    z-index: 9999 !important;
+    list-style: none;
+    margin: 0;
+    overflow: visible !important;
+}
+.dropdown:hover .dropdown-menu {
+    display: block !important;
+}
