@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm constantly on the lookout for emerging threats that can compromise our systems and data. Two stories from today's headlines caught my attention because they highlight the growing urgency of addressing unpatched vulnerabilities in our software.
+
+The first story, "Attackers target unpatched ShowDoc servers via CVE-2025-0520," should be a wake-up call for organizations that haven't addressed this known exploit yet. It's staggering to see attackers taking advantage of such a well-known vulnerability, and it's essential that we take immediate action to patch these systems before more damage is done. I've seen firsthand how quickly an unpatched system can become a breeding ground for malware and other threats.
+
+The second story, "Quantum computers could usher in a crisis worse than Y2K," sends shivers down my spine. The potential impact of quantum computers on our cybersecurity landscape cannot be overstated. As we move forward with the development and deployment of these powerful machines, it's crucial that we invest in research and development to stay ahead of the game. We need to anticipate and prepare for the challenges that quantum computing will bring.
+
+**🔧 Patch Priority:** Fortinet software due to CVE-2025-0520 is a top priority, as attackers are already exploiting this known vulnerability.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
