@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Should You Run Your Own LLM? — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #f97316;
+    --orange-dim: #c2580f;
+    --bg: #0d0d0d;
+    --bg2: #141414;
+    --bg3: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e2e2e2;
+    --muted: #888;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Barlow', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    padding: 2rem 1rem 4rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--orange);
+    margin: 0 auto 1.5rem;
+  }
+
+  .header h1 {
+    font-family: var(--mono);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Comparison Table */
+  .table-wrap {
+    overflow-x: auto;
+    margin-bottom: 3.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 2px solid var(--orange);
+  }
+
+  th {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    white-space: nowrap;
+  }
+
+  th:first-child { color: var(--muted); }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td {
+    padding: 0.85rem 1rem;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  td:first-child {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.18rem 0.55rem;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .good  { background: rgba(34,197,94,0.12);  color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
+  .mid   { background: rgba(234,179,8,0.12);  color: var(--yellow); border: 1px solid rgba(234,179,8,0.25); }
+  .bad   { background: rgba(239,68,68,0.12);  color: var(--red);    border: 1px solid rgba(239,68,68,0.25); }
+
+  /* Flowchart */
+  .flowchart {
+    margin-bottom: 3rem;
+  }
+
+  .flow-nodes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .flow-node {
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+  }
+
+  .node-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .node-box:hover { border-color: var(--orange); }
+
+  .node-box.start {
+    background: var(--bg3);
+    border-color: var(--orange);
+    border-width: 2px;
+  }
+
+  .node-box.decision {
+    background: var(--bg3);
+    border-color: #444;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    padding: 1.5rem 2.5rem;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .node-box.outcome-yes {
+    border-color: var(--green);
+    background: rgba(34,197,94,0.06);
+    max-width: 220px;
+  }
+
+  .node-box.outcome-no {
+    border-color: var(--red);
+    background: rgba(239,68,68,0.06);
+    max-width: 220px;
+  }
+
+  .node-box.outcome-maybe {
+    border-color: var(--yellow);
+    background: rgba(234,179,8,0.06);
+    max-width: 220px;
+  }
+
+  .node-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+
+  .node-label.q  { color: var(--orange); }
+  .node-label.y  { color: var(--green); }
+  .node-label.n  { color: var(--red); }
+  .node-label.m  { color: var(--yellow); }
+
+  .node-text {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .node-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  /* Connectors */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 520px;
+    gap: 0;
+  }
+
+  .arrow-line {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+  }
+
+  .arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--border);
+  }
+
+  .connector-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin: 2px 0;
+  }
+
+  /* Branch layout */
+  .branch-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .branch-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .branch-connector {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  .branch-line-left {
+    position: absolute;
+    left: 25%;
+    right: 50%;
+    top: 0;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .branch-line-right {
+    position: absolute;
+    left: 50%;
+    right: 25%;
+    top: 0;
+    height: 2px;
+    background: var(--border);
+  }
+
+  .branch-down-left {
+    position: absolute;
+    left: calc(25% - 1px);
+    top: 0;
+    width: 2px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  .branch-down-right {
+    position: absolute;
+    right: calc(25% - 1px);
+    top: 0;
+    width: 2px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  .branch-center-down {
+    position: absolute;
+    left: calc(50% - 1px);
+    top: 0;
+    width: 2px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .footer span { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>LOCAL vs. CLOUD LLM — DECISION GUIDE</h1>
+  <p>CyberGrind / AI Toolkit — Should you run your own model?</p>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="section-title">01 — Capability Comparison</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>🖥 Local LLM</th>
+        <th>☁️ Cloud API</th>
+        <th>🛠 SaaS AI Tool</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Privacy</td>
+        <td><span class="badge good">STRONG</span><br><span style="color:var(--muted);font-size:0.8rem">Data never leaves your machine</span></td>
+        <td><span class="badge mid">MODERATE</span><br><span style="color:var(--muted);font-size:0.8rem">Sent to provider; subject to ToS</span></td>
+        <td><span class="badge bad">WEAK</span><br><span style="color:var(--muted);font-size:0.8rem">Data processed + often retained</span></td>
+      </tr>
+      <tr>
+        <td>Cost</td>
+        <td><span class="badge good">LOW</span><br><span style="color:var(--muted);font-size:0.8rem">Hardware cost, then ~$0/query</span></td>
+        <td><span class="badge mid">VARIABLE</span><br><span style="color:var(--muted);font-size:0.8rem">Per-token pricing; scales with use</span></td>
+        <td><span class="badge bad">HIGH</span><br><span style="color:var(--muted);font-size:0.8rem">Monthly subscription, per-seat</span></td>
+      </tr>
+      <tr>
+        <td>Control</td>
+        <td><span class="badge good">FULL</span><br><span style="color:var(--muted);font-size:0.8rem">Choose model, prompt, fine-tune</span></td>
+        <td><span class="badge mid">PARTIAL</span><br><span style="color:var(--muted);font-size:0.8rem">Model locked; provider can change</span></td>
+        <td><span class="badge bad">MINIMAL</span><br><span style="color:var(--muted);font-size:0.8rem">Locked to vendor features</span></td>
+      </tr>
+      <tr>
+        <td>Threat Model</td>
+        <td><span class="badge good">MINIMAL</span><br><span style="color:var(--muted);font-size:0.8rem">No external exposure if airgapped</span></td>
+        <td><span class="badge mid">MODERATE</span><br><span style="color:var(--muted);font-size:0.8rem">API key exposure, provider breach risk</span></td>
+        <td><span class="badge bad">ELEVATED</span><br><span style="color:var(--muted);font-size:0.8rem">Credential theft, supply chain risk</span></td>
+      </tr>
+      <tr>
+        <td>Data Residency</td>
+        <td><span class="badge good">GUARANTEED</span><br><span style="color:var(--muted);font-size:0.8rem">Stays on your hardware, your network</span></td>
+        <td><span class="badge mid">REGIONAL</span><br><span style="color:var(--muted);font-size:0.8rem">Provider-dependent; may vary</span></td>
+        <td><span class="badge bad">UNKNOWN</span><br><span style="color:var(--muted);font-size:0.8rem">Often unclear in ToS</span></td>
+      </tr>
+      <tr>
+        <td>Offline Capability</td>
+        <td><span class="badge good">FULL</span><br><span style="color:var(--muted);font-size:0.8rem">Works without internet access</span></td>
+        <td><span class="badge bad">NONE</span><br><span style="color:var(--muted);font-size:0.8rem">Requires internet + provider uptime</span></td>
+        <td><span class="badge bad">NONE</span><br><span style="color:var(--muted);font-size:0.8rem">Fully cloud-dependent</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FLOWCHART -->
+<div class="section-title">02 — Decision Flowchart</div>
+
+<div class="flowchart">
+  <div class="flow-nodes">
+
+    <!-- Start -->
+    <div class="flow-node">
+      <div class="node-box start">
+        <div class="node-label q">START</div>
+        <div class="node-text">Are you considering using an LLM for security or privacy-sensitive work?</div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="flow-node">
+      <div class="node-box">
+        <div class="node-label q">Q1</div>
+        <div class="node-text">Will you feed it sensitive data?</div>
+        <div class="node-sub">IOCs, incident notes, internal docs, customer data, credentials</div>
+      </div>
+    </div>
+
+    <!-- Branch from Q1 -->
+    <div class="branch-connector" style="max-width:520px;">
+      <div class="branch-line-left"></div>
+      <div class="branch-line-right"></div>
+      <div class="branch-down-left"></div>
+      <div class="branch-down-right"></div>
+    </div>
+
+    <div class="branch-row" style="max-width:520px;">
+      <div class="branch-col">
+        <div class="node-label y" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">YES</div>
+        <div class="node-box outcome-yes" style="max-width:100%;">
+          <div class="node-label y">Consider Local</div>
+          <div class="node-sub">Sensitive data should not leave your network. Local inference is the appropriate model.</div>
+        </div>
+      </div>
+      <div class="branch-col">
+        <div class="node-label n" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">NO</div>
+        <div class="node-box" style="max-width:100%;">
+          <div class="node-label q">→ Q2</div>
+          <div class="node-sub">Continue to next question</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="margin-top:1.5rem;">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="flow-node">
+      <div class="node-box">
+        <div class="node-label q">Q2</div>
+        <div class="node-text">Do you have data residency or compliance requirements?</div>
+        <div class="node-sub">HIPAA, GDPR, FedRAMP, internal data governance policies</div>
+      </div>
+    </div>
+
+    <div class="branch-connector" style="max-width:520px;">
+      <div class="branch-line-left"></div>
+      <div class="branch-line-right"></div>
+      <div class="branch-down-left"></div>
+      <div class="branch-down-right"></div>
+    </div>
+
+    <div class="branch-row" style="max-width:520px;">
+      <div class="branch-col">
+        <div class="node-label y" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">YES</div>
+        <div class="node-box outcome-yes" style="max-width:100%;">
+          <div class="node-label y">Local or Private Cloud</div>
+          <div class="node-sub">Cloud APIs and SaaS tools rarely satisfy strict residency requirements.</div>
+        </div>
+      </div>
+      <div class="branch-col">
+        <div class="node-label n" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">NO</div>
+        <div class="node-box" style="max-width:100%;">
+          <div class="node-label q">→ Q3</div>
+          <div class="node-sub">Continue to next question</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="margin-top:1.5rem;">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="flow-node">
+      <div class="node-box">
+        <div class="node-label q">Q3</div>
+        <div class="node-text">Do you need inference to work offline or air-gapped?</div>
+        <div class="node-sub">Field ops, air-gapped networks, incident response without internet</div>
+      </div>
+    </div>
+
+    <div class="branch-connector" style="max-width:520px;">
+      <div class="branch-line-left"></div>
+      <div class="branch-line-right"></div>
+      <div class="branch-down-left"></div>
+      <div class="branch-down-right"></div>
+    </div>
+
+    <div class="branch-row" style="max-width:520px;">
+      <div class="branch-col">
+        <div class="node-label y" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">YES</div>
+        <div class="node-box outcome-yes" style="max-width:100%;">
+          <div class="node-label y">Local Only</div>
+          <div class="node-sub">Cloud API and SaaS tools are non-starters for offline environments.</div>
+        </div>
+      </div>
+      <div class="branch-col">
+        <div class="node-label n" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">NO</div>
+        <div class="node-box" style="max-width:100%;">
+          <div class="node-label q">→ Q4</div>
+          <div class="node-sub">Continue to next question</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector" style="margin-top:1.5rem;">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="flow-node">
+      <div class="node-box">
+        <div class="node-label q">Q4</div>
+        <div class="node-text">Do you have suitable hardware available?</div>
+        <div class="node-sub">A modern GPU (8GB+ VRAM) or a capable CPU for smaller models</div>
+      </div>
+    </div>
+
+    <div class="branch-connector" style="max-width:520px;">
+      <div class="branch-line-left"></div>
+      <div class="branch-line-right"></div>
+      <div class="branch-down-left"></div>
+      <div class="branch-down-right"></div>
+    </div>
+
+    <div class="branch-row" style="max-width:520px;">
+      <div class="branch-col">
+        <div class="node-label y" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">YES</div>
+        <div class="node-box outcome-yes" style="max-width:100%;">
+          <div class="node-label y">Go Local</div>
+          <div class="node-sub">You have everything you need. Start with Ollama + a 3B–7B model.</div>
+        </div>
+      </div>
+      <div class="branch-col">
+        <div class="node-label n" style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;margin-bottom:0.4rem;">NO</div>
+        <div class="node-box outcome-maybe" style="max-width:100%;">
+          <div class="node-label m">Cloud API</div>
+          <div class="node-sub">Use a cloud API for non-sensitive work. Avoid feeding it anything you wouldn't publish.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Recommended: Local</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Acceptable: Cloud API (non-sensitive only)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Avoid for security work</div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>CYBERGRIND.ORG</span> / AI TOOLKIT — LOCAL VS CLOUD LLM GUIDE
+</div>
+
+</body>
+</html>
