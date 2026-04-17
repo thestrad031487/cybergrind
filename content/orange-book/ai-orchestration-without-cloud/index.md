@@ -199,3 +199,18 @@ The core insight this project reinforced: the hard part of multi-agent AI isn't 
 ---
 
 *The live dashboard is at [shelter.cybergrind.org](https://shelter.cybergrind.org). Source at [github.com/thestrad031487/shelter-platform](https://github.com/thestrad031487/shelter-platform).*
+
+---
+
+## Slack integration
+
+The shelter data is also accessible directly from Slack via CyberClaw, the same bot already handling security pipeline commands. A shelter query handler was added to the bot that detects animal-related keywords and routes them to the shelter API instead of Ollama:
+@CyberClaw dogs available
+@CyberClaw cats available Austin
+@CyberClaw daily insight
+@CyberClaw shelter summary
+The bot returns formatted results directly in the channel — animal names, breeds, ages, days in shelter, and truncated bios. Open-ended queries fall through to the LLM as usual.
+
+The key architectural decision here was using the public Cloudflare URL (`https://shelter-api.cybergrind.org`) rather than the internal container name. The Slack bot lives in a different Docker Compose stack than the shelter API, so internal DNS doesn't resolve across stacks. The public URL routes through Cloudflare back to the homelab — a small round trip, but it keeps the stacks cleanly isolated.
+
+This means CyberClaw now serves two domains from a single bot: security analysis and shelter intelligence. Adding a third would follow the same pattern — detect keywords, route to the right data source, format and return.
