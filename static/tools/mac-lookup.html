@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAC Address Lookup — CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #f97316;
+    --orange-glow: rgba(249,115,22,0.15);
+    --orange-dim: #c2580f;
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --bg4: #1f1f1f;
+    --border: #252525;
+    --border-lit: #333;
+    --text: #e8e8e8;
+    --muted: #666;
+    --muted2: #444;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  /* Scanline texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .header-left h1 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  .header-left h1 span { color: var(--orange); }
+
+  .header-left p {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .header-badge {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    padding: 0.3rem 0.65rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  /* Input panel */
+  .input-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .mac-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg3);
+    border: 1px solid var(--border-lit);
+    border-radius: 4px;
+    padding: 0.7rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .mac-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-glow);
+  }
+
+  .mac-input::placeholder { color: var(--muted2); }
+
+  .btn {
+    padding: 0.7rem 1.4rem;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: #000;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover { background: var(--orange-dim); }
+  .btn-primary:disabled { background: var(--muted2); color: var(--muted); cursor: not-allowed; }
+
+  .btn-secondary {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border-lit);
+  }
+
+  .btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    font-size: 0.72rem;
+  }
+
+  .btn-ghost:hover { color: var(--text); border-color: var(--border-lit); }
+
+  /* Bulk textarea */
+  .bulk-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .bulk-toggle {
+    background: none;
+    border: none;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    padding: 0;
+    transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .bulk-toggle:hover { color: var(--orange); }
+
+  .bulk-toggle .arrow { transition: transform 0.2s; }
+  .bulk-toggle.open .arrow { transform: rotate(90deg); }
+
+  .bulk-area {
+    display: none;
+    margin-top: 0.75rem;
+    gap: 0.75rem;
+    flex-direction: column;
+  }
+
+  .bulk-area.open { display: flex; }
+
+  .bulk-textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border-lit);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .bulk-textarea:focus { border-color: var(--orange); }
+  .bulk-textarea::placeholder { color: var(--muted2); }
+
+  /* Status bar */
+  .status-bar {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    padding: 0.5rem 0;
+    min-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status-bar.loading { color: var(--orange); }
+  .status-bar.error { color: var(--red); }
+  .status-bar.success { color: var(--green); }
+
+  .spinner {
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--orange-glow);
+    border-top-color: var(--orange);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: none;
+  }
+
+  .spinner.active { display: block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Results section */
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .results-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--orange);
+    text-transform: uppercase;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Table */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border-lit);
+  }
+
+  th {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td {
+    padding: 0.7rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+
+  td.mac-cell { color: var(--orange); letter-spacing: 0.08em; }
+  td.manufacturer-cell { color: var(--text); font-weight: 500; }
+  td.oui-cell { color: var(--muted); }
+  td.country-cell { color: var(--muted); }
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .badge-found { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+  .badge-unknown { background: rgba(234,179,8,0.1); color: var(--yellow); border: 1px solid rgba(234,179,8,0.2); }
+  .badge-error { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+
+  .copy-btn {
+    background: none;
+    border: none;
+    color: var(--muted2);
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-family: var(--mono);
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    transition: color 0.15s;
+  }
+
+  .copy-btn:hover { color: var(--orange); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-state .icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.3;
+  }
+
+  .empty-state p {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* History section */
+  .history-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .history-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .history-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.3rem 0.65rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .history-chip:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  .history-chip .chip-manufacturer {
+    color: var(--text);
+    margin-left: 0.4rem;
+    font-size: 0.68rem;
+  }
+
+  /* Footer */
+  .tool-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-footer a { color: var(--muted); text-decoration: none; }
+  .tool-footer a:hover { color: var(--orange); }
+
+  /* Progress bar for bulk */
+  .progress-wrap {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    overflow: hidden;
+    display: none;
+    margin-top: 0.5rem;
+  }
+
+  .progress-wrap.active { display: block; }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--orange);
+    width: 0%;
+    transition: width 0.2s;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem 1rem 3rem; }
+    .input-row { flex-direction: column; }
+    .mac-input { min-width: unset; }
+    td, th { padding: 0.6rem 0.6rem; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>MAC Address <span>OUI Lookup</span></h1>
+    <p>IDENTIFY NETWORK HARDWARE MANUFACTURERS BY MAC ADDRESS</p>
+  </div>
+  <div class="header-badge">OUI / IEEE 802</div>
+</div>
+
+<!-- Input Panel -->
+<div class="input-panel">
+  <div class="input-label">Single Lookup</div>
+  <div class="input-row">
+    <input
+      type="text"
+      class="mac-input"
+      id="macInput"
+      placeholder="AA:BB:CC:DD:EE:FF or AA-BB-CC or AABBCC"
+      maxlength="17"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="btn btn-primary" id="lookupBtn" onclick="lookupSingle()">LOOKUP</button>
+    <button class="btn btn-secondary" id="clearBtn" onclick="clearResults()" disabled>CLEAR</button>
+  </div>
+
+  <!-- Bulk section -->
+  <div class="bulk-section">
+    <button class="bulk-toggle" id="bulkToggle" onclick="toggleBulk()">
+      <span class="arrow">▶</span>
+      BULK LOOKUP — PASTE MULTIPLE MAC ADDRESSES
+    </button>
+    <div class="bulk-area" id="bulkArea">
+      <textarea
+        class="bulk-textarea"
+        id="bulkInput"
+        placeholder="One MAC address per line:&#10;AA:BB:CC:DD:EE:FF&#10;11-22-33-44-55-66&#10;AABBCCDDEEFF"
+        rows="5"
+      ></textarea>
+      <div>
+        <button class="btn btn-primary" onclick="lookupBulk()">RUN BULK LOOKUP</button>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Status -->
+<div class="status-bar" id="statusBar">
+  <div class="spinner" id="spinner"></div>
+  <span id="statusText">READY — ENTER A MAC ADDRESS TO BEGIN</span>
+</div>
+
+<!-- Results -->
+<div id="resultsSection" style="display:none;">
+  <div class="results-header">
+    <div class="results-title">RESULTS <span id="resultCount" style="color:var(--muted)"></span></div>
+    <div class="results-actions">
+      <button class="btn btn-ghost" onclick="exportCSV()">↓ CSV</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">↓ JSON</button>
+      <button class="btn btn-ghost" onclick="copyAll()">⎘ COPY ALL</button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>MAC ADDRESS</th>
+          <th>OUI PREFIX</th>
+          <th>MANUFACTURER</th>
+          <th>COUNTRY</th>
+          <th>STATUS</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Empty state -->
+<div class="empty-state" id="emptyState">
+  <div class="icon">⬡</div>
+  <p>NO RESULTS YET — ENTER A MAC ADDRESS ABOVE</p>
+</div>
+
+<!-- History -->
+<div class="history-section" id="historySection" style="display:none;">
+  <div class="history-header">
+    <div class="history-title">RECENT LOOKUPS</div>
+    <button class="btn btn-ghost" onclick="clearHistory()" style="font-size:0.65rem;">CLEAR HISTORY</button>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+
+<div class="tool-footer">
+  <span>CYBERGRIND.ORG / MAC OUI LOOKUP</span>
+  <span>DATA VIA <a href="https://maclookup.app" target="_blank" rel="noopener">MACLOOKUP.APP</a> — IEEE 802 OUI REGISTRY</span>
+</div>
+
+<script>
+  const WORKER_URL = 'https://mac-worker.wacker-jason.workers.dev';
+  let results = [];
+  let history = JSON.parse(localStorage.getItem('cg-mac-history') || '[]');
+
+  // Init
+  renderHistory();
+
+  // Enter key on input
+  document.getElementById('macInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') lookupSingle();
+  });
+
+  function toggleBulk() {
+    const toggle = document.getElementById('bulkToggle');
+    const area = document.getElementById('bulkArea');
+    toggle.classList.toggle('open');
+    area.classList.toggle('open');
+  }
+
+  function setStatus(msg, type = '') {
+    const bar = document.getElementById('statusBar');
+    const text = document.getElementById('statusText');
+    const spinner = document.getElementById('spinner');
+    bar.className = 'status-bar ' + type;
+    text.textContent = msg;
+    spinner.className = 'spinner' + (type === 'loading' ? ' active' : '');
+  }
+
+  async function fetchMAC(mac) {
+    const res = await fetch(`${WORKER_URL}?mac=${encodeURIComponent(mac)}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    return res.json();
+  }
+
+  async function lookupSingle() {
+    const input = document.getElementById('macInput');
+    const mac = input.value.trim();
+    if (!mac) return;
+
+    setStatus('LOOKING UP ' + mac.toUpperCase() + '...', 'loading');
+    document.getElementById('lookupBtn').disabled = true;
+
+    try {
+      const data = await fetchMAC(mac);
+      addResult(data);
+      setStatus(`FOUND: ${data.manufacturer}`, 'success');
+      addToHistory(data);
+      input.value = '';
+    } catch (err) {
+      addResult({ mac: mac.toUpperCase(), error: err.message, found: false });
+      setStatus('ERROR: ' + err.message, 'error');
+    } finally {
+      document.getElementById('lookupBtn').disabled = false;
+      document.getElementById('clearBtn').disabled = false;
+    }
+  }
+
+  async function lookupBulk() {
+    const textarea = document.getElementById('bulkInput');
+    const lines = textarea.value.split('\n').map(l => l.trim()).filter(Boolean);
+    if (!lines.length) return;
+
+    const unique = [...new Set(lines)];
+    const progress = document.getElementById('progressBar');
+    const wrap = document.getElementById('progressWrap');
+    wrap.classList.add('active');
+
+    setStatus(`RUNNING BULK LOOKUP — 0 / ${unique.length}`, 'loading');
+
+    for (let i = 0; i < unique.length; i++) {
+      try {
+        const data = await fetchMAC(unique[i]);
+        addResult(data);
+        addToHistory(data);
+      } catch (err) {
+        addResult({ mac: unique[i].toUpperCase(), error: err.message, found: false });
+      }
+      const pct = Math.round(((i + 1) / unique.length) * 100);
+      progress.style.width = pct + '%';
+      setStatus(`RUNNING BULK LOOKUP — ${i + 1} / ${unique.length}`, 'loading');
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 300));
+    }
+
+    wrap.classList.remove('active');
+    progress.style.width = '0%';
+    setStatus(`BULK COMPLETE — ${unique.length} LOOKUPS DONE`, 'success');
+    document.getElementById('clearBtn').disabled = false;
+    textarea.value = '';
+  }
+
+  function addResult(data) {
+    results.push(data);
+    renderResults();
+  }
+
+  function renderResults() {
+    const body = document.getElementById('resultsBody');
+    const section = document.getElementById('resultsSection');
+    const empty = document.getElementById('emptyState');
+    const count = document.getElementById('resultCount');
+
+    if (results.length === 0) {
+      section.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+
+    section.style.display = 'block';
+    empty.style.display = 'none';
+    count.textContent = `(${results.length})`;
+
+    body.innerHTML = results.map((r, i) => {
+      if (r.error) {
+        return `<tr>
+          <td class="mac-cell">${escHtml(r.mac)}</td>
+          <td class="oui-cell">—</td>
+          <td class="manufacturer-cell" style="color:var(--muted)">—</td>
+          <td class="country-cell">—</td>
+          <td><span class="status-badge badge-error">ERROR</span></td>
+          <td></td>
+        </tr>`;
+      }
+      const statusBadge = r.found
+        ? `<span class="status-badge badge-found">FOUND</span>`
+        : `<span class="status-badge badge-unknown">UNKNOWN</span>`;
+      return `<tr>
+        <td class="mac-cell">${escHtml(r.mac)}</td>
+        <td class="oui-cell">${escHtml(r.oui || '—')}</td>
+        <td class="manufacturer-cell">${escHtml(r.manufacturer || '—')}</td>
+        <td class="country-cell">${escHtml(r.country || '—')}</td>
+        <td>${statusBadge}</td>
+        <td><button class="copy-btn" onclick="copyRow(${i})" title="Copy row">⎘</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function clearResults() {
+    results = [];
+    renderResults();
+    setStatus('READY — ENTER A MAC ADDRESS TO BEGIN', '');
+    document.getElementById('clearBtn').disabled = true;
+  }
+
+  function addToHistory(data) {
+    if (!data.found || data.error) return;
+    const existing = history.findIndex(h => h.mac === data.mac);
+    if (existing !== -1) history.splice(existing, 1);
+    history.unshift({ mac: data.mac, manufacturer: data.manufacturer });
+    if (history.length > 20) history = history.slice(0, 20);
+    localStorage.setItem('cg-mac-history', JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const section = document.getElementById('historySection');
+    const list = document.getElementById('historyList');
+    if (history.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = 'block';
+    list.innerHTML = history.map(h => `
+      <div class="history-chip" onclick="loadFromHistory('${escHtml(h.mac)}')">
+        ${escHtml(h.mac)}
+        <span class="chip-manufacturer">${escHtml(h.manufacturer)}</span>
+      </div>
+    `).join('');
+  }
+
+  function loadFromHistory(mac) {
+    document.getElementById('macInput').value = mac;
+    lookupSingle();
+  }
+
+  function clearHistory() {
+    history = [];
+    localStorage.removeItem('cg-mac-history');
+    renderHistory();
+  }
+
+  function exportCSV() {
+    if (!results.length) return;
+    const headers = ['MAC Address', 'OUI Prefix', 'Manufacturer', 'Country', 'Status'];
+    const rows = results.map(r => [
+      r.mac,
+      r.oui || '',
+      r.error ? 'ERROR: ' + r.error : (r.manufacturer || ''),
+      r.country || '',
+      r.error ? 'Error' : (r.found ? 'Found' : 'Unknown')
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    download('mac-lookup-results.csv', csv, 'text/csv');
+  }
+
+  function exportJSON() {
+    if (!results.length) return;
+    download('mac-lookup-results.json', JSON.stringify(results, null, 2), 'application/json');
+  }
+
+  function copyAll() {
+    if (!results.length) return;
+    const text = results.map(r =>
+      `${r.mac}\t${r.oui || ''}\t${r.manufacturer || ''}\t${r.country || ''}`
+    ).join('\n');
+    navigator.clipboard.writeText(text).then(() => setStatus('COPIED TO CLIPBOARD', 'success'));
+  }
+
+  function copyRow(i) {
+    const r = results[i];
+    const text = `${r.mac}\t${r.oui || ''}\t${r.manufacturer || ''}\t${r.country || ''}`;
+    navigator.clipboard.writeText(text).then(() => setStatus('ROW COPIED', 'success'));
+  }
+
+  function download(filename, content, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>
