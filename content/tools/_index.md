@@ -25,3 +25,4 @@ A collection of free tools and resources for blue teamers and security practitio
 | [Deepfake Detector](/tools/deepfake-detector/) | Heuristic analysis for AI-generated text and images — metadata forensics, linguistic patterns, and ELA |
 | [MITRE ATT&CK Browser](/tools/attck/) | Browse and search Enterprise and ICS techniques from the MITRE ATT&CK framework |
 | [MAC Address OUI Lookup](/tools/mac-lookup/) | Identify the manufacturer of any networking device by MAC address — single and bulk lookups with CSV and JSON export |
+| [MISP IOC Lookup](/tools/misp-ioc-lookup/) | Search the CyberGrind MISP threat intelligence database by IP, domain, hash, URL, or email |
