@@ -6,215 +6,271 @@
 <title>Jason Wacker — Resume</title>
 <style>
   :root {
-    --cg-orange: #FF8C00;
-    --bg: #0a0f1a;
-    --bg2: #0d1a2a;
-    --border: #1e3a50;
-    --text: #ccd6e0;
-    --muted: #556677;
     --accent: #FF8C00;
-    --accent-dim: rgba(255,140,0,0.12);
     --in-progress: #f59e0b;
+    --text: #ccd6e0;
+    --muted: #666;
+    --border: #222;
+    --card-bg: #111;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    background: var(--bg);
+  .resume-wrap {
+    max-width: 960px;
+    margin: 2rem auto;
     color: var(--text);
-    font-family: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 15px;
     line-height: 1.6;
-    padding: 48px 24px;
-    max-width: 860px;
-    margin: 0 auto;
   }
 
-  /* Header */
-  .resume-header {
+  /* ── Header ── */
+  .r-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
   }
 
-  .resume-header h1 {
-    font-size: 32px;
+  .r-header h1 {
+    font-size: 1.75rem;
     font-weight: 700;
     color: #fff;
-    letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
   }
 
-  .resume-header .title {
-    font-size: 15px;
+  .r-title {
+    font-size: 0.95rem;
     color: var(--accent);
-    margin: 4px 0 16px 0;
     font-weight: 500;
+    margin-bottom: 1rem;
   }
 
-  .contact-row {
+  .r-contact {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    font-size: 13px;
+    gap: 14px;
+    font-size: 0.8rem;
     color: var(--muted);
     font-family: 'Space Mono', monospace;
+    margin-bottom: 1.25rem;
   }
 
-  .contact-row a {
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .contact-row a:hover { color: var(--accent); }
-
-  .contact-row span::before {
-    content: '›';
-    color: var(--accent);
-    margin-right: 6px;
-  }
+  .r-contact a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .r-contact a:hover { color: var(--accent); }
+  .r-contact span::before { content: '›'; color: var(--accent); margin-right: 5px; }
 
   .dl-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    padding: 9px 20px;
+    gap: 7px;
+    padding: 8px 18px;
     border: 1px solid var(--accent);
     color: var(--accent);
-    font-size: 13px;
+    font-size: 0.8rem;
     font-family: 'Space Mono', monospace;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 5px;
     transition: background 0.15s, color 0.15s;
     letter-spacing: 0.04em;
   }
 
-  .dl-btn:hover {
-    background: var(--accent);
-    color: #000;
-  }
+  .dl-btn:hover { background: var(--accent); color: #000; }
 
-  /* Sections */
-  section { margin-bottom: 36px; }
-
-  .section-title {
-    font-size: 11px;
+  /* ── Section labels (matches certs page exactly) ── */
+  .r-section-label {
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--accent);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 6px;
-    margin-bottom: 18px;
     font-family: 'Space Mono', monospace;
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 8px;
+    margin-bottom: 1.25rem;
+    margin-top: 2.5rem;
   }
 
-  /* Summary */
-  .summary p {
+  /* ── Summary card ── */
+  .r-summary {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    font-size: 0.9rem;
     color: var(--text);
     line-height: 1.8;
+    transition: border-color 0.2s;
   }
 
-  /* Experience */
-  .job { margin-bottom: 28px; }
-  .job:last-child { margin-bottom: 0; }
+  .r-summary:hover { border-color: var(--accent); }
 
-  .job-header {
+  /* ── Skills grid ── */
+  .r-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .r-skill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .r-skill-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+  .r-skill-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 0.65rem;
+  }
+
+  .r-skill-card ul { list-style: none; padding: 0; }
+  .r-skill-card ul li { font-size: 0.85rem; color: var(--text); padding: 2px 0; }
+
+  /* ── Job cards ── */
+  .r-job {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .r-job:last-child { margin-bottom: 0; }
+  .r-job:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+  .r-job-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
-  .job-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-  }
+  .r-job-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
 
-  .job-dates {
-    font-size: 12px;
+  .r-job-dates {
+    font-size: 0.72rem;
     color: var(--muted);
     white-space: nowrap;
     font-family: 'Space Mono', monospace;
   }
 
-  .job-employer {
-    font-size: 13px;
+  .r-job-employer {
+    font-size: 0.82rem;
     color: var(--accent);
-    margin-bottom: 10px;
     font-weight: 500;
+    margin-bottom: 0.9rem;
   }
 
-  .job ul { list-style: none; padding: 0; }
+  .r-job ul { list-style: none; padding: 0; }
 
-  .job ul li {
-    font-size: 14px;
+  .r-job ul li {
+    font-size: 0.855rem;
     color: var(--text);
     padding: 3px 0 3px 16px;
     position: relative;
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
-  .job ul li::before {
-    content: '›';
-    color: var(--accent);
-    position: absolute;
-    left: 0;
-  }
+  .r-job ul li::before { content: '›'; color: var(--accent); position: absolute; left: 0; }
 
-  /* Skills */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-  }
-
-  .skill-group {
-    background: var(--bg2);
+  /* ── Project cards ── */
+  .r-project {
+    background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
-    transition: border-color 0.2s;
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s, transform 0.15s;
   }
 
-  .skill-group:hover { border-color: var(--accent); }
+  .r-project:last-child { margin-bottom: 0; }
+  .r-project:hover { border-color: var(--accent); transform: translateY(-1px); }
 
-  .skill-group-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .r-project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 0.6rem;
+  }
+
+  .r-project-name { font-size: 0.95rem; font-weight: 700; color: #fff; }
+
+  .r-project-link {
+    font-size: 0.75rem;
     color: var(--accent);
-    margin-bottom: 8px;
+    text-decoration: none;
     font-family: 'Space Mono', monospace;
   }
 
-  .skill-group ul { list-style: none; padding: 0; }
+  .r-project-link:hover { text-decoration: underline; }
 
-  .skill-group ul li {
-    font-size: 13px;
-    color: var(--text);
-    padding: 2px 0;
+  .r-project-desc {
+    font-size: 0.855rem;
+    color: #888;
+    line-height: 1.65;
   }
 
-  /* Certifications */
-  .cert-list {
+  .r-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+
+  .r-tag {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border: 1px solid #222;
+    border-radius: 3px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .r-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .r-homelab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-top: 0.75rem;
     list-style: none;
     padding: 0;
+  }
+
+  .r-homelab-grid li {
+    font-size: 0.82rem;
+    color: var(--text);
+    padding: 6px 10px;
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    border-radius: 4px;
+    border-left: 2px solid #1e1e1e;
+    transition: border-left-color 0.2s;
+  }
+
+  .r-homelab-grid li:hover { border-left-color: var(--accent); }
+
+  /* ── Cert grid ── */
+  .r-cert-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
-  .cert-list li {
-    font-size: 13px;
+  .r-cert-item {
+    font-size: 0.82rem;
     color: var(--text);
     padding: 7px 12px;
-    background: var(--bg2);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 4px;
     border-left: 2px solid var(--accent);
@@ -222,263 +278,141 @@
     transition: border-color 0.2s;
   }
 
-  .cert-list li:hover { border-color: var(--accent); border-left-color: var(--accent); }
+  .r-cert-item:hover { border-color: var(--accent); }
 
-  .cert-list li.in-progress {
+  .r-cert-item.in-progress {
     border-left-color: var(--in-progress);
     color: var(--in-progress);
   }
 
-  .cert-year {
-    font-size: 11px;
+  .r-cert-year {
+    font-size: 0.68rem;
     color: var(--muted);
     display: block;
     margin-top: 2px;
     font-family: 'Space Mono', monospace;
   }
 
-  .cert-list li.in-progress .cert-year { color: var(--in-progress); opacity: 0.7; }
+  .r-cert-item.in-progress .r-cert-year { color: var(--in-progress); opacity: 0.7; }
 
-  /* Education */
-  .edu-item {
+  /* ── Education ── */
+  .r-edu-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .r-edu-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 4px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .edu-item:last-child { border-bottom: none; }
-
-  .edu-degree {
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
-  }
-
-  .edu-school {
-    font-size: 13px;
-    color: var(--accent);
-    margin-top: 2px;
-  }
-
-  .edu-note {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-    font-style: italic;
-  }
-
-  .edu-dates {
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* Projects */
-  .project-item {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
+    gap: 6px;
     transition: border-color 0.2s;
   }
 
-  .project-item:last-child { margin-bottom: 0; }
-  .project-item:hover { border-color: var(--accent); }
+  .r-edu-item:hover { border-color: var(--accent); }
+  .r-edu-degree { font-size: 0.9rem; font-weight: 600; color: #fff; }
+  .r-edu-school { font-size: 0.82rem; color: var(--accent); margin-top: 3px; }
+  .r-edu-note { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-top: 2px; }
 
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .project-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .project-link {
-    font-size: 12px;
-    color: var(--accent);
-    text-decoration: none;
-    font-family: 'Space Mono', monospace;
-  }
-
-  .project-link:hover { text-decoration: underline; }
-
-  .project-desc {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.65;
-    margin-bottom: 10px;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-  }
-
-  .tag {
-    font-size: 11px;
-    padding: 2px 8px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
+  .r-edu-dates {
+    font-size: 0.72rem;
     color: var(--muted);
+    white-space: nowrap;
     font-family: 'Space Mono', monospace;
-    transition: border-color 0.15s, color 0.15s;
+    padding-top: 2px;
   }
 
-  .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* Homelab grid */
-  .homelab-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .homelab-grid li {
-    font-size: 13px;
-    color: var(--text);
-    padding: 6px 10px;
-    background: var(--bg);
+  /* ── Volunteering ── */
+  .r-vol {
+    background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 4px;
-    border-left: 2px solid var(--border);
-    list-style: none;
-    transition: border-left-color 0.2s;
-  }
-
-  .homelab-grid li:hover { border-left-color: var(--accent); }
-
-  /* Volunteering */
-  .volunteer-item {
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 6px;
+    transition: border-color 0.2s;
   }
 
-  .volunteer-role { font-size: 14px; font-weight: 600; color: #fff; }
-  .volunteer-org { font-size: 13px; color: var(--accent); margin-top: 2px; }
-  .volunteer-dates { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .r-vol:hover { border-color: var(--accent); }
+  .r-vol-role { font-size: 0.9rem; font-weight: 600; color: #fff; }
+  .r-vol-org { font-size: 0.82rem; color: var(--accent); margin-top: 3px; }
 
-  @media (max-width: 600px) {
-    .cert-list { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: 1fr; }
-    .homelab-grid { grid-template-columns: 1fr; }
-    .job-header { flex-direction: column; }
-    .project-header { flex-direction: column; }
+  .r-vol-dates {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    padding-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .r-cert-grid, .r-skills-grid, .r-homelab-grid { grid-template-columns: 1fr; }
+    .r-job-header, .r-project-header { flex-direction: column; }
   }
 </style>
 </head>
 <body>
+<div class="resume-wrap">
 
-<!-- Header -->
-<div class="resume-header">
-  <h1>Jason Wacker</h1>
-  <div class="title">Senior IT Systems Administrator &amp; Cybersecurity Professional</div>
-  <div class="contact-row">
-    <span>Park Ridge, IL</span>
-    <span><a href="mailto:wacker.jason@gmail.com">wacker.jason@gmail.com</a></span>
-    <span>+1-224-616-7487</span>
-    <span><a href="https://linkedin.com/in/jasonrwacker" target="_blank">linkedin.com/in/jasonrwacker</a></span>
-    <span><a href="https://tryhackme.com/p/wacker.jason" target="_blank">tryhackme.com/p/wacker.jason</a></span>
-    <span><a href="https://cybergrind.org" target="_blank">cybergrind.org</a></span>
+  <div class="r-header">
+    <h1>Jason Wacker</h1>
+    <div class="r-title">Senior IT Systems Administrator &amp; Cybersecurity Professional</div>
+    <div class="r-contact">
+      <span>Park Ridge, IL</span>
+      <span><a href="mailto:wacker.jason@gmail.com">wacker.jason@gmail.com</a></span>
+      <span>+1-224-616-7487</span>
+      <span><a href="https://linkedin.com/in/jasonrwacker" target="_blank">linkedin.com/in/jasonrwacker</a></span>
+      <span><a href="https://tryhackme.com/p/wacker.jason" target="_blank">tryhackme.com/p/wacker.jason</a></span>
+      <span><a href="https://cybergrind.org" target="_blank">cybergrind.org</a></span>
+    </div>
+    <a class="dl-btn" href="/resume/jason-wacker-resume.pdf" download>⬇ Download PDF</a>
   </div>
-  <a class="dl-btn" href="/resume/jason-wacker-resume.pdf" download>⬇ Download PDF</a>
-</div>
 
-<!-- Summary -->
-<section class="summary">
-  <div class="section-title">Summary</div>
-  <p>Senior IT and cybersecurity professional with 12+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.</p>
-</section>
+  <div class="r-section-label">Summary</div>
+  <div class="r-summary">
+    Senior IT and cybersecurity professional with 12+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.
+  </div>
 
-<!-- Core Competencies -->
-<section>
-  <div class="section-title">Core Competencies</div>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <div class="skill-group-title">Cross-Platform Administration</div>
-      <ul>
-        <li>Windows Server, macOS, Linux</li>
-        <li>Active Directory, Group Policy</li>
-        <li>Hyper-V, Proxmox</li>
-        <li>WSUS, Autopatch</li>
-      </ul>
+  <div class="r-section-label">Core Competencies</div>
+  <div class="r-skills-grid">
+    <div class="r-skill-card">
+      <div class="r-skill-title">Cross-Platform Administration</div>
+      <ul><li>Windows Server, macOS, Linux</li><li>Active Directory, Group Policy</li><li>Hyper-V, Proxmox</li><li>WSUS, Autopatch</li></ul>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Containerization &amp; Services</div>
-      <ul>
-        <li>Docker, Docker Compose</li>
-        <li>Cloudflare (Pages, Workers, Tunnels)</li>
-        <li>GitHub Actions CI/CD</li>
-        <li>FastAPI, SQLite</li>
-      </ul>
+    <div class="r-skill-card">
+      <div class="r-skill-title">Containerization &amp; Services</div>
+      <ul><li>Docker, Docker Compose</li><li>Cloudflare (Pages, Workers, Tunnels)</li><li>GitHub Actions CI/CD</li><li>FastAPI, SQLite</li></ul>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Cloud &amp; Identity</div>
-      <ul>
-        <li>Microsoft 365, Azure AD</li>
-        <li>Intune, Autopilot</li>
-        <li>Apple Business Manager</li>
-        <li>Mosyle MDM</li>
-      </ul>
+    <div class="r-skill-card">
+      <div class="r-skill-title">Cloud &amp; Identity</div>
+      <ul><li>Microsoft 365, Azure AD</li><li>Intune, Autopilot</li><li>Apple Business Manager</li><li>Mosyle MDM</li></ul>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Security &amp; GRC</div>
-      <ul>
-        <li>NIST CSF, SP 800-53, SP 800-30</li>
-        <li>SOC 2, ISO 27001 alignment</li>
-        <li>Threat Modeling, Risk Assessments</li>
-        <li>Policy Authoring, DR Planning</li>
-      </ul>
+    <div class="r-skill-card">
+      <div class="r-skill-title">Security &amp; GRC</div>
+      <ul><li>NIST CSF, SP 800-53, SP 800-30</li><li>SOC 2, ISO 27001 alignment</li><li>Threat Modeling, Risk Assessments</li><li>Policy Authoring, DR Planning</li></ul>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Automation &amp; Dev</div>
-      <ul>
-        <li>PowerShell, Python, Bash</li>
-        <li>Power Automate</li>
-        <li>Hugo (Static Sites)</li>
-        <li>Git, GitHub</li>
-      </ul>
+    <div class="r-skill-card">
+      <div class="r-skill-title">Automation &amp; Dev</div>
+      <ul><li>PowerShell, Python, Bash</li><li>Power Automate</li><li>Hugo (Static Sites)</li><li>Git, GitHub</li></ul>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">AI Tooling</div>
-      <ul>
-        <li>Ollama (local LLM infrastructure)</li>
-        <li>AI agent frameworks</li>
-        <li>MISP threat intel integration</li>
-        <li>AI governance frameworks</li>
-      </ul>
+    <div class="r-skill-card">
+      <div class="r-skill-title">AI Tooling</div>
+      <ul><li>Ollama (local LLM infrastructure)</li><li>AI agent frameworks</li><li>MISP threat intel integration</li><li>AI governance frameworks</li></ul>
     </div>
   </div>
-</section>
 
-<!-- Experience -->
-<section>
-  <div class="section-title">Experience</div>
+  <div class="r-section-label">Experience</div>
 
-  <div class="job">
-    <div class="job-header">
-      <div class="job-title">Senior IT Manager of Infrastructure &amp; Cybersecurity</div>
-      <div class="job-dates">July 2021 – Present</div>
+  <div class="r-job">
+    <div class="r-job-header">
+      <div class="r-job-title">Senior IT Manager of Infrastructure &amp; Cybersecurity</div>
+      <div class="r-job-dates">July 2021 – Present</div>
     </div>
-    <div class="job-employer">PAWS Chicago — Chicago, IL</div>
+    <div class="r-job-employer">PAWS Chicago — Chicago, IL</div>
     <ul>
       <li>Lead IT infrastructure and cybersecurity for a 250+ staff, 350+ managed device organization serving 700+ volunteers across multiple facilities.</li>
       <li>Architected and manage Azure cloud infrastructure and endpoint compliance via Microsoft Intune and Autopilot, including full Android Enterprise fleet deployment.</li>
@@ -493,12 +427,12 @@
     </ul>
   </div>
 
-  <div class="job">
-    <div class="job-header">
-      <div class="job-title">Advanced Repair Agent</div>
-      <div class="job-dates">February 2013 – Present</div>
+  <div class="r-job">
+    <div class="r-job-header">
+      <div class="r-job-title">Advanced Repair Agent</div>
+      <div class="r-job-dates">February 2013 – Present</div>
     </div>
-    <div class="job-employer">Best Buy Geek Squad — Arlington Heights, IL</div>
+    <div class="r-job-employer">Best Buy Geek Squad — Arlington Heights, IL</div>
     <ul>
       <li>Diagnose and resolve hardware/software issues for Windows and macOS systems; maintain 95%+ customer satisfaction rating.</li>
       <li>Conduct end-user training sessions improving technical proficiency and operational efficiency.</li>
@@ -507,12 +441,12 @@
     </ul>
   </div>
 
-  <div class="job">
-    <div class="job-header">
-      <div class="job-title">Systems Technician</div>
-      <div class="job-dates">May 2013 – July 2021</div>
+  <div class="r-job">
+    <div class="r-job-header">
+      <div class="r-job-title">Systems Technician</div>
+      <div class="r-job-dates">May 2013 – July 2021</div>
     </div>
-    <div class="job-employer">Lyons Township High School — La Grange, IL</div>
+    <div class="r-job-employer">Lyons Township High School — La Grange, IL</div>
     <ul>
       <li>Maintained LAN/WAN environment supporting 5,000+ endpoints at 95%+ uptime across dual campuses.</li>
       <li>Managed device inventory and lifecycle replacement schedules for seamless hardware upgrades.</li>
@@ -521,53 +455,36 @@
       <li>Patched security vulnerabilities and deployed updates using WSUS across all Windows workstations.</li>
     </ul>
   </div>
-</section>
 
-<!-- Projects -->
-<section>
-  <div class="section-title">Projects</div>
+  <div class="r-section-label">Projects</div>
 
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-name">CyberGrind</div>
-      <a class="project-link" href="https://cybergrind.org" target="_blank">cybergrind.org ↗</a>
+  <div class="r-project">
+    <div class="r-project-header">
+      <div class="r-project-name">CyberGrind</div>
+      <a class="r-project-link" href="https://cybergrind.org" target="_blank">cybergrind.org ↗</a>
     </div>
-    <div class="project-desc">Personal cybersecurity platform built with Hugo and deployed via GitHub Actions CI/CD to Cloudflare Pages. Features a self-hosted FastAPI threat intelligence pipeline with MISP, CISA KEV, URLhaus, and MalwareBazaar collectors; a live global threat map; a multi-agent AI security pipeline using Ollama; and an educational content library covering NIST CSF, AI governance frameworks, and blue team techniques. Includes seven Cloudflare Workers integrating EPSS, NVD, AbuseIPDB, and OSINT feeds.</div>
-    <div class="project-tags">
-      <span class="tag">Hugo</span>
-      <span class="tag">Python / FastAPI</span>
-      <span class="tag">Docker</span>
-      <span class="tag">Cloudflare Workers</span>
-      <span class="tag">MISP</span>
-      <span class="tag">Ollama</span>
-      <span class="tag">D3.js</span>
-      <span class="tag">OSINT</span>
-      <span class="tag">Threat Intel</span>
+    <div class="r-project-desc">Personal cybersecurity platform built with Hugo and deployed via GitHub Actions CI/CD to Cloudflare Pages. Features a self-hosted FastAPI threat intelligence pipeline with MISP, CISA KEV, URLhaus, and MalwareBazaar collectors; a live global threat map; a multi-agent AI security pipeline using Ollama; and an educational content library covering NIST CSF, AI governance frameworks, and blue team techniques. Includes seven Cloudflare Workers integrating EPSS, NVD, AbuseIPDB, and OSINT feeds.</div>
+    <div class="r-tags">
+      <span class="r-tag">Hugo</span><span class="r-tag">Python / FastAPI</span><span class="r-tag">Docker</span><span class="r-tag">Cloudflare Workers</span><span class="r-tag">MISP</span><span class="r-tag">Ollama</span><span class="r-tag">D3.js</span><span class="r-tag">OSINT</span><span class="r-tag">Threat Intel</span>
     </div>
   </div>
 
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-name">Self-Hosted AI Security Stack</div>
+  <div class="r-project">
+    <div class="r-project-header">
+      <div class="r-project-name">Self-Hosted AI Security Stack</div>
     </div>
-    <div class="project-desc">Built and operate a fully self-hosted AI infrastructure stack including a 5-agent sequential security pipeline (Planner → Researcher → Risk Analyst → Mitigation → Writer), live MISP IOC injection into agent context, Slack bot integration, and a local LLM stack via Ollama. Accessible via Tailscale zero-trust networking. All compute runs on-premises with no cloud AI dependency.</div>
-    <div class="project-tags">
-      <span class="tag">Ollama</span>
-      <span class="tag">Docker Compose</span>
-      <span class="tag">Tailscale</span>
-      <span class="tag">FastAPI</span>
-      <span class="tag">Slack API</span>
-      <span class="tag">MISP</span>
-      <span class="tag">Python</span>
+    <div class="r-project-desc">Built and operate a fully self-hosted AI infrastructure stack including a 5-agent sequential security pipeline (Planner → Researcher → Risk Analyst → Mitigation → Writer), live MISP IOC injection into agent context, Slack bot integration, and a local LLM stack via Ollama. Accessible via Tailscale zero-trust networking. All compute runs on-premises with no cloud AI dependency.</div>
+    <div class="r-tags">
+      <span class="r-tag">Ollama</span><span class="r-tag">Docker Compose</span><span class="r-tag">Tailscale</span><span class="r-tag">FastAPI</span><span class="r-tag">Slack API</span><span class="r-tag">MISP</span><span class="r-tag">Python</span>
     </div>
   </div>
 
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-name">Homelab SOC Environment</div>
+  <div class="r-project">
+    <div class="r-project-header">
+      <div class="r-project-name">Homelab SOC Environment</div>
     </div>
-    <div class="project-desc">Hands-on security research lab for skill development and tooling evaluation.</div>
-    <ul class="homelab-grid">
+    <div class="r-project-desc">Hands-on security research lab for skill development and tooling evaluation.</div>
+    <ul class="r-homelab-grid">
       <li>Proxmox virtualization (Ubuntu + Windows Server VMs)</li>
       <li>Wazuh SIEM — log aggregation &amp; endpoint monitoring</li>
       <li>MISP — threat intelligence platform with live feeds</li>
@@ -578,62 +495,53 @@
       <li>Plex &amp; Jellyfin media servers</li>
     </ul>
   </div>
-</section>
 
-<!-- Certifications -->
-<section>
-  <div class="section-title">Certifications</div>
-  <ul class="cert-list">
-    <li class="in-progress">CISSP <span class="cert-year">In Progress</span></li>
-    <li class="in-progress">CompTIA Security+ <span class="cert-year">In Progress</span></li>
-    <li>CompTIA Network+ <span class="cert-year">Current</span></li>
-    <li>CompTIA A+ <span class="cert-year">Current</span></li>
-    <li>TryHackMe — Cyber Security 101 <span class="cert-year">January 2026</span></li>
-    <li>Implementing the NIST Risk Management Framework <span class="cert-year">2024</span></li>
-    <li>IT &amp; Cybersecurity Risk Management Essential Training <span class="cert-year">2024</span></li>
-    <li>SOC 2 Compliance Essential Training <span class="cert-year">2024</span></li>
-    <li>Threat Modeling: Denial of Service &amp; Expansion of Authority <span class="cert-year">2024</span></li>
-    <li>Threat Modeling: Tampering in Depth <span class="cert-year">2024</span></li>
-    <li>Managed Detection and Response (MDR) Fundamentals <span class="cert-year">2024</span></li>
-    <li>Mitigating Cybersecurity Vulnerabilities <span class="cert-year">2024</span></li>
-    <li>Complete Guide to IAM for Network Engineers <span class="cert-year">2024</span></li>
-    <li>Microsoft 365: Administration <span class="cert-year">2024</span></li>
-  </ul>
-</section>
-
-<!-- Education -->
-<section>
-  <div class="section-title">Education</div>
-
-  <div class="edu-item">
-    <div>
-      <div class="edu-degree">B.S. in Information Technology — Cybersecurity Concentration</div>
-      <div class="edu-school">Strayer University</div>
-    </div>
-    <div class="edu-dates">2025 – Expected Sept. 2027</div>
+  <div class="r-section-label">Certifications</div>
+  <div class="r-cert-grid">
+    <div class="r-cert-item in-progress">CISSP <span class="r-cert-year">In Progress</span></div>
+    <div class="r-cert-item in-progress">CompTIA Security+ <span class="r-cert-year">In Progress</span></div>
+    <div class="r-cert-item">CompTIA Network+ <span class="r-cert-year">Current</span></div>
+    <div class="r-cert-item">CompTIA A+ <span class="r-cert-year">Current</span></div>
+    <div class="r-cert-item">TryHackMe — Cyber Security 101 <span class="r-cert-year">January 2026</span></div>
+    <div class="r-cert-item">Implementing the NIST Risk Management Framework <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">IT &amp; Cybersecurity Risk Management Essential Training <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">SOC 2 Compliance Essential Training <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Threat Modeling: DoS &amp; Expansion of Authority <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Threat Modeling: Tampering in Depth <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Managed Detection and Response (MDR) Fundamentals <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Mitigating Cybersecurity Vulnerabilities <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Complete Guide to IAM for Network Engineers <span class="r-cert-year">2024</span></div>
+    <div class="r-cert-item">Microsoft 365: Administration <span class="r-cert-year">2024</span></div>
   </div>
 
-  <div class="edu-item">
-    <div>
-      <div class="edu-degree">Prior undergraduate studies in Information Technology &amp; Networking</div>
-      <div class="edu-school">University of Phoenix &amp; DeVry University</div>
-      <div class="edu-note">Coursework completed; degrees not conferred</div>
+  <div class="r-section-label">Education</div>
+  <div class="r-edu-list">
+    <div class="r-edu-item">
+      <div>
+        <div class="r-edu-degree">B.S. in Information Technology — Cybersecurity Concentration</div>
+        <div class="r-edu-school">Strayer University</div>
+      </div>
+      <div class="r-edu-dates">2025 – Expected Sept. 2027</div>
     </div>
-    <div class="edu-dates">2005 – 2012</div>
-  </div>
-</section>
-
-<!-- Volunteering -->
-<section>
-  <div class="section-title">Volunteering</div>
-  <div class="volunteer-item">
-    <div>
-      <div class="volunteer-role">Dog Walker</div>
-      <div class="volunteer-org">PAWS Chicago</div>
+    <div class="r-edu-item">
+      <div>
+        <div class="r-edu-degree">Prior undergraduate studies in Information Technology &amp; Networking</div>
+        <div class="r-edu-school">University of Phoenix &amp; DeVry University</div>
+        <div class="r-edu-note">Coursework completed; degrees not conferred</div>
+      </div>
+      <div class="r-edu-dates">2005 – 2012</div>
     </div>
-    <div class="volunteer-dates">September 2016 – Present</div>
   </div>
-</section>
 
+  <div class="r-section-label">Volunteering</div>
+  <div class="r-vol">
+    <div>
+      <div class="r-vol-role">Dog Walker</div>
+      <div class="r-vol-org">PAWS Chicago</div>
+    </div>
+    <div class="r-vol-dates">September 2016 – Present</div>
+  </div>
+
+</div>
 </body>
 </html>
