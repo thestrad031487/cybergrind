@@ -90,7 +90,7 @@
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
             {{- $is_rss := eq .URL "/index.xml" }}
-            {{- $hasDropdown := eq .Identifier "tools" }}
+            {{- $hasDropdown := or (eq .Identifier "tools") (eq .Identifier "about") }}
             {{- if $hasDropdown }}
             <li class="dropdown">
                 <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }}">
@@ -104,8 +104,14 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu">
+                    {{- if eq .Identifier "tools" }}
                     <li><a href="/tools/">All Tools</a></li>
                     <li><a href="/ai-toolkit/">AI Toolkit</a></li>
+                    {{- else if eq .Identifier "about" }}
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/resume/">Resume</a></li>
+                    <li><a href="/about/certifications/">Certifications</a></li>
+                    {{- end }}
                 </ul>
             </li>
             {{- else }}
