@@ -100,10 +100,22 @@ Daily threat intel, interactive tools, and an expanding library of security educ
     parent = "tools"
     weight = 2
   [[menu.main]]
-    identifier = "ctf"
-    name = "CTF"
-    url = "/ctf/"
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
     weight = 4
+  [[menu.main]]
+    identifier = "ctf"
+    name = "CTF Write-Ups"
+    url = "/ctf/"
+    parent = "projects"
+    weight = 1
+  [[menu.main]]
+    identifier = "shelter"
+    name = "Shelter Network"
+    url = "https://shelter.cybergrind.org"
+    parent = "projects"
+    weight = 2
   [[menu.main]]
     identifier = "about"
     name = "About"
