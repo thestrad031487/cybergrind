@@ -1,0 +1,230 @@
+{{- define "main" }}
+
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">{{ .Description | markdownify }}</div>
+  {{- end }}
+</header>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .project-card {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card:hover {
+    border-color: #FF8C00;
+    transform: translateY(-2px);
+  }
+
+  .project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .project-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+  }
+
+  .project-card-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+
+  .project-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .project-badge.live    { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+  .project-badge.active  { color: #fbbf24; border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+  .project-badge.type    { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+
+  .project-card-desc {
+    font-size: 0.875rem;
+    color: var(--secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .project-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .project-tag {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--secondary);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .project-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .project-card-link {
+    font-size: 0.8rem;
+    color: #FF8C00;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-weight: 600;
+    transition: opacity 0.15s;
+  }
+
+  .project-card-link:hover { opacity: 0.8; text-decoration: underline; }
+
+  .project-card-meta {
+    font-size: 0.72rem;
+    color: var(--secondary);
+    font-family: 'Space Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="projects-grid">
+
+  <!-- CyberGrind Platform -->
+  <div class="project-card">
+    <div class="project-card-header">
+      <div class="project-card-title">CyberGrind</div>
+      <div class="project-card-badges">
+        <span class="project-badge live">Live</span>
+        <span class="project-badge type">Platform</span>
+      </div>
+    </div>
+    <p class="project-card-desc">Personal cybersecurity platform featuring a self-hosted threat intelligence pipeline, live global threat map, multi-agent AI security pipeline with MISP integration, and an educational content library covering NIST CSF, AI governance, and blue team techniques.</p>
+    <div class="project-card-tags">
+      <span class="project-tag">Hugo</span>
+      <span class="project-tag">FastAPI</span>
+      <span class="project-tag">Docker</span>
+      <span class="project-tag">Cloudflare Workers</span>
+      <span class="project-tag">MISP</span>
+      <span class="project-tag">Ollama</span>
+      <span class="project-tag">D3.js</span>
+    </div>
+    <div class="project-card-footer">
+      <a class="project-card-link" href="https://cybergrind.org" target="_blank">cybergrind.org ↗</a>
+      <span class="project-card-meta">This site</span>
+    </div>
+  </div>
+
+  <!-- Shelter Network Platform -->
+  <div class="project-card">
+    <div class="project-card-header">
+      <div class="project-card-title">Shelter Network Platform</div>
+      <div class="project-card-badges">
+        <span class="project-badge live">Live</span>
+        <span class="project-badge type">Web App</span>
+      </div>
+    </div>
+    <p class="project-card-desc">A self-hosted platform for animal shelter network management — featuring a live dashboard, AI-generated animal bios via Ollama, a multi-agent narrator for shelter summaries, and a Slack bot for real-time shelter queries. Built on FastAPI with a shared Docker network and Tailscale access.</p>
+    <div class="project-card-tags">
+      <span class="project-tag">FastAPI</span>
+      <span class="project-tag">Docker Compose</span>
+      <span class="project-tag">Ollama</span>
+      <span class="project-tag">Tailscale</span>
+      <span class="project-tag">Slack API</span>
+      <span class="project-tag">Python</span>
+    </div>
+    <div class="project-card-footer">
+      <a class="project-card-link" href="https://shelter.cybergrind.org" target="_blank">shelter.cybergrind.org ↗</a>
+      <span class="project-card-meta">Self-hosted</span>
+    </div>
+  </div>
+
+  <!-- Self-Hosted AI Security Stack -->
+  <div class="project-card">
+    <div class="project-card-header">
+      <div class="project-card-title">Self-Hosted AI Security Stack</div>
+      <div class="project-card-badges">
+        <span class="project-badge live">Live</span>
+        <span class="project-badge type">Infrastructure</span>
+      </div>
+    </div>
+    <p class="project-card-desc">A fully self-hosted AI infrastructure stack running a 5-agent sequential security pipeline — Planner, Researcher, Risk Analyst, Mitigation, and Writer — with live MISP IOC injection. Accessible via Tailscale. No cloud AI dependency.</p>
+    <div class="project-card-tags">
+      <span class="project-tag">Ollama</span>
+      <span class="project-tag">Docker Compose</span>
+      <span class="project-tag">Tailscale</span>
+      <span class="project-tag">MISP</span>
+      <span class="project-tag">FastAPI</span>
+      <span class="project-tag">Slack API</span>
+    </div>
+    <div class="project-card-footer">
+      <a class="project-card-link" href="/orange-book/self-hosted-ai-stack/">Read Write-up →</a>
+      <span class="project-card-meta">Self-hosted</span>
+    </div>
+  </div>
+
+  <!-- CTF Write-Ups -->
+  <div class="project-card">
+    <div class="project-card-header">
+      <div class="project-card-title">CTF Write-Ups</div>
+      <div class="project-card-badges">
+        <span class="project-badge active">Ongoing</span>
+        <span class="project-badge type">Security</span>
+      </div>
+    </div>
+    <p class="project-card-desc">Walkthroughs and notes from Capture the Flag challenges and practice boxes on TryHackMe and Hack The Box. Covering web exploitation, privilege escalation, forensics, and network security. Documented for learning, not just for points.</p>
+    <div class="project-card-tags">
+      <span class="project-tag">TryHackMe</span>
+      <span class="project-tag">Hack The Box</span>
+      <span class="project-tag">Web</span>
+      <span class="project-tag">PrivEsc</span>
+      <span class="project-tag">Forensics</span>
+      <span class="project-tag">Network</span>
+    </div>
+    <div class="project-card-footer">
+      <a class="project-card-link" href="/ctf/">View Write-Ups →</a>
+      <span class="project-card-meta">TryHackMe Top 5%</span>
+    </div>
+  </div>
+
+</div>
+
+{{- end }}

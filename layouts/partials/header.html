@@ -90,7 +90,7 @@
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
             {{- $is_rss := eq .URL "/index.xml" }}
-            {{- $hasDropdown := or (eq .Identifier "tools") (eq .Identifier "about") }}
+            {{- $hasDropdown := or (eq .Identifier "tools") (eq .Identifier "about") (eq .Identifier "projects") }}
             {{- if $hasDropdown }}
             <li class="dropdown">
                 <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }}">
@@ -111,6 +111,10 @@
                     <li><a href="/about/">About</a></li>
                     <li><a href="/resume/">Resume</a></li>
                     <li><a href="/about/certifications/">Certifications</a></li>
+                    {{- else if eq .Identifier "projects" }}
+                    <li><a href="/projects/">All Projects</a></li>
+                    <li><a href="/ctf/">CTF Write-Ups</a></li>
+                    <li><a href="https://shelter.cybergrind.org" target="_blank">Shelter Network ↗</a></li>
                     {{- end }}
                 </ul>
             </li>
