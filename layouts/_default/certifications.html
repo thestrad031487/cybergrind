@@ -1,9 +1,94 @@
 {{ define "main" }}
 <div class="certs-page">
-  <h1>Certifications</h1>
-  <p class="certs-intro">Professional certifications and credentials in cybersecurity.</p>
 
+  <h1>Certifications &amp; Credentials</h1>
+  <p class="certs-intro">Professional certifications, completed training, and active study paths in cybersecurity and IT infrastructure.</p>
+
+  <!-- In Progress -->
+  <div class="certs-section-label">In Progress</div>
   <div class="certs-grid">
+
+    <div class="cert-card cert-card--progress">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer cert-issuer--progress">(ISC)²</span>
+          <span class="cert-badge cert-badge--progress">In Progress</span>
+        </div>
+        <h2 class="cert-title">CISSP</h2>
+        <div class="cert-subtitle">Certified Information Systems Security Professional</div>
+      </div>
+      <p class="cert-description">The gold standard in cybersecurity certification covering eight CISSP domains: Security &amp; Risk Management, Asset Security, Security Architecture, Network Security, Identity &amp; Access Management, Security Assessment, Security Operations, and Software Development Security.</p>
+      <ul class="cert-bullets">
+        <li>8-domain framework covering enterprise security architecture</li>
+        <li>Risk management, GRC, and policy development</li>
+        <li>Cryptography, IAM, and network security</li>
+        <li>Incident response and security operations</li>
+      </ul>
+      <div class="cert-footer">
+        <span class="cert-status-label">Actively Studying</span>
+      </div>
+    </div>
+
+    <div class="cert-card cert-card--progress">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer cert-issuer--progress">CompTIA</span>
+          <span class="cert-badge cert-badge--progress">In Progress</span>
+        </div>
+        <h2 class="cert-title">Security+</h2>
+        <div class="cert-subtitle">CompTIA Security+ (SY0-701)</div>
+      </div>
+      <p class="cert-description">Industry-standard baseline certification validating core cybersecurity skills including threat detection, risk management, incident response, and security architecture.</p>
+      <ul class="cert-bullets">
+        <li>Threats, attacks, and vulnerabilities</li>
+        <li>Security architecture and design</li>
+        <li>Implementation of secure protocols and controls</li>
+        <li>Governance, risk, and compliance</li>
+      </ul>
+      <div class="cert-footer">
+        <span class="cert-status-label">Actively Studying</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Earned -->
+  <div class="certs-section-label">Earned</div>
+  <div class="certs-grid">
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">CompTIA</span>
+        </div>
+        <h2 class="cert-title">Network+</h2>
+        <div class="cert-subtitle">CompTIA Network+</div>
+      </div>
+      <p class="cert-description">Validates the core networking skills required of IT professionals — covering infrastructure, operations, security, and troubleshooting.</p>
+      <ul class="cert-bullets">
+        <li>Network architecture and topology design</li>
+        <li>Network operations and troubleshooting</li>
+        <li>Network security fundamentals</li>
+        <li>Cloud and virtualization networking</li>
+      </ul>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">CompTIA</span>
+        </div>
+        <h2 class="cert-title">A+</h2>
+        <div class="cert-subtitle">CompTIA A+</div>
+      </div>
+      <p class="cert-description">Foundation-level certification covering hardware, operating systems, networking, and troubleshooting across Windows, macOS, and Linux environments.</p>
+      <ul class="cert-bullets">
+        <li>Hardware installation, configuration, and maintenance</li>
+        <li>OS installation and cross-platform support</li>
+        <li>Network connectivity and security fundamentals</li>
+        <li>Operational procedures and troubleshooting</li>
+      </ul>
+    </div>
 
     <div class="cert-card">
       <div class="cert-header">
@@ -13,58 +98,228 @@
         </div>
         <h2 class="cert-title">Cyber Security 101</h2>
       </div>
-      <p class="cert-description">Learn everything you need to embark on a career path in offensive or defensive cyber security.</p>
+      <p class="cert-description">Comprehensive learning path covering foundational and intermediate cybersecurity skills across offensive and defensive domains.</p>
       <ul class="cert-bullets">
-        <li>Explore computer networking and cryptography</li>
-        <li>Learn the basics of Linux, Windows, and AD</li>
-        <li>Explore the world of offensive cyber security</li>
-        <li>Discover the techniques of defensive security</li>
+        <li>Computer networking and cryptography fundamentals</li>
+        <li>Linux, Windows, and Active Directory basics</li>
+        <li>Offensive security techniques and tooling</li>
+        <li>Defensive security and SOC fundamentals</li>
       </ul>
       <div class="cert-footer">
         <a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-TTYHUDAJU5.pdf" target="_blank" rel="noopener" class="cert-btn">View Certificate →</a>
       </div>
     </div>
 
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">NIST Risk Management Framework</h2>
+      </div>
+      <p class="cert-description">Implementation of the NIST RMF across the full lifecycle — categorize, select, implement, assess, authorize, and monitor.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">SOC 2 Compliance Essential Training</h2>
+      </div>
+      <p class="cert-description">Trust Service Criteria, audit preparation, control design, and evidence collection for SOC 2 Type I and Type II engagements.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">Threat Modeling: DoS &amp; Expansion of Authority</h2>
+      </div>
+      <p class="cert-description">STRIDE-based threat modeling focused on denial of service and privilege escalation threat categories.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">Threat Modeling: Tampering in Depth</h2>
+      </div>
+      <p class="cert-description">Advanced threat modeling techniques covering data and system tampering, integrity controls, and countermeasures.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">MDR Fundamentals</h2>
+        <div class="cert-subtitle">Managed Detection and Response</div>
+      </div>
+      <p class="cert-description">MDR program architecture, vendor evaluation, SOC integration, and threat detection workflows.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">IT &amp; Cybersecurity Risk Management</h2>
+      </div>
+      <p class="cert-description">Risk identification, analysis, treatment, and monitoring across IT and cybersecurity domains.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">Complete Guide to IAM for Network Engineers</h2>
+      </div>
+      <p class="cert-description">Identity and access management architecture, directory services, SSO, MFA, and zero-trust principles for network practitioners.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">Microsoft 365: Administration</h2>
+      </div>
+      <p class="cert-description">M365 tenant management, Exchange Online, Teams, SharePoint, compliance center, and identity administration.</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-header">
+        <div class="cert-issuer-row">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">2024</span>
+        </div>
+        <h2 class="cert-title">Mitigating Cybersecurity Vulnerabilities</h2>
+      </div>
+      <p class="cert-description">Vulnerability management lifecycle, prioritization frameworks, patch management strategy, and compensating controls.</p>
+    </div>
+
   </div>
+
+  <!-- TryHackMe Stats -->
+  <div class="certs-section-label">TryHackMe Profile</div>
+  <div class="thm-block">
+    <div class="thm-header">
+      <div class="thm-title-group">
+        <span class="thm-platform">TryHackMe</span>
+        <span class="thm-handle">wacker.jason</span>
+      </div>
+      <a href="https://tryhackme.com/p/wacker.jason" target="_blank" rel="noopener" class="cert-btn">View Profile →</a>
+    </div>
+    <div class="thm-stats">
+      <div class="thm-stat">
+        <div class="thm-stat-value">Top 5%</div>
+        <div class="thm-stat-label">Global Rank</div>
+      </div>
+      <div class="thm-stat">
+        <div class="thm-stat-value">145</div>
+        <div class="thm-stat-label">Rooms Completed</div>
+      </div>
+      <div class="thm-stat">
+        <div class="thm-stat-value">21</div>
+        <div class="thm-stat-label">Badges Earned</div>
+      </div>
+      <div class="thm-stat">
+        <div class="thm-stat-value">#90,704</div>
+        <div class="thm-stat-label">Overall Rank</div>
+      </div>
+    </div>
+    <p class="thm-desc">Active practitioner on TryHackMe working through offensive and defensive security learning paths — covering penetration testing methodology, network security, web application attacks, SOC fundamentals, and threat hunting.</p>
+  </div>
+
 </div>
 
 <style>
   .certs-page {
-    max-width: 900px;
+    max-width: 960px;
     margin: 2rem auto;
+  }
+
+  .certs-page h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
   }
 
   .certs-intro {
     color: #888;
     font-size: 0.95rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  .certs-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #FF8C00;
+    font-family: 'Space Mono', monospace;
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 8px;
+    margin-bottom: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .certs-section-label:first-of-type {
+    margin-top: 0;
   }
 
   .certs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 1.5rem;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
   }
 
+  /* Base card */
   .cert-card {
     background: #111;
     border: 1px solid #222;
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 1.4rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    transition: border-color 0.2s ease;
+    gap: 0.85rem;
+    transition: border-color 0.2s ease, transform 0.15s ease;
   }
 
   .cert-card:hover {
-    border-color: #f97316;
+    border-color: #FF8C00;
+    transform: translateY(-1px);
+  }
+
+  /* In-progress card variant */
+  .cert-card--progress {
+    border-color: #2a1f00;
+    background: #0f0d00;
+  }
+
+  .cert-card--progress:hover {
+    border-color: #f59e0b;
   }
 
   .cert-header {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
 
   .cert-issuer-row {
@@ -74,17 +329,38 @@
   }
 
   .cert-issuer {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #f97316;
-    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #FF8C00;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .cert-issuer--progress {
+    color: #f59e0b;
   }
 
   .cert-date {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: #555;
-    font-family: monospace;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .cert-badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .cert-badge--progress {
+    background: rgba(245,158,11,0.12);
+    color: #f59e0b;
+    border: 1px solid rgba(245,158,11,0.3);
   }
 
   .cert-title {
@@ -96,11 +372,17 @@
     border: none;
   }
 
+  .cert-subtitle {
+    font-size: 0.8rem;
+    color: #666;
+    font-family: 'Space Mono', monospace;
+  }
+
   .cert-description {
     font-size: 0.875rem;
     color: #888;
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   .cert-bullets {
@@ -114,35 +396,152 @@
   .cert-bullets li {
     font-size: 0.825rem;
     color: #aaa;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .cert-footer {
     margin-top: auto;
-    padding-top: 0.5rem;
+    padding-top: 0.75rem;
     border-top: 1px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cert-status-label {
+    font-size: 0.75rem;
+    color: #f59e0b;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
   }
 
   .cert-btn {
     display: inline-block;
-    padding: 0.5rem 1.2rem;
+    padding: 0.45rem 1.1rem;
     background: transparent;
-    border: 1px solid #f97316;
-    border-radius: 6px;
-    color: #f97316;
-    font-size: 0.85rem;
+    border: 1px solid #FF8C00;
+    border-radius: 5px;
+    color: #FF8C00;
+    font-size: 0.82rem;
     font-weight: 600;
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
+    font-family: 'Space Mono', monospace;
   }
 
   .cert-btn:hover {
-    background: #f97316;
+    background: #FF8C00;
     color: #000;
   }
 
-  @media (max-width: 600px) {
+  /* TryHackMe block */
+  .thm-block {
+    background: #0a0f00;
+    border: 1px solid #1a2200;
+    border-radius: 8px;
+    padding: 1.75rem;
+    transition: border-color 0.2s;
+  }
+
+  .thm-block:hover {
+    border-color: #84cc16;
+  }
+
+  .thm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .thm-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .thm-platform {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #84cc16;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .thm-handle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .thm-block .cert-btn {
+    border-color: #84cc16;
+    color: #84cc16;
+  }
+
+  .thm-block .cert-btn:hover {
+    background: #84cc16;
+    color: #000;
+  }
+
+  .thm-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .thm-stat {
+    background: #0d1400;
+    border: 1px solid #1a2200;
+    border-radius: 6px;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .thm-stat:hover {
+    border-color: #84cc16;
+  }
+
+  .thm-stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #84cc16;
+    font-family: 'Space Mono', monospace;
+    line-height: 1.2;
+  }
+
+  .thm-stat-label {
+    font-size: 0.7rem;
+    color: #556;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .thm-desc {
+    font-size: 0.875rem;
+    color: #777;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 700px) {
     .certs-grid {
+      grid-template-columns: 1fr;
+    }
+    .thm-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .thm-stats {
       grid-template-columns: 1fr;
     }
   }
