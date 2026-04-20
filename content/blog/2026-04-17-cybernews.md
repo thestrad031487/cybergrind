@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments that could impact my clients' security posture. One of the most concerning stories is the SonicWall brute-force attack, which highlights the importance of robust password management and multi-factor authentication.
+
+Another story that caught my attention is Anthropic's Mythos preview for British banks, which underscores the growing threat of AI-powered attacks on financial institutions. This technology has the potential to be a game-changer in terms of security, but it also requires careful consideration and planning to ensure its implementation doesn't introduce new vulnerabilities.
+
+In light of these developments, I urge organizations to take a closer look at their supply chain dependencies and assess whether they have blind spots that could be exploited by attackers. This is particularly important given the recent surge in CVE submissions hitting record levels, as highlighted by NIST's shift to risk-based triage for the National Vulnerability Database.
+
+**🔧 Patch Priority:** Microsoft needs to prioritize patching for SonicWall, as this brute-force attack highlights a critical vulnerability that could be exploited by sophisticated attackers.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

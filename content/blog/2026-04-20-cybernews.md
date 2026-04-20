@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments that are making my job more challenging. One of the most concerning stories is the exploitation of a flaw in Adobe Acrobat Reader, which has been widely used by individuals and organizations alike. This vulnerability was recently exposed, and it's clear that attackers have already started to exploit it.
+
+Another story that caught my attention is the Mirai Variant Nexcorium, which exploits CVE-2024-3721 to hijack TBK DVRs for DDoS botnets. As someone who has dealt with IoT-based attacks before, I can tell you that this is a serious concern. The fact that an attacker can use a variant of the Mirai malware to take control of security cameras and use them to launch DDoS attacks is alarming.
+
+The lack of regulation around AI cybersecurity is also a pressing issue. As AI becomes more prevalent in our lives, it's essential that we have clear guidelines and standards for its development and deployment. This includes ensuring that AI systems are designed with security in mind from the outset, rather than being tacked on as an afterthought.
+
+**🔧 Patch Priority:** CISA tells feds to patch 13-year-old Apache ActiveMQ bug under active attack
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

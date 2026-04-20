@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been seeing an alarming trend lately - the increasing reliance on AI-powered systems without adequate consideration for their security implications. The recent article "The Boy That Cried Mythos: Verification is Collapsing Trust in Anthropic" highlights the risks of this approach. It's clear that if we don't establish robust verification processes, we'll continue to see instances like the one where a malicious actor exploited CVE-2024-3721 to hijack TBK DVRs for DDoS botnets.
+
+The Mirai Variant Nexcorium exploit is another stark reminder of the importance of keeping our systems up-to-date and patched. The fact that QEMU VMs are being used by King ransomware to bypass endpoint security is a serious concern - it shows that attackers are becoming increasingly sophisticated in their tactics. As a practitioner, I've seen firsthand how these types of vulnerabilities can be exploited to launch devastating attacks.
+
+In light of these incidents, it's imperative that government and business leaders take immediate action to develop AI cybersecurity regulations. The lack of clear guidelines is leaving us vulnerable to exploitation, and it's time for us to take responsibility for our own security. We need to prioritize the development of robust AI-powered systems that can withstand even the most sophisticated attacks.
+
+**🔧 Patch Priority:** CISA tells feds to patch 13-year-old Apache ActiveMQ bug under active attack.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

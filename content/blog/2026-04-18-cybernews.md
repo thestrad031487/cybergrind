@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing an uptick in actively exploited zero-days across multiple platforms. The recent discovery of three Microsoft Defender Zero-Days that are being actively exploited is particularly concerning. Two of these vulnerabilities remain unpatched, leaving organizations vulnerable to attacks.
+
+This highlights the importance of keeping software up-to-date and patching known vulnerabilities promptly. In this case, it's not just about the vulnerability itself, but also about the potential impact on an organization's network if they're left exposed. The fact that two of these vulnerabilities are still unpatched is a stark reminder that no system is completely secure.
+
+The active exploitation of these zero-days also underscores the need for organizations to have robust security controls in place, including intrusion detection and prevention systems. As attackers continue to find new ways to exploit vulnerabilities, it's essential that defenders stay one step ahead by prioritizing patching and securing their networks.
+
+**🔧 Patch Priority:** Apache ActiveMQ CVE-2026-34197 matters because it has been added to the CISA KEV amid active exploitation, making it a high-priority target for patches.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
