@@ -26,3 +26,4 @@ A collection of free tools and resources for blue teamers and security practitio
 | [MITRE ATT&CK Browser](/tools/attck/) | Browse and search Enterprise and ICS techniques from the MITRE ATT&CK framework |
 | [MAC Address OUI Lookup](/tools/mac-lookup/) | Identify the manufacturer of any networking device by MAC address — single and bulk lookups with CSV and JSON export |
 | [MISP IOC Lookup](/tools/misp-ioc-lookup/) | Search the CyberGrind MISP threat intelligence database by IP, domain, hash, URL, or email |
+| [Domain OSINT](/tools/osint/) | Passive recon — WHOIS, DNS, SSL, subdomains, IP reputation, HTTP headers, and open ports |
