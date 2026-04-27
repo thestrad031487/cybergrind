@@ -22,4 +22,14 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a disturbing trend emerge from recent threat intelligence reports. Phishing has reemerged as the top initial access vector for attackers, and it's no surprise why - public administrations continue to be targeted with relentless attacks. The fact that phishing is once again a dominant tactic highlights the importance of continuous security awareness training for users and the need for robust security measures to prevent these types of breaches.
+
+Another concerning development is the rise of new Mirai variants targeting routers and DVRs in parallel campaigns. These attacks not only demonstrate the evolving sophistication of threat actors but also underscore the critical need for organizations to prioritize device security and keep their networks up-to-date with the latest patches. In today's connected world, even seemingly innocuous devices can become entry points for malicious activity.
+
+As we move forward, it's essential that organizations take a proactive approach to securing their environments, from patching vulnerabilities to implementing robust security controls. The stakes are high, and the consequences of inaction can be devastating. **🔧 Patch Priority:** Microsoft SharePoint servers vulnerable to spoofing attacks due to over 1,300 servers left unpatched.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

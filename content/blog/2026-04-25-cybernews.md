@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments in the field, and there are a few stories that caught my attention. Firstly, China's 360 has started using AI to hunt for software flaws, which is a worrying trend given the country's history of state-sponsored cyber threats.
+
+This echoes the mythos concept, which was highlighted by Anthropic's Mythos framework. According to Bharti Airtel in talks with telecom tech vendor partners, the Mythos framework is being used to identify new cybersecurity risks. This is a stark reminder that AI-powered threat detection is becoming increasingly sophisticated and capable of identifying vulnerabilities that were previously undetectable.
+
+The use of AI in cybersecurity is no longer a novelty, but a necessity. As security leaders continue to grapple with the challenges of zero-day vulnerabilities, it's clear that AI will play an increasingly important role in detecting and mitigating these threats. It's time for security teams to focus on developing comprehensive counter-UAS training programs, as highlighted by Smallwarsjournal.com.
+
+**🔧 Patch Priority:** 360's AI-powered flaw hunting efforts should have a high priority, given the potential for state-sponsored actors to exploit newly discovered vulnerabilities.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
