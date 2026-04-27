@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've seen my fair share of threats to critical infrastructure and national security. Recently, two stories caught my attention for their potential impact on our daily lives.
+
+The first story that stood out is Fox News' report on drones threatening America's power grid, food supply, and more. This is a wake-up call for all of us in the cybersecurity community. The fact that drones can be used to disrupt critical infrastructure highlights the need for robust security measures to protect against such threats. As practitioners, we must ensure that our clients are taking proactive steps to secure their systems against drone-based attacks.
+
+The second story that caught my attention is CISA's order to patch a BlueHammer flaw exploited as a zero-day vulnerability. This is a stark reminder of the importance of keeping software up-to-date and patched. As practitioners, we've seen time and time again how quickly vulnerabilities can be exploited, putting entire networks at risk. The fact that this flaw was already being exploited as a zero-day highlights the need for urgent action to patch this vulnerability.
+
+**🔧 Patch Priority:** Microsoft Defender needs to be patched immediately due to the BlueHammer flaw being added to CISA's Known Exploited Vulnerabilities catalog.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

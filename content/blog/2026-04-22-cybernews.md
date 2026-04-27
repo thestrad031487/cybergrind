@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing two stories that are making me sit up and take notice - SEALSQ's advancements in post-quantum cryptography (PQC) to counter AI-driven threats, and CISA flagging new SD-WAN flaws as actively exploited in attacks.
+
+SEALSQ's breakthrough is a game-changer for organizations looking to protect themselves against the growing threat of quantum computers. With the rise of AI-powered attacks, it's becoming increasingly important to have robust PQC measures in place. SEALSQ's silicon implementation of post-quantum cryptography is a significant step forward, and I'm excited to see how this technology will be adopted by organizations in the coming months.
+
+On the other hand, CISA's warning about actively exploited SD-WAN flaws is a stark reminder of the importance of staying on top of vulnerability patching. As we've seen time and again, exploiting vulnerabilities in widely used technologies can have devastating consequences. The fact that these flaws are being actively exploited in attacks means that organizations need to act quickly to patch them before they become even more vulnerable.
+
+**🔧 Patch Priority:** Cisco Catalyst is now on the CISA Known Exploited Vulnerabilities catalog, with a federal deadline of April 2026 - get it patched ASAP.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

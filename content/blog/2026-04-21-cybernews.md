@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments in the field, and there are two stories that caught my attention this week. First up is the Anthropic MCP Design Vulnerability, which has exposed a design flaw in AI systems that could be exploited to launch a Remote Code Execution (RCE) attack. This is a major concern for anyone working with artificial intelligence, as it highlights the need for more robust security measures to protect these systems.
+
+The fact that this vulnerability was discovered through a vulnerability scan of the protobuf.js library makes me wonder how many other AI-powered systems are at risk. As someone who's worked on numerous projects involving machine learning and AI, I can attest that the importance of robust security cannot be overstated. This vulnerability serves as a stark reminder that even seemingly secure systems can have hidden weaknesses waiting to be exploited.
+
+The second story that caught my attention is the Mirai Variant Nexcorium, which has been used to hijack TBK DVRs for DDoS botnets. This type of attack highlights the ongoing threat posed by IoT devices and the need for manufacturers to prioritize security in their product designs. As a practitioner, I've seen firsthand how these types of attacks can have devastating consequences, so it's essential that we take steps to mitigate them.
+
+**🔧 Patch Priority:** Acrobat Reader flaw (CVE-2024-3721) - this is a must-fix for anyone who uses the software regularly, as it poses a significant risk to users.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
