@@ -426,6 +426,27 @@ footer {
         <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Map (OSINT tab)</div></div>
       </div>
     </div>
+
+    <!-- NEW: maclookup.app -->
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://maclookup.app" target="_blank" rel="noopener">maclookup.app — OUI Database</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">On-Demand</span>
+          <span class="badge badge-api">API Key</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A MAC address OUI (Organizationally Unique Identifier) lookup service maintained by maclookup.app. OUI prefixes are registered with the IEEE and identify the hardware manufacturer associated with the first three octets of a MAC address. CyberGrind proxies lookup requests through a Cloudflare Worker to protect the API key and keep the key server-side. Results include vendor name, address, and block type (MA-L, MA-M, MA-S).
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Trigger</div><div class="meta-val">User-initiated (per lookup)</div></div>
+        <div class="meta-row"><div class="meta-key">Cache TTL</div><div class="meta-val">None (per-request)</div></div>
+        <div class="meta-row"><div class="meta-key">Auth</div><div class="meta-val">MAC_LOOKUP_API_KEY (Worker secret)</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">MAC Address OUI Lookup tool</div></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- 2. Vulnerability Data -->
@@ -595,6 +616,27 @@ footer {
         <div class="meta-row"><div class="meta-key">Endpoint</div><div class="meta-val">/api/vt/lookup/{hash}</div></div>
       </div>
     </div>
+
+    <!-- NEW: MISP -->
+    <div class="source-entry">
+      <div class="source-title-row">
+        <div class="source-title"><a href="https://www.misp-project.org" target="_blank" rel="noopener">MISP — Malware Information Sharing Platform</a></div>
+        <div class="source-badges">
+          <span class="badge badge-live">Live</span>
+          <span class="badge badge-api">Self-Hosted</span>
+        </div>
+      </div>
+      <div class="source-body">
+        A self-hosted MISP instance running in Docker on a local Ubuntu environment, subscribed to four community threat intelligence feeds: CIRCL OSINT Feed, Botvrij.eu, abuse.ch URLhaus, and Feodo Tracker. The pipeline collector queries MISP every six hours for actionable indicators (<code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">to_ids=True</code>), pulling attributes including IP addresses, domains, URLs, and file hashes. IOCs are stored in the pipeline database with a <code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">source</code> column to distinguish MISP-sourced indicators from abuse.ch direct feeds. On startup, a 30-day historical backfill is performed.
+      </div>
+      <div class="source-meta">
+        <div class="meta-row"><div class="meta-key">Collector</div><div class="meta-val">app/collectors/misp.py</div></div>
+        <div class="meta-row"><div class="meta-key">Schedule</div><div class="meta-val">Every 6 hours</div></div>
+        <div class="meta-row"><div class="meta-key">Endpoints</div><div class="meta-val">/api/misp/iocs, /api/misp/search, /api/misp/threat</div></div>
+        <div class="meta-row"><div class="meta-key">Used In</div><div class="meta-val">Threat Intel Feeds (MISP tab), MISP IOC Lookup tool</div></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- 4. Reference & Educational Content -->
@@ -673,6 +715,10 @@ footer {
         <div class="method-term">Pipeline Transparency</div>
         <div class="method-def">The self-hosted CTI pipeline at api.cybergrind.org stores collected data in a local SQLite database. No personally identifiable information is collected or stored. All collector schedules, endpoints, and source attributions are documented here and in the public GitHub repository.</div>
       </li>
+      <li>
+        <div class="method-term">Self-Hosted Intelligence</div>
+        <div class="method-def">MISP IOC data is sourced from a self-hosted instance subscribed to public community feeds. Indicators are filtered to actionable attributes only (<code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">to_ids=True</code>) and are attributed to their originating feed. No private or commercial threat intel feeds are used.</div>
+      </li>
     </ul>
   </div>
 
@@ -689,6 +735,8 @@ footer {
       <li>Daily news commentary is AI-generated and has not been independently fact-checked beyond the provided headlines. Treat it as a starting point, not a final word.</li>
       <li>Feed caching means displayed data may be up to several hours behind the source. For time-critical decisions, always verify directly with the originating source.</li>
       <li>The CTI pipeline backend runs on a personal workstation. Brief outages may occur during maintenance windows or unexpected downtime. Current collector status is available at <code style="font-size:13px;background:var(--code-block-bg);padding:1px 5px;border-radius:3px;">/api/health</code>.</li>
+      <li>MISP IOC data reflects the quality and coverage of the subscribed community feeds. Indicators are not independently verified beyond what the originating feed provides. False positives are possible.</li>
+      <li>MAC address OUI lookup identifies the registered hardware manufacturer only. It does not identify the specific device, owner, or current user of a MAC address. OUI assignments can be spoofed.</li>
       <li>CyberGrind content is informational only and does not constitute legal, compliance, or professional security advice.</li>
     </ul>
 
@@ -710,6 +758,8 @@ footer {
       <li><strong>Emerging Threats</strong> — Open ruleset maintained by <a href="https://rules.emergingthreats.net/" target="_blank" rel="noopener">Proofpoint</a>. Free for non-commercial use.</li>
       <li><strong>FIRST EPSS</strong> — Free to use with attribution. See <a href="https://www.first.org/epss/" target="_blank" rel="noopener">first.org/epss</a>.</li>
       <li><strong>NewsAPI</strong> — Used under the <a href="https://newsapi.org/terms" target="_blank" rel="noopener">NewsAPI Terms</a> for development use.</li>
+      <li><strong>MISP</strong> — Open source platform under the <a href="https://github.com/MISP/MISP/blob/2.4/LICENSE" target="_blank" rel="noopener">AGPL-3.0 License</a>. Community feeds used under their respective terms (CIRCL, Botvrij.eu, abuse.ch, Feodo Tracker).</li>
+      <li><strong>maclookup.app</strong> — Used under the <a href="https://maclookup.app/api-documentation" target="_blank" rel="noopener">maclookup.app API Terms</a>. OUI data sourced from the IEEE public registry.</li>
     </ul>
     <div class="disclaimer">
       CyberGrind is a non-commercial personal portfolio and educational resource. No data collected through these sources is sold, redistributed, or used for purposes outside of site functionality and security education.

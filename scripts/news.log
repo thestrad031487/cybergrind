@@ -32,3 +32,124 @@ Fast-forward
  create mode 100644 requirements.txt
 Post already exists: content/blog/2026-04-01-cybernews.md
 28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   8f41828..fdcbcf9  main       -> origin/main
+Updating 8f41828..fdcbcf9
+Fast-forward
+ content/blog/2026-04-08-cybernews.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 content/blog/2026-04-08-cybernews.md
+Post already exists: content/blog/2026-04-08-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   fdcbcf9..d75a17f  main       -> origin/main
+Updating fdcbcf9..d75a17f
+Fast-forward
+ content/blog/2026-04-09-cybernews.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 content/blog/2026-04-09-cybernews.md
+Post already exists: content/blog/2026-04-09-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+Already up to date.
+Post already exists: content/blog/2026-04-15-cybernews.md
+[main 4f83060] auto: daily cybernews 2026-04-15
+ 5 files changed, 60 insertions(+)
+failed to store: -61
+To https://github.com/thestrad031487/cybergrind.git
+   da9ff52..4f83060  main -> main
+button returned:OK
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   46159e4..c8aacca  main       -> origin/main
+Updating 46159e4..c8aacca
+Fast-forward
+ content/blog/2026-04-16-cybernews.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 content/blog/2026-04-16-cybernews.md
+Post already exists: content/blog/2026-04-16-cybernews.md
+button returned:OK
+failed to store: -61
+Already up to date.
+Post already exists: content/blog/2026-04-17-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   ebc715f..0edf870  main       -> origin/main
+Updating ebc715f..0edf870
+Fast-forward
+ content/blog/2026-04-19-cybernews.md |  25 ++
+ content/blog/2026-04-20-cybernews.md |  25 ++
+ content/projects/_index.md           |   5 +
+ hugo.toml                            |  23 +-
+ layouts/_default/certifications.html | 461 +++++++++++++++++++--
+ layouts/partials/header.html         |  13 +-
+ layouts/projects/list.html           | 230 +++++++++++
+ static/resume-page.html              | 779 +++++++++++++++++------------------
+ 8 files changed, 1112 insertions(+), 449 deletions(-)
+ create mode 100644 content/blog/2026-04-19-cybernews.md
+ create mode 100644 content/blog/2026-04-20-cybernews.md
+ create mode 100644 content/projects/_index.md
+ create mode 100644 layouts/projects/list.html
+Post already exists: content/blog/2026-04-20-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   fbc17b2..d4cc465  main       -> origin/main
+Updating fbc17b2..d4cc465
+Fast-forward
+ content/blog/2026-04-21-cybernews.md | 25 +++++++++++++++++++++++++
+ content/blog/2026-04-22-cybernews.md | 25 +++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 content/blog/2026-04-21-cybernews.md
+ create mode 100644 content/blog/2026-04-22-cybernews.md
+Post already exists: content/blog/2026-04-22-cybernews.md
+button returned:OK
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   d4cc465..983f334  main       -> origin/main
+Updating d4cc465..983f334
+Fast-forward
+ content/blog/2026-04-23-cybernews.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 content/blog/2026-04-23-cybernews.md
+Post already exists: content/blog/2026-04-23-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   983f334..5086c65  main       -> origin/main
+Updating 983f334..5086c65
+Fast-forward
+ content/blog/2026-04-24-cybernews.md | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 content/blog/2026-04-24-cybernews.md
+Post already exists: content/blog/2026-04-24-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   5086c65..7c8d96b  main       -> origin/main
+Updating 5086c65..7c8d96b
+Fast-forward
+ content/blog/2026-04-25-cybernews.md | 25 +++++++++++++++++++++++++
+ content/blog/2026-04-26-cybernews.md | 25 +++++++++++++++++++++++++
+ content/blog/2026-04-27-cybernews.md | 25 +++++++++++++++++++++++++
+ 3 files changed, 75 insertions(+)
+ create mode 100644 content/blog/2026-04-25-cybernews.md
+ create mode 100644 content/blog/2026-04-26-cybernews.md
+ create mode 100644 content/blog/2026-04-27-cybernews.md
+Post already exists: content/blog/2026-04-27-cybernews.md
+button returned:OK
+failed to store: -61
+From https://github.com/thestrad031487/cybergrind
+   05059e6..c56af4e  main       -> origin/main
+Updating 05059e6..c56af4e
+Fast-forward
+ content/blog/2026-04-28-cybernews.md | 25 +++++++++++++++++++++++++
+ content/blog/2026-04-29-cybernews.md | 25 +++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 content/blog/2026-04-28-cybernews.md
+ create mode 100644 content/blog/2026-04-29-cybernews.md
+Post already exists: content/blog/2026-04-29-cybernews.md
+28:121: execution error: System Events got an error: AppleEvent timed out. (-1712)

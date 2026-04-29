@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Windows OS History · CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cg-orange:#f97316;--cg-orange-bright:#fb923c;--cg-orange-dim:#2a1400;--cg-orange-mid:#7c3100;--cg-bg:#0a0c14;--cg-surface:#0f1117;--cg-surface2:#151820;--cg-surface3:#1a1e2e;--cg-border:#1e2235;--cg-border2:#252a3a;--cg-text:#e2e8f0;--cg-muted:#7c8ba0;--cg-muted2:#4a5568;--cg-green:#22c55e;--cg-green-dim:#0a2010;--cg-blue:#3b82f6;--cg-blue-dim:#0a1535;--cg-purple:#a78bfa;--cg-purple-dim:#1a1030;--cg-red:#ef4444;--cg-red-dim:#250808;--cg-teal:#14b8a6;--cg-teal-dim:#051a18;--font-mono:'Space Mono','Courier New',monospace;--font-sans:'Inter',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--cg-bg);color:var(--cg-text);font-size:15px;line-height:1.75;min-height:100vh}
+a{color:var(--cg-orange)}a:hover{color:var(--cg-orange-bright)}
+.cg-navbar{background:var(--cg-surface);border-bottom:1px solid var(--cg-border);padding:.55rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.cg-navbar-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cg-orange);text-decoration:none;letter-spacing:.03em}
+.cg-navbar-brand span{color:var(--cg-muted)}
+.cg-navbar-links{display:flex;gap:1.25rem;align-items:center}
+.cg-navbar-links a{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .15s}
+.cg-navbar-links a:hover{color:var(--cg-orange)}
+.cg-page-header{border-bottom:1px solid var(--cg-border);padding:2.5rem 1.5rem 2rem;max-width:960px;margin:0 auto}
+.cg-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cg-orange);margin-bottom:.6rem}
+.cg-page-title{font-family:var(--font-mono);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.5rem}
+.cg-page-title span{color:var(--cg-orange)}
+.cg-page-subtitle{font-size:.88rem;color:var(--cg-muted);font-weight:300;max-width:600px}
+.cg-divider{height:2px;background:linear-gradient(to right,var(--cg-orange),transparent);margin:1rem 0 0;max-width:120px}
+.cg-container{max-width:960px;margin:0 auto;padding:0 1.5rem 3rem}
+.cg-section-title{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);text-transform:uppercase;letter-spacing:.18em;padding:.4rem 0;border-bottom:1px solid var(--cg-border);margin:1.75rem 0 1rem}
+.cg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.65rem;margin:1.5rem 0}
+.cg-stat{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem;text-align:center;border-top:2px solid var(--cg-orange)}
+.cg-stat-num{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cg-orange);line-height:1.2}
+.cg-stat-label{font-size:10px;color:var(--cg-muted);margin-top:.2rem;line-height:1.3}
+.cg-grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem}
+.cg-card-orange{border-left:3px solid var(--cg-orange)}
+.cg-badge{font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;text-transform:uppercase;display:inline-block;margin-top:.35rem}
+.cg-badge-orange{background:var(--cg-orange-dim);color:var(--cg-orange);border:1px solid var(--cg-orange-mid)}
+.cg-badge-green{background:var(--cg-green-dim);color:var(--cg-green)}
+.cg-badge-blue{background:var(--cg-blue-dim);color:var(--cg-blue)}
+.cg-badge-red{background:var(--cg-red-dim);color:var(--cg-red)}
+.cg-badge-muted{background:var(--cg-surface2);color:var(--cg-muted);border:1px solid var(--cg-border2)}
+.cg-callout{border-left:3px solid var(--cg-orange);background:var(--cg-orange-dim);border-radius:0 6px 6px 0;padding:.85rem 1.1rem;margin:1.25rem 0;font-size:.82rem;color:var(--cg-muted);line-height:1.6}
+.cg-callout strong{color:var(--cg-orange-bright)}
+.cg-table-wrap{overflow-x:auto;margin:1.25rem 0}
+.cg-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;overflow:hidden}
+.cg-table thead tr{background:var(--cg-surface2)}
+.cg-table th{padding:.55rem .85rem;text-align:left;color:var(--cg-orange);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--cg-border)}
+.cg-table td{padding:.5rem .85rem;border-bottom:1px solid var(--cg-border);vertical-align:top}
+.cg-table tr:last-child td{border-bottom:none}
+.cg-table tr:hover td{background:var(--cg-surface2)}
+.cg-table td:first-child{color:var(--cg-orange);font-family:var(--font-mono);font-size:11px}
+.cg-term{background:#060810;border:1px solid var(--cg-border);border-radius:8px;overflow:hidden;margin:1.25rem 0;font-family:var(--font-mono);font-size:12.5px}
+.cg-term-bar{background:var(--cg-surface2);padding:.45rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--cg-border)}
+.cg-term-dot{width:10px;height:10px;border-radius:50%}
+.cg-term-title{font-size:11px;color:var(--cg-muted2);margin-left:.3rem}
+.cg-term-body{padding:.85rem 1rem 1rem;line-height:1.9}
+.t-prompt{color:var(--cg-orange)}.t-cmd{color:#79c0ff}.t-flag{color:#a5d6a7}.t-arg{color:#ffd700}.t-out{color:var(--cg-muted2);font-size:12px}.t-cmt{color:#2a3040;font-style:italic}.t-ok{color:var(--cg-green)}.t-err{color:var(--cg-red)}
+.cg-tl-item{position:relative;margin-bottom:.85rem;padding:.75rem 1rem;background:var(--cg-surface);border:1px solid var(--cg-border);border-left:3px solid var(--cg-orange);border-radius:6px}
+.cg-tl-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);margin-bottom:.2rem}
+.cg-tl-title{font-size:.84rem;font-weight:600;color:#fff;margin-bottom:.15rem}
+.cg-tl-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.5}
+.cg-timeline{position:relative;padding-left:2.25rem;margin:1.25rem 0}
+.cg-timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cg-orange),var(--cg-border))}
+.cg-tl-item-dot{position:relative}
+.cg-tl-item-dot::before{content:'';position:absolute;left:-1.75rem;top:.9rem;width:9px;height:9px;border-radius:50%;background:var(--cg-orange);border:2px solid var(--cg-bg)}
+.cg-ver-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.85rem}
+.cg-ver-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin-bottom:.2rem}
+.cg-ver-name{font-size:.87rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+.cg-ver-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.45}
+.cg-era-hdr{padding:.55rem 1rem;border-radius:8px 8px 0 0;font-family:var(--font-mono);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--cg-border);border-bottom:none;color:var(--cg-orange)}
+.cg-era-body{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:0 0 8px 8px;padding:.6rem;margin-bottom:1.25rem}
+.cg-footer{border-top:1px solid var(--cg-border);padding:1.25rem 1.5rem;max-width:960px;margin:2rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.cg-footer-brand{font-family:var(--font-mono);font-size:11px;color:var(--cg-orange);font-weight:700}
+.cg-footer-sources{font-size:11px;color:var(--cg-muted2);font-family:var(--font-mono)}
+code{background:var(--cg-surface2);padding:1px 5px;border-radius:3px;font-family:var(--font-mono);font-size:.87em;color:var(--cg-teal,#14b8a6)}
+p{margin-bottom:.85rem}ul,ol{padding-left:1.4rem}li{margin-bottom:.25rem;font-size:14px;color:var(--cg-text)}
+@media(max-width:640px){.cg-page-header,.cg-container{padding-left:1rem;padding-right:1rem}.cg-navbar{padding:.5rem 1rem}}
+</style>
+
+</head>
+<body>
+<nav class="cg-navbar"><a href="https://cybergrind.org" class="cg-navbar-brand">CYBER<span>//</span>GRIND</a><div class="cg-navbar-links"><a href="https://cybergrind.org/orange-book/">Orange Book</a><a href="https://cybergrind.org/blog/">News</a><a href="https://cybergrind.org/tools/">Tools</a><a href="https://cybergrind.org">↩ Site</a></div></nav>
+<div class="cg-page-header">
+  <p class="cg-eyebrow">// CyberGrind · Orange Book · OS Infographic Series — 02 of 09</p>
+  <h1 class="cg-page-title">Windows <span>History</span></h1>
+  <p class="cg-page-subtitle">From MS-DOS (1981) to Windows 11 — four decades of the world's most-used desktop OS.</p>
+  <div class="cg-divider"></div>
+</div>
+<div class="cg-container">
+
+<div class="cg-stats">
+  <div class="cg-stat"><div class="cg-stat-num">1985</div><div class="cg-stat-label">First Windows release</div></div>
+  <div class="cg-stat"><div class="cg-stat-num">~60%</div><div class="cg-stat-label">Global desktop share</div></div>
+  <div class="cg-stat"><div class="cg-stat-num">1B+</div><div class="cg-stat-label">Active Windows devices</div></div>
+  <div class="cg-stat"><div class="cg-stat-num">NT</div><div class="cg-stat-label">Kernel all versions share</div></div>
+  <div class="cg-stat"><div class="cg-stat-num">14+</div><div class="cg-stat-label">Major consumer versions</div></div>
+</div>
+
+<div class="cg-section-title">// DOS-Based Era (1981–1994)</div>
+<div class="cg-grid-2">
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1981</div><div class="cg-ver-name">MS-DOS 1.0</div><div class="cg-ver-desc">Ships with the IBM PC. Text-only, single-user, single-task. Foundation for all early Windows versions.</div></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Nov 20, 1985</div><div class="cg-ver-name">Windows 1.0</div><div class="cg-ver-desc">First GUI shell on MS-DOS. Tiled (non-overlapping) windows. Poorly received but historically pivotal. Sold 500,000 copies by 1987.</div></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1987</div><div class="cg-ver-name">Windows 2.0</div><div class="cg-ver-desc">Overlapping windows. First support for Microsoft Word and Excel. Still a DOS shell, not a full OS.</div></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1990</div><div class="cg-ver-name">Windows 3.0</div><div class="cg-ver-desc">First commercial success — 4M copies in year one. Program Manager, virtual memory, improved fonts, multimedia support.</div><span class="cg-badge cg-badge-orange">Breakthrough</span></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1992</div><div class="cg-ver-name">Windows 3.1</div><div class="cg-ver-desc">TrueType fonts, drag-and-drop. The DOS-era peak before the NT transition.</div></div>
+</div>
+
+<div class="cg-section-title">// NT / 32-bit Era (1993–2001)</div>
+<div class="cg-grid-2">
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1993</div><div class="cg-ver-name">Windows NT 3.1</div><div class="cg-ver-desc">Hybrid kernel, HAL layer, preemptive multitasking, security model. Foundation of ALL modern Windows. First true enterprise OS from Microsoft.</div><span class="cg-badge cg-badge-orange">Kernel Foundation</span></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Aug 24, 1995</div><div class="cg-ver-name">Windows 95</div><div class="cg-ver-desc">Start menu, taskbar, long filenames, 32-bit apps. Sold 7M copies in 5 weeks. Defines the modern desktop paradigm. Cultural phenomenon.</div><span class="cg-badge cg-badge-orange">Cultural Icon</span></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">1998</div><div class="cg-ver-name">Windows 98</div><div class="cg-ver-desc">USB support, FAT32, Internet Explorer 4 integration. Active Desktop for web-like UI. First consumer Windows with USB Plug and Play.</div></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">2000</div><div class="cg-ver-name">Windows 2000</div><div class="cg-ver-desc">NT 5.0 for business. Active Directory, Group Policy, EFS encryption. Rock-solid enterprise foundation.</div></div>
+  <div class="cg-ver-card" style="border-left:3px solid var(--cg-red)"><div class="cg-ver-year">2000</div><div class="cg-ver-name">Windows ME</div><div class="cg-ver-desc">Millennium Edition — last DOS-based consumer Windows. Notorious for instability. Quickly replaced.</div><span class="cg-badge cg-badge-red">Often Criticized</span></div>
+</div>
+
+<div class="cg-section-title">// Unified Platform Era (2001–2012)</div>
+<div class="cg-grid-2">
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Oct 2001</div><div class="cg-ver-name">Windows XP</div><div class="cg-ver-desc">Merges consumer and NT lines. Luna UI, ClearType fonts, fast user switching. 240M sales in first year. Ran in production for 12+ years.</div><span class="cg-badge cg-badge-orange">Most Beloved</span></div>
+  <div class="cg-ver-card" style="border-left:3px solid var(--cg-red)"><div class="cg-ver-year">Jan 2007</div><div class="cg-ver-name">Windows Vista</div><div class="cg-ver-desc">Aero Glass UI, UAC security, new search. Criticized for hardware demands and driver incompatibility.</div><span class="cg-badge cg-badge-red">Poorly Received</span></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Oct 2009</div><div class="cg-ver-name">Windows 7</div><div class="cg-ver-desc">Vista refined. Faster, redesigned taskbar, better hardware support. Fastest-selling OS at launch. Widely considered the best of the pre-Metro era.</div><span class="cg-badge cg-badge-orange">Fan Favorite</span></div>
+  <div class="cg-ver-card" style="border-left:3px solid var(--cg-muted)"><div class="cg-ver-year">Oct 2012</div><div class="cg-ver-name">Windows 8 / 8.1</div><div class="cg-ver-desc">Metro UI for touchscreens, removed Start menu. Enterprise users reacted negatively. 8.1 restored some familiar elements.</div><span class="cg-badge cg-badge-muted">Divisive</span></div>
+</div>
+
+<div class="cg-section-title">// Modern Era (2015–Present)</div>
+<div class="cg-grid-2">
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Jul 2015</div><div class="cg-ver-name">Windows 10</div><div class="cg-ver-desc">Start menu returns. Free upgrade for Win7/8.1. WSL, Cortana, Edge, DirectX 12. Bi-annual updates. 1B+ devices at peak.</div><span class="cg-badge cg-badge-orange">Widespread Adoption</span></div>
+  <div class="cg-ver-card cg-card-orange"><div class="cg-ver-year">Oct 2021</div><div class="cg-ver-name">Windows 11</div><div class="cg-ver-desc">Centered taskbar, rounded corners, Snap Layouts, TPM 2.0 required. WSL2, DirectStorage, Auto HDR, Copilot AI (2023).</div><span class="cg-badge cg-badge-green">Current</span></div>
+</div>
+
+<div class="cg-section-title">// NT Architecture Stack</div>
+<div style="background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;overflow:hidden;margin:.85rem 0;font-family:var(--font-mono);font-size:12.5px">
+  <div style="padding:.5rem 1rem;background:#0a1528;color:#93c5fd;border-bottom:1px solid var(--cg-border)">User Applications · Win32 API (kernel32.dll, user32.dll) · .NET / UWP</div>
+  <div style="padding:.5rem 1rem;background:#0c1a30;color:#7dd3fc;border-bottom:1px solid var(--cg-border)">Environment Subsystems · ntdll.dll · System Call Interface (SYSCALL)</div>
+  <div style="padding:.5rem 1rem;background:#0e2040;color:#bfdbfe;border-bottom:1px solid var(--cg-border)">NT Executive · Memory Manager · I/O Manager · Security Monitor · Process Manager</div>
+  <div style="padding:.5rem 1rem;background:#102550;color:#dbeafe;border-bottom:1px solid var(--cg-border)">NT Micro-Kernel · Thread Scheduling · Interrupt Handling · CPU Abstraction</div>
+  <div style="padding:.5rem 1rem;background:#1a3a70;color:#fff;font-weight:700">Hardware Abstraction Layer (HAL) · CPU / Chipset / Bus / Timer normalization</div>
+</div>
+
+</div>
+<div class="cg-footer">
+  <span class="cg-footer-brand">CYBER//GRIND · cybergrind.org</span>
+  <span class="cg-footer-sources">Sources: Wikipedia Windows Timeline · Auslogics · Britannica · OfficeTimeline</span>
+</div>
+</body></html>

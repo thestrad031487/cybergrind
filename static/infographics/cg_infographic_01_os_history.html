@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>History of Operating Systems · CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cg-orange:#f97316;--cg-orange-bright:#fb923c;--cg-orange-dim:#2a1400;--cg-orange-mid:#7c3100;--cg-bg:#0a0c14;--cg-surface:#0f1117;--cg-surface2:#151820;--cg-surface3:#1a1e2e;--cg-border:#1e2235;--cg-border2:#252a3a;--cg-text:#e2e8f0;--cg-muted:#7c8ba0;--cg-muted2:#4a5568;--cg-green:#22c55e;--cg-green-dim:#0a2010;--cg-blue:#3b82f6;--cg-blue-dim:#0a1535;--cg-purple:#a78bfa;--cg-red:#ef4444;--font-mono:'Space Mono','Courier New',monospace;--font-sans:'Inter',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--cg-bg);color:var(--cg-text);font-size:15px;line-height:1.75;min-height:100vh}
+a{color:var(--cg-orange)}a:hover{color:var(--cg-orange-bright)}
+.cg-navbar{background:var(--cg-surface);border-bottom:1px solid var(--cg-border);padding:.55rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.cg-navbar-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cg-orange);text-decoration:none;letter-spacing:.03em}
+.cg-navbar-brand span{color:var(--cg-muted)}
+.cg-navbar-links{display:flex;gap:1.25rem;align-items:center}
+.cg-navbar-links a{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .15s}
+.cg-navbar-links a:hover{color:var(--cg-orange)}
+.cg-page-header{border-bottom:1px solid var(--cg-border);padding:2.5rem 1.5rem 2rem;max-width:960px;margin:0 auto}
+.cg-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cg-orange);margin-bottom:.6rem}
+.cg-page-title{font-family:var(--font-mono);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.5rem}
+.cg-page-title span{color:var(--cg-orange)}
+.cg-page-subtitle{font-size:.88rem;color:var(--cg-muted);font-weight:300;max-width:580px}
+.cg-divider{height:2px;background:linear-gradient(to right,var(--cg-orange),transparent);margin:1rem 0 0;max-width:120px}
+.cg-container{max-width:960px;margin:0 auto;padding:0 1.5rem 3rem}
+.cg-section-title{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);text-transform:uppercase;letter-spacing:.18em;padding:.4rem 0;border-bottom:1px solid var(--cg-border);margin:1.75rem 0 1rem}
+/* Stats */
+.cg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.65rem;margin:1.5rem 0}
+.cg-stat{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem;text-align:center;border-top:2px solid var(--cg-orange)}
+.cg-stat-num{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cg-orange);line-height:1.2}
+.cg-stat-label{font-size:10px;color:var(--cg-muted);margin-top:.2rem;line-height:1.3}
+/* Era legend */
+.era-legend{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0}
+.era-pill{font-family:var(--font-mono);font-size:9px;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em}
+/* Timeline */
+.cg-timeline{position:relative;padding-left:2.25rem;margin:1.25rem 0}
+.cg-timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cg-orange),var(--cg-border))}
+.cg-tl-item{position:relative;margin-bottom:.85rem;padding:.75rem 1rem;background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:6px;border-left:3px solid}
+.cg-tl-item::before{content:'';position:absolute;left:-1.75rem;top:.9rem;width:9px;height:9px;border-radius:50%;background:var(--cg-orange);border:2px solid var(--cg-bg)}
+.cg-tl-item.major::before{width:13px;height:13px;left:-1.95rem;background:var(--cg-orange-bright)}
+.cg-tl-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);margin-bottom:.2rem}
+.cg-tl-title{font-size:.84rem;font-weight:600;color:#fff;margin-bottom:.15rem}
+.cg-tl-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.5}
+.cg-badge{font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;text-transform:uppercase;display:inline-block;margin-top:.3rem}
+.cg-badge-orange{background:var(--cg-orange-dim);color:var(--cg-orange);border:1px solid var(--cg-orange-mid)}
+/* Footer */
+.cg-footer{border-top:1px solid var(--cg-border);padding:1.25rem 1.5rem;max-width:960px;margin:2rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.cg-footer-brand{font-family:var(--font-mono);font-size:11px;color:var(--cg-orange);font-weight:700}
+.cg-footer-sources{font-size:11px;color:var(--cg-muted2);font-family:var(--font-mono)}
+/* Era colors */
+.e-batch   {border-left-color:#8b5cf6;background:linear-gradient(to right,#1a0a30,var(--cg-surface))}
+.e-multi   {border-left-color:#ec4899;background:linear-gradient(to right,#2a0a1a,var(--cg-surface))}
+.e-time    {border-left-color:#06b6d4;background:linear-gradient(to right,#0a1e25,var(--cg-surface))}
+.e-network {border-left-color:#22c55e;background:linear-gradient(to right,#0a1e10,var(--cg-surface))}
+.e-personal{border-left-color:var(--cg-orange);background:linear-gradient(to right,var(--cg-orange-dim),var(--cg-surface))}
+.e-mobile  {border-left-color:#ef4444;background:linear-gradient(to right,#250808,var(--cg-surface))}
+.e-cloud   {border-left-color:#3b82f6;background:linear-gradient(to right,var(--cg-blue-dim),var(--cg-surface))}
+.pill-batch  {background:#2a1540;color:#c4b5fd;border:1px solid #4c3580}
+.pill-multi  {background:#2a0a20;color:#f9a8d4;border:1px solid #7c2050}
+.pill-time   {background:#0a2030;color:#67e8f9;border:1px solid #0e7490}
+.pill-net    {background:#0a2010;color:#86efac;border:1px solid #16a34a}
+.pill-pers   {background:var(--cg-orange-dim);color:var(--cg-orange-bright);border:1px solid var(--cg-orange-mid)}
+.pill-mobile {background:#250808;color:#fca5a5;border:1px solid #dc2626}
+.pill-cloud  {background:var(--cg-blue-dim);color:#93c5fd;border:1px solid #2563eb}
+@media(max-width:640px){.cg-page-header,.cg-container{padding-left:1rem;padding-right:1rem}.cg-navbar{padding:.5rem 1rem}}
+</style>
+</head>
+<body>
+
+<nav class="cg-navbar">
+  <a href="https://cybergrind.org" class="cg-navbar-brand">CYBER<span>//</span>GRIND</a>
+  <div class="cg-navbar-links">
+    <a href="https://cybergrind.org/orange-book/">Orange Book</a>
+    <a href="https://cybergrind.org/blog/">News</a>
+    <a href="https://cybergrind.org/tools/">Tools</a>
+    <a href="https://cybergrind.org">↩ Site</a>
+  </div>
+</nav>
+
+<div class="cg-page-header">
+  <p class="cg-eyebrow">// CyberGrind · Orange Book · OS Infographic Series — 01 of 09</p>
+  <h1 class="cg-page-title">History of <span>Operating Systems</span></h1>
+  <p class="cg-page-subtitle">From batch processing on mainframes to AI-integrated mobile platforms — seven decades that shaped how humans interact with machines.</p>
+  <div class="cg-divider"></div>
+</div>
+
+<div class="cg-container">
+
+  <div class="cg-stats">
+    <div class="cg-stat"><div class="cg-stat-num">1956</div><div class="cg-stat-label">First real OS deployed</div></div>
+    <div class="cg-stat"><div class="cg-stat-num">70+</div><div class="cg-stat-label">Years of OS evolution</div></div>
+    <div class="cg-stat"><div class="cg-stat-num">3B+</div><div class="cg-stat-label">Android devices today</div></div>
+    <div class="cg-stat"><div class="cg-stat-num">1991</div><div class="cg-stat-label">Linux kernel born</div></div>
+    <div class="cg-stat"><div class="cg-stat-num">100%</div><div class="cg-stat-label">Top 500 supercomputers run Linux</div></div>
+  </div>
+
+  <div class="era-legend">
+    <span class="era-pill pill-batch">Batch Era</span>
+    <span class="era-pill pill-multi">Multiprogramming</span>
+    <span class="era-pill pill-time">Time-Sharing</span>
+    <span class="era-pill pill-net">PC &amp; GUI</span>
+    <span class="era-pill pill-pers">Open Source &amp; Enterprise</span>
+    <span class="era-pill pill-mobile">Mobile Revolution</span>
+    <span class="era-pill pill-cloud">Cloud &amp; AI Era</span>
+  </div>
+
+  <div class="cg-section-title">// Timeline</div>
+
+  <div class="cg-timeline">
+
+    <div class="cg-tl-item major e-batch">
+      <div class="cg-tl-year">1956 · Batch Era</div>
+      <div class="cg-tl-title">GM-NAA I/O — The First Real OS</div>
+      <div class="cg-tl-desc">General Motors builds the first OS for the IBM 704 mainframe. Automates job submission and output — operators no longer reload programs manually for each run.</div>
+    </div>
+
+    <div class="cg-tl-item e-multi">
+      <div class="cg-tl-year">1961–1965 · Multiprogramming</div>
+      <div class="cg-tl-title">CTSS &amp; Multics — Time-Sharing Invented</div>
+      <div class="cg-tl-desc">MIT's Compatible Time-Sharing System and the Multics project introduce the idea of multiple users sharing a single computer simultaneously via time-slice scheduling.</div>
+    </div>
+
+    <div class="cg-tl-item major e-multi">
+      <div class="cg-tl-year">1964 · Multiprogramming</div>
+      <div class="cg-tl-title">IBM OS/360 — One OS for a Hardware Family</div>
+      <div class="cg-tl-desc">IBM designs a single OS for its entire 360 hardware line — a revolutionary concept. Introduces batch multiprogramming and becomes one of the most significant OS engineering achievements in history.</div>
+      <span class="cg-badge cg-badge-orange">Landmark</span>
+    </div>
+
+    <div class="cg-tl-item major e-time">
+      <div class="cg-tl-year">1969 · Time-Sharing Era</div>
+      <div class="cg-tl-title">Unix Born at Bell Labs</div>
+      <div class="cg-tl-desc">Ken Thompson and Dennis Ritchie build Unix on a spare PDP-7 — partially to keep playing a space travel game. Written in C, making it the first portable OS. Directly spawns macOS, Linux, Android, and iOS.</div>
+      <span class="cg-badge cg-badge-orange">Foundation of Modern Computing</span>
+    </div>
+
+    <div class="cg-tl-item e-time">
+      <div class="cg-tl-year">1974–1977</div>
+      <div class="cg-tl-title">CP/M &amp; BSD Emerge</div>
+      <div class="cg-tl-desc">Gary Kildall's CP/M dominates early microcomputers. UC Berkeley releases BSD — the open Unix variant that eventually powers macOS and the infrastructure of the internet.</div>
+    </div>
+
+    <div class="cg-tl-item major e-network">
+      <div class="cg-tl-year">1981 · PC &amp; GUI Era</div>
+      <div class="cg-tl-title">MS-DOS — The PC Revolution</div>
+      <div class="cg-tl-desc">Microsoft purchases QDOS for $75,000 and rebrands it as MS-DOS, shipping it with the IBM PC. Text-based, single-user, single-task — but it reaches millions of homes for the first time.</div>
+    </div>
+
+    <div class="cg-tl-item e-network">
+      <div class="cg-tl-year">1984</div>
+      <div class="cg-tl-title">Apple Macintosh — GUI Goes Mainstream</div>
+      <div class="cg-tl-desc">The Mac introduces the first mass-market GUI — icons, windows, mouse interaction, and the desktop metaphor. Permanently changes expectations of what an OS should look and feel like.</div>
+    </div>
+
+    <div class="cg-tl-item e-network">
+      <div class="cg-tl-year">Nov 20, 1985</div>
+      <div class="cg-tl-title">Windows 1.0</div>
+      <div class="cg-tl-desc">Microsoft ships Windows 1.0 — a GUI shell on top of MS-DOS. Tiled (not overlapping) windows, dismissed by critics. Sells 500,000 copies by April 1987.</div>
+    </div>
+
+    <div class="cg-tl-item major e-personal">
+      <div class="cg-tl-year">1991 · Open Source Era</div>
+      <div class="cg-tl-title">Linux 0.01 — Open Source Changes Everything</div>
+      <div class="cg-tl-desc">Finnish student Linus Torvalds posts: "I'm doing a (free) operating system (just a hobby)." GPL-licensed and globally developed, Linux becomes the foundation of the modern internet, cloud, and Android.</div>
+      <span class="cg-badge cg-badge-orange">Turning Point</span>
+    </div>
+
+    <div class="cg-tl-item e-personal">
+      <div class="cg-tl-year">1993–1995</div>
+      <div class="cg-tl-title">Windows NT &amp; Windows 95</div>
+      <div class="cg-tl-desc">NT (1993) delivers the hybrid kernel, HAL, and preemptive multitasking for enterprise. Windows 95 brings the Start menu, taskbar, and 32-bit support to consumers — cementing Microsoft's dominance.</div>
+    </div>
+
+    <div class="cg-tl-item e-personal">
+      <div class="cg-tl-year">2001</div>
+      <div class="cg-tl-title">Windows XP &amp; Mac OS X</div>
+      <div class="cg-tl-desc">XP merges consumer and enterprise Windows into one stable platform. Mac OS X rebuilds Apple's OS on BSD/Unix — combining Unix reliability with Apple's renowned UI. Both define their respective eras.</div>
+    </div>
+
+    <div class="cg-tl-item major e-mobile">
+      <div class="cg-tl-year">2007–2008 · Mobile Era</div>
+      <div class="cg-tl-title">iOS &amp; Android Redraw the Computing Map</div>
+      <div class="cg-tl-desc">Apple launches the iPhone and iPhone OS (2007) on a Darwin/XNU kernel. Google ships Android (2008) on a modified Linux kernel. Together they shift global computing from desktop to mobile permanently.</div>
+      <span class="cg-badge cg-badge-orange">Platform Shift</span>
+    </div>
+
+    <div class="cg-tl-item e-mobile">
+      <div class="cg-tl-year">2015</div>
+      <div class="cg-tl-title">Windows 10 — One Unified Platform</div>
+      <div class="cg-tl-desc">Microsoft unifies PC, tablet, Xbox, and HoloLens under Windows 10. Free upgrade for Win7/8.1. WSL later brings a full Linux kernel to Windows natively via Hyper-V virtualization.</div>
+    </div>
+
+    <div class="cg-tl-item e-cloud">
+      <div class="cg-tl-year">2020</div>
+      <div class="cg-tl-title">Apple Silicon &amp; macOS Big Sur</div>
+      <div class="cg-tl-desc">Apple transitions Macs to ARM-based M1 chips, redefining performance-per-watt. macOS Big Sur becomes version 11 — first major version increment in 20 years. Signed System Volume seals the OS cryptographically.</div>
+    </div>
+
+    <div class="cg-tl-item major e-cloud">
+      <div class="cg-tl-year">2021–2026 · AI Era</div>
+      <div class="cg-tl-title">AI-Integrated Operating Systems</div>
+      <div class="cg-tl-desc">Windows 11 Copilot AI (2023), macOS Sequoia Apple Intelligence (2024), Android Gemini integration. OSes evolve from application platforms into AI-first environments. Linux kernel 7.0 ships April 2026.</div>
+      <span class="cg-badge cg-badge-orange">Present Day</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="cg-footer">
+  <span class="cg-footer-brand">CYBER//GRIND · cybergrind.org</span>
+  <span class="cg-footer-sources">Sources: Wikipedia OS History · TutorialsPoint · Computerworld · Preceden</span>
+</div>
+
+</body>
+</html>
