@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>macOS Terminal Commands · CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cg-orange:#f97316;--cg-orange-bright:#fb923c;--cg-orange-dim:#2a1400;--cg-orange-mid:#7c3100;--cg-bg:#0a0c14;--cg-surface:#0f1117;--cg-surface2:#151820;--cg-surface3:#1a1e2e;--cg-border:#1e2235;--cg-border2:#252a3a;--cg-text:#e2e8f0;--cg-muted:#7c8ba0;--cg-muted2:#4a5568;--cg-green:#22c55e;--cg-green-dim:#0a2010;--cg-blue:#3b82f6;--cg-blue-dim:#0a1535;--cg-purple:#a78bfa;--cg-purple-dim:#1a1030;--cg-red:#ef4444;--cg-red-dim:#250808;--cg-teal:#14b8a6;--cg-teal-dim:#051a18;--font-mono:'Space Mono','Courier New',monospace;--font-sans:'Inter',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--cg-bg);color:var(--cg-text);font-size:15px;line-height:1.75;min-height:100vh}
+a{color:var(--cg-orange)}a:hover{color:var(--cg-orange-bright)}
+.cg-navbar{background:var(--cg-surface);border-bottom:1px solid var(--cg-border);padding:.55rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.cg-navbar-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cg-orange);text-decoration:none;letter-spacing:.03em}
+.cg-navbar-brand span{color:var(--cg-muted)}
+.cg-navbar-links{display:flex;gap:1.25rem;align-items:center}
+.cg-navbar-links a{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .15s}
+.cg-navbar-links a:hover{color:var(--cg-orange)}
+.cg-page-header{border-bottom:1px solid var(--cg-border);padding:2.5rem 1.5rem 2rem;max-width:960px;margin:0 auto}
+.cg-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cg-orange);margin-bottom:.6rem}
+.cg-page-title{font-family:var(--font-mono);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.5rem}
+.cg-page-title span{color:var(--cg-orange)}
+.cg-page-subtitle{font-size:.88rem;color:var(--cg-muted);font-weight:300;max-width:600px}
+.cg-divider{height:2px;background:linear-gradient(to right,var(--cg-orange),transparent);margin:1rem 0 0;max-width:120px}
+.cg-container{max-width:960px;margin:0 auto;padding:0 1.5rem 3rem}
+.cg-section-title{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);text-transform:uppercase;letter-spacing:.18em;padding:.4rem 0;border-bottom:1px solid var(--cg-border);margin:1.75rem 0 1rem}
+.cg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.65rem;margin:1.5rem 0}
+.cg-stat{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem;text-align:center;border-top:2px solid var(--cg-orange)}
+.cg-stat-num{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cg-orange);line-height:1.2}
+.cg-stat-label{font-size:10px;color:var(--cg-muted);margin-top:.2rem;line-height:1.3}
+.cg-grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem}
+.cg-card-orange{border-left:3px solid var(--cg-orange)}
+.cg-badge{font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;text-transform:uppercase;display:inline-block;margin-top:.35rem}
+.cg-badge-orange{background:var(--cg-orange-dim);color:var(--cg-orange);border:1px solid var(--cg-orange-mid)}
+.cg-badge-green{background:var(--cg-green-dim);color:var(--cg-green)}
+.cg-badge-blue{background:var(--cg-blue-dim);color:var(--cg-blue)}
+.cg-badge-red{background:var(--cg-red-dim);color:var(--cg-red)}
+.cg-badge-muted{background:var(--cg-surface2);color:var(--cg-muted);border:1px solid var(--cg-border2)}
+.cg-callout{border-left:3px solid var(--cg-orange);background:var(--cg-orange-dim);border-radius:0 6px 6px 0;padding:.85rem 1.1rem;margin:1.25rem 0;font-size:.82rem;color:var(--cg-muted);line-height:1.6}
+.cg-callout strong{color:var(--cg-orange-bright)}
+.cg-table-wrap{overflow-x:auto;margin:1.25rem 0}
+.cg-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;overflow:hidden}
+.cg-table thead tr{background:var(--cg-surface2)}
+.cg-table th{padding:.55rem .85rem;text-align:left;color:var(--cg-orange);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--cg-border)}
+.cg-table td{padding:.5rem .85rem;border-bottom:1px solid var(--cg-border);vertical-align:top}
+.cg-table tr:last-child td{border-bottom:none}
+.cg-table tr:hover td{background:var(--cg-surface2)}
+.cg-table td:first-child{color:var(--cg-orange);font-family:var(--font-mono);font-size:11px}
+.cg-term{background:#060810;border:1px solid var(--cg-border);border-radius:8px;overflow:hidden;margin:1.25rem 0;font-family:var(--font-mono);font-size:12.5px}
+.cg-term-bar{background:var(--cg-surface2);padding:.45rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--cg-border)}
+.cg-term-dot{width:10px;height:10px;border-radius:50%}
+.cg-term-title{font-size:11px;color:var(--cg-muted2);margin-left:.3rem}
+.cg-term-body{padding:.85rem 1rem 1rem;line-height:1.9}
+.t-prompt{color:var(--cg-orange)}.t-cmd{color:#79c0ff}.t-flag{color:#a5d6a7}.t-arg{color:#ffd700}.t-out{color:var(--cg-muted2);font-size:12px}.t-cmt{color:#2a3040;font-style:italic}.t-ok{color:var(--cg-green)}.t-err{color:var(--cg-red)}
+.cg-tl-item{position:relative;margin-bottom:.85rem;padding:.75rem 1rem;background:var(--cg-surface);border:1px solid var(--cg-border);border-left:3px solid var(--cg-orange);border-radius:6px}
+.cg-tl-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);margin-bottom:.2rem}
+.cg-tl-title{font-size:.84rem;font-weight:600;color:#fff;margin-bottom:.15rem}
+.cg-tl-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.5}
+.cg-timeline{position:relative;padding-left:2.25rem;margin:1.25rem 0}
+.cg-timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cg-orange),var(--cg-border))}
+.cg-tl-item-dot{position:relative}
+.cg-tl-item-dot::before{content:'';position:absolute;left:-1.75rem;top:.9rem;width:9px;height:9px;border-radius:50%;background:var(--cg-orange);border:2px solid var(--cg-bg)}
+.cg-ver-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.85rem}
+.cg-ver-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin-bottom:.2rem}
+.cg-ver-name{font-size:.87rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+.cg-ver-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.45}
+.cg-era-hdr{padding:.55rem 1rem;border-radius:8px 8px 0 0;font-family:var(--font-mono);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--cg-border);border-bottom:none;color:var(--cg-orange)}
+.cg-era-body{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:0 0 8px 8px;padding:.6rem;margin-bottom:1.25rem}
+.cg-footer{border-top:1px solid var(--cg-border);padding:1.25rem 1.5rem;max-width:960px;margin:2rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.cg-footer-brand{font-family:var(--font-mono);font-size:11px;color:var(--cg-orange);font-weight:700}
+.cg-footer-sources{font-size:11px;color:var(--cg-muted2);font-family:var(--font-mono)}
+code{background:var(--cg-surface2);padding:1px 5px;border-radius:3px;font-family:var(--font-mono);font-size:.87em;color:var(--cg-teal,#14b8a6)}
+p{margin-bottom:.85rem}ul,ol{padding-left:1.4rem}li{margin-bottom:.25rem;font-size:14px;color:var(--cg-text)}
+@media(max-width:640px){.cg-page-header,.cg-container{padding-left:1rem;padding-right:1rem}.cg-navbar{padding:.5rem 1rem}}
+</style>
+
+</head>
+<body>
+<nav class="cg-navbar"><a href="https://cybergrind.org" class="cg-navbar-brand">CYBER<span>//</span>GRIND</a><div class="cg-navbar-links"><a href="https://cybergrind.org/orange-book/">Orange Book</a><a href="https://cybergrind.org/blog/">News</a><a href="https://cybergrind.org/tools/">Tools</a><a href="https://cybergrind.org">↩ Site</a></div></nav>
+<div class="cg-page-header">
+  <p class="cg-eyebrow">// CyberGrind · Orange Book · OS Infographic Series — 09 of 09</p>
+  <h1 class="cg-page-title">macOS <span>Terminal Commands</span></h1>
+  <p class="cg-page-subtitle">zsh commands, macOS-specific BSD utilities, Homebrew, and key differences from Linux bash.</p>
+  <div class="cg-divider"></div>
+</div>
+<div class="cg-container">
+
+<div class="cg-term">
+  <div class="cg-term-bar"><div class="cg-term-dot" style="background:#ff5f57"></div><div class="cg-term-dot" style="background:#febc2e"></div><div class="cg-term-dot" style="background:#28c840"></div><span class="cg-term-title">iTerm2 — zsh — macOS Sequoia</span></div>
+  <div class="cg-term-body">
+    <div class="t-cmt"># macOS default shell is zsh (since Catalina). BSD tools differ from GNU (Linux) versions</div>
+    <div><span class="t-prompt">logan@MacBook-Pro</span> ~ <span class="t-prompt">%</span> <span class="t-cmd">ls</span> <span class="t-flag">-lah</span> <span class="t-arg">~/Documents</span> <span class="t-flag">| grep</span> <span class="t-flag">-i</span> <span class="t-arg">"\.pdf"</span> <span class="t-flag">| awk</span> <span class="t-arg">'{print $5, $9}'</span></div>
+    <div class="t-out">1.2M  Report_2024.pdf</div>
+  </div>
+</div>
+<div class="cg-callout"><strong>macOS ≠ Linux:</strong> macOS uses BSD versions of core utilities. Key difference: <code>sed -i ''</code> requires empty string after -i on macOS (BSD), but not on Linux (GNU). This breaks Linux scripts on Mac. Install GNU coreutils via Homebrew for full compatibility.</div>
+<div class="cg-section-title">// Navigation &amp; macOS-Specific Commands</div>
+<div class="cg-grid-2">
+  <div class="cg-card cg-card-orange"><code>ls -lah -G</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-G = colorized (BSD flag, not --color)</div><div style="font-size:.75rem;color:var(--cg-muted)">List files. BSD ls uses -G for color instead of GNU's --color=auto. -@ shows extended attributes.</div></div>
+  <div class="cg-card cg-card-orange"><code>open file.pdf | open -a Safari url</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">⚠ macOS ONLY — opens in Finder/app</div><div style="font-size:.75rem;color:var(--cg-muted)">Opens file with default application — like double-clicking in Finder. <code>open .</code> opens current folder in Finder.</div></div>
+  <div class="cg-card cg-card-orange"><code>pbcopy < file.txt | pbpaste</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">⚠ macOS ONLY — clipboard</div><div style="font-size:.75rem;color:var(--cg-muted)">pbcopy writes stdin to clipboard. pbpaste reads clipboard to stdout. <code>cat file | pbcopy</code> copies file content.</div></div>
+  <div class="cg-card cg-card-orange"><code>mdfind "kMDItemKind == 'PDF'"</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">⚠ macOS ONLY — Spotlight CLI</div><div style="font-size:.75rem;color:var(--cg-muted)">Uses Spotlight metadata index — much faster than find for content searches. -onlyin to scope to directory.</div></div>
+  <div class="cg-card cg-card-orange"><code>sed -i '' 's/old/new/g' file.txt</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">⚠ BSD sed REQUIRES '' after -i</div><div style="font-size:.75rem;color:var(--cg-muted)">Critical difference: BSD sed needs empty string after -i. Linux GNU sed does not. Breaks cross-platform scripts!</div></div>
+  <div class="cg-card cg-card-orange"><code>lsof -iTCP -sTCP:LISTEN -n -P</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">macOS uses lsof — Linux uses ss</div><div style="font-size:.75rem;color:var(--cg-muted)">List listening ports. macOS uses lsof for this; Linux uses ss. -n=no DNS -P=no port names.</div></div>
+  <div class="cg-card cg-card-orange"><code>sw_vers | diskutil list</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">system info · disk utility</div><div style="font-size:.75rem;color:var(--cg-muted)">sw_vers shows macOS version/build. diskutil list shows all disks. diskutil info /dev/disk0 for details.</div></div>
+  <div class="cg-card cg-card-orange"><code>defaults write com.apple.Finder AppleShowAllFiles YES</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">macOS preferences DB</div><div style="font-size:.75rem;color:var(--cg-muted)">Read/write macOS app preferences stored in plist files. Show hidden files, change Dock behavior, etc.</div></div>
+</div>
+<div class="cg-section-title">// Homebrew — macOS Package Manager</div>
+<div style="background:var(--cg-surface);border:1px solid var(--cg-border);border-left:3px solid var(--cg-orange);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:.85rem 0">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.5rem;font-family:var(--font-mono);font-size:12px">
+    <div><div style="color:#79c0ff">brew install nmap</div><div style="color:var(--cg-muted2);font-size:11px">Install a CLI package (formula)</div></div>
+    <div><div style="color:#79c0ff">brew install --cask firefox</div><div style="color:var(--cg-muted2);font-size:11px">Install a GUI app (cask)</div></div>
+    <div><div style="color:#79c0ff">brew upgrade</div><div style="color:var(--cg-muted2);font-size:11px">Upgrade all installed packages</div></div>
+    <div><div style="color:#79c0ff">brew list | brew search term</div><div style="color:var(--cg-muted2);font-size:11px">List installed / search packages</div></div>
+    <div><div style="color:#79c0ff">brew uninstall package</div><div style="color:var(--cg-muted2);font-size:11px">Remove a package</div></div>
+    <div><div style="color:#79c0ff">brew doctor</div><div style="color:var(--cg-muted2);font-size:11px">Diagnose Homebrew issues</div></div>
+  </div>
+</div>
+<div class="cg-section-title">// macOS BSD vs Linux GNU — Key Differences</div>
+<div class="cg-table-wrap">
+  <table class="cg-table">
+    <thead><tr><th>Task</th><th>macOS (BSD)</th><th>Linux (GNU)</th></tr></thead>
+    <tbody>
+      <tr><td>In-place sed</td><td>sed -i '' 's/x/y/g' file</td><td>sed -i 's/x/y/g' file</td></tr>
+      <tr><td>Colorized ls</td><td>ls -G</td><td>ls --color=auto</td></tr>
+      <tr><td>Listening ports</td><td>lsof -iTCP -sTCP:LISTEN</td><td>ss -tlnp</td></tr>
+      <tr><td>Network interfaces</td><td>ifconfig / networksetup</td><td>ip addr show</td></tr>
+      <tr><td>Service management</td><td>launchctl (launchd)</td><td>systemctl (systemd)</td></tr>
+      <tr><td>File metadata search</td><td>mdfind (Spotlight)</td><td>locate / find</td></tr>
+      <tr><td>Open in GUI</td><td>open file.pdf</td><td>xdg-open file.pdf</td></tr>
+      <tr><td>Clipboard</td><td>pbcopy / pbpaste</td><td>xclip / xsel</td></tr>
+      <tr><td>System version</td><td>sw_vers</td><td>uname -a / lsb_release</td></tr>
+      <tr><td>RAM info</td><td>sysctl -n hw.memsize</td><td>free -h</td></tr>
+      <tr><td>Install packages</td><td>brew install package</td><td>apt / dnf / pacman</td></tr>
+      <tr><td>Default shell</td><td>zsh (Catalina+)</td><td>bash (most distros)</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="cg-section-title">// Keyboard Shortcuts</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem">
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Ctrl + C</span><span style="color:var(--cg-muted)">Interrupt / kill running command</span></div>
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Ctrl + R</span><span style="color:var(--cg-muted)">Reverse search command history</span></div>
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Ctrl + A/E</span><span style="color:var(--cg-muted)">Jump to start / end of line</span></div>
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Ctrl + L</span><span style="color:var(--cg-muted)">Clear screen (same as clear)</span></div>
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Ctrl + Z</span><span style="color:var(--cg-muted)">Suspend to background (fg resume)</span></div>
+  <div style="font-size:.8rem;padding:.35rem 0;border-bottom:1px solid var(--cg-border);display:flex;gap:.6rem"><span style="font-family:var(--font-mono);color:var(--cg-orange);min-width:80px;font-size:.75rem">Tab</span><span style="color:var(--cg-muted)">Autocomplete (zsh: Tab twice = menu)</span></div>
+</div>
+
+</div>
+<div class="cg-footer">
+  <span class="cg-footer-brand">CYBER//GRIND · cybergrind.org</span>
+  <span class="cg-footer-sources">Sources: Apple macOS man pages · LogRocket Bash vs Zsh · Provided course materials · Refine.dev Zsh Guide</span>
+</div>
+</body></html>

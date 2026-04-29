@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Linux Terminal Commands · CyberGrind</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cg-orange:#f97316;--cg-orange-bright:#fb923c;--cg-orange-dim:#2a1400;--cg-orange-mid:#7c3100;--cg-bg:#0a0c14;--cg-surface:#0f1117;--cg-surface2:#151820;--cg-surface3:#1a1e2e;--cg-border:#1e2235;--cg-border2:#252a3a;--cg-text:#e2e8f0;--cg-muted:#7c8ba0;--cg-muted2:#4a5568;--cg-green:#22c55e;--cg-green-dim:#0a2010;--cg-blue:#3b82f6;--cg-blue-dim:#0a1535;--cg-purple:#a78bfa;--cg-purple-dim:#1a1030;--cg-red:#ef4444;--cg-red-dim:#250808;--cg-teal:#14b8a6;--cg-teal-dim:#051a18;--font-mono:'Space Mono','Courier New',monospace;--font-sans:'Inter',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--cg-bg);color:var(--cg-text);font-size:15px;line-height:1.75;min-height:100vh}
+a{color:var(--cg-orange)}a:hover{color:var(--cg-orange-bright)}
+.cg-navbar{background:var(--cg-surface);border-bottom:1px solid var(--cg-border);padding:.55rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.cg-navbar-brand{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cg-orange);text-decoration:none;letter-spacing:.03em}
+.cg-navbar-brand span{color:var(--cg-muted)}
+.cg-navbar-links{display:flex;gap:1.25rem;align-items:center}
+.cg-navbar-links a{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .15s}
+.cg-navbar-links a:hover{color:var(--cg-orange)}
+.cg-page-header{border-bottom:1px solid var(--cg-border);padding:2.5rem 1.5rem 2rem;max-width:960px;margin:0 auto}
+.cg-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cg-orange);margin-bottom:.6rem}
+.cg-page-title{font-family:var(--font-mono);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.5rem}
+.cg-page-title span{color:var(--cg-orange)}
+.cg-page-subtitle{font-size:.88rem;color:var(--cg-muted);font-weight:300;max-width:600px}
+.cg-divider{height:2px;background:linear-gradient(to right,var(--cg-orange),transparent);margin:1rem 0 0;max-width:120px}
+.cg-container{max-width:960px;margin:0 auto;padding:0 1.5rem 3rem}
+.cg-section-title{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);text-transform:uppercase;letter-spacing:.18em;padding:.4rem 0;border-bottom:1px solid var(--cg-border);margin:1.75rem 0 1rem}
+.cg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.65rem;margin:1.5rem 0}
+.cg-stat{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem;text-align:center;border-top:2px solid var(--cg-orange)}
+.cg-stat-num{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--cg-orange);line-height:1.2}
+.cg-stat-label{font-size:10px;color:var(--cg-muted);margin-top:.2rem;line-height:1.3}
+.cg-grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.65rem;margin:.85rem 0}
+.cg-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.9rem}
+.cg-card-orange{border-left:3px solid var(--cg-orange)}
+.cg-badge{font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;text-transform:uppercase;display:inline-block;margin-top:.35rem}
+.cg-badge-orange{background:var(--cg-orange-dim);color:var(--cg-orange);border:1px solid var(--cg-orange-mid)}
+.cg-badge-green{background:var(--cg-green-dim);color:var(--cg-green)}
+.cg-badge-blue{background:var(--cg-blue-dim);color:var(--cg-blue)}
+.cg-badge-red{background:var(--cg-red-dim);color:var(--cg-red)}
+.cg-badge-muted{background:var(--cg-surface2);color:var(--cg-muted);border:1px solid var(--cg-border2)}
+.cg-callout{border-left:3px solid var(--cg-orange);background:var(--cg-orange-dim);border-radius:0 6px 6px 0;padding:.85rem 1.1rem;margin:1.25rem 0;font-size:.82rem;color:var(--cg-muted);line-height:1.6}
+.cg-callout strong{color:var(--cg-orange-bright)}
+.cg-table-wrap{overflow-x:auto;margin:1.25rem 0}
+.cg-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;overflow:hidden}
+.cg-table thead tr{background:var(--cg-surface2)}
+.cg-table th{padding:.55rem .85rem;text-align:left;color:var(--cg-orange);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--cg-border)}
+.cg-table td{padding:.5rem .85rem;border-bottom:1px solid var(--cg-border);vertical-align:top}
+.cg-table tr:last-child td{border-bottom:none}
+.cg-table tr:hover td{background:var(--cg-surface2)}
+.cg-table td:first-child{color:var(--cg-orange);font-family:var(--font-mono);font-size:11px}
+.cg-term{background:#060810;border:1px solid var(--cg-border);border-radius:8px;overflow:hidden;margin:1.25rem 0;font-family:var(--font-mono);font-size:12.5px}
+.cg-term-bar{background:var(--cg-surface2);padding:.45rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--cg-border)}
+.cg-term-dot{width:10px;height:10px;border-radius:50%}
+.cg-term-title{font-size:11px;color:var(--cg-muted2);margin-left:.3rem}
+.cg-term-body{padding:.85rem 1rem 1rem;line-height:1.9}
+.t-prompt{color:var(--cg-orange)}.t-cmd{color:#79c0ff}.t-flag{color:#a5d6a7}.t-arg{color:#ffd700}.t-out{color:var(--cg-muted2);font-size:12px}.t-cmt{color:#2a3040;font-style:italic}.t-ok{color:var(--cg-green)}.t-err{color:var(--cg-red)}
+.cg-tl-item{position:relative;margin-bottom:.85rem;padding:.75rem 1rem;background:var(--cg-surface);border:1px solid var(--cg-border);border-left:3px solid var(--cg-orange);border-radius:6px}
+.cg-tl-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-orange);margin-bottom:.2rem}
+.cg-tl-title{font-size:.84rem;font-weight:600;color:#fff;margin-bottom:.15rem}
+.cg-tl-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.5}
+.cg-timeline{position:relative;padding-left:2.25rem;margin:1.25rem 0}
+.cg-timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cg-orange),var(--cg-border))}
+.cg-tl-item-dot{position:relative}
+.cg-tl-item-dot::before{content:'';position:absolute;left:-1.75rem;top:.9rem;width:9px;height:9px;border-radius:50%;background:var(--cg-orange);border:2px solid var(--cg-bg)}
+.cg-ver-card{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:.85rem}
+.cg-ver-year{font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin-bottom:.2rem}
+.cg-ver-name{font-size:.87rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+.cg-ver-desc{font-size:.75rem;color:var(--cg-muted);line-height:1.45}
+.cg-era-hdr{padding:.55rem 1rem;border-radius:8px 8px 0 0;font-family:var(--font-mono);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--cg-border);border-bottom:none;color:var(--cg-orange)}
+.cg-era-body{background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:0 0 8px 8px;padding:.6rem;margin-bottom:1.25rem}
+.cg-footer{border-top:1px solid var(--cg-border);padding:1.25rem 1.5rem;max-width:960px;margin:2rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.cg-footer-brand{font-family:var(--font-mono);font-size:11px;color:var(--cg-orange);font-weight:700}
+.cg-footer-sources{font-size:11px;color:var(--cg-muted2);font-family:var(--font-mono)}
+code{background:var(--cg-surface2);padding:1px 5px;border-radius:3px;font-family:var(--font-mono);font-size:.87em;color:var(--cg-teal,#14b8a6)}
+p{margin-bottom:.85rem}ul,ol{padding-left:1.4rem}li{margin-bottom:.25rem;font-size:14px;color:var(--cg-text)}
+@media(max-width:640px){.cg-page-header,.cg-container{padding-left:1rem;padding-right:1rem}.cg-navbar{padding:.5rem 1rem}}
+</style>
+
+</head>
+<body>
+<nav class="cg-navbar"><a href="https://cybergrind.org" class="cg-navbar-brand">CYBER<span>//</span>GRIND</a><div class="cg-navbar-links"><a href="https://cybergrind.org/orange-book/">Orange Book</a><a href="https://cybergrind.org/blog/">News</a><a href="https://cybergrind.org/tools/">Tools</a><a href="https://cybergrind.org">↩ Site</a></div></nav>
+<div class="cg-page-header">
+  <p class="cg-eyebrow">// CyberGrind · Orange Book · OS Infographic Series — 08 of 09</p>
+  <h1 class="cg-page-title">Linux <span>Terminal Commands</span></h1>
+  <p class="cg-page-subtitle">Essential bash commands for file management, system administration, networking, permissions, and scripting.</p>
+  <div class="cg-divider"></div>
+</div>
+<div class="cg-container">
+
+<div class="cg-term">
+  <div class="cg-term-bar"><div class="cg-term-dot" style="background:#ff5f57"></div><div class="cg-term-dot" style="background:#febc2e"></div><div class="cg-term-dot" style="background:#28c840"></div><span class="cg-term-title">bash 5.x — Ubuntu 24.04 LTS</span></div>
+  <div class="cg-term-body">
+    <div class="t-cmt"># Case-sensitive! ls ≠ LS. Pipe | chains commands. && runs next only if previous succeeds</div>
+    <div><span class="t-prompt">logan@ubuntu:~$</span> <span class="t-cmd">ls</span> <span class="t-flag">-lah</span> <span class="t-arg">/var/log</span> <span class="t-flag">| grep</span> <span class="t-arg">"\.log"</span> <span class="t-flag">| sort -k5 -rh | head -5</span></div>
+    <div class="t-out">-rw-r--r-- 1 root adm  42M Apr 28 syslog</div>
+    <div class="t-out">-rw-r----- 1 syslog adm 18M Apr 28 auth.log</div>
+  </div>
+</div>
+<div class="cg-callout"><strong>Critical:</strong> Linux is <em>always</em> case-sensitive — commands, filenames, and paths. <code>ls</code> works; <code>LS</code> → "command not found". This is the most common source of confusion when switching from Windows or macOS.</div>
+<div class="cg-section-title">// Navigation &amp; File Operations</div>
+<div class="cg-grid-2">
+  <div class="cg-card cg-card-orange"><code>ls -lah --color=auto</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-l=long -a=all hidden -h=human sizes</div><div style="font-size:.75rem;color:var(--cg-muted)">List directory. -a shows dot files, -S sort by size, -t sort by time. --sort=extension for ext grouping.</div></div>
+  <div class="cg-card cg-card-orange"><code>cd /etc | cd .. | cd ~ | cd -</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">absolute · parent · home · previous</div><div style="font-size:.75rem;color:var(--cg-muted)">Change directory. <code>cd -</code> returns to previous directory. <code>cd ~user</code> goes to that user's home.</div></div>
+  <div class="cg-card cg-card-orange"><code>cp -rv /src /dst</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-r=recursive -v=verbose</div><div style="font-size:.75rem;color:var(--cg-muted)">Copy files/dirs. -p preserves timestamps and permissions. -u only copies if source is newer.</div></div>
+  <div class="cg-card cg-card-orange"><code>rm -rf /path/to/dir</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">⚠ PERMANENT — no Recycle Bin</div><div style="font-size:.75rem;color:var(--cg-muted)">Delete permanently. -r for dirs, -f skips confirmation. No undo. <strong>Never run rm -rf / as root.</strong></div></div>
+  <div class="cg-card cg-card-orange"><code>cat f | less f | head -20 | tail -f</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">print · page · top N · live follow</div><div style="font-size:.75rem;color:var(--cg-muted)">View file content. <code>less</code>: q=quit /=search space=next page. <code>tail -f</code> follows live log writes.</div></div>
+  <div class="cg-card cg-card-orange"><code>mkdir -p parent/child/sub</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-p creates full path tree</div><div style="font-size:.75rem;color:var(--cg-muted)">Create directory. -p creates all parent directories — no error if already exists.</div></div>
+</div>
+<div class="cg-section-title">// Search &amp; Text Processing</div>
+<div class="cg-grid-2">
+  <div class="cg-card cg-card-orange"><code>grep -rni "pattern" /path/</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-r=recurse -n=line# -i=case insensitive</div><div style="font-size:.75rem;color:var(--cg-muted)">Search text. -l for filenames only. -c for count. --include="*.log" to scope. -E for extended regex.</div></div>
+  <div class="cg-card cg-card-orange"><code>find /etc -name "*.conf" -type f</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-name -type -mtime -size -user -perm</div><div style="font-size:.75rem;color:var(--cg-muted)">Find files. -mtime -1 for last day. -size +100M for large files. -exec rm {} \; to act on results.</div></div>
+  <div class="cg-card cg-card-orange"><code>sed -i 's/old/new/g' file.txt</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">stream editor — in-place replace</div><div style="font-size:.75rem;color:var(--cg-muted)">Replace text in files. /g = all occurrences. Without -i, outputs to stdout. -E for extended regex.</div></div>
+  <div class="cg-card cg-card-orange"><code>awk '{print $1, $3}' file.txt</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">$0=line $1=first field $NF=last</div><div style="font-size:.75rem;color:var(--cg-muted)">Extract columns. -F: sets field separator. Powerful for parsing logs, CSVs, /etc/passwd.</div></div>
+  <div class="cg-card cg-card-orange"><code>sort -k2 -rn | uniq -c</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-k=key -r=reverse -n=numeric</div><div style="font-size:.75rem;color:var(--cg-muted)">Sort lines. <code>uniq -c</code> counts duplicates. Classic combo: sort | uniq -c | sort -rn for frequency.</div></div>
+  <div class="cg-card cg-card-orange"><code>wc -l file | cut -d: -f1 /etc/passwd</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">count · field extract</div><div style="font-size:.75rem;color:var(--cg-muted)">wc counts lines/words/bytes. cut extracts specific fields from delimited text. Essential for log parsing.</div></div>
+</div>
+<div class="cg-section-title">// Process &amp; System Management</div>
+<div class="cg-grid-2">
+  <div class="cg-card cg-card-orange"><code>ps aux | grep nginx</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">a=all users u=format x=no-tty</div><div style="font-size:.75rem;color:var(--cg-muted)">List processes. Pipe to grep to filter. top/htop/btop for interactive live monitoring.</div></div>
+  <div class="cg-card cg-card-orange"><code>kill -9 PID | killall nginx</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-9=SIGKILL (force) -15=SIGTERM</div><div style="font-size:.75rem;color:var(--cg-muted)">SIGTERM (15) requests graceful shutdown; SIGKILL (9) forces immediate termination.</div></div>
+  <div class="cg-card cg-card-orange"><code>systemctl status/start/stop nginx</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">systemd service control</div><div style="font-size:.75rem;color:var(--cg-muted)">Manage systemd services. enable/disable controls auto-start. journalctl -u nginx -f for logs.</div></div>
+  <div class="cg-card cg-card-orange"><code>df -h | du -sh /var/log/*</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">disk free · disk usage</div><div style="font-size:.75rem;color:var(--cg-muted)">df shows filesystem usage. du shows directory sizes. -h for human-readable MB/GB output.</div></div>
+  <div class="cg-card cg-card-orange"><code>ss -tlnp</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">replaces netstat — faster</div><div style="font-size:.75rem;color:var(--cg-muted)">Show listening sockets. -t=TCP -l=listening -n=numeric -p=process. Filter: ss -anp | grep :80</div></div>
+  <div class="cg-card cg-card-orange"><code>ssh user@host -p 22 -i ~/.ssh/key</code><div style="font-family:var(--font-mono);font-size:10px;color:var(--cg-muted);margin:.2rem 0">-p=port -i=identity file</div><div style="font-size:.75rem;color:var(--cg-muted)">Secure shell. -L 8080:localhost:80 for port forward. -N for tunnel only. scp for file transfers.</div></div>
+</div>
+<div class="cg-section-title">// Linux Permissions — Read, Set, Understand</div>
+<div style="background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;padding:1rem;margin:.85rem 0">
+  <div style="font-family:var(--font-mono);font-size:1rem;color:var(--cg-text);margin-bottom:.6rem;display:flex;gap:0;flex-wrap:wrap">
+    <span style="padding:.3rem .6rem;border-radius:4px;background:#1a1030;color:#c4b5fd;margin:.1rem">-</span>
+    <span style="padding:.3rem .6rem;border-radius:4px;background:#0a1535;color:#93c5fd;margin:.1rem">rwx</span>
+    <span style="padding:.3rem .6rem;border-radius:4px;background:#1a1000;color:#fef08a;margin:.1rem">r-x</span>
+    <span style="padding:.3rem .6rem;border-radius:4px;background:#250808;color:#fca5a5;margin:.1rem">r--</span>
+    <span style="padding:.3rem .6rem;margin:.1rem;color:var(--cg-muted);font-size:.85rem">  root  staff  4096  script.sh</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem;margin-top:.5rem">
+    <div style="font-size:.75rem;color:var(--cg-muted)"><span style="color:#c4b5fd">■</span> Type: - file | d dir | l symlink</div>
+    <div style="font-size:.75rem;color:var(--cg-muted)"><span style="color:#93c5fd">■</span> Owner: rwx = 7 (read+write+exec)</div>
+    <div style="font-size:.75rem;color:var(--cg-muted)"><span style="color:#fef08a">■</span> Group: r-x = 5 (read+exec)</div>
+    <div style="font-size:.75rem;color:var(--cg-muted)"><span style="color:#fca5a5">■</span> Other: r-- = 4 (read only)</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.75rem">
+    <div style="background:var(--cg-surface2);border:1px solid var(--cg-border);border-radius:6px;padding:.7rem;font-family:var(--font-mono);font-size:12px"><div style="color:var(--cg-orange);font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Symbolic</div><div style="color:#79c0ff">chmod u+x script.sh</div><div style="color:#79c0ff">chmod a+r public.html</div><div style="color:var(--cg-muted2);font-size:11px;margin-top:.3rem">u=user g=group o=other a=all</div></div>
+    <div style="background:var(--cg-surface2);border:1px solid var(--cg-border);border-radius:6px;padding:.7rem;font-family:var(--font-mono);font-size:12px"><div style="color:var(--cg-orange);font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Octal</div><div style="color:#79c0ff">chmod 755 script.sh<span style="color:var(--cg-muted2)">  # rwxr-xr-x</span></div><div style="color:#79c0ff">chmod 644 config.txt<span style="color:var(--cg-muted2)"> # rw-r--r--</span></div><div style="color:#79c0ff">chmod 600 id_rsa<span style="color:var(--cg-muted2)">     # rw-------</span></div></div>
+  </div>
+</div>
+<div class="cg-section-title">// Power Patterns — Pipes &amp; Chaining</div>
+<div style="background:var(--cg-surface);border:1px solid var(--cg-border);border-radius:8px;overflow:hidden">
+  <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;padding:.55rem 1rem;border-bottom:1px solid var(--cg-border);font-size:12.5px"><div style="font-family:var(--font-mono);color:#79c0ff">grep -i "fail" /var/log/auth.log | awk '{print $NF}' | sort | uniq -c | sort -rn | head</div><div style="color:var(--cg-muted);font-size:12px">Top failed login IPs</div></div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;padding:.55rem 1rem;border-bottom:1px solid var(--cg-border);font-size:12.5px"><div style="font-family:var(--font-mono);color:#79c0ff">find / -perm -4000 -type f 2>/dev/null</div><div style="color:var(--cg-muted);font-size:12px">Find all SUID files (security audit)</div></div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;padding:.55rem 1rem;border-bottom:1px solid var(--cg-border);font-size:12.5px"><div style="font-family:var(--font-mono);color:#79c0ff">cat /etc/passwd | cut -d: -f1 | sort | uniq</div><div style="color:var(--cg-muted);font-size:12px">List all unique usernames</div></div>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;padding:.55rem 1rem;font-size:12.5px"><div style="font-family:var(--font-mono);color:#79c0ff">ps aux | awk '{sum+=$3} END {print "Total CPU%:", sum}'</div><div style="color:var(--cg-muted);font-size:12px">Sum CPU across all processes</div></div>
+</div>
+
+</div>
+<div class="cg-footer">
+  <span class="cg-footer-brand">CYBER//GRIND · cybergrind.org</span>
+  <span class="cg-footer-sources">Sources: GNU Bash Manual · ss/iproute2 docs · Linux man pages · Provided course materials</span>
+</div>
+</body></html>
