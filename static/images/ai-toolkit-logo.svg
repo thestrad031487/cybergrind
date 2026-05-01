@@ -1,0 +1,33 @@
+<svg width="840" height="280" viewBox="0 0 680 280" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>AI Toolkit — CyberGrind</title>
+  <desc>CyberGrind AI Toolkit section logo with dark background and orange accent branding</desc>
+
+  <rect x="0" y="0" width="680" height="280" rx="12" fill="#111111"/>
+
+  <line x1="40" y1="140" x2="160" y2="140" stroke="#f97316" stroke-width="1" opacity="0.3"/>
+  <line x1="520" y1="140" x2="640" y2="140" stroke="#f97316" stroke-width="1" opacity="0.3"/>
+
+  <circle cx="160" cy="140" r="3" fill="#f97316" opacity="0.5"/>
+  <circle cx="520" cy="140" r="3" fill="#f97316" opacity="0.5"/>
+
+  <line x1="160" y1="140" x2="160" y2="100" stroke="#f97316" stroke-width="1" opacity="0.2"/>
+  <line x1="520" y1="140" x2="520" y2="100" stroke="#f97316" stroke-width="1" opacity="0.2"/>
+  <line x1="160" y1="180" x2="160" y2="140" stroke="#f97316" stroke-width="1" opacity="0.2"/>
+  <line x1="520" y1="180" x2="520" y2="140" stroke="#f97316" stroke-width="1" opacity="0.2"/>
+
+  <circle cx="160" cy="100" r="2" fill="#f97316" opacity="0.3"/>
+  <circle cx="520" cy="100" r="2" fill="#f97316" opacity="0.3"/>
+  <circle cx="160" cy="180" r="2" fill="#f97316" opacity="0.3"/>
+  <circle cx="520" cy="180" r="2" fill="#f97316" opacity="0.3"/>
+
+  <rect x="210" y="60" width="260" height="160" rx="8" fill="none" stroke="#f97316" stroke-width="0.5" opacity="0.15"/>
+
+  <text x="340" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#f97316" letter-spacing="0.18em" opacity="0.9">CYBERGRIND</text>
+
+  <text x="340" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#ffffff" letter-spacing="0.04em">AI Toolkit</text>
+
+  <line x1="280" y1="188" x2="340" y2="188" stroke="#f97316" stroke-width="1.5" opacity="0.6"/>
+  <line x1="340" y1="188" x2="400" y2="188" stroke="#444444" stroke-width="1.5" opacity="0.6"/>
+
+  <circle cx="340" cy="188" r="2.5" fill="#f97316"/>
+</svg>
