@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest threats and vulnerabilities that are making headlines. Two stories that caught my attention are "Attack of the killer script kiddies" from The Verge and "Flowtriq Detects 48.3 Gbps Multi-Vector DDoS Attack in Under One Second" from Associated Press.
+
+The rise of script kiddies is a concerning trend that highlights the lack of cybersecurity awareness among some individuals. These individuals may not have the necessary skills or knowledge to properly secure their systems, but they can still cause significant damage with pre-existing exploits and tools. As a practitioner, I've seen firsthand how these attackers can move quickly and exploit vulnerabilities before defenders even know what's happening.
+
+On the other hand, Flowtriq's detection of a massive DDoS attack in under one second is a testament to the importance of having robust defense mechanisms in place. This kind of attack highlights the need for organizations to have fast and reliable incident response plans, as well as robust security measures such as rate limiting and IP blocking.
+
+**🔧 Patch Priority:** Samsung's vulnerability added to CISA's Known Exploited Vulnerabilities catalog matters because it affects a widely used product that could be exploited by attackers.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
