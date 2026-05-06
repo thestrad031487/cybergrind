@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments in our field, and today's headlines are particularly noteworthy. On one hand, we have the news that Microsoft won't be patching PhantomRPC, leaving it vulnerable to exploits. This raises questions about whether PhantomRPC is a feature or a bug - if it's not being patched, what's the point of including it in the first place? As someone who's had to deal with their fair share of software vulnerabilities, I can tell you that this kind of laxity isn't acceptable.
+
+On the other hand, we have the emergence of AI-powered honeypots, which are turning the tables on malicious AI agents. This is a game-changer in the fight against advanced threats - by using AI to mimic human behavior, these honeypots can lure attackers into a false sense of security before striking back. It's a clever tactic that could give defenders an edge in the battle against sophisticated adversaries.
+
+As we move forward, it's clear that the stakes are getting higher and higher. With AI agents becoming increasingly prevalent, it's essential that we stay one step ahead of them - whether through patching vulnerabilities like PhantomRPC or using innovative technologies like honeypots.
+
+**🔧 Patch Priority:** Microsoft won't be patching PhantomRPC, leaving its users vulnerable to exploits.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
