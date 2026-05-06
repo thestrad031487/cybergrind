@@ -4,13 +4,12 @@ import urllib.request
 import urllib.error
 import json
 import ssl
+import argparse
 
 # --- Config ---
 BLOG_DIR = "content/blog"
-TODAY = datetime.date.today()
-FILENAME = f"{BLOG_DIR}/{TODAY.strftime('%Y-%m-%d')}-cybernews.md"
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-OLLAMA_MODEL = "llama3.2"
+OLLAMA_MODEL = "llama3.2:3b"
 
 # --- NewsAPI ---
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
@@ -88,13 +87,15 @@ Write the commentary now, referencing ONLY the headlines provided:"""
         print(f"Ollama commentary generation failed: {e}")
         return None
 
-def generate_post(headlines, commentary=None):
-    date_str = TODAY.strftime("%B %d, %Y")
-    iso_date = TODAY.strftime("%Y-%m-%dT08:00:00-05:00")
+def generate_post(headlines, commentary=None, today=None):
+    if today is None:
+        today = datetime.date.today()
+    date_str = today.strftime("%B %d, %Y")
+    iso_date = today.strftime("%Y-%m-%dT08:00:00-05:00")
 
     lines = [
         "---",
-        f'title: "CyberNews {TODAY.strftime("%Y-%m-%d")}"',
+        f'title: "CyberNews {today.strftime("%Y-%m-%d")}"',
         f"date: {iso_date}",
         f'description: "Daily cybersecurity headlines and practitioner commentary for {date_str}."',
         'tags: ["news", "daily"]',
@@ -126,10 +127,21 @@ def generate_post(headlines, commentary=None):
     return "\n".join(lines)
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", help="Date in YYYY-MM-DD format (default: today)")
+    args = parser.parse_args()
+
+    if args.date:
+        today = datetime.date.fromisoformat(args.date)
+    else:
+        today = datetime.date.today()
+
+    filename = f"{BLOG_DIR}/{today.strftime('%Y-%m-%d')}-cybernews.md"
+
     os.makedirs(BLOG_DIR, exist_ok=True)
 
-    if os.path.exists(FILENAME):
-        print(f"Post already exists: {FILENAME}")
+    if os.path.exists(filename):
+        print(f"Post already exists: {filename}")
         return
 
     print("Fetching headlines...")
@@ -144,12 +156,12 @@ def main():
     if not commentary:
         print("Warning: commentary generation failed, post will be created without it")
 
-    content = generate_post(headlines, commentary)
+    content = generate_post(headlines, commentary, today)
 
-    with open(FILENAME, "w") as f:
+    with open(filename, "w") as f:
         f.write(content)
 
-    print(f"Created: {FILENAME}")
+    print(f"Created: {filename}")
 
 if __name__ == "__main__":
     main()
