@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a surge of AI-related vulnerabilities and concerns emerging across various industries. The National Cyber Security Centre (NCSC) has warned of an impending "vulnerability patch wave" fueled by AI, which is concerning for organizations that haven't yet prepared their systems.
+
+The NHS's decision to close-source hundreds of GitHub repositories due to AI and security concerns is a stark reminder of the importance of prioritizing vulnerability management. This move highlights the need for organizations to take a proactive approach to identifying and addressing potential vulnerabilities before they can be exploited. It's also a call to action for developers to be more mindful of the impact their code may have on security.
+
+The fact that 76% of UK organizations have faced deepfake attacks, with most not being prepared, is a wake-up call for businesses and individuals alike. As AI-powered phishing tools continue to evolve, it's essential to stay vigilant and invest in robust security measures to protect against these types of threats.
+
+**🔧 Patch Priority:** Weaver E-cology RCE Flaw CVE-2026-22679 Actively Exploited via Debug API
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
