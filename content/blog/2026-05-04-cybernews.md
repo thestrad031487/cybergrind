@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a disturbing trend among small businesses that can be easily overlooked but pose significant risks to their security posture. According to Malwarebytes.com, there are three easy-to-miss cybersecurity risks that small businesses need to be aware of, including malware, phishing attacks, and poor password management. These threats can be devastating if left unchecked, so it's essential for business owners to take proactive steps to protect their networks.
+
+I'm also concerned about the growing threat landscape facing public sector banks, which are now looking to scale up their IT spend in response to the cyber threat posed by Anthropic Mythos. This is a clear indication that the risks associated with this malware are being taken seriously, and I expect to see more stringent security measures put in place to mitigate these threats.
+
+In terms of specific vulnerabilities, CVE-2026-31431 is a critical Linux root access bug that has been added to the Known Exploited Vulnerability (KEV) list by CISA. This vulnerability enables an attacker to escalate their privileges across cloud environments, making it a serious concern for organizations that rely on Linux-based systems.
+
+**🔧 Patch Priority:** CVE-2026-31431 is a high-priority patch due to its ability to enable Linux root privilege escalation across cloud environments, which can have severe consequences for organizations with sensitive data.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
