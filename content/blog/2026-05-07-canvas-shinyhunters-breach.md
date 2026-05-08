@@ -4,7 +4,7 @@ date: 2026-05-07
 tags: ["cybersecurity", "education", "data breach", "extortion", "ShinyHunters"]
 summary: "The ShinyHunters extortion gang breached Instructure again, defacing Canvas login portals across hundreds of institutions and threatening to leak data on 280 million students and staff unless a ransom is paid by May 12."
 cover:
-  image: "images/sh_canvas_outage.png"
+  image: "/images/sh_canvas_outage.png"
   alt: "ShinyHunters defacement message displayed on Canvas login portals"
   caption: "The message students encountered when attempting to log into Canvas on May 7, 2026"
 ---
@@ -17,7 +17,7 @@ ShinyHunters found a vulnerability in Instructure's systems and used it to defac
 
 > "ShinyHunters has breached Instructure (again). Instead of contacting us to resolve it they ignored us and did some 'security patches.' If any of the schools in the affected list are interested in preventing the release of their data, please consult with a cyber advisory firm and contact us privately at TOX to negotiate a settlement. You have till the end of the day by May 12 2026 before everything is leaked."
 
-![ShinyHunters Canvas defacement message](images/sh_canvas_outage.png)
+![ShinyHunters Canvas defacement message](/images/sh_canvas_outage.png)
 *The message students saw when trying to log into Canvas on May 7, 2026.*
 
 It wasn't just the website either, the same message showed up in the Canvas mobile app. Instructure eventually pulled Canvas offline entirely while they figure out what to do next.
@@ -30,7 +30,7 @@ What got grabbed? Names, email addresses, student ID numbers, and private messag
 
 ShinyHunters is also claiming they walked away with 3.65TB of raw data. That's a lot.
 
-![ShinyHunters leak site listing for Instructure](images/sh_instructure.png)
+![ShinyHunters leak site listing for Instructure](/images/sh_instructure.png)
 *ShinyHunters' leak site listing for Instructure, updated May 3, 2026 — "FINAL WARNING PAY OR LEAK."*
 
 ## Real-World Impact
