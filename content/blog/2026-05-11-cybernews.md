@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on some concerning developments that warrant attention from the industry. One of the most alarming stories is the hack of Instructure's Canvas learning management system, which has affected thousands of schools worldwide (Legalinsurrection.com). This highlights the importance of robust security measures in place for critical infrastructure like educational platforms.
+
+Another story that caught my attention is the discovery of zero-day vulnerabilities in Anthropic's Mythos AI model by its own researchers. It turns out that the team found a significant number of vulnerabilities, including one that was already known to exist in their training data (Rival.security). This raises questions about the reliability and security of AI models, particularly those used for critical applications like banking.
+
+The implications of these stories are clear: we need to prioritize security in our systems and be vigilant about potential threats. As a practitioner, I've seen firsthand how quickly vulnerabilities can spread, and it's essential that we take proactive measures to prevent them.
+
+**🔧 Patch Priority:** Instructure's Canvas LMS should receive high-priority patches for its users immediately due to the potential exposure of sensitive student data.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
