@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been following the recent developments in the industry with great interest. Two stories that caught my attention are Anthropic's CEO warning of the "moment of danger" being real, but most people looking in the wrong place, and SEBI forming a task force to address concerns over AI-powered tools like Mythos.
+
+Anthropic's CEO is spot on when they say the moment of danger is real. We're living in an era where AI-driven threats are becoming increasingly sophisticated, making it harder for defenders to keep up. The fact that most people are looking in the wrong place suggests a lack of awareness about these emerging threats. As security professionals, we need to take a closer look at our defenses and make sure we're not caught off guard by these new types of attacks.
+
+SEBI's decision to form a task force to address concerns over AI-powered tools like Mythos is a step in the right direction. The use of AI in cybercrime is becoming more prevalent, and it's essential that regulators take notice. By setting up a task force, SEBI can help ensure that market players are aware of the risks associated with these tools and take steps to mitigate them.
+
+**🔧 Patch Priority:** Cisco Talos needs to prioritize patching for its customers ASAP due to the growing threat of AI-driven phishing attacks.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
