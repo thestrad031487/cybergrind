@@ -22,4 +22,14 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As I dive into today's cybersecurity landscape, two stories stand out to me as particularly noteworthy. First, the U.S. CISA has added a flaw in Microsoft Exchange Server to its Known Exploited Vulnerabilities catalog, which is a stark reminder of the ongoing threat landscape. This zero-day vulnerability has already seen active exploitation, and it's essential for organizations that use Microsoft Exchange Server to take immediate action and patch their systems.
+
+The second story that caught my attention is the revelation that North Korean hackers have been using AI to amplify their attacks, with one attack yielding a staggering $600 million in profits. This highlights the evolving nature of cyber threats, where AI-powered attacks are becoming increasingly sophisticated and lucrative for those who can wield them effectively. As practitioners, we need to stay vigilant and adapt our defenses to counter these emerging threats.
+
+**🔧 Patch Priority:** Microsoft Exchange Server (CVE-2026-42897) is a critical vulnerability that requires immediate attention from organizations using the software.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

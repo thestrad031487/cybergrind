@@ -23,4 +23,14 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing two trends that are making me sit up and take notice. First, it's the fact that Europe has built its own sovereign clouds to escape US control, only to forget about the processors behind them. This is a classic case of "out of sight, out of mind" when it comes to cybersecurity. Cloud providers need to ensure that their infrastructure is secure, not just the data stored on it. It's a sobering reminder that security isn't just about compliance, but also about the underlying technology.
+
+The second trend that caught my attention is the discovery of a zero-day exploit in Microsoft Exchange Server (CVE-2026-42897). This is exactly what I'd expect from a nation-state actor - they're not going to waste time on trivial exploits. The fact that this vulnerability has been actively exploited in attacks means that it's already being used in the wild, and we need to move fast to patch it before more damage is done.
+
+**🔧 Patch Priority:** Microsoft Exchange Server (CVE-2026-42897) - This zero-day exploit matters because it's a known vulnerability that's being actively exploited by nation-state actors, making it a high-priority target for patching and mitigation.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
