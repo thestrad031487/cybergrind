@@ -23,4 +23,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing two major red flags that require immediate attention from organizations across various industries. The first is the confirmed active exploitation of a zero-day flaw in Microsoft's Exchange Server (CVE-2026-42897). This means attackers have already found and are exploiting a previously unknown vulnerability in the server software, making it a prime target for malware and lateral movement.
+
+The fact that this flaw has been actively exploited highlights the importance of keeping software up-to-date. Organizations that haven't yet applied the necessary patches risk being compromised by these attacks. I've seen too many cases where an organization thinks they're safe because their systems are current, only to find out later that a zero-day exploit was used to gain access.
+
+The second story that caught my attention is the TanStack Supply Chain Attack, which forced macOS updates on two OpenAI employee devices (Internet). This incident demonstrates how easily compromised third-party software can be used as a vector for attacks. It's a stark reminder of the importance of supply chain security and conducting thorough risk assessments on all software and services used within an organization.
+
+**🔧 Patch Priority:** Microsoft Exchange Server (CVE-2026-42897) is critical, as it has already been actively exploited by attackers, making timely patching essential to prevent further compromise.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
