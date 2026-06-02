@@ -1,0 +1,589 @@
+<style>
+.cg-rr-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  color: var(--primary);
+}
+
+.cg-rr-main h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.cg-rr-main .cg-rr-subtitle {
+  color: var(--secondary);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+.cg-rr-main .cg-rr-subtitle a {
+  color: #e8720c;
+  text-decoration: none;
+}
+
+.cg-rr-main .cg-rr-subtitle a:hover {
+  text-decoration: underline;
+}
+
+/* Matrix */
+.cg-rr-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--primary);
+  border-left: 3px solid #e8720c;
+  padding-left: 0.75rem;
+}
+
+.cg-rr-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 2rem;
+}
+
+.cg-rr-matrix th,
+.cg-rr-matrix td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+}
+
+.cg-rr-matrix thead th {
+  background: #111;
+  color: #ccc;
+  font-weight: 600;
+}
+
+.cg-rr-matrix tbody td:first-child {
+  text-align: left;
+  font-weight: 600;
+  background: #111;
+  color: #ccc;
+}
+
+.risk-critical { background: rgba(180, 30, 30, 0.25); color: #ff6b6b; font-weight: 700; }
+.risk-high     { background: rgba(200, 100, 0, 0.2);  color: #ffaa55; font-weight: 600; }
+.risk-medium   { background: rgba(180, 160, 0, 0.2);  color: #ffe066; }
+.risk-low      { background: rgba(30, 130, 30, 0.2);  color: #66dd66; }
+
+/* Risk cards */
+.cg-rr-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cg-rr-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.cg-rr-card-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: #e8720c;
+  background: rgba(232, 114, 12, 0.1);
+  border: 1px solid rgba(232, 114, 12, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.cg-rr-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  flex: 1;
+  color: #f0f0f0;
+}
+
+.cg-rr-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.badge-critical { background: rgba(180,30,30,0.3); color: #ff6b6b; border: 1px solid rgba(180,30,30,0.5); }
+.badge-high     { background: rgba(200,100,0,0.25); color: #ffaa55; border: 1px solid rgba(200,100,0,0.4); }
+.badge-medium   { background: rgba(180,160,0,0.2);  color: #ffe066; border: 1px solid rgba(180,160,0,0.4); }
+.badge-low      { background: rgba(30,130,30,0.2);  color: #66dd66; border: 1px solid rgba(30,130,30,0.4); }
+
+.cg-rr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .cg-rr-grid { grid-template-columns: 1fr; }
+}
+
+.cg-rr-field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 0.2rem;
+}
+
+.cg-rr-field p {
+  font-size: 0.88rem;
+  color: #ccc;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cg-rr-treatments {
+  margin-top: 1rem;
+}
+
+.cg-rr-treatments label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.cg-rr-treatment-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.4rem;
+}
+
+.cg-rr-treatment-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: #888;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.cg-rr-treatment-text {
+  font-size: 0.86rem;
+  color: #bbb;
+  line-height: 1.5;
+}
+
+.cg-rr-nist {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1e1e1e;
+}
+
+.cg-rr-nist label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-right: 0.5rem;
+}
+
+.cg-rr-nist-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #aaa;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  margin: 0.15rem 0.15rem 0 0;
+}
+
+/* NIST mapping table */
+.cg-rr-nist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.cg-rr-nist-table th {
+  background: #111;
+  color: #aaa;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #222;
+  text-align: left;
+}
+
+.cg-rr-nist-table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #1e1e1e;
+  color: #bbb;
+  vertical-align: top;
+}
+
+.cg-rr-nist-table tr:nth-child(even) td {
+  background: #0d0d0d;
+}
+
+.cg-rr-function {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.fn-govern  { background: rgba(100,100,200,0.2); color: #9999ff; border: 1px solid rgba(100,100,200,0.3); }
+.fn-identify{ background: rgba(50,150,200,0.2);  color: #66bbff; border: 1px solid rgba(50,150,200,0.3); }
+.fn-protect { background: rgba(30,160,80,0.2);   color: #55cc88; border: 1px solid rgba(30,160,80,0.3); }
+.fn-detect  { background: rgba(200,160,0,0.2);   color: #ffdd44; border: 1px solid rgba(200,160,0,0.3); }
+.fn-respond { background: rgba(200,80,0,0.2);    color: #ff8844; border: 1px solid rgba(200,80,0,0.3); }
+
+.cg-rr-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e1e1e;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.cg-rr-footer a {
+  color: #e8720c;
+  text-decoration: none;
+}
+</style>
+
+<div class="cg-rr-main">
+
+  <h1>Risk Register — Device Code Authentication Abuse</h1>
+  <p class="cg-rr-subtitle">
+    A practical risk register template covering OAuth 2.0 Device Code phishing exposure in Microsoft 365 environments.
+    Based on active threat intelligence from Storm-2372, TA2723, and the EvilTokens PhaaS ecosystem.
+    See the companion article: <a href="/blog/2026-06-02-device-code-phishing/">Device Code Phishing — The Attack That Makes MFA Irrelevant</a>
+  </p>
+
+  <!-- Likelihood × Impact Matrix -->
+  <div class="cg-rr-section-title">Likelihood × Impact Reference Matrix</div>
+  <table class="cg-rr-matrix">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Low Impact</th>
+        <th>Medium Impact</th>
+        <th>High Impact</th>
+        <th>Critical Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>High Likelihood</td>
+        <td class="risk-medium">Medium</td>
+        <td class="risk-high">High</td>
+        <td class="risk-critical">Critical</td>
+        <td class="risk-critical">Critical</td>
+      </tr>
+      <tr>
+        <td>Medium Likelihood</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-medium">Medium</td>
+        <td class="risk-high">High</td>
+        <td class="risk-critical">Critical</td>
+      </tr>
+      <tr>
+        <td>Low Likelihood</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-medium">Medium</td>
+        <td class="risk-high">High</td>
+      </tr>
+      <tr>
+        <td>Very Low Likelihood</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-low">Low</td>
+        <td class="risk-medium">Medium</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Risk Entries -->
+  <div class="cg-rr-section-title">Risk Entries</div>
+
+  <!-- IAM-001 -->
+  <div class="cg-rr-card">
+    <div class="cg-rr-card-header">
+      <span class="cg-rr-card-id">IAM-001</span>
+      <span class="cg-rr-card-title">Device Code Flow Abuse / OAuth Token Hijacking</span>
+      <span class="cg-rr-badge badge-critical">INHERENT: CRITICAL</span>
+      <span class="cg-rr-badge badge-high">RESIDUAL: HIGH</span>
+    </div>
+    <div class="cg-rr-grid">
+      <div class="cg-rr-field">
+        <label>Description</label>
+        <p>Attacker initiates OAuth 2.0 Device Authorization Flow against the tenant IdP, socially engineers a user into entering the resulting <code>user_code</code>, and collects a valid Bearer + refresh token without stealing credentials or bypassing MFA.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Likelihood</label>
+        <p>High — technique is commodity-level, available via PhaaS kits, actively targeting M365 tenants globally as of Q1 2026.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Impact</label>
+        <p>Critical — full account access, persistent via refresh token, survives password resets without explicit revocation.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Current Controls</label>
+        <p>MFA enforced, Conditional Access policies in place (general). Device Code Flow not explicitly restricted.</p>
+      </div>
+    </div>
+    <div class="cg-rr-treatments">
+      <label>Treatment Plan</label>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-01</span>
+        <span class="cg-rr-treatment-text">Configure Conditional Access Authentication Flows policy to block Device Code Flow tenant-wide.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-02</span>
+        <span class="cg-rr-treatment-text">If Device Code Flow is required for specific use cases, restrict via Named Locations (trusted IPs) and approved user groups only.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-03</span>
+        <span class="cg-rr-treatment-text">Deploy user awareness module: "Any code prompt you didn't initiate is suspicious — report it immediately."</span>
+      </div>
+    </div>
+    <div class="cg-rr-nist">
+      <label>NIST CSF 2.0</label>
+      <span class="cg-rr-nist-tag">GV.RM-01</span>
+      <span class="cg-rr-nist-tag">ID.RA-01</span>
+      <span class="cg-rr-nist-tag">PR.AA-05</span>
+      <span class="cg-rr-nist-tag">DE.CM-01</span>
+      <span class="cg-rr-nist-tag">RS.MI-02</span>
+    </div>
+  </div>
+
+  <!-- IAM-002 -->
+  <div class="cg-rr-card">
+    <div class="cg-rr-card-header">
+      <span class="cg-rr-card-id">IAM-002</span>
+      <span class="cg-rr-card-title">Refresh Token Persistence</span>
+      <span class="cg-rr-badge badge-high">INHERENT: HIGH</span>
+      <span class="cg-rr-badge badge-medium">RESIDUAL: MEDIUM</span>
+    </div>
+    <div class="cg-rr-grid">
+      <div class="cg-rr-field">
+        <label>Description</label>
+        <p>Following a successful device code phishing attack, the attacker holds a long-lived refresh token providing persistent access. Standard remediation (password reset, MFA reset) does not invalidate refresh tokens without explicit revocation.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Likelihood</label>
+        <p>Medium — contingent on successful IAM-001 exploitation. Dwell time risk is high once access is obtained.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Impact</label>
+        <p>High — persistent access survives common remediation steps, extending attacker dwell time significantly.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Current Controls</label>
+        <p>Account monitoring, periodic access reviews. Token revocation procedure not formally documented in IR runbook.</p>
+      </div>
+    </div>
+    <div class="cg-rr-treatments">
+      <label>Treatment Plan</label>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-01</span>
+        <span class="cg-rr-treatment-text">Document and test token revocation: Entra ID → Users → Revoke Sessions + invalidate refresh tokens via <code>revokeSignInSessions</code> API.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-02</span>
+        <span class="cg-rr-treatment-text">Include token revocation as a mandatory step in the identity compromise IR runbook.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-03</span>
+        <span class="cg-rr-treatment-text">Alert on refresh token use from new device fingerprint or geographic location post-revocation.</span>
+      </div>
+    </div>
+    <div class="cg-rr-nist">
+      <label>NIST CSF 2.0</label>
+      <span class="cg-rr-nist-tag">PR.AA-05</span>
+      <span class="cg-rr-nist-tag">DE.CM-09</span>
+      <span class="cg-rr-nist-tag">RS.MI-02</span>
+      <span class="cg-rr-nist-tag">RC.RP-01</span>
+    </div>
+  </div>
+
+  <!-- IAM-003 -->
+  <div class="cg-rr-card">
+    <div class="cg-rr-card-header">
+      <span class="cg-rr-card-id">IAM-003</span>
+      <span class="cg-rr-card-title">Privileged Account Takeover via First-Party App Abuse</span>
+      <span class="cg-rr-badge badge-critical">INHERENT: CRITICAL</span>
+      <span class="cg-rr-badge badge-high">RESIDUAL: HIGH</span>
+    </div>
+    <div class="cg-rr-grid">
+      <div class="cg-rr-field">
+        <label>Description</label>
+        <p>Attackers target privileged accounts using first-party Microsoft Client IDs (e.g., Microsoft Authentication Broker). These apps are pre-trusted in every Entra tenant and suppress the OAuth consent prompt, removing a key visual indicator for the victim.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Likelihood</label>
+        <p>Medium — requires targeted reconnaissance but nation-state and financially motivated actors both demonstrate this TTPs.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Impact</label>
+        <p>Critical — privileged account compromise enables lateral movement, data exfiltration, and persistent backdoor creation.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Current Controls</label>
+        <p>PIM enforced, MFA on admin accounts, limited standing admin access. Device Code Flow not scoped by role.</p>
+      </div>
+    </div>
+    <div class="cg-rr-treatments">
+      <label>Treatment Plan</label>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-01</span>
+        <span class="cg-rr-treatment-text">Apply Conditional Access Device Code Flow block scoped specifically to privileged/admin roles as highest priority implementation.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-02</span>
+        <span class="cg-rr-treatment-text">Monitor Entra ID sign-in logs for Device Code authentication events on admin accounts — generate critical alert immediately.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-03</span>
+        <span class="cg-rr-treatment-text">Conduct tabletop exercise simulating privileged account compromise via this vector to validate IR readiness.</span>
+      </div>
+    </div>
+    <div class="cg-rr-nist">
+      <label>NIST CSF 2.0</label>
+      <span class="cg-rr-nist-tag">GV.RM-02</span>
+      <span class="cg-rr-nist-tag">ID.RA-04</span>
+      <span class="cg-rr-nist-tag">PR.AA-02</span>
+      <span class="cg-rr-nist-tag">PR.AA-05</span>
+      <span class="cg-rr-nist-tag">DE.CM-01</span>
+      <span class="cg-rr-nist-tag">RS.CO-02</span>
+    </div>
+  </div>
+
+  <!-- SEC-011 -->
+  <div class="cg-rr-card">
+    <div class="cg-rr-card-header">
+      <span class="cg-rr-card-id">SEC-011</span>
+      <span class="cg-rr-card-title">Insufficient Detection Coverage for OAuth Abuse Patterns</span>
+      <span class="cg-rr-badge badge-high">INHERENT: HIGH</span>
+      <span class="cg-rr-badge badge-medium">RESIDUAL: MEDIUM</span>
+    </div>
+    <div class="cg-rr-grid">
+      <div class="cg-rr-field">
+        <label>Description</label>
+        <p>SIEM rules are tuned for credential-based attacks. OAuth token abuse — Device Code Flow, token replay, refresh token persistence — may not generate alerts under current detection logic.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Likelihood</label>
+        <p>High — detection gap is common across most organizations. Credential-attack tuning is well understood; authorization-layer abuse is not.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Impact</label>
+        <p>High — undetected compromise enables extended dwell time and secondary objectives before discovery.</p>
+      </div>
+      <div class="cg-rr-field">
+        <label>Current Controls</label>
+        <p>SIEM deployed, general sign-in alerting configured. No specific rules for <code>deviceCode</code> auth method or OAuth abuse patterns.</p>
+      </div>
+    </div>
+    <div class="cg-rr-treatments">
+      <label>Treatment Plan</label>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-01</span>
+        <span class="cg-rr-treatment-text">Write SIEM detection rule for <code>deviceCode</code> authentication method in Entra ID sign-in logs.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-02</span>
+        <span class="cg-rr-treatment-text">Alert on <code>deviceCode</code> auth events for privileged accounts — treat as critical priority, page on-call immediately.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-03</span>
+        <span class="cg-rr-treatment-text">Alert on refresh token use from new device fingerprint or geographic location.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-04</span>
+        <span class="cg-rr-treatment-text">Review first-party app authentication events for anomalous patterns — client IDs, token issuance times, IP correlation.</span>
+      </div>
+      <div class="cg-rr-treatment-item">
+        <span class="cg-rr-treatment-id">T-05</span>
+        <span class="cg-rr-treatment-text">Accept residual risk for low-privilege accounts where Device Code Flow is blocked via Conditional Access (risk reduced to low).</span>
+      </div>
+    </div>
+    <div class="cg-rr-nist">
+      <label>NIST CSF 2.0</label>
+      <span class="cg-rr-nist-tag">ID.RA-01</span>
+      <span class="cg-rr-nist-tag">DE.CM-01</span>
+      <span class="cg-rr-nist-tag">DE.CM-09</span>
+      <span class="cg-rr-nist-tag">DE.AE-02</span>
+      <span class="cg-rr-nist-tag">RS.AN-03</span>
+    </div>
+  </div>
+
+  <!-- NIST CSF 2.0 Full Mapping -->
+  <div class="cg-rr-section-title">NIST CSF 2.0 Full Mapping</div>
+  <table class="cg-rr-nist-table">
+    <thead>
+      <tr>
+        <th>Function</th>
+        <th>Subcategory</th>
+        <th>Relevance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="cg-rr-function fn-govern">GOVERN</span></td>
+        <td>GV.RM-01, GV.RM-02</td>
+        <td>Risk tolerance and context established for identity and authorization attack vectors</td>
+      </tr>
+      <tr>
+        <td><span class="cg-rr-function fn-identify">IDENTIFY</span></td>
+        <td>ID.RA-01, ID.RA-04</td>
+        <td>Threat intelligence on device code phishing actors (Storm-2372, TA2723, EvilTokens); risk to privileged assets identified</td>
+      </tr>
+      <tr>
+        <td><span class="cg-rr-function fn-protect">PROTECT</span></td>
+        <td>PR.AA-02, PR.AA-05</td>
+        <td>Conditional Access blocking Device Code Flow; privileged account access controls; token lifecycle management</td>
+      </tr>
+      <tr>
+        <td><span class="cg-rr-function fn-detect">DETECT</span></td>
+        <td>DE.CM-01, DE.CM-09, DE.AE-02</td>
+        <td>SIEM rules for <code>deviceCode</code> auth events; refresh token anomaly detection; OAuth abuse pattern alerting</td>
+      </tr>
+      <tr>
+        <td><span class="cg-rr-function fn-respond">RESPOND</span></td>
+        <td>RS.MI-02, RS.AN-03, RS.CO-02</td>
+        <td>Token revocation runbook; IR analysis for OAuth abuse; communications for privileged account compromise events</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cg-rr-footer">
+    <p>This register is a reusable template. Adjust likelihood and impact scores to your organization's environment and control baseline. For the full technical breakdown of this attack vector, see the <a href="/blog/2026-06-02-device-code-phishing/">companion article</a>.</p>
+    <p style="margin-top:0.5rem;">Last updated: June 2, 2026 — <a href="https://cybergrind.org">CyberGrind</a></p>
+  </div>
+
+</div>
