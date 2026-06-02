@@ -22,4 +22,20 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for vulnerabilities that could be exploited by malicious actors. The recent controversy between an ethical hacker and CBSE over the board exam portal vulnerability is a stark reminder of the importance of testing and securing critical systems.
+
+The issue at hand is not just about finding vulnerabilities, but also about how they are handled. CBSE's decision to lock down their system after the discovery highlights the need for clear communication and collaboration between organizations and security professionals. On the other hand, the ethical hacker's actions raise questions about the responsibility of individuals in identifying and reporting vulnerabilities.
+
+In my experience, the gap between cybersecurity training investment and actual team performance is a common issue. It's essential to invest in comprehensive training programs that cover both technical skills and soft skills, such as communication and teamwork. This will help ensure that security teams are equipped to respond effectively to emerging threats.
+
+The recent discovery of 10,000+ software flaws by Anthropic's Claude Mythos highlights the importance of vulnerability management. It's crucial for organizations to prioritize vulnerability scanning and remediation to prevent attacks like the ones mentioned in the Ghost CMS flaw story.
+
+Conifers' AI-powered SOC is another promising development that could help improve unified security operations and automated response. However, it's essential to carefully evaluate the risks and benefits of platformization versus best-of-breed approaches.
+
+**🔧 Patch Priority:** ABB Ability Camera Connect needs attention ASAP due to its potential vulnerability to exploitation by attackers, which can have serious consequences for industrial control systems.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

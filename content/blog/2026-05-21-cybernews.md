@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments in our field, and there are two stories that caught my attention today.
+
+Firstly, the anticipated executive order that could give NSA a role in voluntary AI model testing is a significant development. This move could potentially lead to more rigorous testing and evaluation of AI models, which is crucial in ensuring their security and integrity. However, it's also important to note that this could create new challenges for organizations that rely on AI, particularly if they're not prepared to deal with the increased scrutiny. As a practitioner, I'd advise my clients to start preparing now for the potential implications of this order.
+
+Secondly, the Verizon DBIR report highlighting vulnerability exploitation as the dominant initial access vector is a stark reminder of the importance of patching and updating our systems regularly. Vulnerability exploitation is often the first step in a successful cyberattack, and it's clear that many organizations are still not taking adequate measures to prevent this. As someone who's seen firsthand the devastating impact of a well-executed exploit, I can attest to the need for vigilance and proactive security measures.
+
+**🔧 Patch Priority:** Tenable Hexa AI should be prioritized for patching immediately due to its potential exposure to AI model vulnerabilities.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
