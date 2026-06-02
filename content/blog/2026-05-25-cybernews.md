@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+I've been keeping an eye on some concerning developments in the cybersecurity world, and it's clear that our work is far from over. The recent Ghost CMS SQL injection flaw exploited in a large-scale ClickFix campaign is a stark reminder of how quickly vulnerabilities can be discovered and leveraged by attackers.
+
+The fact that this flaw was exploited highlights the importance of regular updates and patching for software applications like ClickFix. As a cybersecurity practitioner, I've seen firsthand how quickly vulnerabilities can spread when patches aren't applied in a timely manner. This incident serves as a wake-up call to ensure that all systems are up-to-date with the latest security fixes.
+
+Meanwhile, Anthropic's Claude Mythos AI has been making headlines for its discovery of 10,000 critical vulnerabilities in widely used software. While this may seem like a daunting task, it also underscores the need for more proactive vulnerability management and testing practices. As we move forward, it's essential to prioritize these efforts to stay ahead of the evolving threat landscape.
+
+**🔧 Patch Priority:** The Ghost CMS SQL injection flaw is a top priority due to its potential impact on users who rely on ClickFix for their online needs.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

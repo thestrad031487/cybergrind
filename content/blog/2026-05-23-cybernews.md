@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for stories that highlight the latest threats and vulnerabilities. Two recent headlines caught my attention - Ubiquiti patches three max severity UniFi OS vulnerabilities (BleepingComputer) and CISA’s new KEV nomination form opens reporting to vendors and researchers (Help Net Security).
+
+The Ubiquiti patch is a stark reminder of how quickly vulnerabilities can be discovered and exploited in popular products. As a practitioner, I've seen firsthand how a single vulnerability can have far-reaching consequences, especially when it comes to devices that are deeply embedded in our daily lives. The fact that these vulnerabilities were rated as max severity makes them particularly concerning, and I'd advise anyone using UniFi OS to patch their systems ASAP.
+
+On the other hand, CISA's new KEV nomination form is a step in the right direction towards improving cybersecurity reporting and collaboration. As a practitioner, I've often found myself working with vendors and researchers to identify and address vulnerabilities, but it can be a time-consuming process. By providing a standardized way for vendors and researchers to report vulnerabilities, CISA is helping to streamline this process and get critical information to the market faster.
+
+**🔧 Patch Priority:** Ubiquiti UniFi OS should be patched immediately due to its high severity and potential impact on users worldwide.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

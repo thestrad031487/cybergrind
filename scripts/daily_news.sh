@@ -18,6 +18,7 @@ osascript -e 'tell app "System Events" to display dialog "CyberGrind: Ollama fai
     done
 fi
 
+export NEWS_API_KEY=8e905b0f6a0a4691bca9af169cab2c13
 cd ~/cybergrind
 
 # Pull latest first
