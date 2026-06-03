@@ -1,0 +1,546 @@
+<style>
+  .cg-adventure {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .cg-adventure-header {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #222;
+  }
+
+  .cg-adventure-header h1 {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 700;
+    color: #f0f0f0;
+    margin-bottom: 0.4rem;
+  }
+
+  .cg-adventure-header .cg-adv-sub {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+  }
+
+  .cg-adventure-header .cg-adv-paw {
+    font-size: 1.5rem;
+    letter-spacing: 6px;
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  /* Output area */
+  #adv-output {
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    border-left: 3px solid #e8720c;
+    border-radius: 4px;
+    padding: 1.5rem 1.75rem;
+    min-height: 120px;
+    max-height: 480px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  #adv-output .adv-line { display: block; animation: adv-fade 0.25s ease; }
+  #adv-output .adv-gap  { display: block; height: 0.5em; }
+
+  #adv-output .adv-story  { color: #ccc; }
+  #adv-output .adv-prompt { color: #e8720c; font-style: italic; font-weight: 600; }
+  #adv-output .adv-system { color: #555; font-size: 0.88em; font-style: italic; }
+  #adv-output .adv-echo   { color: #4ade80; font-weight: 600; }
+  #adv-output .adv-end    { color: #e8720c; text-align: center; display: block; font-style: italic; margin-top: 0.5rem; }
+
+  @keyframes adv-fade {
+    from { opacity: 0; transform: translateY(3px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Input area */
+  #adv-input-area {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  #adv-input-area.visible { opacity: 1; }
+
+  #adv-text-input {
+    flex: 1;
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-bottom: 2px solid #e8720c;
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: #f0f0f0;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  #adv-text-input:focus {
+    border-color: #e8720c;
+    box-shadow: 0 2px 0 rgba(232,114,12,0.4);
+  }
+
+  #adv-text-input::placeholder { color: #444; font-style: italic; }
+
+  #adv-send-btn {
+    background: #e8720c;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.1s;
+    font-family: inherit;
+  }
+
+  #adv-send-btn:hover  { background: #c45e08; }
+  #adv-send-btn:active { transform: scale(0.97); }
+  #adv-send-btn:disabled { background: #333; cursor: not-allowed; color: #666; }
+
+  /* Choice buttons */
+  #adv-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .adv-choice-btn {
+    background: transparent;
+    border: 1px solid #e8720c;
+    color: #e8720c;
+    border-radius: 3px;
+    padding: 9px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    font-family: inherit;
+  }
+
+  .adv-choice-btn:hover  { background: #e8720c; color: #fff; }
+  .adv-choice-btn:active { transform: scale(0.97); }
+
+  .adv-choice-btn.green {
+    border-color: #4ade80;
+    color: #4ade80;
+  }
+  .adv-choice-btn.green:hover { background: #4ade80; color: #000; }
+
+  /* Restart */
+  #adv-restart-btn {
+    display: none;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #e8720c;
+    color: #e8720c;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+    font-family: inherit;
+  }
+
+  #adv-restart-btn:hover { background: #e8720c; color: #fff; }
+
+  /* Divider */
+  .adv-divider {
+    text-align: center;
+    color: #333;
+    font-size: 11px;
+    letter-spacing: 6px;
+    margin: 1.5rem 0;
+  }
+
+  /* Project meta */
+  .cg-adv-meta {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: #555;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1.5rem;
+  }
+
+  @media (max-width: 500px) {
+    .cg-adv-meta { grid-template-columns: 1fr; }
+  }
+
+  .cg-adv-meta-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #444;
+    margin-bottom: 0.1rem;
+  }
+
+  .cg-adv-meta-value { color: #888; }
+
+  .cg-adv-download {
+    margin-top: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cg-adv-download a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.83rem;
+    color: #e8720c;
+    text-decoration: none;
+    border: 1px solid rgba(232,114,12,0.3);
+    border-radius: 3px;
+    padding: 0.3rem 0.75rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .cg-adv-download a:hover {
+    background: rgba(232,114,12,0.08);
+    border-color: #e8720c;
+  }
+</style>
+
+<div class="cg-adventure">
+
+  <div class="cg-adventure-header">
+    <h1>The Nose Work Adventure</h1>
+    <p class="cg-adv-sub">A Choose-Your-Own-Adventure Story &mdash; CIS110 Python Programming</p>
+    <span class="cg-adv-paw">🐾</span>
+  </div>
+
+  <div id="adv-output"></div>
+  <div id="adv-choices"></div>
+
+  <div id="adv-input-area">
+    <input type="text" id="adv-text-input" placeholder="Type your answer and press Enter…" autocomplete="off" />
+    <button id="adv-send-btn">Enter →</button>
+  </div>
+
+  <button id="adv-restart-btn">↩ Start a New Adventure</button>
+
+  <div class="adv-divider">✦ ✦ ✦</div>
+
+  <div class="cg-adv-meta">
+    <div>
+      <div class="cg-adv-meta-label">Author</div>
+      <div class="cg-adv-meta-value">Jason Wacker</div>
+    </div>
+    <div>
+      <div class="cg-adv-meta-label">Course</div>
+      <div class="cg-adv-meta-value">CIS110 — Python Programming</div>
+    </div>
+    <div>
+      <div class="cg-adv-meta-label">Language</div>
+      <div class="cg-adv-meta-value">Python → JavaScript (browser port)</div>
+    </div>
+    <div>
+      <div class="cg-adv-meta-label">Institution</div>
+      <div class="cg-adv-meta-value">Strayer University</div>
+    </div>
+  </div>
+
+  <div class="cg-adv-download">
+    <a href="/downloads/Choose-Your-Own-Adventure.py" download>⬇ Download Python Source</a>
+    <a href="https://github.com/thestrad031487/cis110-adventure" target="_blank">⎋ View on GitHub ↗</a>
+  </div>
+
+</div>
+
+<script>
+const story = {
+  dogName: '', dogBreed: '', dogGender: '', favoriteFood: '', dogFavoriteFood: '',
+  d1: '', d2: ''
+};
+
+const steps = [
+  {
+    display: () => [
+      "Hello there! I have an exciting story about an adventurous dog. I can't wait to tell it.",
+      "",
+      "Before the story begins, I have a few questions I need you to answer.",
+      "After typing your answer, be sure to press Enter.",
+      "",
+      "What is the name of the adventurous dog?"
+    ],
+    isChoice: false,
+    validate: v => v.trim().length > 0,
+    errorMsg: "The dog's name cannot be blank. Please enter a name:",
+    onValid: v => { story.dogName = v.trim(); }
+  },
+  {
+    display: () => [`What breed is ${story.dogName}?`],
+    isChoice: false,
+    validate: v => v.trim().length > 0,
+    errorMsg: "The dog's breed cannot be blank. Please enter a breed:",
+    onValid: v => { story.dogBreed = v.trim(); }
+  },
+  {
+    display: () => [`What gender is ${story.dogName}? (boy or girl)`],
+    isChoice: true,
+    choices: [{label:'Boy', value:'boy', cls:''}, {label:'Girl', value:'girl', cls:''}],
+    validate: v => ['boy','girl'].includes(v.toLowerCase()),
+    errorMsg: "Please choose boy or girl:",
+    onValid: v => { story.dogGender = v.toLowerCase(); }
+  },
+  {
+    display: () => ["What is your favorite food?"],
+    isChoice: false,
+    validate: v => v.trim().length > 0,
+    errorMsg: "Your favorite food cannot be blank:",
+    onValid: v => { story.favoriteFood = v.trim(); }
+  },
+  {
+    display: () => [`What is ${story.dogName}'s favorite food?`],
+    isChoice: false,
+    validate: v => v.trim().length > 0,
+    errorMsg: "The dog's favorite food cannot be blank:",
+    onValid: v => { story.dogFavoriteFood = v.trim(); }
+  },
+  {
+    display: () => [
+      `Let's begin our story…`,
+      "",
+      `Our story begins in an empty office building on a sunny afternoon, just outside of Chicago.`,
+      `There is an adventurous dog named ${story.dogName}, who is also an anxious ${story.dogBreed} dog who loves to investigate and is always looking for food.`,
+      `Is today the day?... Yes — Nosework class is today!`,
+      "",
+      `${story.dogName} has arrived at nose work class and is presented with two tasks: to find hidden scents in two different rooms.`,
+      `${story.dogName} lines up at the start of the building and eagerly awaits the command…`,
+      "",
+      `Find it!`,
+      "",
+      `${story.dogName} enters a room and discovers 12 shoe boxes laid out across the floor.`,
+      "",
+      `Should ${story.dogName} start sniffing the boxes?`
+    ],
+    isChoice: true,
+    choices: [{label:'Yes', value:'yes', cls:'green'}, {label:'No', value:'no', cls:''}],
+    validate: v => ['yes','no'].includes(v.toLowerCase()),
+    errorMsg: "Please choose yes or no:",
+    onValid: v => {
+      story.d1 = v.toLowerCase();
+      if (story.d1 === 'yes') {
+        appendLines([
+          "",
+          `${story.dogName} starts sniffing each box one by one until they pass one with a very distinct smell. The scent is coming from a closet shoe box, and as they get closer, it grows stronger.`,
+          `Certain that something is hidden inside, ${story.dogName} confidently taps the box with their paw. Everyone cheers and ${story.dogName} is rewarded with ${story.dogFavoriteFood}!`,
+          `${story.dogName} devours the ${story.dogFavoriteFood} and continues down the hallway.`
+        ]);
+      } else {
+        appendLines([
+          "",
+          `${story.dogName} hesitates and begins wandering around the room when suddenly the AC unit turns on, making a horrible noise.`,
+          `Startled, ${story.dogName} looks away from the boxes and continues down the hallway.`
+        ]);
+      }
+    }
+  },
+  {
+    display: () => [
+      "",
+      `${story.dogName} enters a long, dimly lit hallway where six backpacks are lined up along the wall.`,
+      "",
+      `Should ${story.dogName} start sniffing the backpacks?`
+    ],
+    isChoice: true,
+    choices: [{label:'Yes', value:'yes', cls:'green'}, {label:'No', value:'no', cls:''}],
+    validate: v => ['yes','no'].includes(v.toLowerCase()),
+    errorMsg: "Please choose yes or no:",
+    onValid: v => {
+      story.d2 = v.toLowerCase();
+      if (story.d2 === 'yes') {
+        appendLines([
+          "",
+          `${story.dogName} starts sniffing each bag one at a time until their nose catches the unusual smell of ${story.favoriteFood}.`,
+          `Drawn in with excitement, ${story.dogName} quickly zeros in on the bag containing the ${story.favoriteFood}.`,
+          `${story.dogName} taps the bag with their paw, and everyone cheers — it was ${story.favoriteFood} all along!`
+        ]);
+      } else {
+        appendLines([
+          "",
+          `${story.dogName} hesitates when they suddenly hear another dog barking in the distance.`,
+          `The sound made them feel very anxious, and unable to continue, bringing ${story.dogName}'s search to an end.`
+        ]);
+      }
+    }
+  },
+  {
+    display: () => {
+      let ending;
+      if (story.d1 === 'yes' && story.d2 === 'yes') {
+        ending = [
+          "",
+          `A round of cheers erupts through the building as ${story.dogName} is scooped up and given a big hug.`,
+          `They were praised as a good ${story.dogGender} and rewarded with their favorite chew bone, ending the day as a true nose work champion.`
+        ];
+      } else if (story.d1 === 'no' && story.d2 === 'no') {
+        ending = [
+          "",
+          `Even though ${story.dogName} wasn't able to complete either task today, their trainer scoops them up and gives them a big hug.`,
+          `${story.dogName} is reassured that it's okay and that they will get them next time.`,
+          `The crowd gives a warm round of applause as ${story.dogName} is rewarded with a chew bone for their effort and bravery.`
+        ];
+      } else {
+        ending = [
+          "",
+          `The crowd erupts in cheers as ${story.dogName} is scooped up and given a big hug.`,
+          `They were praised as a good ${story.dogGender} and gently reminded that it's okay not to find them all in one day — they'll get them next time.`,
+          `As a reward for their hard work, ${story.dogName} is given a well-earned chew bone to enjoy.`
+        ];
+      }
+      ending.push("", "✦  The End  ✦");
+      return ending;
+    },
+    isChoice: false,
+    isEnd: true
+  }
+];
+
+const outputEl   = document.getElementById('adv-output');
+const inputArea  = document.getElementById('adv-input-area');
+const inputEl    = document.getElementById('adv-text-input');
+const sendBtn    = document.getElementById('adv-send-btn');
+const choicesEl  = document.getElementById('adv-choices');
+const restartBtn = document.getElementById('adv-restart-btn');
+
+function appendLines(lines) {
+  lines.forEach(line => {
+    const span = document.createElement('span');
+    if (line === '') {
+      span.className = 'adv-gap';
+    } else if (line.startsWith('✦')) {
+      span.className = 'adv-end';
+      span.textContent = line;
+    } else {
+      span.className = 'adv-line adv-story';
+      span.textContent = line;
+    }
+    outputEl.appendChild(span);
+  });
+  outputEl.scrollTop = outputEl.scrollHeight;
+}
+
+function appendPrompt(text) {
+  const span = document.createElement('span');
+  span.className = 'adv-line adv-prompt';
+  span.textContent = '▸ ' + text;
+  outputEl.appendChild(span);
+  outputEl.scrollTop = outputEl.scrollHeight;
+}
+
+function clearChoices() { choicesEl.innerHTML = ''; }
+
+function showInput() {
+  inputArea.classList.add('visible');
+  inputEl.focus();
+}
+
+function hideInput() {
+  inputArea.classList.remove('visible');
+  inputEl.value = '';
+}
+
+function showChoiceButtons(choices) {
+  clearChoices();
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'adv-choice-btn' + (c.cls ? ' ' + c.cls : '');
+    btn.textContent = c.label;
+    btn.onclick = () => handleAnswer(c.value);
+    choicesEl.appendChild(btn);
+  });
+}
+
+let currentStep = 0;
+let currentStepObj = null;
+
+function runStep(idx) {
+  currentStep = idx;
+  currentStepObj = steps[idx];
+  const lines = typeof currentStepObj.display === 'function'
+    ? currentStepObj.display()
+    : currentStepObj.display;
+
+  if (currentStepObj.isEnd) {
+    appendLines(lines);
+    hideInput();
+    clearChoices();
+    restartBtn.style.display = 'block';
+    return;
+  }
+
+  const promptLine = lines[lines.length - 1];
+  const narrativeLines = lines.slice(0, -1);
+  appendLines(narrativeLines);
+  appendPrompt(promptLine);
+
+  if (currentStepObj.isChoice) {
+    hideInput();
+    showChoiceButtons(currentStepObj.choices);
+  } else {
+    clearChoices();
+    showInput();
+  }
+}
+
+function handleAnswer(raw) {
+  const val = raw.trim();
+  if (!currentStepObj || currentStepObj.isEnd) return;
+  if (!currentStepObj.validate(val)) {
+    appendPrompt(currentStepObj.errorMsg);
+    return;
+  }
+  const echo = document.createElement('span');
+  echo.className = 'adv-line adv-echo';
+  echo.textContent = '  → ' + val;
+  outputEl.appendChild(echo);
+  outputEl.scrollTop = outputEl.scrollHeight;
+  clearChoices();
+  hideInput();
+  if (currentStepObj.onValid) currentStepObj.onValid(val);
+  const nextIdx = currentStep + 1;
+  if (nextIdx < steps.length) setTimeout(() => runStep(nextIdx), 180);
+}
+
+sendBtn.addEventListener('click', () => { handleAnswer(inputEl.value); inputEl.value = ''; });
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { handleAnswer(inputEl.value); inputEl.value = ''; }
+});
+
+restartBtn.addEventListener('click', () => {
+  outputEl.innerHTML = '';
+  restartBtn.style.display = 'none';
+  Object.assign(story, { dogName:'', dogBreed:'', dogGender:'', favoriteFood:'', dogFavoriteFood:'', d1:'', d2:'' });
+  runStep(0);
+});
+
+runStep(0);
+</script>
