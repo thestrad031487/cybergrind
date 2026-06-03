@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a rise in fake ads masquerading as legitimate desktop apps to trick users into installing password-stealing malware. HackRead recently exposed this tactic, where attackers use convincing ads to lure victims into downloading and installing malicious software. This type of phishing attack is becoming increasingly sophisticated, making it essential for users to be vigilant when clicking on links or downloading attachments from unknown sources.
+
+Microsoft's recent announcement at Build 2026 highlights the importance of securing code, agents, and models across the development lifecycle. The company emphasizes the need for developers to leverage AI-powered tools to identify vulnerabilities and protect against attacks. This approach not only enhances security but also streamlines the development process. As a practitioner, I'm excited about the potential of AI-driven solutions to boost our defenses.
+
+The Infosecurity Europe conference has sparked debate about the role of AI in cybersecurity teams. The notion that those who don't leverage AI are "doomed to fail" is a stark reminder of the rapidly evolving threat landscape. As we move forward, it's crucial for organizations to invest in AI-powered tools and training to stay ahead of the curve.
+
+**🔧 Patch Priority:** CISA flags two-year-old Oracle flaw as actively exploited in attacks.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
