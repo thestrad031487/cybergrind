@@ -60,6 +60,29 @@
   </div>
 </section>
 
+
+<!-- Latest from Orange Book -->
+<section style="margin: 32px 0;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <h2 style="margin:0;font-size:18px;color:var(--primary)">📙 Latest from the Orange Book</h2>
+      <p style="margin:4px 0 0 0;font-size:13px;color:var(--secondary)">Deep-dives, framework breakdowns, and technical explainers</p>
+    </div>
+    <a href="/orange-book/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View All →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+    {{- $obPages := where site.RegularPages "Section" "orange-book" }}
+    {{- $obPages = where $obPages "Params.draft" "ne" true }}
+    {{- range first 3 ($obPages.ByDate.Reverse) }}
+    <a href="{{ .Permalink }}" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">{{ .Title }}</div>
+      <div style="font-size:12px;color:var(--secondary);line-height:1.5;">{{ if .Description }}{{ .Description | truncate 100 }}{{ else }}{{ .Summary | plainify | truncate 100 }}{{ end }}</div>
+      <div style="font-size:11px;color:var(--secondary);margin-top:10px;opacity:0.7;">{{ .Date.Format "Jan 2, 2006" }}</div>
+    </a>
+    {{- end }}
+  </div>
+</section>
+
 <div id="post-list">
   <div id="post-skeleton">
     {{- range seq 5 }}
