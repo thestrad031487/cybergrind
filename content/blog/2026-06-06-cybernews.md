@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest threats and trends, and there are two stories that caught my attention this week.
+
+Firstly, it's alarming to see how AI has supercharged hackers, scammers, and even worms. According to PCMag, this is because of advancements in machine learning algorithms that allow attackers to automate their tactics, making them more efficient and effective. This highlights the need for us to stay ahead of the curve when it comes to AI-powered threats. As practitioners, we need to be aware of these new techniques and develop strategies to counter them.
+
+Another story that resonated with me is the exploitation of a Cisco SD-WAN 0-day vulnerability, which was discovered by Help Net Security. The good news is that no patch is available yet, but this incident serves as a stark reminder of how quickly vulnerabilities can be exploited in today's complex network environments. As we continue to rely on these systems for our critical infrastructure, it's essential that vendors prioritize patching and provide timely updates.
+
+**🔧 Patch Priority:** Cisco SD-WAN 0-day CVE-2026-20245, as its exploitation highlights the urgent need for patching in today's fast-evolving threat landscape.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

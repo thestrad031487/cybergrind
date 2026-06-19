@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for threats that can compromise my clients' systems. The latest threat I want to highlight is the HTTP/2 Bomb DoS (CVE-2026-49975) attack that Imperva customers have been protected against. This vulnerability could have allowed attackers to exhaust the resources of targeted websites, causing them to become unavailable to users. Thankfully, Imperva's customers were able to take advantage of a patch, demonstrating the importance of staying up-to-date with the latest security fixes.
+
+Another threat that caught my attention is the AI-powered worm that researchers have developed, which they claim might be unstoppable. As a practitioner, I'm concerned about the potential for AI-powered threats to evolve and become more sophisticated, making them harder to detect and respond to. The fact that this worm was developed by researchers highlights the need for continued investment in AI-powered threat detection and response capabilities.
+
+In light of these threats, it's essential to prioritize patching and staying up-to-date with the latest security fixes. This includes not just applying patches to your own systems but also educating your clients on the importance of doing so as well. By working together, we can reduce the risk of falling victim to these types of attacks.
+
+**🔧 Patch Priority:** Cisco Unified CM due to a critical flaw that could allow attackers to execute arbitrary code.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
