@@ -1,5 +1,5 @@
 baseURL = "https://cybergrind.org/"
-languageCode = "en-us"
+locale = "en-us"
 title = "CyberGrind"
 theme = "PaperMod"
 paginate = 20
@@ -173,5 +173,4 @@ Daily threat intel, interactive tools, and an expanding library of security educ
       unsafe = true
 
 [security]
-  [security.allowContent]
-    types = ['text/html']
+  allowContent = 'text/html|text/markdown'
