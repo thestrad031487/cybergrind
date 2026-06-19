@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've seen my fair share of vulnerabilities being exploited by attackers. Two recent stories that caught my attention are the critical Check Point VPN flaw exploited to bypass passwords in IKEv1 setups and the Qilin ransomware affiliate's exploitation of this same zero-day.
+
+The fact that an attacker can gain unauthorized access to a VPN using a simple password bypass exploit is alarming, especially for organizations that rely heavily on these systems for secure communication. This vulnerability highlights the importance of keeping software up-to-date and implementing robust security controls, such as multi-factor authentication and regular security audits. It's also a reminder that no system is completely secure, and attackers will always look for ways to exploit weaknesses.
+
+The Qilin ransomware affiliate's exploitation of this same zero-day is particularly concerning because it demonstrates the speed at which attackers can move once they discover a vulnerability. This highlights the need for organizations to stay vigilant and quickly respond to security incidents, including implementing patches as soon as possible.
+
+**🔧 Patch Priority:** Check Point VPNs with IKEv1 setups should be patched immediately to prevent unauthorized access via password bypass exploits.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on the latest developments, and there are two stories that caught my attention.
+
+The first one is the revelation that Anthropic's AI models, Fable 5 and Mythos 5, have been recalled by the US government due to potential security vulnerabilities. This isn't just a case of a company pulling their products off the market - it's an unprecedented move that sets a new standard for the industry. It highlights the need for stricter regulations and guidelines around AI development, especially when it comes to sensitive applications like those used in finance and healthcare.
+
+The second story is related to the same Anthropic recall, but from a different angle. The US CISA has added Ivanti Sentry flaw to its Known Exploited Vulnerabilities catalog, urging patching by June 14. This is a clear indication that the threat landscape is evolving rapidly, and we need to be prepared to adapt quickly. As a cybersecurity practitioner, it's essential to stay on top of these updates and ensure that our systems are patched and up-to-date.
+
+**🔧 Patch Priority:** Ivanti Sentry flaw, as its patching deadline coincides with a critical vulnerability that could leave organizations exposed to significant risk if not addressed promptly.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

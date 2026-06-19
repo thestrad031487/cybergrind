@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing a lot of buzz around AI-powered cyber defense tools, and for good reason. The recent executive order from the US government aimed at rural hospitals is a prime example of how frontier cyber defense tools can be leveraged to improve resilience in healthcare organizations.
+
+This new initiative not only highlights the growing importance of AI in cybersecurity but also underscores the need for more accessible and affordable solutions. With the increasing adoption of managed services, it's clear that organizations are looking for ways to bolster their defenses without breaking the bank. According to a report by MarketsandMarkets, the managed services market is projected to reach $705.22 billion by 2031, demonstrating a growing demand for proactive security measures.
+
+The collaboration between Deloitte, Google Cloud, and Wiz on human-in-the-loop, AI-powered cyber defense is another exciting development in this space. By combining the strengths of these organizations, they're creating more effective solutions that can help mitigate the risks associated with AI attacks. As a practitioner, I'm eager to see how this technology will be deployed in real-world scenarios.
+
+**🔧 Patch Priority:** Tenable's exposure management solution is crucial for addressing the growing threat landscape posed by AI-powered attacks.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

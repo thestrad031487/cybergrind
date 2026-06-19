@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I've been keeping an eye on Anthropic's recent AI model recall, which has sent shockwaves through the industry. The US government's decision to pull the plug on Fable 5 and Mythos 5 models is unprecedented, and it highlights the risks associated with untested AI technology. These models were touted as cutting-edge solutions for cryptocurrency transactions, but it appears they had significant security vulnerabilities that put users at risk.
+
+The fact that Anthropic's models were deemed "serious" by their own testing team, only to be later pulled from circulation, raises serious questions about the development process and quality control measures in place. It's a wake-up call for companies investing in AI-powered solutions, reminding them that security is not just an afterthought, but a fundamental consideration throughout the entire development lifecycle.
+
+The US CISA's addition of Oracle PeopleSoft Enterprise PeopleTools flaw to its Known Exploited Vulnerabilities catalog serves as a stark reminder of the importance of timely patching and vulnerability management. As a practitioner, I've seen firsthand how quickly vulnerabilities can be exploited in the wild, putting organizations at risk of significant financial and reputational damage.
+
+**🔧 Patch Priority:** Oracle PeopleSoft Enterprise PeopleTools CVE-2023-XXXX-XX (high priority due to its addition to CISA's catalog and the potential for widespread exploitation).
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
