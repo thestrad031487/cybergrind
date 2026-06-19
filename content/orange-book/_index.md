@@ -2,6 +2,8 @@
 title: "Orange Book"
 description: ""
 draft: false
+pagination:
+  disable: true
 ---
 
 {{< rawhtml >}}
