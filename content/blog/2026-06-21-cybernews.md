@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing two trends that are making my job more complicated by the day. The first is the growing threat of AI-powered attacks, as evident in the recent news about Info-Tech LIVE 2026 and CBSE to NEET: Centre asks ministries to boost defences against AI threats. It's clear that attackers are getting smarter, using tools like GentleKiller EDR Framework to target multiple security processes. This is a wake-up call for organizations to take AI-powered security measures seriously.
+
+The second trend I'm watching closely is the rise of hybrid AI in cybersecurity. Why cybersecurity needs hybrid AI, not platform consolidation, is a question that's been on my mind lately. It seems like everyone wants to consolidate their tools and platforms, but what we really need is a more nuanced approach that combines human expertise with AI-powered insights. This is where AWS Unveils 'Continuum,' an AI-Powered Vulnerability Management Platform, comes in – it's a game-changer for organizations looking to stay ahead of the threat curve.
+
+But let's get down to business. With CISA: Splunk Enterprise flaw actively exploited, patch by Sunday, I'm seeing firsthand why timely patches are so crucial. It's not just about avoiding fines and reputational damage; it's about protecting people's lives and livelihoods.
+
+**🔧 Patch Priority:** CISA: Splunk Enterprise flaw actively exploited, patch by Sunday matters because a single exploit can have catastrophic consequences for critical infrastructure.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
