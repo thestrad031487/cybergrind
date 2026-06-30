@@ -106,6 +106,12 @@ Daily threat intel, interactive tools, and an expanding library of security educ
     parent = "tools"
     weight = 3
   [[menu.main]]
+    identifier = "reposcanner"
+    name = "Repo Secret Scanner"
+    url = "/tools/repo-scanner/"
+    parent = "tools"
+    weight = 4
+  [[menu.main]]
     identifier = "projects"
     name = "Projects"
     url = "/projects/"
