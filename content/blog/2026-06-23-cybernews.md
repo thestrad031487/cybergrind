@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for stories that highlight the importance of staying vigilant in today's threat landscape. Two recent headlines caught my attention - Salesforce Disabling Klue Integration After OAuth Token Theft Hits Customer Data (HackRead) and Week in review: 74k Fortinet firewall credentials stolen, Splunk Enterprise RCE under active attack (Help Net Security).
+
+The fact that a prominent cloud provider like Salesforce has had to disable its integration with the Klue platform due to a OAuth token theft is a sobering reminder of just how vulnerable our data can be. This kind of incident highlights the importance of robust security controls and the need for organizations to regularly review their third-party relationships. On a related note, the fact that 74k Fortinet firewall credentials were stolen is a stark reminder of the ongoing threat posed by credential stuffing attacks.
+
+In both cases, it's clear that the attackers were able to exploit vulnerabilities in the systems themselves rather than relying on traditional phishing or social engineering tactics. As a practitioner, I've seen firsthand how quickly these types of breaches can snowball out of control if not addressed promptly and effectively. It's essential for organizations to prioritize security and take proactive steps to prevent similar incidents from occurring.
+
+**🔧 Patch Priority:** Salesforce needs to act quickly to address the OAuth token theft vulnerability affecting its Klue integration, as a delayed response could lead to further exploitation by attackers.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

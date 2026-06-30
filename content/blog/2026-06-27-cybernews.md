@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm always on the lookout for the latest threats and vulnerabilities that could compromise our systems. Two stories from today's headlines caught my attention because they highlight the importance of patching and maintaining security tools.
+
+The macOS flaw that allowed standard users to disable CrowdStrike and Kandji Security Tools is a stark reminder of how quickly vulnerabilities can be exploited by attackers. This kind of vulnerability is often overlooked, but it's precisely this type of mistake that can leave organizations exposed to attack. It's essential for IT teams to stay on top of patching these types of flaws ASAP.
+
+The CISA's addition of the PTC Windchill RCE flaw to their Known Exploitability Vulnerabilities (KEV) list is a clear warning to organizations that use this software. With attackers already exploiting this vulnerability, it's crucial for users to take immediate action and apply patches to prevent further breaches.
+
+**🔧 Patch Priority:** macOS has a critical vulnerability allowing standard users to disable CrowdStrike security tools - patch now.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

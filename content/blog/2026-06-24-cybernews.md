@@ -22,4 +22,14 @@ draft: false
 
 ---
 
+## From the Trenches
+
+As a cybersecurity practitioner, I'm seeing two trends that are going to require significant attention from organizations in the coming months. First, the increasing threat of autonomous AI systems is creating new vulnerabilities that need to be addressed. Gladius Securitas has just launched an AI-native security platform that aims to help critical infrastructure teams prioritize threats faster. This is a game-changer because it acknowledges that traditional security approaches aren't going to cut it in a world where AI-powered attacks are becoming more sophisticated by the day.
+
+The other trend I'm watching closely is the growing need for OT (operational technology) security expertise. Dragos has unveiled an OT-native AI assistant called EmberAI, which is designed to help critical infrastructure teams stay one step ahead of threats. This is a crucial development because it recognizes that traditional cybersecurity approaches often don't account for the unique challenges and risks associated with OT systems.
+
+As we move forward, I'm going to be keeping a close eye on these two trends and how they intersect. It's clear that organizations need to adapt quickly to stay ahead of the threats. **🔧 Patch Priority:** SonicWall's research has sounded a code red on healthcare cybersecurity, highlighting the urgent need for patching vulnerabilities in this critical sector.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

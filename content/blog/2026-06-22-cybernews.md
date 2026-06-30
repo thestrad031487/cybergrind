@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+The latest cybersecurity news is filled with warnings about the ever-evolving threat landscape. A recent analysis by Pierluigi Paganini highlights the growing concern of hybrid AI in cybersecurity, which is no longer just a buzzword but a tangible threat that requires immediate attention.
+
+As a practitioner, I've seen firsthand how the misuse of GentleKiller EDR framework can be devastating to security processes. The Gentlemen RaaS using this framework is particularly concerning, with its ability to target 400 security processes making it a potent tool for attackers. This highlights the need for organizations to stay vigilant and up-to-date on their security measures.
+
+The fact that thousands of CIOs gathered in Las Vegas to discuss AI execution and enterprise value raises questions about whether we're doing enough to address the growing threat of AI-powered attacks. The recent compromise of FortiGate devices, with over 74k firewall credentials stolen, is a stark reminder that no organization is immune to these threats.
+
+**🔧 Patch Priority:** AWS Continuum, an AI-powered vulnerability management platform, should be at the top of every organization's priority list due to its potential to help mitigate the growing threat of AI-powered attacks.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
