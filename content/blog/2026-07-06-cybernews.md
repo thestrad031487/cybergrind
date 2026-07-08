@@ -22,6 +22,7 @@ draft: false
 
 ---
 
+<<<<<<< HEAD
 ## From the Trenches
 
 As a cybersecurity practitioner, I've been keeping an eye on recent developments that highlight the ongoing cat-and-mouse game between attackers and defenders. One of the most concerning stories this week is the exploitation of the SimpleHelp vulnerability, which was previously identified as a high-risk issue. It's disheartening to see how quickly these vulnerabilities can be exploited, and it serves as a stark reminder of the importance of prioritizing patch management.
@@ -34,4 +35,6 @@ In light of these stories, it's clear that cybersecurity threats are evolving ra
 
 ---
 
+=======
+>>>>>>> 7a52ba9ab88c656c19a04730ce9a94d87679c2c5
 *Compiled daily. Stay patched, stay vigilant.*
