@@ -7,7 +7,7 @@ tags: ["ai", "supply chain", "data leakage", "credentials", "governance", "orang
 description: "Part 2: when web-scraped training data includes live credentials and PII, there's no patch cycle that fixes it. The data is already baked into the weights."
 ---
 
-In [Part 1]({{< ref "part1-data-provenance" >}}) we looked at how little organizations actually know about where their AI training data comes from. This time, we look at what happens once that unverified data gets baked directly into a model.
+In [Part 1]({{< ref "ai-supply-chain-data-provenance" >}}) we looked at how little organizations actually know about where their AI training data comes from. This time, we look at what happens once that unverified data gets baked directly into a model.
 
 ## Permanently baked-in vulnerabilities
 
