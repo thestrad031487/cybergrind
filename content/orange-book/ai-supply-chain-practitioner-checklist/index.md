@@ -13,11 +13,11 @@ Here's the full arc, and a checklist you can actually use.
 
 ## The series so far
 
-1. **[Data Provenance]({{< ref "part1-data-provenance" >}})** — Most training data has unspecified or misclassified licensing. There's no AI equivalent of an SBOM in widespread use yet.
-2. **[Baked-In Vulnerabilities]({{< ref "part2-baked-in-vulnerabilities" >}})** — Live credentials and PII get scraped into training data and can't be patched out once the model is trained.
-3. **[Model-Building Risk]({{< ref "part3-model-building-risk" >}})** — Overfitting, quantization, and federated learning each introduce distinct, under-evaluated security trade-offs.
-4. **[The Fine-Tuning Inheritance Tax]({{< ref "part4-fine-tuning-inheritance-tax" >}})** — Fine-tuning doesn't sanitize a base model. You inherit everything underneath it, including undiscovered backdoors.
-5. **[Black Box & Model Cards]({{< ref "part5-black-box-model-cards" >}})** — You can't read model weights the way you'd read source code, and model cards are voluntary, uneven, and often thin.
+1. **[Data Provenance]({{< ref "ai-supply-chain-data-provenance" >}})** — Most training data has unspecified or misclassified licensing. There's no AI equivalent of an SBOM in widespread use yet.
+2. **[Baked-In Vulnerabilities]({{< ref "ai-supply-chain-baked-in-vulnerabilities" >}})** — Live credentials and PII get scraped into training data and can't be patched out once the model is trained.
+3. **[Model-Building Risk]({{< ref "ai-supply-chain-model-building-risk" >}})** — Overfitting, quantization, and federated learning each introduce distinct, under-evaluated security trade-offs.
+4. **[The Fine-Tuning Inheritance Tax]({{< ref "ai-supply-chain-fine-tuning-inheritance-tax" >}})** — Fine-tuning doesn't sanitize a base model. You inherit everything underneath it, including undiscovered backdoors.
+5. **[Black Box & Model Cards]({{< ref "ai-supply-chain-black-box-model-cards" >}})** — You can't read model weights the way you'd read source code, and model cards are voluntary, uneven, and often thin.
 
 ## A practical evaluation checklist
 
