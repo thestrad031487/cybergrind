@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+The prompt injection testing piece landed on my desk at an oddly perfect time — I found an actual instance of hidden, non-printable text embedded inside a news headline's link data while assembling this week's backfilled posts. Nothing rendered, nothing a reader would ever see, just invisible characters sitting in the raw markdown. It's a small, concrete reminder that the "invisible supply chain" isn't just an abstract framing — content pipelines that ingest and republish third-party text need the same sanitization discipline as any other untrusted input.
+
+The Puerto Rico agency exposing a million SSNs is a gut-punch number for what's likely a routine misconfiguration story underneath — that's roughly a third of the island's population in a single exposure, and it's the kind of scale that turns a technical finding into a genuine public harm story.
+
+The two "AI Security Charter" headlines with different firm counts (71 vs. 73) are probably just two publications catching the announcement at different points as more signatories joined — worth a quick check if you're citing the number, since it moved within the same news cycle.
+
+**🔧 Patch Priority:** Microsoft Defender (RoguePlanet) — confirm the fix has actually deployed across your fleet rather than assuming auto-update caught it.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*

@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+The Oracle E-Business Suite Payments flaw (CVE-2026-46817) leads today for a reason — active exploitation against a system that touches financial transactions is about as high-stakes as patch management gets. If you're running EBS anywhere in your stack, this isn't a "get to it next sprint" item.
+
+The Aikido/Root acquisition is worth watching for a different reason: it's a bet that AI-powered attacks against open source dependencies are common enough now to justify buying a company specifically to backport fixes faster. That's a supply chain signal, not just an M&A headline.
+
+And the RBI warning that AI-enabled attacks are the biggest near-term threat to financial stability isn't hyperbole from where I sit. Between this and the Oracle EBS exploitation, financial infrastructure is having a rough week.
+
+**🔧 Patch Priority:** Oracle E-Business Suite Payments (CVE-2026-46817) — active exploitation against financial transaction systems.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
