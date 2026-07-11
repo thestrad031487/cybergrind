@@ -22,4 +22,16 @@ draft: false
 
 ---
 
+## From the Trenches
+
+The ConsentFix/ClickFix story is the one I'd actually sit with today — three seconds to hijack an M365 account is a workflow, not an exploit, and it's built entirely around tricking a user into consenting to something that looks legitimate. No amount of patching stops that; it's an awareness and conditional-access problem before it's a technical one.
+
+Sysdig's JADEPUFFER writeup documenting the first confirmed agentic ransomware operation deserves attention beyond the novelty factor. An LLM-driven agent running the attack chain end to end changes the incident response calculus — the "human operator makes a mistake and tips their hand" assumption a lot of detection tuning relies on doesn't hold the same way.
+
+And SharePoint's CVE-2026-45659 landing on CISA's KEV list after active exploitation is a good reminder that "forgotten" vulnerabilities don't stay forgotten — they just wait for someone to notice they're still unpatched somewhere.
+
+**🔧 Patch Priority:** SharePoint RCE (CVE-2026-45659) — added to CISA's Known Exploited Vulnerabilities catalog, patch immediately if still exposed.
+
+---
+
 *Compiled daily. Stay patched, stay vigilant.*
