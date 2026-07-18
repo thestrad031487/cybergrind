@@ -15,6 +15,16 @@ import re
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 OLLAMA_MODEL = "llama3.2:3b"
 
+# Zero-width space, zero-width non-joiner/joiner, BOM, bidi overrides, and
+# other invisible formatting characters that have no business in headline text.
+ZERO_WIDTH_PATTERN = re.compile(r"[\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]")
+
+
+def sanitize_text(text):
+    if not text:
+        return text
+    return ZERO_WIDTH_PATTERN.sub("", text)
+
 
 def extract_headlines(content):
     """Extract headlines from existing post content."""
@@ -23,7 +33,10 @@ def extract_headlines(content):
         # Match lines like: - [Title](url) — *Source*
         match = re.match(r'^- \[(.+?)\]\(.+?\)\s*[—-]\s*\*(.+?)\*', line)
         if match:
-            headlines.append({"title": match.group(1), "source": match.group(2)})
+            headlines.append({
+                "title": sanitize_text(match.group(1)),
+                "source": sanitize_text(match.group(2)),
+            })
     return headlines
 
 
