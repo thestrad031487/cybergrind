@@ -1,18 +1,36 @@
 import os
+import re
+import time
 import datetime
 import urllib.request
 import urllib.error
 import json
 import ssl
-import argparse
+import sys
 
 # --- Config ---
 BLOG_DIR = "content/blog"
+TODAY = datetime.date.today()
+FILENAME = f"{BLOG_DIR}/{TODAY.strftime('%Y-%m-%d')}-cybernews.md"
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-OLLAMA_MODEL = "llama3.2:3b"
+OLLAMA_MODEL = "llama3.2:3b"  # must match an installed tag — `ollama list` to check
+COMMENTARY_MAX_RETRIES = 2
+COMMENTARY_RETRY_DELAY_SECONDS = 15
 
 # --- NewsAPI ---
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
+
+# Zero-width space, zero-width non-joiner/joiner, BOM, bidi overrides, and
+# other invisible formatting characters that have no business in scraped text.
+ZERO_WIDTH_PATTERN = re.compile(r"[\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]")
+
+
+def sanitize_text(text):
+    """Strip hidden/zero-width Unicode from any text pulled from an external source."""
+    if not text:
+        return text
+    return ZERO_WIDTH_PATTERN.sub("", text)
+
 
 def fetch_headlines():
     if not NEWS_API_KEY:
@@ -36,13 +54,18 @@ def fetch_headlines():
             data = json.loads(response.read().decode())
             articles = data.get("articles", [])
             return [
-                {"title": a["title"], "url": a["url"], "source": a["source"]["name"]}
+                {
+                    "title": sanitize_text(a["title"]),
+                    "url": sanitize_text(a["url"]),
+                    "source": sanitize_text(a["source"]["name"]),
+                }
                 for a in articles
                 if a.get("title") and "[Removed]" not in a["title"]
             ]
     except Exception as e:
         print(f"Failed to fetch headlines: {e}")
         return []
+
 
 def generate_commentary(headlines):
     headline_list = "\n".join(f"- {h['title']} ({h['source']})" for h in headlines)
@@ -73,29 +96,39 @@ Write the commentary now, referencing ONLY the headlines provided:"""
         }
     }).encode()
 
-    try:
-        req = urllib.request.Request(
-            OLLAMA_URL,
-            data=payload,
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=300) as response:
-            data = json.loads(response.read().decode())
-            return data.get("response", "").strip()
-    except Exception as e:
-        print(f"Ollama commentary generation failed: {e}")
-        return None
+    last_error = None
+    for attempt in range(1, COMMENTARY_MAX_RETRIES + 2):  # e.g. 1 initial + 2 retries
+        try:
+            req = urllib.request.Request(
+                OLLAMA_URL,
+                data=payload,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=300) as response:
+                data = json.loads(response.read().decode())
+                result = data.get("response", "").strip()
+                if result:
+                    return result
+                last_error = "Ollama returned an empty response"
+        except Exception as e:
+            last_error = str(e)
 
-def generate_post(headlines, commentary=None, today=None):
-    if today is None:
-        today = datetime.date.today()
-    date_str = today.strftime("%B %d, %Y")
-    iso_date = today.strftime("%Y-%m-%dT08:00:00-05:00")
+        if attempt <= COMMENTARY_MAX_RETRIES:
+            print(f"Commentary attempt {attempt} failed ({last_error}), retrying in {COMMENTARY_RETRY_DELAY_SECONDS}s...")
+            time.sleep(COMMENTARY_RETRY_DELAY_SECONDS)
+
+    print(f"Ollama commentary generation failed after {COMMENTARY_MAX_RETRIES + 1} attempts: {last_error}")
+    return None
+
+
+def generate_post(headlines, commentary):
+    date_str = TODAY.strftime("%B %d, %Y")
+    iso_date = TODAY.strftime("%Y-%m-%dT08:00:00-05:00")
 
     lines = [
         "---",
-        f'title: "CyberNews {today.strftime("%Y-%m-%d")}"',
+        f'title: "CyberNews {TODAY.strftime("%Y-%m-%d")}"',
         f"date: {iso_date}",
         f'description: "Daily cybersecurity headlines and practitioner commentary for {date_str}."',
         'tags: ["news", "daily"]',
@@ -110,58 +143,43 @@ def generate_post(headlines, commentary=None, today=None):
     for item in headlines:
         lines.append(f"- [{item['title']}]({item['url']}) — *{item['source']}*")
 
-    lines += ["", "---", ""]
-
-    if commentary:
-        lines += [
-            "## From the Trenches",
-            "",
-            commentary,
-            "",
-            "---",
-            "",
-        ]
-
+    lines += ["", "---", "", "## From the Trenches", "", commentary, "", "---", ""]
     lines.append("*Compiled daily. Stay patched, stay vigilant.*")
 
     return "\n".join(lines)
 
+
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--date", help="Date in YYYY-MM-DD format (default: today)")
-    args = parser.parse_args()
-
-    if args.date:
-        today = datetime.date.fromisoformat(args.date)
-    else:
-        today = datetime.date.today()
-
-    filename = f"{BLOG_DIR}/{today.strftime('%Y-%m-%d')}-cybernews.md"
-
     os.makedirs(BLOG_DIR, exist_ok=True)
 
-    if os.path.exists(filename):
-        print(f"Post already exists: {filename}")
+    if os.path.exists(FILENAME):
+        print(f"Post already exists: {FILENAME}")
         return
 
     print("Fetching headlines...")
     headlines = fetch_headlines()
     if not headlines:
         print("No headlines fetched, aborting.")
-        return
+        sys.exit(1)
 
     print(f"Got {len(headlines)} headlines")
     print("Generating commentary via Ollama...")
     commentary = generate_commentary(headlines)
+
     if not commentary:
-        print("Warning: commentary generation failed, post will be created without it")
+        # Fail loudly instead of silently publishing a post with no commentary.
+        # daily_news.sh's exit-code handling will catch this and log/alert
+        # rather than a bare post shipping unnoticed.
+        print("ERROR: commentary generation failed after retries — refusing to publish an incomplete post.")
+        sys.exit(1)
 
-    content = generate_post(headlines, commentary, today)
+    content = generate_post(headlines, commentary)
 
-    with open(filename, "w") as f:
+    with open(FILENAME, "w") as f:
         f.write(content)
 
-    print(f"Created: {filename}")
+    print(f"Created: {FILENAME}")
+
 
 if __name__ == "__main__":
     main()
