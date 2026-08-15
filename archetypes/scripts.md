@@ -36,4 +36,4 @@ Any caveats, known limitations, or things to watch out for before running this i
 
 ### References
 
-- [View on GitHub]({{ .Params.github }})
+- [View on GitHub](https://github.com/thestrad031487/)
