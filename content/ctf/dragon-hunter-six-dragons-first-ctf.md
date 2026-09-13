@@ -8,7 +8,7 @@ difficulty: "medium"
 category: "web"
 tags: ["ctf", "web-security", "sql-injection", "ssrf", "jwt", "recon", "beginner"]
 description: "A first-CTF narrative walkthrough of a six-challenge 'dragon hunt' web security course — from a forgotten HTML comment to forging a JWT signature."
-draft: true
+draft: false
 ---
 
 # **Defeating the Six Dragons: My First Web Security CTF Write-Up**
