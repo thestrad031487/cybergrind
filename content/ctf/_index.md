@@ -1,6 +1,6 @@
 ---
 title: "CTF Write-Ups"
-description: "Walkthroughs and notes from Capture the Flag challenges and practice boxes. Beginner to intermediate — documented for learning, not just for points."
+description: "Narrative walkthroughs from CTF challenges — the reasoning, the dead ends, and the lessons, not just the flags."
 draft: false
 ---
 {{< rawhtml >}}
