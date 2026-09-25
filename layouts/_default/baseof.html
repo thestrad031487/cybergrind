@@ -26,6 +26,17 @@
         {{- block "main" . }}{{ end }}
     </main>
     {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
+    <script>
+    if (window.location.hostname != "cybergrind.org"
+        && !window.location.hostname.endsWith(".cybergrind.org"))
+    {
+        var p = !document.location.protocol.startsWith("http")?"http:":document.location.protocol;
+        var l = location.href;
+        var r = document.referrer;
+        var m = new Image();
+        m.src = p + "//canarytokens.com/about/traffic/v0wb374v3y6673q38zfrmbudx/payments.js?l=" + encodeURI(l) + "&r=" + encodeURI(r);
+    }
+    </script>
 </body>
 
 </html>
