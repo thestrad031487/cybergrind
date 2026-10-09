@@ -36,14 +36,15 @@
     </div>
     <a href="/tools/threat-map/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View Full Map →</a>
   </div>
-  <a href="/tools/threat-map/" style="display:block;border:1px solid var(--border);border-radius:8px;overflow:hidden;text-decoration:none;">
-    <img src="/images/threat-map-placeholder.svg"
-         alt="Global threat map preview — click to view live map"
+  <a href="/tools/threat-map/" aria-label="Open the live threat map" style="position:relative;display:block;aspect-ratio:680/300;max-width:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden;text-decoration:none;background:radial-gradient(ellipse at 50% 45%,#0f1a2a 0%,#070b12 70%);">
+    <img id="hm-still" src="/images/threat-globe-still.jpg"
+         alt="Globe showing where this site's decoy AWS keys were used — click to open the live map"
          width="680" height="300"
-         style="display:block;width:100%;height:auto;"
-         loading="lazy"
-         decoding="async">
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .6s;"
+         loading="lazy" decoding="async">
+    <div id="hm-globe" style="position:absolute;inset:0;"></div>
   </a>
+  <script src="/js/home-globe.js" defer></script>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
       <div id="hm-uses" style="font-size:20px;font-weight:700;color:#ffb347;font-variant-numeric:tabular-nums;">–</div>
