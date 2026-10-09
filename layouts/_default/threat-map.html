@@ -1,269 +1,95 @@
 {{ define "main" }}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <style>
-.threat-map-container { max-width:1200px; margin:0 auto; padding:20px; }
-#threat-map, #osint-map { height: 580px; width: 100%; border-radius: 8px; }
-.leaflet-container { background: #0a0a0a; }
-.stat-card { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 12px 16px; }
-.threat-popup h4 { margin: 0 0 6px 0; color: #ff6b6b; font-size: 14px; }
-.threat-popup p { margin: 2px 0; font-size: 12px; color: #ccc; }
-
-/* Tabs */
-.tab-bar { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid #333; }
-.tab-btn {
-  padding: 10px 24px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  color: #888;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+/* Stage is always dark (it's a night-side globe); the panel follows the site theme. */
+#tg {
+  --tg-bg: #070b12; --tg-land: #3a4d66; --tg-use: #ffb347; --tg-fetch: #5cc8ff; --tg-scan: #6c7a8f;
+  --tg-warn: #ff6b5e; --tg-abuse: #ff6b6b; --tg-osint: #00cc88;
+  --tg-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  max-width: 1200px; margin: 0 auto; display: grid; gap: 16px;
 }
-.tab-btn:hover { color: #ccc; }
-.tab-btn.active { color: #ff6b6b; border-bottom-color: #ff6b6b; }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* Source badges */
-.source-badge {
-  display:inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  margin-right: 4px;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  color: #aaa;
-}
+#tg [hidden] { display: none !important; }
+#tg h1 { margin: 0; font-size: 1.9rem; text-wrap: balance; }
+#tg .tg-lede { margin: 6px 0 0; color: var(--secondary); max-width: 68ch; }
+#tg .tg-modes { display: flex; flex-wrap: wrap; gap: 8px; }
+#tg .tg-modes button { font: inherit; font-size: 13px; padding: 6px 14px; border-radius: 4px; cursor: pointer;
+  background: var(--entry); color: var(--secondary); border: 1px solid var(--border); }
+#tg .tg-modes button[aria-pressed="true"] { color: var(--primary); border-color: var(--primary); }
+#tg .tg-modes button:focus-visible, #tg input:focus-visible { outline: 2px solid var(--tg-fetch); outline-offset: 2px; }
+#tg .tg-main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+@media (max-width: 860px) { #tg .tg-main { grid-template-columns: minmax(0, 1fr); } }
+#tg .tg-stage { position: relative; height: min(68vh, 620px); min-height: 360px; border-radius: 6px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 45%, #0f1a2a 0%, var(--tg-bg) 70%); border: 1px solid var(--border); }
+#tg #tg-globe { position: absolute; inset: 0; }
+#tg .tg-nogl { position: absolute; inset: 0; margin: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: #9aa6b6; font-size: 14px; }
+#tg .tg-hud { position: absolute; left: 12px; bottom: 10px; font: 11px var(--tg-mono); color: #7d8a9c; pointer-events: none; }
+#tg aside { display: grid; gap: 16px; min-width: 0; }
+#tg .tg-box { background: var(--entry); border: 1px solid var(--border); border-radius: 6px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+#tg .tg-box h2 { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--secondary); }
+#tg #tg-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#tg #tg-stats b { display: block; font: 500 21px var(--tg-mono); font-variant-numeric: tabular-nums; color: var(--primary); overflow-wrap: anywhere; }
+#tg #tg-stats span { font-size: 11px; color: var(--secondary); }
+#tg .tg-layer { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--primary); }
+#tg .tg-layer input { margin: 0; width: 16px; height: 16px; accent-color: var(--tg-fetch); }
+#tg .tg-layer small { display: block; font-size: 12px; color: var(--secondary); }
+#tg .tg-sw { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+#tg .tg-sw.arc { width: 16px; height: 3px; border-radius: 1px; background: linear-gradient(90deg, var(--tg-fetch), var(--tg-use)); }
+#tg #tg-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px; }
+#tg #tg-list li { display: grid; gap: 2px; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin: 0; }
+#tg #tg-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+#tg .tg-k { font: 11px var(--tg-mono); color: var(--secondary); }
+#tg .tg-w { color: var(--tg-warn); }
+#tg .tg-empty { color: var(--secondary); }
+#tg .tg-note { margin: 0; font-size: 12px; color: var(--secondary); }
+#tg .tg-updated { font: 11px var(--tg-mono); color: var(--secondary); margin: 0; }
+.tg-tip { font-size: 12px; line-height: 1.45; background: #0d1420; color: #d5dde8; border: 1px solid #1c2838;
+  padding: 8px 10px; border-radius: 4px; max-width: 250px; }
+.tg-tip em { font-style: normal; color: #8a97a8; }
+.tg-tip .tg-w { color: #ff6b5e; }
 </style>
 
-<div class="threat-map-container">
-  <h1 style="color:#ff6b6b;margin-bottom:4px;">🌐 Global Threat Map</h1>
-  <p style="color:#888;margin-bottom:20px;">Real-time malicious IP activity aggregated by country. Refreshes automatically.</p>
+<div id="tg">
+  <header>
+    <h1>Global Threat Map</h1>
+    <p class="tg-lede">Where the decoy AWS keys and git credentials from this site's honeypot were fetched, passed along and used. Everything is shown by country, and no IP addresses are published. The AbuseIPDB and OSINT views show community-reported malicious IPs.</p>
+  </header>
 
-  <!-- Tab Bar -->
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('abuseipdb')">🔴 AbuseIPDB</button>
-    <button class="tab-btn" onclick="switchTab('osint')">🟢 OSINT Feeds</button>
+  <div class="tg-modes" role="group" aria-label="Data source">
+    <button type="button" data-mode="honeypot" aria-pressed="true">Honeypot</button>
+    <button type="button" data-mode="abuse" aria-pressed="false">AbuseIPDB</button>
+    <button type="button" data-mode="osint" aria-pressed="false">OSINT feeds</button>
   </div>
 
-  <!-- AbuseIPDB Tab -->
-  <div id="tab-abuseipdb" class="tab-panel active">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
-        <div id="stat-total" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
-        <div id="stat-countries" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
-        <div id="stat-top" style="font-size:24px;font-weight:700;color:#ff6b6b;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
-        <div id="stat-updated" style="font-size:13px;font-weight:700;color:#ff6b6b;">...</div>
-      </div>
+  <div class="tg-main">
+    <div class="tg-stage">
+      <div id="tg-globe" role="img" aria-label="Rotating globe of honeypot key activity by country"></div>
+      <div class="tg-hud">DRAG TO ROTATE · SCROLL TO ZOOM</div>
     </div>
-    <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
-      <div id="threat-map"></div>
-    </div>
-    <div class="stat-card">
-      <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
-      <div id="country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
-    </div>
-  </div>
 
-  <!-- OSINT Feeds Tab -->
-  <div id="tab-osint" class="tab-panel">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Total IPs</div>
-        <div id="osint-total" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Countries</div>
-        <div id="osint-countries" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Top Source</div>
-        <div id="osint-top" style="font-size:24px;font-weight:700;color:#00cc88;">...</div>
-      </div>
-      <div class="stat-card">
-        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">Last Updated</div>
-        <div id="osint-updated" style="font-size:13px;font-weight:700;color:#00cc88;">...</div>
-      </div>
-    </div>
-    <!-- Source breakdown -->
-    <div style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;">
-      <div id="osint-sources" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:12px;color:#888;">Sources:</span>
-      </div>
-    </div>
-    <div style="border:1px solid #333;border-radius:8px;overflow:hidden;margin-bottom:20px;">
-      <div id="osint-map"></div>
-    </div>
-    <div class="stat-card">
-      <h3 style="margin:0 0 12px 0;color:#ccc;font-size:14px;text-transform:uppercase;letter-spacing:1px;">Top Attacking Countries</h3>
-      <div id="osint-country-table" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div>
-    </div>
+    <aside>
+      <section class="tg-box">
+        <h2>This window</h2>
+        <div id="tg-stats"></div>
+        <p class="tg-updated" id="tg-updated"></p>
+      </section>
+
+      <section class="tg-box" id="tg-hp-layers">
+        <h2>Layers</h2>
+        <label class="tg-layer"><input type="checkbox" id="tg-l-use" checked><span class="tg-sw" style="background:var(--tg-use)"></span><span>Bait used<small>A decoy key or git credential was tried</small></span></label>
+        <label class="tg-layer"><input type="checkbox" id="tg-l-arc" checked><span class="tg-sw arc"></span><span>Hand-offs<small>Fetched in one country, used in another</small></span></label>
+        <label class="tg-layer"><input type="checkbox" id="tg-l-fetch" checked><span class="tg-sw" style="background:var(--tg-fetch)"></span><span>Key fetched<small>Pulled the decoy .env or AWS credentials</small></span></label>
+        <label class="tg-layer"><input type="checkbox" id="tg-l-scan"><span class="tg-sw" style="background:var(--tg-scan)"></span><span>Scanners<small>Probed bait paths, never used a key</small></span></label>
+      </section>
+
+      <section class="tg-box">
+        <h2 id="tg-list-h">Where the keys went</h2>
+        <ul id="tg-list"><li class="tg-empty">Loading…</li></ul>
+        <p class="tg-note" id="tg-note-hp">Left out on purpose: my own addresses, my LAN honeypot, Google's page renderer, and Cloudflare edge addresses, which show where the edge is rather than who sent the request. More in <a href="/orange-book/2026-10-08-leaked-aws-key-supply-chain/">Who actually uses a leaked AWS key?</a></p>
+        <p class="tg-note" id="tg-note-cm" hidden>Counts of reported IPs per country from public feeds, refreshed by Cloudflare Workers. See <a href="/data-sources/">Data Sources</a>.</p>
+      </section>
+    </aside>
   </div>
 </div>
 
-<script>
-const ABUSEIPDB_WORKER = 'https://cybergrind-threatmap-worker.wacker-jason.workers.dev';
-const OSINT_WORKER = 'https://cybergrind-osint-worker.wacker-jason.workers.dev';
-
-// Tab switching
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
-  if (tab === 'osint') osintMap.invalidateSize();
-  if (tab === 'abuseipdb') abuseMap.invalidateSize();
-}
-
-function getColor(count, accent) {
-  if (accent === 'green') {
-    if (count >= 50) return '#00ff99';
-    if (count >= 20) return '#00cc88';
-    if (count >= 10) return '#00aa66';
-    if (count >= 5)  return '#008844';
-    return '#006633';
-  }
-  if (count >= 50) return '#ff0000';
-  if (count >= 20) return '#ff6b00';
-  if (count >= 10) return '#ffaa00';
-  if (count >= 5)  return '#ffdd00';
-  return '#88cc00';
-}
-
-function getRadius(count) {
-  if (count >= 100) return 28;
-  if (count >= 50)  return 22;
-  if (count >= 20)  return 16;
-  if (count >= 10)  return 12;
-  if (count >= 5)   return 9;
-  return 6;
-}
-
-function makeTileLayer() {
-  return L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap © CARTO',
-    subdomains: 'abcd',
-  });
-}
-
-// --- AbuseIPDB Map ---
-const abuseMap = L.map('threat-map', { center:[20,0], zoom:2, minZoom:2, maxZoom:6 });
-makeTileLayer().addTo(abuseMap);
-let abuseMarkers = [];
-
-async function loadAbuseData() {
-  try {
-    const res = await fetch(ABUSEIPDB_WORKER);
-    if (!res.ok) throw new Error('Status ' + res.status);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-
-    abuseMarkers.forEach(m => abuseMap.removeLayer(m));
-    abuseMarkers = [];
-
-    data.points.forEach(p => {
-      const color = getColor(p.count, 'red');
-      const circle = L.circleMarker([p.lat, p.lng], {
-        radius: getRadius(p.count),
-        fillColor: color, color, weight:1, opacity:0.9, fillOpacity:0.5,
-      }).addTo(abuseMap);
-      circle.bindPopup(`<div class="threat-popup"><h4>${p.country}</h4><p>🚨 <strong>${p.count}</strong> malicious IPs</p><p>📊 Avg abuse score: <strong>${p.avgScore}%</strong></p></div>`);
-      abuseMarkers.push(circle);
-    });
-
-    document.getElementById('stat-total').textContent = data.totalIPs.toLocaleString();
-    document.getElementById('stat-countries').textContent = data.points.length;
-    document.getElementById('stat-top').textContent = data.topCountries[0];
-    document.getElementById('stat-updated').textContent = new Date(data.generatedAt).toLocaleTimeString();
-
-    const table = document.getElementById('country-table');
-    table.innerHTML = data.points.slice(0,10).map(p => `
-      <div style="background:#111;border:1px solid #222;border-radius:4px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:${getColor(p.count,'red')}">${p.count}</div>
-        <div style="font-size:12px;color:#888;">${p.country}</div>
-      </div>`).join('');
-  } catch(err) {
-    document.getElementById('stat-updated').textContent = 'Unavailable';
-    document.getElementById('stat-total').textContent = 'N/A';
-    document.getElementById('stat-countries').textContent = 'N/A';
-    document.getElementById('stat-top').textContent = 'N/A';
-    console.error('AbuseIPDB worker error:', err);
-  }
-}
-
-// --- OSINT Map ---
-const osintMap = L.map('osint-map', { center:[20,0], zoom:2, minZoom:2, maxZoom:6 });
-makeTileLayer().addTo(osintMap);
-let osintMarkers = [];
-
-async function loadOsintData() {
-  try {
-    const res = await fetch(OSINT_WORKER);
-    if (!res.ok) throw new Error('Status ' + res.status);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-
-    osintMarkers.forEach(m => osintMap.removeLayer(m));
-    osintMarkers = [];
-
-    data.points.forEach(p => {
-      const color = getColor(p.count, 'green');
-      const circle = L.circleMarker([p.lat, p.lng], {
-        radius: getRadius(p.count),
-        fillColor: color, color, weight:1, opacity:0.9, fillOpacity:0.5,
-      }).addTo(osintMap);
-      circle.bindPopup(`<div class="threat-popup"><h4>${p.country}</h4><p>🚨 <strong>${p.count}</strong> malicious IPs</p></div>`);
-      osintMarkers.push(circle);
-    });
-
-    document.getElementById('osint-total').textContent = data.totalIPs.toLocaleString();
-    document.getElementById('osint-countries').textContent = data.points.length;
-    document.getElementById('osint-top').textContent = data.topCountries[0];
-    document.getElementById('osint-updated').textContent = new Date(data.generatedAt).toLocaleTimeString();
-
-    // Source badges
-    const sourcesDiv = document.getElementById('osint-sources');
-    sourcesDiv.innerHTML = '<span style="font-size:12px;color:#888;">Sources:</span> ' +
-      data.sourceStats.map(s => `
-        <span class="source-badge" title="${s.count.toLocaleString()} IPs${s.error ? ' (error: '+s.error+')' : ''}">
-          ${s.error ? '⚠️' : '✅'} ${s.name} (${s.count.toLocaleString()})
-        </span>`).join('');
-
-    const table = document.getElementById('osint-country-table');
-    table.innerHTML = data.points.slice(0,10).map(p => `
-      <div style="background:#111;border:1px solid #222;border-radius:4px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:${getColor(p.count,'green')}">${p.count}</div>
-        <div style="font-size:12px;color:#888;">${p.country}</div>
-      </div>`).join('');
-  } catch(err) {
-    document.getElementById('osint-updated').textContent = 'Unavailable';
-    document.getElementById('osint-total').textContent = 'N/A';
-    document.getElementById('osint-countries').textContent = 'N/A';
-    document.getElementById('osint-top').textContent = 'N/A';
-    console.error('OSINT worker error:', err);
-  }
-}
-
-loadAbuseData();
-loadOsintData();
-setInterval(loadAbuseData, 1800000); // 30 min
-setInterval(loadOsintData, 3600000); // 1 hour
-</script>
+<script src="/js/vendor/globe.gl-2.46.2.min.js" defer></script>
+<script src="/js/threat-globe.js" defer></script>
 {{ end }}
