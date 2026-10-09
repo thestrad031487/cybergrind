@@ -32,7 +32,7 @@
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
     <div>
       <h2 style="margin:0;font-size:18px;color:var(--primary)">🌐 Global Threat Map</h2>
-      <p style="margin:4px 0 0 0;font-size:13px;color:var(--secondary)">Live malicious IP activity by country</p>
+      <p style="margin:4px 0 0 0;font-size:13px;color:var(--secondary)">Who used this site's decoy AWS keys, by country</p>
     </div>
     <a href="/tools/threat-map/" style="font-size:13px;color:var(--primary);text-decoration:none;border:1px solid var(--primary);padding:6px 12px;border-radius:4px;">View Full Map →</a>
   </div>
@@ -46,18 +46,27 @@
   </a>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">240+</div>
-      <div style="font-size:11px;color:var(--secondary);">Countries Tracked</div>
+      <div id="hm-uses" style="font-size:20px;font-weight:700;color:#ffb347;font-variant-numeric:tabular-nums;">–</div>
+      <div style="font-size:11px;color:var(--secondary);">Key uses, last 24h</div>
     </div>
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">6hr</div>
-      <div style="font-size:11px;color:var(--secondary);">Cache Refresh</div>
+      <div id="hm-handoffs" style="font-size:20px;font-weight:700;color:#ffb347;font-variant-numeric:tabular-nums;">–</div>
+      <div style="font-size:11px;color:var(--secondary);">Hand-offs</div>
     </div>
     <div style="background:var(--entry);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;">
-      <div style="font-size:20px;font-weight:700;color:#ff6b6b;">AbuseIPDB</div>
-      <div style="font-size:11px;color:var(--secondary);">Data Source</div>
+      <div id="hm-countries" style="font-size:20px;font-weight:700;color:#ffb347;font-variant-numeric:tabular-nums;">–</div>
+      <div style="font-size:11px;color:var(--secondary);">Countries</div>
     </div>
   </div>
+  <script>
+  fetch("/data/globe.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(d => {
+    if (!d || !d.totals) return;
+    for (const k of ["uses", "handoffs", "countries"]) {
+      const el = document.getElementById("hm-" + k);
+      if (el) el.textContent = Number(d.totals[k] || 0).toLocaleString();
+    }
+  }).catch(() => {});
+  </script>
 </section>
 
 
