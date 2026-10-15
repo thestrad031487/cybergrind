@@ -1,31 +1,31 @@
 {
  "countries": {
-  "AU": {
-   "fetches": 1,
+  "AE": {
+   "fetches": 0,
    "network": "",
    "scanners": 1,
+   "services": {},
+   "uses": 0,
+   "writes": []
+  },
+  "AU": {
+   "fetches": 2,
+   "network": "",
+   "scanners": 2,
    "services": {},
    "uses": 0,
    "writes": []
   },
   "BE": {
-   "fetches": 3,
-   "network": "",
-   "scanners": 1,
-   "services": {},
-   "uses": 0,
-   "writes": []
-  },
-  "DE": {
-   "fetches": 3,
+   "fetches": 1,
    "network": "",
    "scanners": 0,
    "services": {},
    "uses": 0,
    "writes": []
   },
-  "FI": {
-   "fetches": 0,
+  "ES": {
+   "fetches": 1,
    "network": "",
    "scanners": 1,
    "services": {},
@@ -33,16 +33,54 @@
    "writes": []
   },
   "FR": {
+   "fetches": 2,
+   "network": "hosting",
+   "scanners": 2,
+   "services": {
+    "Bedrock": 2,
+    "STS": 2
+   },
+   "uses": 4,
+   "writes": []
+  },
+  "IN": {
+   "fetches": 0,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "Service Quotas": 1
+   },
+   "uses": 1,
+   "writes": []
+  },
+  "MA": {
+   "fetches": 0,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "DescribeAvailabilityZones": 2,
+    "EC2": 1
+   },
+   "uses": 3,
+   "writes": []
+  },
+  "NL": {
+   "fetches": 2,
+   "network": "",
+   "scanners": 0,
+   "services": {},
+   "uses": 0,
+   "writes": []
+  },
+  "PL": {
    "fetches": 0,
    "network": "hosting",
    "scanners": 0,
-   "services": {
-    "Bedrock": 20
-   },
-   "uses": 20,
+   "services": {},
+   "uses": 1,
    "writes": []
   },
-  "JP": {
+  "SG": {
    "fetches": 1,
    "network": "",
    "scanners": 0,
@@ -50,120 +88,64 @@
    "uses": 0,
    "writes": []
   },
-  "NL": {
-   "fetches": 2,
-   "network": "",
-   "scanners": 3,
-   "services": {},
-   "uses": 0,
-   "writes": []
-  },
-  "RO": {
-   "fetches": 0,
-   "network": "",
-   "scanners": 1,
-   "services": {},
-   "uses": 0,
-   "writes": []
-  },
-  "SG": {
-   "fetches": 2,
-   "network": "",
-   "scanners": 1,
-   "services": {},
-   "uses": 0,
-   "writes": []
-  },
   "US": {
-   "fetches": 2,
-   "network": "isp",
-   "scanners": 2,
-   "services": {
-    "Bedrock": 1
-   },
-   "uses": 1,
-   "writes": [
-    "InvokeModel"
-   ]
+   "fetches": 1,
+   "network": "",
+   "scanners": 1,
+   "services": {},
+   "uses": 0,
+   "writes": []
   }
  },
- "generated": "2026-10-14T13:46Z",
+ "generated": "2026-10-15T13:45Z",
  "handoffs": [
   {
    "count": 1,
    "from": "AU",
    "kind": "aws",
-   "lag_h": 5.5,
-   "to": "US"
+   "lag_h": 11.7,
+   "to": "IN"
   },
   {
-   "count": 2,
+   "count": 3,
    "from": "BE",
    "kind": "aws",
-   "lag_h": 29.9,
-   "to": "FR"
+   "lag_h": 47.8,
+   "to": "MA"
   },
   {
-   "count": 1,
-   "from": "BE",
-   "kind": "aws",
-   "lag_h": 5.5,
-   "to": "US"
-  },
-  {
-   "count": 4,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 126.4,
-   "to": "FR"
-  },
-  {
-   "count": 2,
+   "count": 3,
    "from": "DE",
    "kind": "aws",
-   "lag_h": 29.9,
-   "to": "FR"
-  },
-  {
-   "count": 4,
-   "from": "JP",
-   "kind": "aws",
-   "lag_h": 126.4,
-   "to": "FR"
-  },
-  {
-   "count": 7,
-   "from": "NL",
-   "kind": "aws",
-   "lag_h": 5.1,
-   "to": "FR"
+   "lag_h": 47.8,
+   "to": "MA"
   },
   {
    "count": 1,
-   "from": "NL",
+   "from": "ES",
    "kind": "aws",
-   "lag_h": 5.5,
-   "to": "US"
+   "lag_h": 11.7,
+   "to": "IN"
   },
   {
-   "count": 11,
-   "from": "SG",
+   "count": 1,
+   "from": "FR",
    "kind": "aws",
-   "lag_h": 5.1,
-   "to": "FR"
+   "lag_h": 11.7,
+   "to": "IN"
   },
   {
-   "count": 21,
+   "count": 3,
    "from": "US",
    "kind": "aws",
-   "lag_h": 5.1,
-   "to": "FR"
+   "lag_h": 47.8,
+   "to": "MA"
   }
  ],
  "totals": {
-  "countries": 8,
-  "handoffs": 54,
-  "uses": 21
+  "countries": 10,
+  "handoffs": 12,
+  "uses": 9
  },
  "window_hours": 24
 }
