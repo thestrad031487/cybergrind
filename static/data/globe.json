@@ -1,14 +1,16 @@
 {
  "countries": {
-  "BE": {
-   "fetches": 1,
-   "network": "",
-   "scanners": 4,
-   "services": {},
-   "uses": 0,
+  "AE": {
+   "fetches": 0,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "Bedrock": 1
+   },
+   "uses": 1,
    "writes": []
   },
-  "BR": {
+  "BE": {
    "fetches": 2,
    "network": "",
    "scanners": 2,
@@ -16,68 +18,22 @@
    "uses": 0,
    "writes": []
   },
-  "CA": {
-   "fetches": 1,
-   "network": "",
-   "scanners": 0,
-   "services": {},
-   "uses": 0,
-   "writes": []
-  },
-  "DE": {
+  "BR": {
    "fetches": 3,
-   "network": "mixed",
-   "scanners": 2,
+   "network": "isp",
+   "scanners": 1,
    "services": {
-    "Bedrock": 2,
-    "STS": 2
-   },
-   "uses": 4,
-   "writes": [
-    "Converse",
-    "InvokeModel"
-   ]
-  },
-  "ES": {
-   "fetches": 0,
-   "network": "hosting",
-   "scanners": 0,
-   "services": {
-    "EC2": 3,
-    "IAM": 1,
-    "S3": 1,
-    "SES": 2,
-    "STS": 1
-   },
-   "uses": 8,
-   "writes": []
-  },
-  "FR": {
-   "fetches": 0,
-   "network": "hosting",
-   "scanners": 0,
-   "services": {
-    "Bedrock": 2,
-    "STS": 3
-   },
-   "uses": 6,
-   "writes": []
-  },
-  "GB": {
-   "fetches": 1,
-   "network": "mixed",
-   "scanners": 0,
-   "services": {
-    "ListInferenceProfiles": 2,
-    "STS": 1
+    "Bedrock": 3
    },
    "uses": 3,
-   "writes": []
+   "writes": [
+    "Converse"
+   ]
   },
-  "ID": {
-   "fetches": 0,
+  "CA": {
+   "fetches": 1,
    "network": "isp",
-   "scanners": 0,
+   "scanners": 1,
    "services": {
     "Bedrock": 1
    },
@@ -86,346 +42,425 @@
     "Converse"
    ]
   },
-  "IL": {
-   "fetches": 1,
-   "network": "",
+  "DE": {
+   "fetches": 3,
+   "network": "hosting",
    "scanners": 0,
-   "services": {},
-   "uses": 0,
+   "services": {
+    "STS": 1
+   },
+   "uses": 1,
    "writes": []
   },
-  "IN": {
-   "fetches": 1,
-   "network": "",
+  "FR": {
+   "fetches": 0,
+   "network": "hosting",
    "scanners": 0,
-   "services": {},
-   "uses": 0,
+   "services": {
+    "Bedrock": 10,
+    "EC2": 1,
+    "IAM": 1,
+    "SES": 5,
+    "SNS": 1,
+    "STS": 6
+   },
+   "uses": 24,
+   "writes": []
+  },
+  "GB": {
+   "fetches": 1,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "STS": 1
+   },
+   "uses": 1,
+   "writes": []
+  },
+  "ID": {
+   "fetches": 0,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "DescribeSeverityLevels": 1,
+    "GetFreeTierUsage": 1
+   },
+   "uses": 2,
    "writes": []
   },
   "IT": {
    "fetches": 1,
    "network": "",
-   "scanners": 1,
+   "scanners": 0,
    "services": {},
    "uses": 0,
    "writes": []
   },
   "JP": {
-   "fetches": 1,
+   "fetches": 2,
    "network": "",
    "scanners": 1,
    "services": {},
    "uses": 0,
    "writes": []
   },
-  "KZ": {
+  "MT": {
    "fetches": 0,
    "network": "isp",
    "scanners": 0,
    "services": {
-    "Service Quotas": 1
+    "Bedrock": 1,
+    "STS": 1
    },
-   "uses": 1,
+   "uses": 2,
    "writes": []
   },
   "NL": {
    "fetches": 3,
    "network": "hosting",
-   "scanners": 0,
+   "scanners": 3,
    "services": {
-    "SES": 2,
+    "DescribeAccountAttributes": 1,
+    "EC2": 1,
+    "GetCostAndUsage": 1,
+    "SES": 1,
     "STS": 1
+   },
+   "uses": 5,
+   "writes": []
+  },
+  "PL": {
+   "fetches": 1,
+   "network": "hosting",
+   "scanners": 1,
+   "services": {
+    "GetSMSAttributes": 2,
+    "SES": 1
    },
    "uses": 3,
    "writes": []
   },
-  "PL": {
-   "fetches": 0,
-   "network": "hosting",
-   "scanners": 0,
-   "services": {
-    "SES": 2
-   },
-   "uses": 2,
-   "writes": []
-  },
   "SG": {
-   "fetches": 2,
+   "fetches": 1,
    "network": "",
-   "scanners": 0,
+   "scanners": 3,
    "services": {},
    "uses": 0,
    "writes": []
   },
+  "TR": {
+   "fetches": 0,
+   "network": "isp",
+   "scanners": 0,
+   "services": {
+    "STS": 1
+   },
+   "uses": 1,
+   "writes": []
+  },
   "US": {
-   "fetches": 2,
+   "fetches": 1,
    "network": "mixed",
    "scanners": 2,
    "services": {
     "Bedrock": 1,
-    "GetSMSAttributes": 2,
-    "IAM": 1,
-    "SES": 2,
-    "STS": 7
+    "GetSMSAttributes": 3,
+    "SES": 3,
+    "STS": 8
    },
-   "uses": 14,
+   "uses": 15,
    "writes": [
     "Converse"
    ]
   }
  },
- "generated": "2026-10-31T13:45Z",
+ "generated": "2026-11-01T13:45Z",
  "handoffs": [
   {
-   "count": 3,
-   "from": "BE",
-   "kind": "aws",
-   "lag_h": 73.0,
-   "to": "FR"
-  },
-  {
    "count": 1,
    "from": "BE",
    "kind": "aws",
-   "lag_h": 84.6,
-   "to": "PL"
-  },
-  {
-   "count": 5,
-   "from": "BE",
-   "kind": "aws",
-   "lag_h": 2.3,
-   "to": "US"
-  },
-  {
-   "count": 3,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 0.4,
-   "to": "DE"
-  },
-  {
-   "count": 3,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 0.4,
-   "to": "GB"
-  },
-  {
-   "count": 1,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 6.5,
-   "to": "KZ"
-  },
-  {
-   "count": 2,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 0.1,
-   "to": "NL"
-  },
-  {
-   "count": 1,
-   "from": "BR",
-   "kind": "aws",
-   "lag_h": 11.0,
-   "to": "PL"
+   "lag_h": 101.1,
+   "to": "AE"
   },
   {
    "count": 7,
-   "from": "BR",
+   "from": "BE",
    "kind": "aws",
-   "lag_h": 0.5,
-   "to": "US"
-  },
-  {
-   "count": 8,
-   "from": "CA",
-   "kind": "aws",
-   "lag_h": 17.1,
-   "to": "ES"
-  },
-  {
-   "count": 1,
-   "from": "CA",
-   "kind": "aws",
-   "lag_h": 16.8,
+   "lag_h": 99.3,
    "to": "FR"
   },
   {
    "count": 1,
-   "from": "CA",
+   "from": "BE",
    "kind": "aws",
-   "lag_h": 105.2,
-   "to": "ID"
-  },
-  {
-   "count": 3,
-   "from": "DE",
-   "kind": "aws",
-   "lag_h": 0.4,
-   "to": "DE"
-  },
-  {
-   "count": 4,
-   "from": "DE",
-   "kind": "aws",
-   "lag_h": 51.0,
-   "to": "FR"
-  },
-  {
-   "count": 3,
-   "from": "DE",
-   "kind": "aws",
-   "lag_h": 0.4,
+   "lag_h": 101.1,
    "to": "GB"
-  },
-  {
-   "count": 1,
-   "from": "DE",
-   "kind": "aws",
-   "lag_h": 6.5,
-   "to": "KZ"
-  },
-  {
-   "count": 4,
-   "from": "DE",
-   "kind": "aws",
-   "lag_h": 0.0,
-   "to": "NL"
   },
   {
    "count": 2,
-   "from": "DE",
+   "from": "BE",
    "kind": "aws",
-   "lag_h": 11.0,
+   "lag_h": 2.5,
+   "to": "MT"
+  },
+  {
+   "count": 2,
+   "from": "BE",
+   "kind": "aws",
+   "lag_h": 105.9,
    "to": "PL"
   },
   {
-   "count": 8,
-   "from": "DE",
+   "count": 3,
+   "from": "BE",
    "kind": "aws",
-   "lag_h": 0.5,
+   "lag_h": 95.6,
    "to": "US"
   },
   {
-   "count": 3,
-   "from": "GB",
+   "count": 1,
+   "from": "BR",
    "kind": "aws",
-   "lag_h": 0.4,
+   "lag_h": 25.5,
+   "to": "BR"
+  },
+  {
+   "count": 1,
+   "from": "BR",
+   "kind": "aws",
+   "lag_h": 17.8,
    "to": "DE"
   },
   {
    "count": 3,
-   "from": "GB",
+   "from": "BR",
    "kind": "aws",
-   "lag_h": 0.4,
-   "to": "GB"
+   "lag_h": 28.2,
+   "to": "FR"
   },
   {
    "count": 1,
-   "from": "GB",
+   "from": "BR",
    "kind": "aws",
-   "lag_h": 6.5,
-   "to": "KZ"
-  },
-  {
-   "count": 3,
-   "from": "GB",
-   "kind": "aws",
-   "lag_h": 0.0,
-   "to": "NL"
-  },
-  {
-   "count": 1,
-   "from": "GB",
-   "kind": "aws",
-   "lag_h": 11.0,
+   "lag_h": 32.2,
    "to": "PL"
+  },
+  {
+   "count": 1,
+   "from": "BR",
+   "kind": "aws",
+   "lag_h": 25.6,
+   "to": "TR"
+  },
+  {
+   "count": 4,
+   "from": "BR",
+   "kind": "aws",
+   "lag_h": 22.0,
+   "to": "US"
+  },
+  {
+   "count": 9,
+   "from": "CA",
+   "kind": "aws",
+   "lag_h": 40.9,
+   "to": "FR"
+  },
+  {
+   "count": 2,
+   "from": "CA",
+   "kind": "aws",
+   "lag_h": 2.5,
+   "to": "MT"
   },
   {
    "count": 5,
-   "from": "GB",
+   "from": "CA",
    "kind": "aws",
-   "lag_h": 0.5,
-   "to": "US"
-  },
-  {
-   "count": 8,
-   "from": "IL",
-   "kind": "aws",
-   "lag_h": 17.1,
-   "to": "ES"
+   "lag_h": 0.0,
+   "to": "NL"
   },
   {
    "count": 1,
-   "from": "IL",
+   "from": "DE",
    "kind": "aws",
-   "lag_h": 16.8,
+   "lag_h": 101.1,
+   "to": "AE"
+  },
+  {
+   "count": 1,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 25.5,
+   "to": "BR"
+  },
+  {
+   "count": 1,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 17.8,
+   "to": "DE"
+  },
+  {
+   "count": 11,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 28.2,
    "to": "FR"
   },
   {
-   "count": 2,
-   "from": "IT",
+   "count": 1,
+   "from": "DE",
    "kind": "aws",
-   "lag_h": 2.3,
+   "lag_h": 101.1,
+   "to": "GB"
+  },
+  {
+   "count": 3,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 32.2,
+   "to": "PL"
+  },
+  {
+   "count": 1,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 25.6,
+   "to": "TR"
+  },
+  {
+   "count": 7,
+   "from": "DE",
+   "kind": "aws",
+   "lag_h": 22.0,
    "to": "US"
+  },
+  {
+   "count": 1,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 25.5,
+   "to": "BR"
+  },
+  {
+   "count": 1,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 17.8,
+   "to": "DE"
+  },
+  {
+   "count": 3,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 28.2,
+   "to": "FR"
+  },
+  {
+   "count": 1,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 32.2,
+   "to": "PL"
+  },
+  {
+   "count": 1,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 25.6,
+   "to": "TR"
+  },
+  {
+   "count": 4,
+   "from": "GB",
+   "kind": "aws",
+   "lag_h": 22.0,
+   "to": "US"
+  },
+  {
+   "count": 6,
+   "from": "IL",
+   "kind": "aws",
+   "lag_h": 40.9,
+   "to": "FR"
   },
   {
    "count": 1,
    "from": "NL",
    "kind": "aws",
-   "lag_h": 51.0,
+   "lag_h": 75.0,
    "to": "FR"
   },
   {
-   "count": 8,
-   "from": "SG",
+   "count": 5,
+   "from": "NL",
    "kind": "aws",
-   "lag_h": 17.1,
-   "to": "ES"
+   "lag_h": 0.0,
+   "to": "NL"
   },
   {
-   "count": 4,
+   "count": 2,
+   "from": "PL",
+   "kind": "aws",
+   "lag_h": 2.5,
+   "to": "MT"
+  },
+  {
+   "count": 5,
+   "from": "PL",
+   "kind": "aws",
+   "lag_h": 0.0,
+   "to": "NL"
+  },
+  {
+   "count": 1,
    "from": "SG",
    "kind": "aws",
-   "lag_h": 16.8,
+   "lag_h": 101.1,
+   "to": "AE"
+  },
+  {
+   "count": 13,
+   "from": "SG",
+   "kind": "aws",
+   "lag_h": 40.9,
    "to": "FR"
   },
   {
    "count": 1,
    "from": "SG",
    "kind": "aws",
-   "lag_h": 84.6,
+   "lag_h": 101.1,
+   "to": "GB"
+  },
+  {
+   "count": 2,
+   "from": "SG",
+   "kind": "aws",
+   "lag_h": 105.9,
    "to": "PL"
   },
   {
    "count": 3,
    "from": "SG",
    "kind": "aws",
-   "lag_h": 70.7,
+   "lag_h": 95.6,
    "to": "US"
   },
   {
-   "count": 1,
+   "count": 7,
    "from": "US",
    "kind": "aws",
-   "lag_h": 51.0,
+   "lag_h": 75.0,
    "to": "FR"
-  },
-  {
-   "count": 2,
-   "from": "US",
-   "kind": "aws",
-   "lag_h": 105.2,
-   "to": "ID"
   }
  ],
  "totals": {
-  "countries": 17,
-  "handoffs": 108,
-  "uses": 42
+  "countries": 16,
+  "handoffs": 126,
+  "uses": 59
  },
  "window_hours": 24
 }
