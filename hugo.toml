@@ -38,8 +38,8 @@ copyright = "2026 CyberGrind"
 [params.schema]
   publisherType = "Organization"
   sameAs = [
-    "\"https://github.com/thestrad031487\"",
-    "\"https://linkedin.com/in/jasonrwacker\""
+    "https://github.com/thestrad031487",
+    "https://linkedin.com/in/jasonrwacker"
   ]
 
 [params.label]
