@@ -1,5 +1,7 @@
 ---
 title: "Who actually uses a leaked AWS key? Tracing it with rotating canaries"
+featured: true
+featured_label: "Threat Intel"
 date: 2026-10-08
 author: "Jason, Cyber Professional"
 section: "orange-book"
