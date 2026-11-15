@@ -11,6 +11,10 @@ import sys
 import json
 import urllib.request
 import re
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from safe_text import llm_markdown  # noqa: E402
 
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 OLLAMA_MODEL = "llama3.2:3b"
@@ -108,7 +112,7 @@ def patch_file(filepath):
         return
 
     # Insert commentary before the final line
-    commentary_block = "\n## From the Trenches\n\n" + commentary + "\n\n---\n"
+    commentary_block = "\n## From the Trenches\n\n" + llm_markdown(commentary) + "\n\n---\n"
 
     # Insert before the last line (*Compiled daily...*)
     if "*Compiled daily" in content:

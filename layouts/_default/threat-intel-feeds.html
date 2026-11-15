@@ -306,6 +306,10 @@
 
 <script>
 const API = "https://api.cybergrind.org";
+// Escape untrusted text before it goes into innerHTML (added 2026-11 audit)
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeUrl(u) { try { const x = new URL(u); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : '#'; } catch (e) { return '#'; } }
+
 
 function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -326,8 +330,8 @@ async function loadNews() {
     }
     el.innerHTML = data.results.map(item => `
       <div class="news-item">
-        <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-        <div class="news-meta">${item.source} · ${item.published ? new Date(item.published).toLocaleDateString() : ''}</div>
+        <a href="${esc(safeUrl(item.link))}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>
+        <div class="news-meta">${esc(item.source)} · ${item.published ? new Date(item.published).toLocaleDateString() : ''}</div>
       </div>
     `).join('');
     el.innerHTML += '<p class="api-note">Live feed via CyberGrind API · Updates every 2 hours</p>';
@@ -358,10 +362,10 @@ async function loadIOCs() {
         <tbody>
           ${data.results.map(ioc => `
             <tr>
-              <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ioc.value}</td>
-              <td>${ioc.threat || '—'}</td>
-              <td>${ioc.malware || '—'}</td>
-              <td class="status-${ioc.status}">${ioc.status}</td>
+              <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(ioc.value)}</td>
+              <td>${esc(ioc.threat || '—')}</td>
+              <td>${esc(ioc.malware || '—')}</td>
+              <td class="status-${esc(ioc.status)}">${esc(ioc.status)}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -392,7 +396,7 @@ async function loadMISP() {
 
     const typeBadge = (type) => {
       const cls = ['ip','domain','url','hash','email'].includes(type) ? type : 'domain';
-      return `<span class="badge-type badge-${cls}">${type.toUpperCase()}</span>`;
+      return `<span class="badge-type badge-${cls}">${esc(String(type).toUpperCase())}</span>`;
     };
 
     el.innerHTML = `
@@ -410,10 +414,10 @@ async function loadMISP() {
           ${data.results.map(ioc => `
             <tr>
               <td>${typeBadge(ioc.ioc_type)}</td>
-              <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:monospace;font-size:0.8rem;">${ioc.value}</td>
-              <td>${ioc.threat || '—'}</td>
-              <td style="color:#666;font-size:0.78rem;">${ioc.malware || '—'}</td>
-              <td style="color:#555;font-size:0.78rem;white-space:nowrap;">${ioc.created_at ? ioc.created_at.split(' ')[0] : '—'}</td>
+              <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:monospace;font-size:0.8rem;">${esc(ioc.value)}</td>
+              <td>${esc(ioc.threat || '—')}</td>
+              <td style="color:#666;font-size:0.78rem;">${esc(ioc.malware || '—')}</td>
+              <td style="color:#555;font-size:0.78rem;white-space:nowrap;">${esc(ioc.created_at ? ioc.created_at.split(' ')[0] : '—')}</td>
             </tr>
           `).join('')}
         </tbody>

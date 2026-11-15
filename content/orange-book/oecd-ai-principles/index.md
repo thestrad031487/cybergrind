@@ -92,4 +92,4 @@ This update was important because the original 2019 definition was written befor
 
 ---
 
-*Previous: [ISO/IEC 42001](./04_ISO_IEC_42001.md) | Next: [UNESCO AI Ethics](./06_UNESCO_AI_Ethics.md)*
+*Previous: [ISO/IEC 42001](/orange-book/iso-iec-42001/) | Next: [UNESCO AI Ethics](/orange-book/unesco-ai-ethics/)*

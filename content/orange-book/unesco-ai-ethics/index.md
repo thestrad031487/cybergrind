@@ -101,4 +101,4 @@ Compared to the OECD Principles, NIST AI RMF, or the EU AI Act, the UNESCO Recom
 
 ---
 
-*Previous: [OECD AI Principles](./05_OECD_AI_Principles.md) | Back to: [Overview](./00_AI_Frameworks_Overview.md)*
+*Previous: [OECD AI Principles](/orange-book/oecd-ai-principles/) | Back to: [Overview](/orange-book/ai-frameworks-overview/)*

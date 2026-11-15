@@ -142,4 +142,4 @@ Like the GDPR before it, the EU AI Act reaches beyond EU borders. Any AI system 
 
 ---
 
-*Previous: [NIST AI RMF](./02_NIST_AI_RMF.md) | Next: [ISO/IEC 42001](./04_ISO_IEC_42001.md)*
+*Previous: [NIST AI RMF](/orange-book/nist-ai-rmf/) | Next: [ISO/IEC 42001](/orange-book/iso-iec-42001/)*

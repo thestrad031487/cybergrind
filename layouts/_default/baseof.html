@@ -27,8 +27,11 @@
     </main>
     {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
     <script>
-    if (window.location.hostname != "cybergrind.org"
-        && !window.location.hostname.endsWith(".cybergrind.org"))
+    var h = window.location.hostname;
+    if (h != "cybergrind.org"
+        && !h.endsWith(".cybergrind.org")
+        && h != "localhost" && h != "127.0.0.1" && h != "[::1]"
+        && !h.endsWith(".pages.dev"))
     {
         var p = !document.location.protocol.startsWith("http")?"http:":document.location.protocol;
         var l = location.href;

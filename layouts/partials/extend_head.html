@@ -7,9 +7,9 @@
   <meta name="twitter:image" content="{{ . | absURL }}">
   {{- end }}
 {{- end }}
-{{- /* Explicit og:type for homepage */}}
-{{- if .IsHome }}
-<meta property="og:type" content="website">
+{{- /* Keep thin tag/category pages (fewer than 2 posts) out of search results */}}
+{{- if and (eq .Kind "term") (lt (len .Pages) 2) }}
+<meta name="robots" content="noindex, follow">
 {{- end }}
 
 {{- /* Google Analytics 4 */}}
