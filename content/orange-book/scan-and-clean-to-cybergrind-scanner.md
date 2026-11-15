@@ -5,7 +5,7 @@ author: "Jason Wacker"
 section: "orange-book"
 tags: ["reverse engineering", "malware analysis", "python", "wazuh", "nsrl", "homelab", "cybergrind-scanner"]
 description: "Reversing Sophos Scan & Clean in an isolated VM, turning what I learned into a property-based scanner, wiring it into Wazuh, and building a 432-million-hash NSRL allowlist without killing a USB enclosure."
-draft: true
+draft: false
 ---
 
 Sophos Scan & Clean was a free second-opinion scanner. You ran it next to your
