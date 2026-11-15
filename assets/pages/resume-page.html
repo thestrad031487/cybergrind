@@ -372,7 +372,7 @@
 
   <div class="r-section-label">Summary</div>
   <div class="r-summary">
-    Senior IT and cybersecurity professional with 13+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.
+    Senior IT and cybersecurity professional with 13+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), Entra ID SSO federation, AWS and Google Cloud hardening, Splunk SIEM integration, NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.
   </div>
 
   <div class="r-section-label">Core Competencies</div>
@@ -387,11 +387,11 @@
     </div>
     <div class="r-skill-card">
       <div class="r-skill-title">Cloud &amp; Identity</div>
-      <ul><li>Microsoft 365, Azure AD</li><li>Intune, Autopilot</li><li>Apple Business Manager</li><li>Mosyle MDM</li></ul>
+      <ul><li>Microsoft 365, Entra ID (SSO, SCIM)</li><li>Intune, Autopilot</li><li>AWS, Google Cloud</li><li>Apple Business Manager, Mosyle MDM</li></ul>
     </div>
     <div class="r-skill-card">
       <div class="r-skill-title">Security &amp; GRC</div>
-      <ul><li>NIST CSF, SP 800-53, SP 800-30</li><li>SOC 2, ISO 27001 alignment</li><li>Threat Modeling, Risk Assessments</li><li>Policy Authoring, DR Planning</li></ul>
+      <ul><li>NIST CSF, SP 800-53, SP 800-30</li><li>SOC 2, ISO 27001 alignment</li><li>Threat Modeling, Risk Assessments</li><li>Splunk SIEM, Salesforce Shield</li><li>Policy Authoring, DR Planning</li></ul>
     </div>
     <div class="r-skill-card">
       <div class="r-skill-title">Automation &amp; Dev</div>
@@ -419,15 +419,21 @@
     </div>
     <div class="r-job-employer">PAWS Chicago — Chicago, IL</div>
     <ul>
-      <li>Led IT infrastructure and cybersecurity for a 250+ staff, 350+ managed device organization serving 700+ volunteers across multiple facilities.</li>
-      <li>Architected and managed Azure cloud infrastructure and endpoint compliance via Microsoft Intune and Autopilot, including full Android Enterprise fleet deployment.</li>
+      <li>Ran IT infrastructure and cybersecurity as a one-person IT department for a 250+ staff, 350+ managed device organization serving 700+ volunteers across multiple facilities, supporting about 110 systems across PAWS Chicago and its sister organization, PAWS Nation.</li>
+      <li>Built the cybersecurity program with the managed SOC: connected AWS, Salesforce Shield, and SaaS audit logs to Splunk, built alerts and dashboards, and supported security investigations.</li>
+      <li>Federated 11 SaaS platforms to Microsoft Entra ID single sign-on, including Salesforce, Google Workspace, AWS (SAML with SCIM provisioning), Cloudflare, Adobe, Zoom, LastPass, Blackbaud, Canva, Smartsheet, and SignNow.</li>
+      <li>Hardened an inherited AWS organization: root MFA, group-based IAM Identity Center access, multi-region encrypted CloudTrail, AWS Config with managed compliance rules, CloudWatch alarms on root logins and IAM policy changes, and removal of stale admin credentials.</li>
+      <li>Consolidated six Google Cloud projects from a personal account into the organization's GCP org and replaced individual grants with group-based IAM.</li>
+      <li>Architected and managed Azure cloud infrastructure and endpoint compliance via Microsoft Intune and Autopilot, including full Android Enterprise fleet deployment, kiosk-mode wall tablets, and Win32 printer deployments with PowerShell driver staging.</li>
+      <li>Administered Salesforce security: moved the Splunk integration off the retiring SOAP login() API to OAuth, rolled out phishing-resistant MFA for admins, and implemented OwnBackup for production and sandbox.</li>
+      <li>Automated IT operations with 14+ Power Automate flows, including the IT support desk ticketing system, account onboarding and offboarding alerts, and report distribution that avoided buying extra Salesforce licenses.</li>
       <li>Conducted NIST SP 800-53 controls audit — interviews, document review, and system testing — producing formal findings and remediation roadmap.</li>
-      <li>Semi-quantitatively analyzed cybersecurity risk using NIST SP 800-30 methodology; authored risk register and executive briefings.</li>
-      <li>Executed threat modeling exercises to identify higher-likelihood threat events and inform risk scoring.</li>
+      <li>Semi-quantitatively analyzed cybersecurity risk using NIST SP 800-30 methodology and threat modeling; authored risk register and executive briefings.</li>
       <li>Developed Information Security policy aligned to SOC 2 Trust Service Criteria and NIST CSF.</li>
       <li>Designed and executed Business Continuity Plans and disaster recovery strategies with documented runbooks.</li>
       <li>Managed IT budgeting and procurement; achieved 10% reduction in operational costs through vendor consolidation.</li>
-      <li>Created targeted security awareness content reducing phishing susceptibility and improving end-user cyber hygiene.</li>
+      <li>Launched the organization's first phishing simulation campaign with Sophos Phish Threat and wrote a monthly staff tech newsletter to reduce phishing susceptibility and improve cyber hygiene.</li>
+      <li>Built a Smartsheet device inventory with warranty and lifecycle tracking and a staff self-service asset lookup; wrote device lifecycle policies and IT onboarding and offboarding procedures.</li>
       <li>Mentored junior IT staff and coordinated cross-departmental technology initiatives.</li>
     </ul>
   </div>
