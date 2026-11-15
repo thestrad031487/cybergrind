@@ -8,6 +8,9 @@ import json
 import ssl
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from safe_text import md_text, safe_url, llm_markdown  # noqa: E402
+
 # --- Config ---
 BLOG_DIR = "content/blog"
 TODAY = datetime.date.today()
@@ -141,9 +144,16 @@ def generate_post(headlines, commentary):
     ]
 
     for item in headlines:
-        lines.append(f"- [{item['title']}]({item['url']}) — *{item['source']}*")
+        title = md_text(item["title"])
+        source = md_text(item["source"])
+        url = safe_url(item["url"])
+        if url:
+            url = url.replace("http://", "https://", 1) if url.startswith("http://") else url
+            lines.append(f"- [{title}]({url}) — *{source}*")
+        else:
+            lines.append(f"- {title} — *{source}*")
 
-    lines += ["", "---", "", "## From the Trenches", "", commentary, "", "---", ""]
+    lines += ["", "---", "", "## From the Trenches", "", llm_markdown(commentary), "", "---", ""]
     lines.append("*Compiled daily. Stay patched, stay vigilant.*")
 
     return "\n".join(lines)
