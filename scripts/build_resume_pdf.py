@@ -31,7 +31,8 @@ PRINT_CSS = """
   .r-header h1 { color: #111 !important; }
   .dl-btn { display: none !important; }
   a { color: inherit !important; text-decoration: none !important; }
-  .r-job, .r-skill-card, .r-cert-item, .r-vol { break-inside: avoid; }
+  .r-skill-card, .r-cert-item, .r-vol, .r-job li, .r-job-header { break-inside: avoid; }
+  .r-job-header { break-after: avoid; }
   .r-section-label { break-after: avoid; }
   .r-job-title, .r-project-name, .r-edu-degree, .r-vol-role { color: #111 !important; }
   .r-homelab-grid li { background: #f7f8fa !important; color: var(--text) !important; }
