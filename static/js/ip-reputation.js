@@ -11,11 +11,21 @@ async function lookupIP() {
   if (!ip) return;
 
   resultDiv.classList.remove("hidden");
+
+  if (!isValidIP(ip)) {
+    resultDiv.innerHTML = `<p style="color:#ff4444;">"${esc(ip)}" isn't a valid IPv4 or IPv6 address.</p>`;
+    return;
+  }
+
   resultDiv.innerHTML = "<p>Looking up " + esc(ip) + "...</p>";
 
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15000);
   try {
-    const res = await fetch(`${WORKER_URL}?ip=${encodeURIComponent(ip)}`);
-    const data = await res.json();
+    const res = await fetch(`${WORKER_URL}?ip=${encodeURIComponent(ip)}`, { signal: ctrl.signal });
+    let data;
+    try { data = await res.json(); } catch (e) { data = { error: `Lookup service returned HTTP ${res.status}` }; }
+    if (!res.ok && !data.error) data.error = `Lookup service returned HTTP ${res.status}`;
 
     if (data.error) {
       resultDiv.innerHTML = `<p style="color:#ff4444;">Error: ${esc(data.error)}</p>`;
@@ -37,8 +47,18 @@ async function lookupIP() {
       </table>
     `;
   } catch (err) {
-    resultDiv.innerHTML = `<p style="color:#ff4444;">Request failed: ${esc(err.message)}</p>`;
+    const msg = err.name === "AbortError" ? "Lookup timed out after 15 seconds. Try again." : err.message;
+    resultDiv.innerHTML = `<p style="color:#ff4444;">Request failed: ${esc(msg)}</p>`;
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+function isValidIP(s) {
+  const v4 = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
+  if (v4.test(s)) return true;
+  if (!/^[0-9a-fA-F:.]+$/.test(s) || !s.includes(":")) return false;
+  try { new URL(`http://[${s}]/`); return true; } catch (e) { return false; }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
