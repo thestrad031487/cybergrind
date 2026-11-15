@@ -26,6 +26,9 @@ from pathlib import Path
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from safe_text import llm_markdown  # noqa: E402
+
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
 STRATEGIC_SYSTEM_PROMPT = """You are writing a short daily "CISO Briefing" for a \
@@ -110,7 +113,7 @@ draft: false
 
 ---
 
-{commentary}
+{llm_markdown(commentary)}
 
 ---
 
