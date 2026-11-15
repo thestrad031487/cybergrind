@@ -1,5 +1,6 @@
 ---
 title: "Tools"
+description: "Free browser-based security tools: CVE research, CISA KEV, EPSS, IP reputation, hash lookups, OSINT, threat feeds, and more."
 draft: false
 ---
 

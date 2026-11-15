@@ -1,5 +1,6 @@
 ---
 title: "From Punch Cards to Exascale: A History of Computers and Supercomputers"
+description: "From punch cards to exascale: how computers and supercomputers evolved, and the milestones that shaped modern computing."
 date: 2026-03-25T09:00:00-05:00
 categories: ["Hardware"]
 tags: ["history", "supercomputers", "hardware"]
