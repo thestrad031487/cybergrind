@@ -360,9 +360,9 @@
 
   <div class="r-header">
     <h1>Jason Wacker</h1>
-    <div class="r-title">Senior IT Systems Administrator &amp; Cybersecurity Professional</div>
+    <div class="r-title">IT Systems Administrator &amp; Cybersecurity Professional</div>
     <div class="r-contact">
-      <span><a href="mailto:wacker.jason@gmail.com">wacker.jason@gmail.com</a></span>
+      <span><a href="#" class="js-email" data-u="nosaj.rekcaw" data-d="moc.liamg">Email (click to show)</a></span>
       <span><a href="https://linkedin.com/in/jasonrwacker" target="_blank">linkedin.com/in/jasonrwacker</a></span>
       <span><a href="https://tryhackme.com/p/wacker.jason" target="_blank">tryhackme.com/p/wacker.jason</a></span>
       <span><a href="https://cybergrind.org" target="_blank">cybergrind.org</a></span>
@@ -372,7 +372,7 @@
 
   <div class="r-section-label">Summary</div>
   <div class="r-summary">
-    Senior IT and cybersecurity professional with 12+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.
+    Senior IT and cybersecurity professional with 13+ years of experience designing and securing enterprise infrastructure across nonprofit, education, and retail environments. Deep expertise in Microsoft 365, Azure, endpoint management (Intune/Autopilot), NIST SP 800-53 controls auditing, and risk management. Active practitioner maintaining a public cybersecurity platform at cybergrind.org — featuring a self-hosted threat intelligence pipeline, AI agent security framework, and MISP integration. CISSP candidate. Member of IEEE and SimplyCyber.
   </div>
 
   <div class="r-section-label">Core Competencies</div>
@@ -407,13 +407,20 @@
 
   <div class="r-job">
     <div class="r-job-header">
+      <div class="r-job-title">IT Systems Administrator</div>
+      <div class="r-job-dates">November 2026 – Present</div>
+    </div>
+  </div>
+
+  <div class="r-job">
+    <div class="r-job-header">
       <div class="r-job-title">Senior IT Manager of Infrastructure &amp; Cybersecurity</div>
-      <div class="r-job-dates">July 2021 – Present</div>
+      <div class="r-job-dates">July 2021 – November 2026</div>
     </div>
     <div class="r-job-employer">PAWS Chicago — Chicago, IL</div>
     <ul>
-      <li>Lead IT infrastructure and cybersecurity for a 250+ staff, 350+ managed device organization serving 700+ volunteers across multiple facilities.</li>
-      <li>Architected and manage Azure cloud infrastructure and endpoint compliance via Microsoft Intune and Autopilot, including full Android Enterprise fleet deployment.</li>
+      <li>Led IT infrastructure and cybersecurity for a 250+ staff, 350+ managed device organization serving 700+ volunteers across multiple facilities.</li>
+      <li>Architected and managed Azure cloud infrastructure and endpoint compliance via Microsoft Intune and Autopilot, including full Android Enterprise fleet deployment.</li>
       <li>Conducted NIST SP 800-53 controls audit — interviews, document review, and system testing — producing formal findings and remediation roadmap.</li>
       <li>Semi-quantitatively analyzed cybersecurity risk using NIST SP 800-30 methodology; authored risk register and executive briefings.</li>
       <li>Executed threat modeling exercises to identify higher-likelihood threat events and inform risk scoring.</li>
@@ -543,3 +550,18 @@
 </div>
 </body>
 </html>
+
+<script>
+// Build the email address only when clicked, so scrapers reading the HTML don't see it.
+document.querySelectorAll('a.js-email').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    var rev = function (t) { return t.split('').reverse().join(''); };
+    var addr = rev(a.dataset.u) + '@' + rev(a.dataset.d);
+    if (a.getAttribute('href') === '#') {
+      e.preventDefault();
+      a.textContent = addr;
+      a.setAttribute('href', 'mailto:' + addr);
+    }
+  });
+});
+</script>
