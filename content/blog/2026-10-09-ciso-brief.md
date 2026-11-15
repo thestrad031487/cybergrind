@@ -12,7 +12,7 @@ draft: false
 
 - [How AI can fix cybersecurity compliance: From dashboards to continuous execution](https://www.helpnetsecurity.com/2026/10/08/espresso-labs-ai-cybersecurity-compliance/) — *Help Net Security*
 - [Cyber-Library](https://kitploit.com/en/tools/github/cyber-courses/cyber-library/) — *Kitploit.com*
-- [Whose security counts in the Pacific?](http://www.crikey.com.au/2026/10/08/whose-security-counts-in-the-pacific/) — *Crikey*
+- [Whose security counts in the Pacific?](https://www.crikey.com.au/2026/10/08/whose-security-counts-in-the-pacific/) — *Crikey*
 - [Thursdays With Erik: Educating Myself On Proactive Security Platforms](https://www.forrester.com/blogs/thursdays-with-erik-educating-myself-on-proactive-security-platforms/) — *Forrester.com*
 - [How Long Until AI Hacks Everything?](https://www.theatlantic.com/technology/2026/10/ai-hacking-cybersecurity-race/688911/?utm_source=feed) — *The Atlantic*
 - [Exploitation attempts against critical Atlassian flaw have begun (CVE-2026-21589)](https://www.helpnetsecurity.com/2026/10/07/exploitation-critical-atlassian-flaw-cve-2026-21589/) — *Help Net Security*
