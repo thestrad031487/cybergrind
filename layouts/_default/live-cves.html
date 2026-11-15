@@ -50,6 +50,10 @@
 </style>
 
 <script>
+// Escape untrusted text before it goes into innerHTML (added 2026-11 audit)
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeUrl(u) { try { const x = new URL(u); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : '#'; } catch (e) { return '#'; } }
+
 const API = "https://api.cybergrind.org";
 let allCVEs = [];
 
@@ -92,12 +96,12 @@ async function loadCVEs(vendor = "") {
             const overdue = due < today;
             return `
               <tr>
-                <td><span class="cve-id">${cve.cve_id}</span></td>
-                <td>${cve.vendor || '—'}</td>
-                <td>${cve.product || '—'}</td>
-                <td>${cve.date_added || '—'}</td>
-                <td class="${overdue ? 'due-overdue' : 'due-date'}">${cve.due_date || '—'}${overdue ? ' ⚠' : ''}</td>
-                <td><span class="desc">${cve.short_description || '—'}</span></td>
+                <td><span class="cve-id">${esc(cve.cve_id)}</span></td>
+                <td>${esc(cve.vendor || '—')}</td>
+                <td>${esc(cve.product || '—')}</td>
+                <td>${esc(cve.date_added || '—')}</td>
+                <td class="${overdue ? 'due-overdue' : 'due-date'}">${esc(cve.due_date || '—')}${overdue ? ' ⚠' : ''}</td>
+                <td><span class="desc">${esc(cve.short_description || '—')}</span></td>
               </tr>
             `;
           }).join('')}

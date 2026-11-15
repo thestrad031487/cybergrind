@@ -599,7 +599,7 @@
         <div class="card-header" onclick="toggleCard(this)">
           <div class="card-title">${modLabel(mod)}</div>
           <div style="display:flex;align-items:center;gap:12px">
-            <div class="card-meta">${target}</div>
+            <div class="card-meta">${escHtml(target)}</div>
             <div class="card-chevron">▼</div>
           </div>
         </div>
@@ -659,7 +659,7 @@
         ["Nameservers", (d.nameservers||[]).join(", ") || "N/A"],
       ];
       let html = `<div class="kv-grid">` + rows.map(([k,v]) =>
-        `<div class="kv-key">${k}</div><div class="kv-val">${escHtml(v||"N/A")}</div>`
+        `<div class="kv-key">${escHtml(k)}</div><div class="kv-val">${escHtml(v||"N/A")}</div>`
       ).join("") + `</div>`;
 
       if (d.entities?.length) {

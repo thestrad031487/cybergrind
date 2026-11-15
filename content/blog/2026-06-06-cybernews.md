@@ -16,7 +16,7 @@ draft: false
 - [Cisco SD-WAN 0-day exploited, no patch available (CVE-2026-20245)](https://www.helpnetsecurity.com/2026/06/05/cisco-sd-wan-cve-2026-20245-0-day-exploited/) — *Help Net Security*
 - [CBSE detects 3.8 mln malicious packets targeting revaluation portal, attack thwarted](https://economictimes.indiatimes.com/industry/services/education/cbse-detects-3-8-mln-malicious-packets-targeting-revaluation-portal-attack-thwarted/articleshow/131525611.cms) — *The Times of India*
 - [The June 2026 AI Executive Order: What federal agencies need to know and how Tenable can help](https://www.tenable.com/blog/summary-june-2026-ai-executive-order-requirements) — *Tenable.com*
-- [Validated Compliance: VMware vDefend Conforms with NIST CSF, HIPAA and PCI DSS](http://blogs.vmware.com/security/2026/06/validated-compliance-vmware-vdefend-conforms-with-nist-csf-hipaa-and-pci-dss.html) — *Vmware.com*
+- [Validated Compliance: VMware vDefend Conforms with NIST CSF, HIPAA and PCI DSS](https://blogs.vmware.com/security/2026/06/validated-compliance-vmware-vdefend-conforms-with-nist-csf-hipaa-and-pci-dss.html) — *Vmware.com*
 - [Security Researchers Are Threat Actors - PSW #929](https://sites.libsyn.com/18678/security-researchers-are-threat-actors-psw-929) — *Libsyn.com*
 - [Reporting from Vegas: Networking, AI, and good boys](https://blog.talosintelligence.com/reporting-from-vegas-networking-ai-and-good-boys/) — *Talosintelligence.com*
 

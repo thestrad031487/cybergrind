@@ -112,4 +112,4 @@ These are not reasons to dismiss the work — they are reasons to treat it as a 
 
 ---
 
-*Next in this series: [The NIST AI Risk Management Framework](./02_NIST_AI_RMF.md)*
+*Next in this series: [The NIST AI Risk Management Framework](/orange-book/nist-ai-rmf/)*

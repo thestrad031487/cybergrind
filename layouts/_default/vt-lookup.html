@@ -99,16 +99,20 @@
 
 <script>
 const API = "https://api.cybergrind.org";
+// Escape untrusted text before it goes into innerHTML (added 2026-11 audit)
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeUrl(u) { try { const x = new URL(u); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : '#'; } catch (e) { return '#'; } }
+
 
 async function lookupHash() {
-  const hash = document.getElementById("hash-input").value.trim();
+  const hash = document.getElementById("hash-input").value.trim().toLowerCase();
   const resultDiv = document.getElementById("result");
 
   if (!hash) return;
 
-  if (![32, 40, 64].includes(hash.length)) {
+  if (![32, 40, 64].includes(hash.length) || !/^[0-9a-f]+$/.test(hash)) {
     resultDiv.classList.remove("hidden");
-    resultDiv.innerHTML = '<p class="api-error">Invalid hash length — must be MD5 (32 chars), SHA1 (40 chars), or SHA256 (64 chars).</p>';
+    resultDiv.innerHTML = '<p class="api-error">Invalid hash — must be hex, MD5 (32 chars), SHA1 (40 chars), or SHA256 (64 chars).</p>';
     return;
   }
 
@@ -121,7 +125,7 @@ async function lookupHash() {
     const data = await res.json();
 
     if (data.error) {
-      resultDiv.innerHTML = `<p class="api-error">${data.error}</p>`;
+      resultDiv.innerHTML = `<p class="api-error">${esc(data.error)}</p>`;
       return;
     }
 
@@ -156,11 +160,11 @@ async function lookupHash() {
       <div class="meta-grid">
         <div class="meta-item">
           <div class="meta-label">File Name</div>
-          <div class="meta-value">${data.name || 'unknown'}</div>
+          <div class="meta-value">${esc(data.name || 'unknown')}</div>
         </div>
         <div class="meta-item">
           <div class="meta-label">File Type</div>
-          <div class="meta-value">${data.file_type || 'unknown'}</div>
+          <div class="meta-value">${esc(data.file_type || 'unknown')}</div>
         </div>
         <div class="meta-item">
           <div class="meta-label">File Size</div>
@@ -186,8 +190,8 @@ async function lookupHash() {
           <div class="detections-grid">
             ${detectionEntries.map(([engine, result]) => `
               <div class="detection-item">
-                <div class="engine-name">${engine}</div>
-                <div class="engine-result">${result}</div>
+                <div class="engine-name">${esc(engine)}</div>
+                <div class="engine-result">${esc(result)}</div>
               </div>
             `).join('')}
           </div>
@@ -196,7 +200,7 @@ async function lookupHash() {
 
       ${data.tags && data.tags.length > 0 ? `
         <div class="tags-row">
-          ${data.tags.map(t => `<span class="tag-badge">${t}</span>`).join('')}
+          ${data.tags.map(t => `<span class="tag-badge">${esc(t)}</span>`).join('')}
         </div>
       ` : ''}
 
@@ -231,12 +235,12 @@ async function loadRecentHashes() {
         </thead>
         <tbody>
           ${data.results.map(h => `
-            <tr onclick="document.getElementById('hash-input').value='${h.sha256}'; window.scrollTo(0,0);">
-              <td><span class="hash-mono">${h.sha256.substring(0, 20)}...</span></td>
-              <td>${h.file_name || '—'}</td>
-              <td>${h.file_type ? h.file_type.split('/')[1] || h.file_type : '—'}</td>
-              <td><span class="family-badge">${h.malware_family || 'unknown'}</span></td>
-              <td>${h.first_seen ? h.first_seen.split(' ')[0] : '—'}</td>
+            <tr class="hash-row" data-hash="${esc(h.sha256)}">
+              <td><span class="hash-mono">${esc(h.sha256.substring(0, 20))}...</span></td>
+              <td>${esc(h.file_name || '—')}</td>
+              <td>${esc(h.file_type ? h.file_type.split('/')[1] || h.file_type : '—')}</td>
+              <td><span class="family-badge">${esc(h.malware_family || 'unknown')}</span></td>
+              <td>${esc(h.first_seen ? h.first_seen.split(' ')[0] : '—')}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -255,5 +259,12 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   loadRecentHashes();
 });
+document.addEventListener('click', function (e) {
+  const row = e.target.closest('tr.hash-row');
+  if (!row) return;
+  document.getElementById('hash-input').value = row.dataset.hash;
+  window.scrollTo(0, 0);
+});
+
 </script>
 {{ end }}

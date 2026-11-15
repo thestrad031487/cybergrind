@@ -97,4 +97,4 @@ This is both a strength (certification carries real credibility) and a limitatio
 
 ---
 
-*Previous: [EU AI Act](./03_EU_AI_Act.md) | Next: [OECD AI Principles](./05_OECD_AI_Principles.md)*
+*Previous: [EU AI Act](/orange-book/eu-ai-act/) | Next: [OECD AI Principles](/orange-book/oecd-ai-principles/)*
