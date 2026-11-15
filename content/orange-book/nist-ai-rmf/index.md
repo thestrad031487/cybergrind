@@ -118,4 +118,4 @@ The AI RMF is explicitly designed to apply to **any organization, regardless of 
 
 ---
 
-*Previous: [MIT AI Risk Repository](./01_MIT_AI_Risk_Repository.md) | Next: [EU AI Act](./03_EU_AI_Act.md)*
+*Previous: [MIT AI Risk Repository](/orange-book/mit-ai-risk-repository/) | Next: [EU AI Act](/orange-book/eu-ai-act/)*

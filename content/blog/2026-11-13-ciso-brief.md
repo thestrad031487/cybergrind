@@ -17,7 +17,7 @@ draft: false
 - [AntiFox AI Pentesting Platform Linked to Attacks That Accessed AWS Production Secrets](https://thehackernews.com/2026/11/antifox-ai-pentesting-platform-linked.html) — *Internet*
 - [From Supermarket Freezers to Satellites: Europe’s Cyberattacks, Vulnerability Exposed](https://www.globalresearch.ca/supermarket-freezers-satellites-europe-cyber-vulnerability/5945625) — *Globalresearch.ca*
 - [Hackers Target Qlik Sense Servers With Reverse Shells, Stage ActiveMQ and Veeam Exploits](https://thehackernews.com/2026/11/hackers-target-qlik-sense-servers-with.html) — *Internet*
-- [Remus malware claims Gmail access even after you change your password](http://www.malwarebytes.com/blog/news/2026/11/remus-malware-claims-gmail-access-even-after-you-change-your-password) — *Malwarebytes.com*
+- [Remus malware claims Gmail access even after you change your password](https://www.malwarebytes.com/blog/news/2026/11/remus-malware-claims-gmail-access-even-after-you-change-your-password) — *Malwarebytes.com*
 - [CISA flags Cisco BroadWorks flaw as actively exploited in attacks](https://www.bleepingcomputer.com/news/security/cisa-flags-cisco-broadworks-flaw-as-actively-exploited-in-attacks/) — *BleepingComputer*
 - [Microsoft Patches 1,259 Flaws, Including Exploited Outlook Bug That May Expose NTLMv2 Hashes](https://thehackernews.com/2026/11/microsoft-patches-1259-flaws-including.html) — *Internet*
 
