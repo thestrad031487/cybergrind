@@ -1,5 +1,6 @@
 ---
 title: "Dragon Hunter: Six Dragons, One First CTF"
+featured: true
 date: 2026-09-12
 author: "Jason Wacker"
 section: "ctf"
