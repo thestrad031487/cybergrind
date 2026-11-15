@@ -81,24 +81,18 @@
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
-    <a href="/blog/kali365-phaas-microsoft-365/" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:10px;font-weight:600;color:#f97316;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Threat Intel</div>
-      <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">Kali365: The PhaaS Platform Weaponizing Microsoft Auth Against You</div>
-      <div style="font-size:12px;color:var(--secondary);line-height:1.5;">FBI-flagged PhaaS platform abusing device code flow to steal OAuth tokens and bypass MFA entirely.</div>
-      <div style="font-size:11px;color:var(--secondary);margin-top:10px;opacity:0.7;">Jun 16, 2026</div>
+    {{- /* Featured cards come from front matter: set `featured: true` on a post
+           (optional `featured_label: "Threat Intel"`). Newest 3 are shown. */}}
+    {{- $featured := where site.RegularPages "Params.featured" true }}
+    {{- range first 3 $featured.ByDate.Reverse }}
+    {{- $label := .Params.featured_label | default (cond (eq .Section "orange-book") "Orange Book" (cond (eq .Section "ctf") "CTF Write-up" "Research")) }}
+    <a href="{{ .RelPermalink }}" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="font-size:10px;font-weight:600;color:#f97316;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">{{ $label }}</div>
+      <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">{{ .Title }}</div>
+      <div style="font-size:12px;color:var(--secondary);line-height:1.5;">{{ .Description | default .Summary | plainify | truncate 140 }}</div>
+      <div style="font-size:11px;color:var(--secondary);margin-top:10px;opacity:0.7;">{{ .Date.Format "Jan 2, 2006" }}</div>
     </a>
-    <a href="/blog/2026-06-02-device-code-phishing/" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:10px;font-weight:600;color:#f97316;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Threat Intel</div>
-      <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">Device Code Phishing — The Attack That Makes MFA Irrelevant</div>
-      <div style="font-size:12px;color:var(--secondary);line-height:1.5;">How nation-state actors exploit OAuth 2.0 device auth flow to hijack M365 accounts without stealing credentials.</div>
-      <div style="font-size:11px;color:var(--secondary);margin-top:10px;opacity:0.7;">Jun 2, 2026</div>
-    </a>
-    <a href="/orange-book/2026-verizon-dbir-practitioner-guide/" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="font-size:10px;font-weight:600;color:#f97316;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Orange Book</div>
-      <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">2026 Verizon DBIR: What the Data Actually Means for Defenders</div>
-      <div style="font-size:12px;color:var(--secondary);line-height:1.5;">Practitioner breakdown of the 2026 DBIR — vulnerability exploitation, ransomware, third-party risk, and GenAI in the attack chain.</div>
-      <div style="font-size:11px;color:var(--secondary);margin-top:10px;opacity:0.7;">Jun 5, 2026</div>
-    </a>
+    {{- end }}
   </div>
 </section>
 
@@ -114,6 +108,7 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
     {{- $obPages := where site.RegularPages "Section" "orange-book" }}
     {{- $obPages = where $obPages "Params.draft" "ne" true }}
+    {{- $obPages = where $obPages "Params.featured" "ne" true }}
     {{- range first 3 ($obPages.ByDate.Reverse) }}
     <a href="{{ .Permalink }}" style="display:block;background:var(--entry);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
       <div style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:6px;line-height:1.4;">{{ .Title }}</div>

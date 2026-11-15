@@ -1,5 +1,6 @@
 ---
 title: "Intune in Practice, Part 8: Intune Attack Surface & Hardening"
+featured: true
 date: 2026-07-27
 author: "Jason, Cyber Professional"
 section: "orange-book"
