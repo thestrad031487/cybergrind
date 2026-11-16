@@ -18,15 +18,15 @@
 {{- $url := replace .Parent.Permalink ( printf "%s" site.Home.Permalink) "" }}
 {{- $lang_url := strings.TrimPrefix ( printf "%s/" .Lang) $url }}
 {{- $bc_list := (split $lang_url "/")}}
-{{- $scratch := newScratch }}
+{{- $path := "" }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
   {{- range $index, $element := $bc_list }}
-    {{- $scratch.Add "path" (printf "%s/" $element ) | safeJS }}
-    {{- $bc_pg := site.GetPage ($scratch.Get "path") -}}
+    {{- $path = printf "%s%s/" $path $element }}
+    {{- $bc_pg := site.GetPage $path -}}
     {{- if (and ($bc_pg) (gt (len . ) 0))}}
     {{- if (and $index)}}, {{end }}
     {
@@ -69,7 +69,7 @@
     {{- end }}
   ],
   "wordCount": "{{ .WordCount }}",
-  "inLanguage": {{ .Language.Lang | default "en-us" }},
+  "inLanguage": {{ .Language.Name | default "en-us" }},
   {{- if .Params.cover.image }}
   "image": {{ if (ne .Params.cover.relative true) }}{{ .Params.cover.image | absURL }}{{ else }}{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}{{ end }},
   {{- else }}
