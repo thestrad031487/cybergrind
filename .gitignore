@@ -19,3 +19,6 @@ Thumbs.db
 .vscode/
 scripts/news.log
 scripts/news.log
+
+# Post audio is served from Cloudflare R2 (audio.cybergrind.org), not git
+static/audio/

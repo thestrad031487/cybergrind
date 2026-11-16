@@ -11,6 +11,9 @@ copyright = "2026 CyberGrind"
   home = ["HTML", "RSS", "JSON"]
 
 [params]
+  # Post audio lives in the Cloudflare R2 bucket cybergrind-audio, not in git.
+  # post_audio: "/audio/x.mp3" in front matter becomes <audioBaseURL>/x.mp3
+  audioBaseURL = "https://audio.cybergrind.org"
   env = "production"
   author = "Jason, Cyber Professional"
   description = "Practitioner-grade threat intelligence, interactive security tools, and a sourced cybersecurity education library — free, no fluff."

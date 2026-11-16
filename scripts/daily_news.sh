@@ -66,9 +66,20 @@ else
     log "Piper not installed yet — skipping audio generation (Phase 4 pending)."
 fi
 
+# --- Upload today's audio to Cloudflare R2 (served at audio.cybergrind.org; not kept in git) ---
+if command -v rclone >/dev/null 2>&1 && rclone listremotes 2>/dev/null | grep -qx "r2:"; then
+    if rclone copy static/audio r2:cybergrind-audio --include "${TODAY}-*.mp3" --s3-no-check-bucket; then
+        log "Uploaded ${TODAY} audio to R2."
+    else
+        log "WARNING: R2 upload failed — posts will publish but audio won't play until it's uploaded."
+    fi
+else
+    log "WARNING: rclone remote 'r2' not configured — today's audio was not uploaded."
+fi
+
 # --- Commit and push, with one retry on rejection ---
-if [[ -n $(git status --porcelain content/blog/ static/audio/ 2>/dev/null) ]]; then
-    git add content/blog/ static/audio/ 2>/dev/null
+if [[ -n $(git status --porcelain content/blog/ 2>/dev/null) ]]; then
+    git add content/blog/ 2>/dev/null
     git commit -m "auto: daily cybernews ${TODAY}"
 
     if git push origin main; then
