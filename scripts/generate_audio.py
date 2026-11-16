@@ -103,7 +103,8 @@ def main():
     synthesize(speech_text, args.voice_model, wav_path)
     convert_to_mp3(wav_path, mp3_path)
 
-    # Hugo serves static/ at site root, so static/audio/x.mp3 -> /audio/x.mp3
+    # Front matter keeps /audio/x.mp3; the audio-player partial rewrites it to
+    # params.audioBaseURL (the R2 bucket), so the MP3 itself isn't committed.
     audio_relpath = f"/audio/{slug}.mp3"
     patch_front_matter(args.post, audio_relpath)
 
