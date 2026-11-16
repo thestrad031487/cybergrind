@@ -1,8 +1,12 @@
 {{ if .Params.post_audio }}
+{{- $src := .Params.post_audio }}
+{{- with site.Params.audioBaseURL }}
+  {{- if hasPrefix $src "/audio/" }}{{ $src = printf "%s/%s" (strings.TrimSuffix "/" .) (strings.TrimPrefix "/audio/" $src) }}{{ end }}
+{{- end }}
 <div class="post-audio-player" style="margin: 1.5rem 0;">
   <p style="font-size: 0.9rem; opacity: 0.75; margin-bottom: 0.4rem;">🔊 Listen to this post:</p>
   <audio controls preload="none" style="width: 100%;">
-    <source src="{{ .Params.post_audio }}" type="audio/mpeg">
+    <source src="{{ $src }}" type="audio/mpeg">
     Your browser doesn't support embedded audio.
   </audio>
 </div>
