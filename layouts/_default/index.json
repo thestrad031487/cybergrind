@@ -1,0 +1,12 @@
+{{- /* Search index (overrides PaperMod's). Full text for everything except the
+       automated daily digests in /blog/, which get title + summary only:
+       they made up most of a 2.9 MB index. */ -}}
+{{- $index := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) }}
+    {{- $summary := .Description | default (.Summary | plainify) | truncate 300 -}}
+    {{- $content := cond (eq .Section "blog") "" .Plain -}}
+    {{- $index = $index | append (dict "title" .Title "content" $content "permalink" .Permalink "summary" $summary) -}}
+  {{- end }}
+{{- end -}}
+{{- $index | jsonify -}}
