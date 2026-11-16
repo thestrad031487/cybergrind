@@ -43,6 +43,7 @@ a:hover {
 
 /* Active nav link */
 .nav a.active,
+.header-nav a.active,
 #menu-close-btn,
 #menu-open-btn {
   color: var(--cg-orange);
@@ -120,4 +121,11 @@ blockquote {
 }
 .dropdown:hover .dropdown-menu {
     display: block !important;
+}
+/* Dropdown items: don't inherit the header's tall line-height/font size */
+.dropdown-menu li { margin: 0 !important; }
+.dropdown-menu li a {
+    line-height: 1.4 !important;
+    font-size: 14px !important;
+    padding: 8px 16px !important;
 }
