@@ -2,7 +2,8 @@
 title: "2026 Verizon DBIR: What the Data Actually Means for Defenders"
 date: 2026-06-05
 description: "A practitioner's breakdown of the 2026 Verizon Data Breach Investigations Report — covering the year's biggest shifts in vulnerability exploitation, ransomware, third-party risk, GenAI in the attack chain, and what to do about all of it."
-tags: ["threat intelligence", "vulnerability management", "ransomware", "social engineering", "GRC", "DBIR"]
+tags: ["threat intelligence", "blue team", "phishing", "governance"]
+keywords: ["vulnerability management", "ransomware", "social engineering", "GRC", "DBIR"]
 categories: ["Orange Book"]
 author: "Logan"
 showToc: true

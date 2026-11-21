@@ -3,18 +3,8 @@ title: "Network Troubleshooting — Fix Faster with a Process, Not a Guess"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - troubleshooting
-  - ping
-  - tracert
-  - ipconfig
-  - nslookup
-  - DNS
-  - DHCP
-  - APIPA
-  - methodology
-  - IT fundamentals
+tags: ["networking", "IT fundamentals", "DevOps"]
+keywords: ["troubleshooting", "ping", "tracert", "ipconfig", "nslookup", "DNS", "DHCP", "APIPA", "methodology"]
 description: "Troubleshooting is one of the skills that separates genuinely good technicians from those who just get lucky. This article covers the physical layer checklist, core diagnostic tools (ping, tracert, ipconfig, nslookup), a systematic troubleshooting process, and when to escalate."
 suggested_image: "A terminal window showing ping and tracert output on a dark background, with orange text highlights and a subtle network diagram overlay."
 ---

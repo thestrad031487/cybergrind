@@ -3,7 +3,8 @@ title: "Set Power Settings Best Performance"
 date: 2026-08-15T23:24:57-05:00
 author: "Jason, Cyber Professional"
 section: "scripts"
-tags: ["powershell", "troubleshooting", "power-management", "windows-11"]
+tags: ["PowerShell", "IT fundamentals", "Windows"]
+keywords: ["troubleshooting", "power-management", "windows-11"]
 description: "Sets Windows 11 sleep and display timeouts to Never and switches the Power Mode slider to Best Performance — useful for workstations, kiosks, or troubleshooting where you don't want the machine sleeping or throttling."
 github: "https://github.com/thestrad031487/cybergrind-scripts/blob/main/Troubleshooting/Set-PowerSettings-BestPerformance.ps1"
 ---

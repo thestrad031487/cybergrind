@@ -3,7 +3,8 @@ title: "Intune in Practice, Part 3: Compliance Policies That Actually Do Somethi
 date: 2026-07-22
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "endpoint management", "compliance policy", "conditional access", "Microsoft 365", "orange-book"]
+tags: ["Intune", "endpoint management", "identity", "Microsoft 365"]
+keywords: ["compliance policy", "conditional access"]
 description: "A compliance policy that isn't wired into anything downstream doesn't enforce a single thing. Grace periods, the Not Evaluated trap, and how to roll enforcement out without locking out your own users. Part 3 of Intune in Practice."
 ---
 

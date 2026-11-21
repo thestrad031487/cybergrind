@@ -4,7 +4,8 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "web", "devtools", "access-control"]
+tags: ["CTF", "agentic AI", "appsec", "security fundamentals"]
+keywords: ["security-skills", "writeup", "ai-assisted", "web", "devtools", "access-control"]
 description: "Page source, robots.txt, CSS-hidden elements, a client-side role check, and a retired admin console still shipping in a public static bundle."
 platform: "Security Skills"
 difficulty: "easy"

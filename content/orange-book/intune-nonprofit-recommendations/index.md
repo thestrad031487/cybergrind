@@ -3,7 +3,8 @@ title: "Intune in Practice, Part 7: Running Intune in a Lean Non-Profit IT Shop"
 date: 2026-07-27
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "endpoint management", "non-profit", "Microsoft 365", "it budget", "orange-book"]
+tags: ["Intune", "endpoint management", "risk management", "Microsoft 365"]
+keywords: ["non-profit", "it budget"]
 description: "Free Intune for non-profits isn't a thing anymore. Practical recommendations for deploying and running Intune when the IT budget is thin, the team is small (sometimes a team of one), and every dollar competes directly with mission funding."
 ---
 

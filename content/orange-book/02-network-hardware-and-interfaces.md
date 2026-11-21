@@ -3,16 +3,8 @@ title: "Network Hardware & Interfaces — The Physical Layer Still Matters"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - hardware
-  - NIC
-  - switches
-  - routers
-  - cabling
-  - physical layer
-  - OSI model
-  - IT fundamentals
+tags: ["networking", "hardware", "IT fundamentals"]
+keywords: ["NIC", "switches", "routers", "cabling", "physical layer", "OSI model"]
 description: "Cloud and software-defined networking have made it easy to abstract away the hardware — but the physical layer is still where most connectivity problems start. This article covers NICs, switches, routers, and the cabling that ties it all together."
 suggested_image: "A close-up photo or illustration of a patch panel and RJ-45 cables in a server rack, with orange accent lighting."
 ---

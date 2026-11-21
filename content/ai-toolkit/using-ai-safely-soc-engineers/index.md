@@ -2,7 +2,8 @@
 title: "Using AI Safely in a SOC: Part 2 — The Engineer's Guide"
 date: 2026-04-15
 description: "Security engineers are building AI into pipelines and tooling. The risk surface is different from analyst use — here's how to integrate AI securely without introducing new attack vectors."
-tags: ["AI", "SOC", "security-engineering", "integration", "threat-model", "best-practices"]
+tags: ["AI", "blue team", "appsec", "Microsoft 365", "risk management", "DevOps"]
+keywords: ["SOC", "security-engineering", "integration", "threat-model", "best-practices"]
 categories: ["ai-toolkit"]
 series: ["Using AI Safely in a SOC"]
 draft: false

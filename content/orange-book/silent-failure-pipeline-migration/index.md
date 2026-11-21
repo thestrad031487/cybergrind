@@ -3,7 +3,8 @@ title: "Fixing a Silent Failure: Migrating CyberGrind's Daily Pipeline to Self-H
 date: 2026-07-19
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["homelab", "automation", "ollama", "self-hosted", "incident response", "orange-book"]
+tags: ["homelab", "DevOps", "LLM", "self-hosted", "blue team"]
+keywords: ["automation", "ollama", "incident response"]
 description: "A practitioner's account of tracking down a silent pipeline failure, root-causing it properly instead of patching around it, and turning the fix into a full migration: self-hosted commentary, a new strategic briefing series, and audio narration."
 ---
 

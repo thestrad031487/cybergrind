@@ -4,7 +4,8 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "forensics", "metadata", "windows-event-logs", "usb"]
+tags: ["CTF", "agentic AI", "blue team", "supply chain", "Windows", "storage"]
+keywords: ["security-skills", "writeup", "ai-assisted", "forensics", "metadata", "windows-event-logs", "usb"]
 description: "Text evidence, strings, PNG metadata, and a USB data theft reconstructed from Security, Sysmon and removable-device logs."
 platform: "Security Skills"
 difficulty: "easy"

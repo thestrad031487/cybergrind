@@ -2,7 +2,8 @@
 title: "Wiring MISP Into a Self-Hosted AI Security Pipeline"
 date: 2026-04-19
 description: "How to connect a self-hosted MISP instance to a local AI agent pipeline so the Risk Analyst reasons from live threat indicators rather than training data alone — covering API key generation, the CTI collector, pipeline integration, and surfacing intel on the web."
-tags: ["homelab", "AI", "MISP", "threat-intel", "pipeline", "agents", "Docker", "CTI"]
+tags: ["homelab", "AI", "threat intelligence", "DevOps", "agentic AI", "Docker"]
+keywords: ["MISP", "threat-intel", "pipeline", "agents", "CTI"]
 categories: ["orange-book"]
 draft: false
 ---

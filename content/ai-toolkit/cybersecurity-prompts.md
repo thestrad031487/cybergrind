@@ -2,7 +2,8 @@
 title: "Cybersecurity Prompt Library"
 date: 2026-04-13T08:00:00-05:00
 description: "A practical library of AI prompts organized by SOC use case — threat hunting, phishing triage, log analysis, report writing, and more."
-tags: ["AI", "prompting", "SOC", "cybersecurity"]
+tags: ["AI", "LLM", "blue team", "security fundamentals"]
+keywords: ["prompting", "SOC", "cybersecurity"]
 weight: 3
 ---
 

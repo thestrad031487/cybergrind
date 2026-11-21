@@ -3,21 +3,8 @@ title: "Virtualization & Cloud Concepts — Modern Infrastructure Fundamentals"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - virtualization
-  - cloud
-  - hypervisor
-  - Type 1
-  - Type 2
-  - containers
-  - Docker
-  - IaaS
-  - PaaS
-  - SaaS
-  - hybrid cloud
-  - VMware
-  - Hyper-V
-  - IT fundamentals
+tags: ["operating systems", "cloud", "Docker", "Windows", "IT fundamentals"]
+keywords: ["virtualization", "hypervisor", "Type 1", "Type 2", "containers", "IaaS", "PaaS", "SaaS", "hybrid cloud", "VMware", "Hyper-V"]
 description: "The shift from physical servers to virtualized and cloud-based infrastructure is one of the biggest changes in IT history. This article covers Type 1 vs Type 2 hypervisors, containers, and the IaaS/PaaS/SaaS cloud service models every IT professional needs to understand."
 suggested_image: "A layered diagram showing physical hardware, hypervisor, virtual machines, and cloud service model tiers (IaaS, PaaS, SaaS), styled with dark background and orange accent lines."
 ---

@@ -2,7 +2,8 @@
 title: "AI Risks and Limitations for Security Practitioners"
 date: 2026-04-13T08:00:00-05:00
 description: "What security practitioners need to know about hallucination, prompt injection, data privacy, and over-reliance when using AI tools in a professional context."
-tags: ["AI", "risks", "security", "fundamentals"]
+tags: ["AI", "risk management", "security fundamentals"]
+keywords: ["risks", "security", "fundamentals"]
 weight: 4
 ---
 

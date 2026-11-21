@@ -3,7 +3,8 @@ title: "The New Perimeter, Part 1: A Short History of the Firewall"
 date: 2026-07-10
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["firewalls", "network security", "NGFW", "history", "orange-book"]
+tags: ["network security", "history"]
+keywords: ["firewalls", "NGFW"]
 description: "Part 1 of a 5-part series on enterprise firewall evolution: from stateless packet filters to next-generation firewalls, and why each generation's limitation created the next."
 ---
 

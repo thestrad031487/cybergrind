@@ -4,14 +4,8 @@ date: 2026-06-30
 author: "Logan"
 section: "Orange Book"
 categories: ["Architecture"]
-tags:
-  - cloudflare-workers
-  - github-api
-  - secret-scanning
-  - credential-detection
-  - homelab
-  - appsec
-  - devops
+tags: ["Cloudflare", "supply chain", "homelab", "appsec", "DevOps"]
+keywords: ["cloudflare-workers", "github-api", "secret-scanning", "credential-detection"]
 description: "How the CyberGrind Repo Secret Scanner was designed and built — the GitHub tree API approach, why no clone is needed, the Tier 1/2/3 detection architecture, and every design decision made along the way."
 ---
 

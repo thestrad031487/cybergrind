@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Warning signs, S.M.A.R.T. monitoring, decision flowchart, and a 5-step hardware failure response guide."
 categories: ["Storage"]
-tags: ["storage", "troubleshooting", "SMART", "hardware"]
+tags: ["storage", "IT fundamentals", "hardware"]
+keywords: ["troubleshooting", "SMART"]
 ---

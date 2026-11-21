@@ -4,7 +4,8 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "cryptography", "openssl", "hashing"]
+tags: ["CTF", "agentic AI", "cryptography"]
+keywords: ["security-skills", "writeup", "ai-assisted", "openssl", "hashing"]
 description: "ROT13, base64 and hex warmups, an OpenSSL AES-256-CBC config picked out of a job log, and a tampered package found with sha256sum."
 platform: "Security Skills"
 difficulty: "easy"

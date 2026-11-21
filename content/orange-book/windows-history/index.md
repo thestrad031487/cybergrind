@@ -1,7 +1,8 @@
 ---
 title: "Windows OS History"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "A complete visual guide to Windows history — from MS-DOS and Windows 1.0 (1985) through Windows 11 and the NT kernel architecture that underpins all modern Windows versions."
 ---

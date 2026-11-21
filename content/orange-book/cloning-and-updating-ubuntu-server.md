@@ -2,12 +2,8 @@
 title: "Cloning an Ubuntu Server Drive and Safely Updating Your Stack"
 date: 2026-05-11
 description: "A hands-on walkthrough of cloning an Ubuntu Server installation to a larger NVMe drive, expanding LVM to use the full disk, and safely updating OS packages and Docker containers without taking down your services."
-tags:
-  - homelab
-  - ubuntu
-  - linux
-  - sysadmin
-  - "Docker"
+tags: ["homelab", "Linux", "Docker"]
+keywords: ["ubuntu", "sysadmin"]
 categories:
   - Orange Book
 author: "Logan"

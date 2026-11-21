@@ -3,22 +3,8 @@ title: "Networked Host Services — What Lives on Your Network and Why It Matter
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - services
-  - SMB
-  - HTTP
-  - HTTPS
-  - email
-  - SMTP
-  - IMAP
-  - POP3
-  - SSH
-  - RDP
-  - SNMP
-  - FTP
-  - security
-  - IT fundamentals
+tags: ["networking", "operating systems", "Microsoft 365", "security fundamentals", "IT fundamentals"]
+keywords: ["services", "SMB", "HTTP", "HTTPS", "email", "SMTP", "IMAP", "POP3", "SSH", "RDP", "SNMP", "FTP", "security"]
 description: "A network is infrastructure. Services are what make it useful — and what make it a target. This article covers file/print services, web servers, email protocols, remote access tools, and why service awareness is a security imperative."
 suggested_image: "A server rack illustration with labeled service icons (web, email, file, remote access) connected by lines, on a dark background with orange accent lighting."
 ---

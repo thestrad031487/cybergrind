@@ -2,7 +2,8 @@
 title: "How Large Language Models Work"
 date: 2026-04-13T08:00:00-05:00
 description: "A plain-English breakdown of tokenization, context windows, temperature, and hallucination — what every practitioner should know before using AI tools."
-tags: ["AI", "LLM", "fundamentals"]
+tags: ["AI", "LLM", "security fundamentals"]
+keywords: ["fundamentals"]
 weight: 1
 ---
 

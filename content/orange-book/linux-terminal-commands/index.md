@@ -1,7 +1,8 @@
 ---
 title: "Linux Terminal Commands"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "Essential Linux bash command reference — file operations, text processing, process management, networking, permissions (symbolic and octal), and power pipe patterns for security and sysadmin work."
 ---

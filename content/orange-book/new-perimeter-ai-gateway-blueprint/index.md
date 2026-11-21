@@ -3,7 +3,8 @@ title: "The New Perimeter, Part 4: Building an AI Security Gateway"
 date: 2026-07-10
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["firewalls", "AI security", "LiteLLM", "deployment", "homelab", "orange-book"]
+tags: ["network security", "AI security", "LLM", "endpoint management", "homelab"]
+keywords: ["firewalls", "LiteLLM", "deployment"]
 description: "Part 4: a working, open-source deployment blueprint for an AI Security Gateway using LiteLLM and Redis, with proper secrets handling."
 ---
 

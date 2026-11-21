@@ -3,7 +3,8 @@ title: "The New Perimeter, Part 2: SASE, ZTNA, and Policy as Code"
 date: 2026-07-10
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["firewalls", "SASE", "ZTNA", "zero trust", "policy as code", "orange-book"]
+tags: ["network security", "zero trust", "governance"]
+keywords: ["firewalls", "SASE", "ZTNA", "policy as code"]
 description: "Part 2: how SASE, Zero Trust Network Access, and Policy-as-Code pipelines replaced the physical perimeter that Part 1's NGFWs were built to defend."
 ---
 

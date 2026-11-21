@@ -2,7 +2,8 @@
 title: "The Complete Guide to Computer Storage"
 date: 2026-04-04
 categories: ["Storage"]
-tags: ["storage", "hardware", "RAID", "file systems", "data recovery"]
+tags: ["storage", "hardware"]
+keywords: ["RAID", "file systems", "data recovery"]
 description: "A comprehensive reference covering storage types, file systems, partitioning, RAID, emerging technologies, troubleshooting, and data recovery."
 draft: false
 ---

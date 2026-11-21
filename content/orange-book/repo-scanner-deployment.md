@@ -4,13 +4,8 @@ date: 2026-06-30
 author: "Logan"
 section: "Orange Book"
 categories: ["Architecture"]
-tags:
-  - cloudflare-workers
-  - wrangler
-  - hugo
-  - deployment
-  - homelab
-  - devops
+tags: ["Cloudflare", "DevOps", "endpoint management", "homelab"]
+keywords: ["cloudflare-workers", "wrangler", "hugo", "deployment"]
 description: "Step-by-step deployment guide for the CyberGrind Repo Secret Scanner — Cloudflare Worker setup, GitHub token scoping, Hugo integration, CORS configuration, and v2 improvement roadmap."
 ---
 

@@ -3,7 +3,8 @@ title: "I took apart a discontinued malware cleaner, then built my own"
 date: 2026-11-15
 author: "Jason Wacker"
 section: "orange-book"
-tags: ["reverse engineering", "malware analysis", "python", "wazuh", "nsrl", "homelab", "cybergrind-scanner"]
+tags: ["reverse engineering", "Python", "blue team", "homelab"]
+keywords: ["malware analysis", "wazuh", "nsrl", "cybergrind-scanner"]
 description: "Reversing Sophos Scan & Clean in an isolated VM, turning what I learned into a property-based scanner, wiring it into Wazuh, and building a 432-million-hash NSRL allowlist without killing a USB enclosure."
 draft: false
 ---

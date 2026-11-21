@@ -6,7 +6,8 @@ featured: true
 featured_label: "CTF Write-up"
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "school"]
+tags: ["CTF", "agentic AI"]
+keywords: ["security-skills", "writeup", "ai-assisted", "school"]
 description: "Recap of the Security Skills school CTF: six categories, 30 challenges, how I ran it as the operator with an AI analyst doing the heavy parsing, and where human judgment still decided the answer."
 platform: "Security Skills"
 difficulty: "easy"

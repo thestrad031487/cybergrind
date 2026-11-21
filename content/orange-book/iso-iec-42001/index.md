@@ -2,7 +2,8 @@
 title: "ISO/IEC 42001: Certifying AI Management Systems"
 date: 2026-03-31
 categories: ["Frameworks & Standards"]
-tags: ["AI", "frameworks", "governance", "risk", "orange-book", "iso"]
+tags: ["AI", "frameworks", "governance", "risk management"]
+keywords: ["risk", "iso"]
 description: "The 7-step certification path for ISO/IEC 42001, how it layers with NIST AI RMF and the EU AI Act, and the auditor qualification requirements under BS ISO/IEC 42006:2025."
 ---
 

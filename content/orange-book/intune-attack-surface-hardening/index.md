@@ -4,7 +4,8 @@ featured: true
 date: 2026-07-27
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "endpoint management", "cybersecurity", "rbac", "cisa", "orange-book"]
+tags: ["Intune", "endpoint management", "security fundamentals", "identity", "threat intelligence"]
+keywords: ["cybersecurity", "rbac", "cisa"]
 description: "Whoever controls Intune controls the fleet. A March 2026 CISA advisory made that concrete after a destructive attack on Stryker's Microsoft environment. Least privilege, phishing-resistant MFA, and Multi Admin Approval — closing out the Intune in Practice series."
 ---
 
