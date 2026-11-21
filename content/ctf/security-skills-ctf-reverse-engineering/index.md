@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "reverse-engineering", "elf", "objdump", "xor"]
 description: "Reading Python and JavaScript, running strings on an ELF, then statically reversing two stripped x86-64 binaries that hide their data with XOR."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Reverse Engineering"
+difficulty: "easy"
+category: "reversing"
 ---
 
 Five challenges, 375 points. The first three are about reading. The last two are stripped Linux binaries that hide their data with simple XOR schemes. I solved both statically with `objdump` and a few lines of Python, without running either binary.

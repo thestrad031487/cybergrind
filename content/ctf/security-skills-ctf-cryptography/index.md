@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "cryptography", "openssl", "hashing"]
 description: "ROT13, base64 and hex warmups, an OpenSSL AES-256-CBC config picked out of a job log, and a tampered package found with sha256sum."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Cryptography"
+difficulty: "easy"
+category: "crypto"
 ---
 
 Five challenges, 375 points. The first three are encodings, not encryption, and the challenge text says so. The last two are closer to real incident work.

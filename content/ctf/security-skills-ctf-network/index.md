@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "network", "wireshark", "dns", "pcap"]
 description: "Reading HTTP and DNS in Wireshark, then catching an unauthorized upload and a DNS exfiltration sequence by correlating pcaps with inventories."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Network"
+difficulty: "easy"
+category: "network"
 ---
 
 Five challenges, 375 points, all pcap analysis. The warmups are single-packet captures. The last two mix suspicious traffic in with normal office noise and give you a host inventory and an approved-destinations list to sort it out.

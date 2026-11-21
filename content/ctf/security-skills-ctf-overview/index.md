@@ -2,13 +2,15 @@
 title: "Security Skills CTF: an operator's recap with AI in the loop"
 date: 2026-11-21
 draft: false
+featured: true
+featured_label: "CTF Write-up"
 author: "Jason Wacker"
 section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "school"]
 description: "Recap of the Security Skills school CTF: six categories, 30 challenges, how I ran it as the operator with an AI analyst doing the heavy parsing, and where human judgment still decided the answer."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Mixed"
+difficulty: "easy"
+category: "mixed"
 ---
 
 My school runs a CTF on a CTFd instance called Security Skills. There are 30 challenges across six categories, five per category, worth 25 to 125 points each, for 2,250 points total. Every flag uses the format `Professor{...}`.

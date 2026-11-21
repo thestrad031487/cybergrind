@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "forensics", "metadata", "windows-event-logs", "usb"]
 description: "Text evidence, strings, PNG metadata, and a USB data theft reconstructed from Security, Sysmon and removable-device logs."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Forensics"
+difficulty: "easy"
+category: "forensics"
 ---
 
 Five challenges, 375 points. I solved four of them for 250. The fifth never had its evidence file uploaded.

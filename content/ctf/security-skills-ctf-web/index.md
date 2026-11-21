@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "web", "devtools", "access-control"]
 description: "Page source, robots.txt, CSS-hidden elements, a client-side role check, and a retired admin console still shipping in a public static bundle."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "Web"
+difficulty: "easy"
+category: "web"
 ---
 
 Five challenges, 375 points. Every one of them is a static site you open locally, so there's no server to attack. They all teach the same lesson from different angles: if the browser has the data, the user has the data.

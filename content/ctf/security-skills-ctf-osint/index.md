@@ -7,8 +7,8 @@ section: "ctf"
 tags: ["ctf", "security-skills", "writeup", "ai-assisted", "osint", "certificate-transparency", "typosquatting"]
 description: "Profiles, linked pages, archived snapshots, a former employee hidden behind a lookalike handle, and a typosquatted payroll login found through CT logs and passive DNS."
 platform: "Security Skills"
-difficulty: "Beginner"
-category: "OSINT"
+difficulty: "easy"
+category: "osint"
 ---
 
 Five challenges, 375 points. Everything is an offline snapshot of a made-up organization, so there's no live searching. The harder two are about correlating sources and not falling for names that are one character off.
