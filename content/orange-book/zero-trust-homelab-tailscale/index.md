@@ -2,7 +2,7 @@
 title: "Zero Trust Access for the Homelab: Securing Self-Hosted Services with Tailscale"
 date: 2026-04-15
 description: "Port forwarding is a liability. This is a walkthrough of how to replace it with a Zero Trust access model using Tailscale — covering architecture, ACLs, MagicDNS, and what your attack surface actually looks like."
-tags: ["homelab", "tailscale", "zero-trust", "networking", "security", "self-hosted"]
+tags: ["homelab", "tailscale", "zero trust", "networking", "security", "self-hosted"]
 categories: ["orange-book"]
 draft: false
 ---

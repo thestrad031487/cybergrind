@@ -2,7 +2,7 @@
 title: "Self-Hosted AI: Building a Private LLM Stack with OpenClaw, Ollama, and Tailscale"
 date: 2026-04-15
 description: "A full build walkthrough of a self-hosted AI platform using OpenClaw, Ollama, Docker GPU passthrough, and Tailscale — including the security model behind it."
-tags: ["homelab", "AI", "ollama", "docker", "tailscale", "self-hosted", "llm"]
+tags: ["homelab", "AI", "ollama", "Docker", "tailscale", "self-hosted", "LLM"]
 categories: ["orange-book"]
 draft: false
 ---

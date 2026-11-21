@@ -6,12 +6,12 @@ section: "Orange Book"
 categories: ["Frameworks & Standards"]
 tags:
   - owasp
-  - llm
+  - "LLM"
   - genai
-  - ai-security
-  - prompt-injection
+  - "AI security"
+  - "prompt injection"
   - rag
-  - agentic-ai
+  - "agentic AI"
   - appsec
 description: "A practitioner walkthrough of the OWASP Top 10 for LLM Applications 2025 — what each risk actually means, why it was reordered or added, and what builders can do about it."
 ---

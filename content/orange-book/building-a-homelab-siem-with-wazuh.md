@@ -7,7 +7,7 @@ tags:
   - wazuh
   - homelab
   - cybersecurity
-  - blue-team
+  - "blue team"
 categories:
   - Orange Book
 series: "Security Operations"

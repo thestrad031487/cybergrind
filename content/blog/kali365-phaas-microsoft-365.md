@@ -3,7 +3,7 @@ title: "Kali365: The Phishing-as-a-Service Platform Weaponizing Microsoft's Own 
 date: 2026-06-16
 author: "Logan"
 categories: ["Blog"]
-tags: ["phishing", "microsoft-365", "oauth", "mfa-bypass", "threat-intel", "entra-id", "phaas", "device-code-phishing"]
+tags: ["phishing", "Microsoft 365", "oauth", "mfa-bypass", "threat-intel", "Entra ID", "phaas", "device-code-phishing"]
 description: "A practitioner breakdown of Kali365, the FBI-flagged PhaaS platform abusing Microsoft's device code flow to steal OAuth tokens and bypass MFA entirely, and what you can actually do about it."
 ---
 

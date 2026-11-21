@@ -2,7 +2,7 @@
 title: "Device Code Phishing — The Attack That Makes MFA Irrelevant"
 date: 2026-06-02T08:00:00-05:00
 description: "Nation-state actors and criminal PhaaS kits are exploiting OAuth 2.0 Device Authorization Flow to hijack Microsoft 365 accounts without stealing a single credential. Here's how it works, who's using it, and how to stop it."
-tags: ["threat intelligence", "identity security", "oauth", "phishing", "microsoft 365", "entra id", "incident response", "blue team"]
+tags: ["threat intelligence", "identity security", "oauth", "phishing", "Microsoft 365", "Entra ID", "incident response", "blue team"]
 categories: ["Threat Intel"]
 author: "Logan"
 draft: false

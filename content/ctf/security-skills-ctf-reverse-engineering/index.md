@@ -4,7 +4,7 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "reverse-engineering", "elf", "objdump", "xor"]
+tags: ["ctf", "security-skills", "writeup", "ai-assisted", "reverse engineering", "elf", "objdump", "xor"]
 description: "Reading Python and JavaScript, running strings on an ELF, then statically reversing two stripped x86-64 binaries that hide their data with XOR."
 platform: "Security Skills"
 difficulty: "easy"

@@ -6,7 +6,7 @@ section: "ctf"
 platform: "Dragon Hunter (securityskills.online)"
 difficulty: "hard"
 category: "reversing"
-tags: ["ctf", "reverse-engineering", "malware-analysis", "network-security", "opsec", "cryptography"]
+tags: ["ctf", "reverse engineering", "malware analysis", "network security", "opsec", "cryptography"]
 description: "The story of a two-part bonus CTF track that turned into a full reverse-engineering detour — and the judgment calls, dead ends, and honest stopping point along the way."
 draft: false
 ---

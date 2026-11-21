@@ -2,7 +2,7 @@
 title: "Why Run Your Own LLM? Privacy, Control, and the Security Case for Local AI"
 date: 2026-04-15
 description: "Cloud AI tools are convenient. They're also a data privacy problem waiting to happen. Here's the case for local inference — and a comparison to help you decide which approach fits your situation."
-tags: ["AI", "privacy", "ollama", "self-hosted", "llm", "security", "threat-model"]
+tags: ["AI", "privacy", "ollama", "self-hosted", "LLM", "security", "threat-model"]
 categories: ["ai-toolkit"]
 draft: false
 ---

@@ -3,7 +3,7 @@ title: "The Invisible Supply Chain, Part 3: How Model-Building Choices Introduce
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "quantization", "federated learning", "overfitting", "orange-book", "risk"]
+tags: ["AI", "supply chain", "quantization", "federated learning", "overfitting", "orange-book", "risk"]
 description: "Part 3: overfitting, quantization, and federated learning all introduce security trade-offs that most teams never evaluate before deployment."
 ---
 

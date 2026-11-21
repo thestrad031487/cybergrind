@@ -3,7 +3,7 @@ title: "The Invisible Supply Chain, Part 1: Where AI Data Actually Comes From"
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "data provenance", "governance", "orange-book", "risk"]
+tags: ["AI", "supply chain", "data provenance", "governance", "orange-book", "risk"]
 description: "Every AI model is a product of its training data. Part 1 of a 6-part series breaks down where that data actually comes from, and why almost none of it is properly documented."
 ---
 

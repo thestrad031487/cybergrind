@@ -3,7 +3,7 @@ title: "Intune in Practice, Part 1: What Intune Actually Is (and Isn't)"
 date: 2026-07-21
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "endpoint management", "microsoft 365", "entra id", "mdm", "orange-book"]
+tags: ["intune", "endpoint management", "Microsoft 365", "Entra ID", "mdm", "orange-book"]
 description: "Before deploying anything, it's worth being precise about what Microsoft Intune actually is, where it sits relative to Entra ID and Configuration Manager, and who it's genuinely built for. First in the Intune in Practice series."
 ---
 

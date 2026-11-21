@@ -3,7 +3,7 @@ title: "The Cost of a Bad Prompt: How Prompt Engineering Saves Real Money"
 date: 2026-07-19
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "prompt engineering", "llm", "cost optimization", "governance", "orange-book"]
+tags: ["AI", "prompt engineering", "LLM", "cost optimization", "governance", "orange-book"]
 description: "Tokens cost money on both sides of the conversation. A vague prompt doesn't just waste your time — it inflates the bill. Here's the actual math, and the levers that bring it back down."
 ---
 

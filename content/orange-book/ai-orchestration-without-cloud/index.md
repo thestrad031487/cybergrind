@@ -3,7 +3,7 @@ title: "Practical AI Orchestration Without Cloud Dependency"
 date: 2026-04-17
 description: "How I built a fully autonomous multi-agent AI platform on a homelab — local GPU inference, Cloudflare Tunnel networking, and a live public dashboard — for zero ongoing cost."
 slug: "ai-orchestration-without-cloud"
-tags: ["ai", "homelab", "docker", "ollama", "multi-agent", "cloudflare"]
+tags: ["AI", "homelab", "Docker", "ollama", "multi-agent", "cloudflare"]
 series: ["orange-book"]
 draft: false
 ---

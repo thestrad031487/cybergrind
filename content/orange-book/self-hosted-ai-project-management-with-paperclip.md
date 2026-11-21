@@ -4,8 +4,8 @@ date: 2026-05-22
 description: "A practitioner's walkthrough of deploying Paperclip.ai on a self-hosted Ubuntu server, configuring an AI agent with local Ollama models, and the real troubleshooting path that got it working."
 tags:
   - homelab
-  - docker
-  - ai
+  - "Docker"
+  - "AI"
   - ollama
   - paperclip
   - self-hosted

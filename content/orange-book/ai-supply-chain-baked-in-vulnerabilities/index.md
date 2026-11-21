@@ -3,7 +3,7 @@ title: "The Invisible Supply Chain, Part 2: Vulnerabilities You Can't Patch Out"
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "data leakage", "credentials", "governance", "orange-book", "risk"]
+tags: ["AI", "supply chain", "data leakage", "credentials", "governance", "orange-book", "risk"]
 description: "Part 2: when web-scraped training data includes live credentials and PII, there's no patch cycle that fixes it. The data is already baked into the weights."
 ---
 

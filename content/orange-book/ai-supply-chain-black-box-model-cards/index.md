@@ -3,7 +3,7 @@ title: "The Invisible Supply Chain, Part 5: Navigating the Black Box with Model 
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "model cards", "transparency", "governance", "orange-book", "risk"]
+tags: ["AI", "supply chain", "model cards", "transparency", "governance", "orange-book", "risk"]
 description: "Part 5: model weights are billions of opaque numbers with no human-readable record of why decisions get made. Model cards are the industry's answer, and they're mostly voluntary."
 ---
 
