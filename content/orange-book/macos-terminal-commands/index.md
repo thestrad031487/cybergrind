@@ -1,7 +1,8 @@
 ---
 title: "macOS Terminal Commands"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "macOS zsh command reference — macOS-specific tools (open, pbcopy, mdfind, diskutil, defaults, launchctl), Homebrew, BSD vs GNU differences table, and keyboard shortcuts."
 ---

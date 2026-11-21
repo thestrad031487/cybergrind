@@ -4,13 +4,8 @@ date: 2026-06-30
 author: "Logan"
 section: "Orange Book"
 categories: ["Architecture"]
-tags:
-  - secret-scanning
-  - credential-detection
-  - regex
-  - entropy
-  - appsec
-  - devops
+tags: ["supply chain", "Python", "cryptography", "appsec", "DevOps"]
+keywords: ["secret-scanning", "credential-detection", "regex", "entropy"]
 description: "Complete reference for the CyberGrind Repo Secret Scanner detection patterns — Tier 1 prefix patterns, Tier 2 keyword-gated rules, Shannon entropy analysis, and what the scanner structurally cannot catch."
 ---
 

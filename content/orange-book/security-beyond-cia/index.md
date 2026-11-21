@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Extending the CIA Triad with authenticity, nonrepudiation, and the six elements of the Parkerian Hexad."
 categories: ["Fundamentals"]
-tags: ["security", "CIA triad", "Parkerian Hexad", "principles"]
+tags: ["security fundamentals"]
+keywords: ["security", "CIA triad", "Parkerian Hexad", "principles"]
 ---

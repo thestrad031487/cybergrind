@@ -2,7 +2,8 @@
 title: "Canvas Breach Follow-Up: Instructure Pays the Ransom — And What That Means for All of Us"
 date: 2026-05-13
 draft: false
-tags: ["breach", "ransomware", "shinyhunters", "canvas", "instructure", "threat intelligence", "cloud security"]
+tags: ["threat intelligence", "cloud"]
+keywords: ["breach", "ransomware", "ShinyHunters", "canvas", "instructure", "cloud security"]
 categories: ["blog"]
 description: "Instructure paid ShinyHunters. The breach that hit 275 million users across 8,800+ institutions is over — for now. Here's what happened after my original report, what the IOCs look like, and what everyone should do next."
 ---

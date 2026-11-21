@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Definitions, the vulnerability-threat-risk chain, and real-world scenarios to distinguish each concept."
 categories: ["Fundamentals"]
-tags: ["security", "risk management", "vulnerability", "threat"]
+tags: ["security fundamentals", "risk management", "blue team"]
+keywords: ["security", "vulnerability", "threat"]
 ---

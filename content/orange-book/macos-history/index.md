@@ -1,7 +1,8 @@
 ---
 title: "macOS History"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "All 22+ major macOS versions from Mac OS X Cheetah (2001) to macOS Tahoe (2025) — grouped by era, with the XNU hybrid kernel and Apple Silicon transition explained."
 ---

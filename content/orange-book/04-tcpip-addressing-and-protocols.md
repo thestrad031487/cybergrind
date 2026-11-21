@@ -3,17 +3,8 @@ title: "TCP/IP Addressing & Protocols — The Language of the Internet"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - TCP/IP
-  - IPv4
-  - IPv6
-  - DNS
-  - DHCP
-  - protocols
-  - ports
-  - OSI model
-  - IT fundamentals
+tags: ["networking", "IT fundamentals"]
+keywords: ["TCP/IP", "IPv4", "IPv6", "DNS", "DHCP", "protocols", "ports", "OSI model"]
 description: "Everything that happens on a network depends on TCP/IP. This article breaks down IP addressing, subnetting, TCP vs UDP, common ports and protocols, DNS, and DHCP — the foundational knowledge that separates users from builders."
 suggested_image: "A clean reference table of common ports and protocols on a dark background, with orange header accents and a subtle network diagram in the background."
 ---

@@ -2,13 +2,8 @@
 title: "From the Trenches: Defending Salesforce Against ShinyHunters' Playbook"
 date: 2026-05-22
 description: "A practitioner's guide to hardening Salesforce environments against the three attack patterns ShinyHunters used to breach 1,000+ organizations — OAuth abuse, supply chain token theft, and Experience Cloud misconfiguration."
-tags:
-  - blue-team
-  - salesforce
-  - oauth
-  - defender
-  - hardening
-  - shinyhunters
+tags: ["blue team", "Microsoft 365", "identity", "Windows", "threat intelligence"]
+keywords: ["salesforce", "oauth", "defender", "hardening", "ShinyHunters"]
 categories:
   - Orange Book
 series: "From the Trenches"

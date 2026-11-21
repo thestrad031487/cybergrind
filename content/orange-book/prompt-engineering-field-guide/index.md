@@ -3,7 +3,8 @@ title: "Prompt Engineering, Part 3: A Field Guide to Good, Bad, and Best Prompts
 date: 2026-07-29
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "prompt engineering", "llm", "few-shot learning", "chain-of-thought", "orange-book"]
+tags: ["AI", "prompt engineering", "LLM"]
+keywords: ["few-shot learning", "chain-of-thought"]
 description: "Zero-shot, few-shot, chain-of-thought, and templates — with four side-by-side bad/good/best examples across real security tasks, showing exactly what separates each tier. Part 3 of the prompt engineering series."
 ---
 

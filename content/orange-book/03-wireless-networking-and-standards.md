@@ -3,17 +3,8 @@ title: "Wireless Networking & Standards — What's Actually Happening When You C
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - wireless
-  - Wi-Fi
-  - 802.11
-  - WPA2
-  - WPA3
-  - WEP
-  - SSID
-  - security
-  - IT fundamentals
+tags: ["networking", "security fundamentals", "IT fundamentals"]
+keywords: ["wireless", "Wi-Fi", "802.11", "WPA2", "WPA3", "WEP", "SSID", "security"]
 description: "Wireless networking feels effortless from the user side — but underneath is a carefully engineered stack of standards, authentication mechanisms, and encryption protocols. This article breaks down 802.11, WEP/WPA/WPA2/WPA3, SSIDs, and wireless configuration in Windows."
 suggested_image: "A stylized illustration of radio waves emanating from a wireless access point, with a padlock icon indicating encryption, on a dark background with orange accents."
 ---

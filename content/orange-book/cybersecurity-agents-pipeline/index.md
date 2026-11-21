@@ -2,7 +2,8 @@
 title: "Building Cybersecurity Agents with OpenClaw and Ollama: A Multi-Agent Security Pipeline"
 date: 2026-04-15
 description: "How to move beyond local AI chat and build a multi-agent security pipeline that generates structured threat reports on demand — with Slack integration and no cloud dependencies."
-tags: ["homelab", "AI", "ollama", "agents", "slack", "docker", "cybersecurity", "llm"]
+tags: ["homelab", "AI", "LLM", "agentic AI", "Microsoft 365", "Docker", "security fundamentals"]
+keywords: ["ollama", "agents", "slack", "cybersecurity"]
 categories: ["orange-book"]
 draft: false
 ---

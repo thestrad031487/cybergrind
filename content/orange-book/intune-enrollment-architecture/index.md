@@ -3,7 +3,8 @@ title: "Intune in Practice, Part 2: Enrollment & Architecture 101"
 date: 2026-07-21
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "endpoint management", "windows autopilot", "entra id", "tenant architecture", "orange-book"]
+tags: ["Intune", "endpoint management", "identity", "cloud"]
+keywords: ["windows autopilot", "Entra ID", "tenant architecture"]
 description: "The enrollment method and tenant structure decisions that are genuinely painful to walk back later — Autopilot, Company Portal, co-management, and how group strategy actually scales. Part 2 of Intune in Practice."
 ---
 

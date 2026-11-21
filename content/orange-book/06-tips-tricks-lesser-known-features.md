@@ -3,7 +3,8 @@ title: "Android in Intune: Tips, Tricks, and Lesser-Known Features"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "tips", "troubleshooting", "mdm"]
+tags: ["Intune", "Android", "IT fundamentals", "endpoint management"]
+keywords: ["tips", "troubleshooting", "mdm"]
 description: "The gotchas, power-user features, and workarounds for Android device management in Intune that don't show up clearly in Microsoft's documentation — learned the hard way so you don't have to."
 ---
 

@@ -4,7 +4,8 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "osint", "certificate-transparency", "typosquatting"]
+tags: ["CTF", "agentic AI", "threat intelligence", "supply chain"]
+keywords: ["security-skills", "writeup", "ai-assisted", "osint", "certificate-transparency", "typosquatting"]
 description: "Profiles, linked pages, archived snapshots, a former employee hidden behind a lookalike handle, and a typosquatted payroll login found through CT logs and passive DNS."
 platform: "Security Skills"
 difficulty: "easy"

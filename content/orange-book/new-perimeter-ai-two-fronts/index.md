@@ -3,7 +3,8 @@ title: "The New Perimeter, Part 3: Two Fronts — AI for the Firewall, Firewalls
 date: 2026-07-10
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["firewalls", "AI security", "prompt injection", "LLM security", "orange-book"]
+tags: ["network security", "AI security"]
+keywords: ["firewalls", "prompt injection", "LLM security"]
 description: "Part 3: AI is reshaping firewalls in two directions at once — as a detection engine defending the network, and as a new class of workload that traditional firewalls can't see."
 ---
 

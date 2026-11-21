@@ -3,17 +3,8 @@ title: "Subnetting Explained — What It Is, Why It Matters, and How to Calculat
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - subnetting
-  - IPv4
-  - CIDR
-  - subnet mask
-  - IP addressing
-  - network design
-  - VLSM
-  - binary
-  - IT fundamentals
+tags: ["networking", "hardware", "IT fundamentals"]
+keywords: ["subnetting", "IPv4", "CIDR", "subnet mask", "IP addressing", "network design", "VLSM", "binary"]
 description: "Subnetting is one of the most feared topics in networking — and one of the most useful once it clicks. This article breaks down what subnetting is, why we use it, how subnet masks work, and walks through the math step by step so you can calculate subnets with confidence."
 suggested_image: "A clean diagram showing a single Class C network divided into four equal subnets, with IP ranges labeled, on a dark background with orange accent lines."
 ---

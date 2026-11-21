@@ -2,7 +2,8 @@
 title: "Prompt Engineering Basics"
 date: 2026-04-13T08:00:00-05:00
 description: "How to write effective prompts — role prompting, chain of thought, few-shot examples, and specificity techniques that get better results from any LLM."
-tags: ["AI", "prompting", "fundamentals"]
+tags: ["AI", "LLM", "security fundamentals"]
+keywords: ["prompting", "fundamentals"]
 weight: 2
 ---
 

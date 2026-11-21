@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "HAMR, 3D NAND, and DNA storage — technical depth with sourced figures and commercial readiness indicators."
 categories: ["Storage"]
-tags: ["storage", "emerging tech", "DNA storage", "3D NAND", "HAMR"]
+tags: ["storage", "AI"]
+keywords: ["emerging tech", "DNA storage", "3D NAND", "HAMR"]
 ---

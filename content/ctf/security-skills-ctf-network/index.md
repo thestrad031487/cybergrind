@@ -4,7 +4,8 @@ date: 2026-11-21
 draft: false
 author: "Jason Wacker"
 section: "ctf"
-tags: ["ctf", "security-skills", "writeup", "ai-assisted", "network", "wireshark", "dns", "pcap"]
+tags: ["CTF", "agentic AI", "networking", "blue team"]
+keywords: ["security-skills", "writeup", "ai-assisted", "network", "wireshark", "DNS", "pcap"]
 description: "Reading HTTP and DNS in Wireshark, then catching an unauthorized upload and a DNS exfiltration sequence by correlating pcaps with inventories."
 platform: "Security Skills"
 difficulty: "easy"

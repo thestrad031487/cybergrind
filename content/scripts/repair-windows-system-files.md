@@ -3,7 +3,8 @@ title: "Repair Windows System Files"
 date: 2026-08-15T13:32:59-05:00
 author: "Jason, Cyber Professional"
 section: "scripts"
-tags: ["powershell", "troubleshooting", "dism", "sfc"]
+tags: ["PowerShell", "IT fundamentals", "Windows"]
+keywords: ["troubleshooting", "dism", "sfc"]
 description: "Automates the DISM + SFC Windows system file repair workflow — checks for admin rights, runs the repair sequence, logs everything, and reports whether corruption was found and fixed."
 github: "https://github.com/thestrad031487/cybergrind-scripts/blob/main/Troubleshooting/Repair-WindowsSystemFiles.ps1"
 ---

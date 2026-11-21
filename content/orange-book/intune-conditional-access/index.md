@@ -3,7 +3,8 @@ title: "Intune in Practice, Part 4: Conditional Access + Intune, the Real Perime
 date: 2026-07-23
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "conditional access", "entra id", "zero trust", "microsoft 365", "orange-book"]
+tags: ["Intune", "identity", "zero trust", "Microsoft 365"]
+keywords: ["conditional access", "Entra ID"]
 description: "A compliance policy defines the bar. Conditional Access is what actually enforces it. The rollout pattern that avoids locking out your own users, and the blind spots worth knowing about. Part 4 of Intune in Practice."
 ---
 

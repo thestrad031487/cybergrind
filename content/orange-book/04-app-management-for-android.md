@@ -3,7 +3,8 @@ title: "Part 4: Android App Management and Managed Google Play"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "managed-google-play", "app-management", "mdm"]
+tags: ["Intune", "Android", "endpoint management"]
+keywords: ["managed-google-play", "app-management", "mdm"]
 description: "How Managed Google Play connects to Intune, the difference between required vs. available deployments, and how app distribution works across personal and corporate profiles."
 ---
 

@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Confidentiality, Integrity, and Availability — the foundational triad of information security with real-world examples."
 categories: ["Fundamentals"]
-tags: ["security", "CIA triad", "principles"]
+tags: ["security fundamentals"]
+keywords: ["security", "CIA triad", "principles"]
 ---

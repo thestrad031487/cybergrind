@@ -3,7 +3,8 @@ title: "The Invisible Supply Chain, Part 4: The Fine-Tuning Inheritance Tax"
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "fine-tuning", "prompt injection", "governance", "orange-book", "risk"]
+tags: ["AI", "supply chain", "AI security", "governance", "risk management"]
+keywords: ["fine-tuning", "prompt injection", "risk"]
 description: "Part 4: fine-tuning doesn't sanitize a base model. It inherits everything underneath it, plus a few new problems of its own."
 ---
 

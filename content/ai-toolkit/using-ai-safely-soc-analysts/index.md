@@ -2,7 +2,8 @@
 title: "Using AI Safely in a SOC: Part 1 — The Analyst's Guide"
 date: 2026-04-15
 description: "AI tools are showing up in analyst workflows whether your org plans for it or not. Here's how to use them without creating new risk — practical guidance for Tier 1 analysts."
-tags: ["AI", "SOC", "analyst", "security", "threat-model", "best-practices"]
+tags: ["AI", "blue team", "threat intelligence", "security fundamentals", "risk management", "DevOps"]
+keywords: ["SOC", "analyst", "security", "threat-model", "best-practices"]
 categories: ["ai-toolkit"]
 series: ["Using AI Safely in a SOC"]
 draft: false

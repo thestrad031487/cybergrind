@@ -5,7 +5,8 @@ featured_label: "Threat Intel"
 date: 2026-10-08
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["honeypot", "aws", "canarytokens", "llmjacking", "cloudflare-workers", "threat-intel"]
+tags: ["threat intelligence", "cloud", "AI security", "Cloudflare"]
+keywords: ["honeypot", "aws", "canarytokens", "llmjacking", "cloudflare-workers", "threat-intel"]
 description: "I put fake AWS keys on my site and changed them every day. Most of the people who used them had never visited my site."
 draft: false
 ---

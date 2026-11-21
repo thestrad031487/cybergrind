@@ -3,7 +3,8 @@ title: "Best Practices & Policy Design for Android in Intune"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "compliance-policy", "conditional-access", "mam"]
+tags: ["Intune", "Android", "identity"]
+keywords: ["compliance policy", "conditional access", "mam"]
 description: "Compliance policy design for Android, when MAM beats full MDM, and the Conditional Access quirks specific to Android that Windows admins never have to think about."
 ---
 

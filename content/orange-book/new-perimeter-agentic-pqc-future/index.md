@@ -3,7 +3,8 @@ title: "The New Perimeter, Part 5: Agentic Firewalls and Post-Quantum Cryptograp
 date: 2026-07-10
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["firewalls", "agentic AI", "post-quantum cryptography", "PQC", "orange-book"]
+tags: ["network security", "agentic AI", "cryptography"]
+keywords: ["firewalls", "post-quantum cryptography", "PQC"]
 description: "Series wrap-up: where firewalls are heading next — autonomous agentic rule authoring, and the shift to post-quantum cryptography ahead of harvest-now-decrypt-later threats."
 ---
 

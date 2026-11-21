@@ -3,7 +3,8 @@ title: "Reinstall Default Apps"
 date: 2026-08-15T13:51:37-05:00
 author: "Jason, Cyber Professional"
 section: "scripts"
-tags: ["powershell", "troubleshooting", "appx", "windows-apps"]
+tags: ["PowerShell", "IT fundamentals", "Windows"]
+keywords: ["troubleshooting", "appx", "windows-apps"]
 description: "Re-registers all default Windows 10/11 apps to fix a broken Start Menu, crashing Settings app, or other misbehaving built-in Windows features — without a full OS reinstall."
 github: "https://github.com/thestrad031487/cybergrind-scripts/blob/main/Troubleshooting/Reinstall-DefaultApps.ps1"
 ---

@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Layered security architecture — how multiple defensive layers reduce risk and slow adversaries."
 categories: ["Architecture"]
-tags: ["security", "defence in depth", "architecture", "principles"]
+tags: ["security fundamentals", "DevOps"]
+keywords: ["security", "defence in depth", "architecture", "principles"]
 ---

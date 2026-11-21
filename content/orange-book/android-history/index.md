@@ -1,7 +1,8 @@
 ---
 title: "Android History"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "Android version history from the T-Mobile G1 (2008) through Android 16 (2025) — every dessert codename, key features, and the full Android architecture stack."
 ---

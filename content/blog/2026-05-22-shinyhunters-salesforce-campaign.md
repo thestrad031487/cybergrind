@@ -2,13 +2,8 @@
 title: "ShinyHunters' Salesforce Campaign: Three Rounds, 1.5 Billion Records"
 date: 2026-05-22
 description: "A threat intelligence breakdown of how ShinyHunters systematically targeted Salesforce environments across three distinct campaigns — vishing and OAuth abuse, the Salesloft/Drift supply chain breach, and the Experience Cloud Aura exploitation."
-tags:
-  - threat-intelligence
-  - shinyhunters
-  - salesforce
-  - oauth
-  - supply-chain
-  - data-breach
+tags: ["threat intelligence", "Microsoft 365", "identity", "supply chain"]
+keywords: ["ShinyHunters", "salesforce", "oauth", "data breach"]
 categories:
   - Daily News
 author: "Logan"

@@ -3,7 +3,8 @@ title: "What Is the Android Zero Touch Portal, Actually?"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "zero-touch", "mdm", "device-provisioning"]
+tags: ["Intune", "Android", "endpoint management"]
+keywords: ["zero-touch", "mdm", "device-provisioning"]
 description: "How the Zero Touch Portal links your organization to a device reseller, what a provisioning configuration actually controls, and why this matters most for lean IT shops buying devices at scale."
 ---
 

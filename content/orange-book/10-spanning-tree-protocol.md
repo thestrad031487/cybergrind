@@ -3,22 +3,8 @@ title: "Spanning Tree Protocol — What It Is and How to Implement It in a Busin
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - spanning tree
-  - STP
-  - RSTP
-  - MSTP
-  - switching
-  - Layer 2
-  - network design
-  - redundancy
-  - broadcast storm
-  - root bridge
-  - PortFast
-  - BPDU Guard
-  - enterprise networking
-  - IT fundamentals
+tags: ["networking", "IT fundamentals"]
+keywords: ["spanning tree", "STP", "RSTP", "MSTP", "switching", "Layer 2", "network design", "redundancy", "broadcast storm", "root bridge", "PortFast", "BPDU Guard", "enterprise networking"]
 description: "Spanning Tree Protocol is the mechanism that makes redundant switching possible without destroying your network. This article covers what STP is, how it works, the evolution to RSTP and MSTP, and practical implementation guidance for business environments."
 suggested_image: "A network diagram showing redundant switch links with STP port states labeled (root, designated, blocking), with blocked links shown as dashed orange lines."
 ---

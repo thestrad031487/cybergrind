@@ -3,14 +3,8 @@ title: "Network Types & Topologies — The Blueprint Behind Every Connection"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - fundamentals
-  - LAN
-  - WAN
-  - topology
-  - infrastructure
-  - IT fundamentals
+tags: ["networking", "security fundamentals", "IT fundamentals"]
+keywords: ["fundamentals", "LAN", "WAN", "topology", "infrastructure"]
 description: "Before protocols, security tools, or cloud infrastructure — you need to understand the physical and logical blueprints that define how networks are built. This article covers LAN, WAN, MAN, and the core topologies every IT professional should know."
 suggested_image: "A clean diagram showing bus, ring, star, and mesh topologies side by side on a dark background with orange accent lines."
 ---

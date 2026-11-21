@@ -2,13 +2,8 @@
 title: "Self-Hosted AI Project Management with Paperclip.ai"
 date: 2026-05-22
 description: "A practitioner's walkthrough of deploying Paperclip.ai on a self-hosted Ubuntu server, configuring an AI agent with local Ollama models, and the real troubleshooting path that got it working."
-tags:
-  - homelab
-  - docker
-  - ai
-  - ollama
-  - paperclip
-  - self-hosted
+tags: ["homelab", "Docker", "AI", "LLM", "agentic AI", "self-hosted"]
+keywords: ["ollama", "paperclip"]
 categories:
   - Orange Book
 author: "Logan"

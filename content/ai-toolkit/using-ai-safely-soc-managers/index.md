@@ -2,7 +2,8 @@
 title: "Using AI Safely in a SOC: Part 3 — The Manager's Guide"
 date: 2026-04-15
 description: "AI adoption in SOCs is happening bottom-up. Managers need a framework to govern it before the risks outpace the benefits — covering policy, vendor evaluation, and how to measure whether AI is actually helping."
-tags: ["AI", "SOC", "management", "policy", "governance", "best-practices"]
+tags: ["AI", "blue team", "endpoint management", "governance", "DevOps"]
+keywords: ["SOC", "management", "policy", "best-practices"]
 categories: ["ai-toolkit"]
 series: ["Using AI Safely in a SOC"]
 draft: false

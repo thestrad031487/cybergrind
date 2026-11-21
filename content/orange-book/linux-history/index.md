@@ -1,7 +1,8 @@
 ---
 title: "Linux History"
 date: 2026-04-29
-tags: ["operating-systems", "infographic", "orange-book"]
+tags: ["operating systems", "infographic"]
+keywords: ["operating-systems"]
 author: "Jason, Cyber Professional"
 description: "From Linus Torvalds' 1991 hobby project to powering the internet, supercomputers, Android, and 100% of the top 500 supercomputers — the Linux kernel timeline and major distributions."
 ---

@@ -3,7 +3,8 @@ title: "Android in Intune 101: What You're Actually Managing"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "mdm", "android-enterprise", "endpoint-management"]
+tags: ["Intune", "Android", "endpoint management"]
+keywords: ["mdm", "android-enterprise"]
 description: "Android Enterprise vs. legacy Device Admin, the four management profile types, and why picking the right one before you enroll a single device saves you months of rework."
 ---
 

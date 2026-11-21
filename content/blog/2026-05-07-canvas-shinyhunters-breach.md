@@ -1,7 +1,8 @@
 ---
 title: "Canvas Down: ShinyHunters Defaces Login Portals in Mass Instructure Extortion Campaign"
 date: 2026-05-07
-tags: ["cybersecurity", "education", "data breach", "extortion", "ShinyHunters"]
+tags: ["security fundamentals", "threat intelligence"]
+keywords: ["cybersecurity", "education", "data breach", "extortion", "ShinyHunters"]
 summary: "The ShinyHunters extortion gang breached Instructure again, defacing Canvas login portals across hundreds of institutions and threatening to leak data on 280 million students and staff unless a ransom is paid by May 12."
 cover:
   image: "/images/sh_canvas_outage.png"

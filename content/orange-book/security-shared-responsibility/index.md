@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "IaaS, PaaS, and SaaS — who owns what in cloud security, broken down by responsibility layer."
 categories: ["Architecture"]
-tags: ["security", "cloud", "shared responsibility", "IaaS", "PaaS", "SaaS"]
+tags: ["security fundamentals", "cloud"]
+keywords: ["security", "shared responsibility", "IaaS", "PaaS", "SaaS"]
 ---

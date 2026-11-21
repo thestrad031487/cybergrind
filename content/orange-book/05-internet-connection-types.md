@@ -3,17 +3,8 @@ title: "Internet Connection Types — How the Outside World Gets In"
 date: 2026-05-27
 author: "Logan"
 section: "Orange Book"
-tags:
-  - networking
-  - ISP
-  - DSL
-  - fiber
-  - cable
-  - cellular
-  - satellite
-  - VPN
-  - connectivity
-  - IT fundamentals
+tags: ["networking", "network security", "IT fundamentals"]
+keywords: ["ISP", "DSL", "fiber", "cable", "cellular", "satellite", "VPN", "connectivity"]
 description: "Your network doesn't exist in isolation. Understanding how ISP connections work — DSL, cable, fiber, cellular, satellite, and VPNs — is fundamental for network design, reliability, and security decisions."
 suggested_image: "A comparison graphic showing DSL, cable, fiber, and cellular connection types with speed and latency indicators, styled with dark background and orange accents."
 ---

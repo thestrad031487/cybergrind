@@ -3,7 +3,8 @@ title: "The Invisible Supply Chain, Part 6: A Practitioner's Checklist"
 date: 2026-07-09
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "supply chain", "checklist", "governance", "risk management", "orange-book"]
+tags: ["AI", "supply chain", "IT fundamentals", "governance", "risk management"]
+keywords: ["checklist"]
 description: "Wrapping up the AI supply chain security series with a practical checklist for evaluating data provenance, training risk, fine-tuning inheritance, and model card quality before deployment."
 ---
 

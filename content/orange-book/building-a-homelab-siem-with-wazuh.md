@@ -2,12 +2,8 @@
 title: "Building a Homelab SIEM with Wazuh"
 date: 2026-05-13
 description: "A practitioner's guide to deploying Wazuh as a self-hosted SIEM, enrolling agents across your environment, and understanding the security visibility it gives you."
-tags:
-  - siem
-  - wazuh
-  - homelab
-  - cybersecurity
-  - blue-team
+tags: ["blue team", "homelab", "security fundamentals"]
+keywords: ["siem", "wazuh", "cybersecurity"]
 categories:
   - Orange Book
 series: "Security Operations"

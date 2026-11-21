@@ -3,7 +3,8 @@ title: "Android Enrollment Methods Deep Dive: Zero Touch, QR, NFC, and Knox"
 date: 2026-08-16
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["intune", "android", "mdm", "zero-touch", "enrollment"]
+tags: ["Intune", "Android", "endpoint management"]
+keywords: ["mdm", "zero-touch", "enrollment"]
 description: "Five ways to get an Android device into Intune, what each one actually requires, and which management profile from Part 1 each one is built for."
 ---
 

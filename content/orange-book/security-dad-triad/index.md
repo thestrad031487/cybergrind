@@ -7,5 +7,6 @@ back_link: "/orange-book/"
 back_label: "Orange Book"
 description: "Disclosure, Alteration, and Destruction — the attacker's perspective and the adversarial counterpart to the CIA Triad."
 categories: ["Fundamentals"]
-tags: ["security", "DAD triad", "threat modeling", "principles"]
+tags: ["security fundamentals", "risk management"]
+keywords: ["security", "DAD triad", "threat modeling", "principles"]
 ---

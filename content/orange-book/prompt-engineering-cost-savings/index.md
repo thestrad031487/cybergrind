@@ -3,7 +3,8 @@ title: "Prompt Engineering 101: The Four Pillars of Getting Good Output"
 date: 2026-07-19
 author: "Jason, Cyber Professional"
 section: "orange-book"
-tags: ["ai", "prompt engineering", "llm", "productivity", "orange-book"]
+tags: ["AI", "prompt engineering", "LLM", "IT fundamentals"]
+keywords: ["productivity"]
 description: "Tokens, temperature, and the four pillars of a well-structured prompt — plus real examples of what separates a prompt that gets useful output from one that wastes your time and your token budget."
 ---
 
